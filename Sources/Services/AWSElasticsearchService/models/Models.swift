@@ -6058,6 +6058,8 @@ extension ElasticsearchClientTypes {
     }
 }
 
+public enum ElasticsearchClientTypes {}
+
 extension ElasticsearchClientTypes.ElasticsearchClusterConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case coldStorageOptions = "ColdStorageOptions"

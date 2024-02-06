@@ -66,7 +66,7 @@ public struct WorkMailMessageFlowClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
+extension WorkMailMessageFlowClient {
     /// Performs the `GetRawMessageContent` operation on the `GiraffeMessageInTransitService` service.
     ///
     /// Retrieves the raw content of an in-transit email message, in MIME format.
@@ -79,8 +79,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The requested email message is not found.
-    public func getRawMessageContent(input: GetRawMessageContentInput) async throws -> GetRawMessageContentOutput
-    {
+    public func getRawMessageContent(input: GetRawMessageContentInput) async throws -> GetRawMessageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
     /// - `MessageFrozen` : The requested email is not eligible for update. This is usually the case for a redirected email.
     /// - `MessageRejected` : The requested email could not be updated due to an error in the MIME content. Check the error message for more information about what caused the error.
     /// - `ResourceNotFoundException` : The requested email message is not found.
-    public func putRawMessageContent(input: PutRawMessageContentInput) async throws -> PutRawMessageContentOutput
-    {
+    public func putRawMessageContent(input: PutRawMessageContentInput) async throws -> PutRawMessageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

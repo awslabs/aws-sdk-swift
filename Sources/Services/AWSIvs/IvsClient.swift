@@ -66,7 +66,7 @@ public struct IvsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension IvsClient: IvsClientProtocol {
+extension IvsClient {
     /// Performs the `BatchGetChannel` operation on the `AmazonInteractiveVideoService` service.
     ///
     /// Performs [GetChannel] on multiple ARNs simultaneously.
@@ -74,8 +74,7 @@ extension IvsClient: IvsClientProtocol {
     /// - Parameter BatchGetChannelInput : [no documentation found]
     ///
     /// - Returns: `BatchGetChannelOutput` : [no documentation found]
-    public func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutput
-    {
+    public func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -115,8 +114,7 @@ extension IvsClient: IvsClientProtocol {
     /// - Parameter BatchGetStreamKeyInput : [no documentation found]
     ///
     /// - Returns: `BatchGetStreamKeyOutput` : [no documentation found]
-    public func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutput
-    {
+    public func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -164,8 +162,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ThrottlingException` :
     /// - `ValidationException` :
-    public func batchStartViewerSessionRevocation(input: BatchStartViewerSessionRevocationInput) async throws -> BatchStartViewerSessionRevocationOutput
-    {
+    public func batchStartViewerSessionRevocation(input: BatchStartViewerSessionRevocationInput) async throws -> BatchStartViewerSessionRevocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -214,8 +211,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -265,8 +261,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createRecordingConfiguration(input: CreateRecordingConfigurationInput) async throws -> CreateRecordingConfigurationOutput
-    {
+    public func createRecordingConfiguration(input: CreateRecordingConfigurationInput) async throws -> CreateRecordingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -315,8 +310,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createStreamKey(input: CreateStreamKeyInput) async throws -> CreateStreamKeyOutput
-    {
+    public func createStreamKey(input: CreateStreamKeyInput) async throws -> CreateStreamKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -365,8 +359,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deletePlaybackKeyPair(input: DeletePlaybackKeyPairInput) async throws -> DeletePlaybackKeyPairOutput
-    {
+    public func deletePlaybackKeyPair(input: DeletePlaybackKeyPairInput) async throws -> DeletePlaybackKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -464,8 +456,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteRecordingConfiguration(input: DeleteRecordingConfigurationInput) async throws -> DeleteRecordingConfigurationOutput
-    {
+    public func deleteRecordingConfiguration(input: DeleteRecordingConfigurationInput) async throws -> DeleteRecordingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -513,8 +504,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteStreamKey(input: DeleteStreamKeyInput) async throws -> DeleteStreamKeyOutput
-    {
+    public func deleteStreamKey(input: DeleteStreamKeyInput) async throws -> DeleteStreamKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -561,8 +551,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
-    {
+    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +598,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getPlaybackKeyPair(input: GetPlaybackKeyPairInput) async throws -> GetPlaybackKeyPairOutput
-    {
+    public func getPlaybackKeyPair(input: GetPlaybackKeyPairInput) async throws -> GetPlaybackKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -658,8 +646,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getRecordingConfiguration(input: GetRecordingConfigurationInput) async throws -> GetRecordingConfigurationOutput
-    {
+    public func getRecordingConfiguration(input: GetRecordingConfigurationInput) async throws -> GetRecordingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -707,8 +694,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `ChannelNotBroadcasting` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getStream(input: GetStreamInput) async throws -> GetStreamOutput
-    {
+    public func getStream(input: GetStreamInput) async throws -> GetStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +741,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getStreamKey(input: GetStreamKeyInput) async throws -> GetStreamKeyOutput
-    {
+    public func getStreamKey(input: GetStreamKeyInput) async throws -> GetStreamKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -803,8 +788,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getStreamSession(input: GetStreamSessionInput) async throws -> GetStreamSessionOutput
-    {
+    public func getStreamSession(input: GetStreamSessionInput) async throws -> GetStreamSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func importPlaybackKeyPair(input: ImportPlaybackKeyPairInput) async throws -> ImportPlaybackKeyPairOutput
-    {
+    public func importPlaybackKeyPair(input: ImportPlaybackKeyPairInput) async throws -> ImportPlaybackKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -901,8 +884,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ConflictException` :
     /// - `ValidationException` :
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -948,8 +930,7 @@ extension IvsClient: IvsClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    public func listPlaybackKeyPairs(input: ListPlaybackKeyPairsInput) async throws -> ListPlaybackKeyPairsOutput
-    {
+    public func listPlaybackKeyPairs(input: ListPlaybackKeyPairsInput) async throws -> ListPlaybackKeyPairsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -996,8 +977,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `InternalServerException` :
     /// - `ValidationException` :
-    public func listRecordingConfigurations(input: ListRecordingConfigurationsInput) async throws -> ListRecordingConfigurationsOutput
-    {
+    public func listRecordingConfigurations(input: ListRecordingConfigurationsInput) async throws -> ListRecordingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1044,8 +1024,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listStreamKeys(input: ListStreamKeysInput) async throws -> ListStreamKeysOutput
-    {
+    public func listStreamKeys(input: ListStreamKeysInput) async throws -> ListStreamKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1092,8 +1071,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listStreamSessions(input: ListStreamSessionsInput) async throws -> ListStreamSessionsOutput
-    {
+    public func listStreamSessions(input: ListStreamSessionsInput) async throws -> ListStreamSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1139,8 +1117,7 @@ extension IvsClient: IvsClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
-    {
+    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1187,8 +1164,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1234,8 +1210,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
     /// - `ValidationException` :
-    public func putMetadata(input: PutMetadataInput) async throws -> PutMetadataOutput
-    {
+    public func putMetadata(input: PutMetadataInput) async throws -> PutMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1285,8 +1260,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
     /// - `ValidationException` :
-    public func startViewerSessionRevocation(input: StartViewerSessionRevocationInput) async throws -> StartViewerSessionRevocationOutput
-    {
+    public func startViewerSessionRevocation(input: StartViewerSessionRevocationInput) async throws -> StartViewerSessionRevocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1335,8 +1309,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `StreamUnavailable` :
     /// - `ValidationException` :
-    public func stopStream(input: StopStreamInput) async throws -> StopStreamOutput
-    {
+    public func stopStream(input: StopStreamInput) async throws -> StopStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1383,8 +1356,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1403,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1479,8 +1450,7 @@ extension IvsClient: IvsClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

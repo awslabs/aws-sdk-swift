@@ -259,6 +259,8 @@ extension ControlTowerClientTypes {
     }
 }
 
+public enum ControlTowerClientTypes {}
+
 extension CreateLandingZoneInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case manifest

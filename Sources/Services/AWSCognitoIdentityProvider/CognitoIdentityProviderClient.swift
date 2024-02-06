@@ -66,7 +66,7 @@ public struct CognitoIdentityProviderClientLogHandlerFactory: ClientRuntime.SDKL
     }
 }
 
-extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
+extension CognitoIdentityProviderClient {
     /// Performs the `AddCustomAttributes` operation on the `AWSCognitoIdentityProviderService` service.
     ///
     /// Adds additional user attributes to the user pool schema. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
@@ -88,8 +88,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserImportInProgressException` : This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
-    public func addCustomAttributes(input: AddCustomAttributesInput) async throws -> AddCustomAttributesOutput
-    {
+    public func addCustomAttributes(input: AddCustomAttributesInput) async throws -> AddCustomAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -144,8 +143,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminAddUserToGroup(input: AdminAddUserToGroupInput) async throws -> AdminAddUserToGroupOutput
-    {
+    public func adminAddUserToGroup(input: AdminAddUserToGroupInput) async throws -> AdminAddUserToGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -205,8 +203,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminConfirmSignUp(input: AdminConfirmSignUpInput) async throws -> AdminConfirmSignUpOutput
-    {
+    public func adminConfirmSignUp(input: AdminConfirmSignUpInput) async throws -> AdminConfirmSignUpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +268,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UsernameExistsException` : This exception is thrown when Amazon Cognito encounters a user name that already exists in the user pool.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminCreateUser(input: AdminCreateUserInput) async throws -> AdminCreateUserOutput
-    {
+    public func adminCreateUser(input: AdminCreateUserInput) async throws -> AdminCreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +323,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminDeleteUser(input: AdminDeleteUserInput) async throws -> AdminDeleteUserOutput
-    {
+    public func adminDeleteUser(input: AdminDeleteUserInput) async throws -> AdminDeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +378,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminDeleteUserAttributes(input: AdminDeleteUserAttributesInput) async throws -> AdminDeleteUserAttributesOutput
-    {
+    public func adminDeleteUserAttributes(input: AdminDeleteUserAttributesInput) async throws -> AdminDeleteUserAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -440,8 +434,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminDisableProviderForUser(input: AdminDisableProviderForUserInput) async throws -> AdminDisableProviderForUserOutput
-    {
+    public func adminDisableProviderForUser(input: AdminDisableProviderForUserInput) async throws -> AdminDisableProviderForUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +489,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminDisableUser(input: AdminDisableUserInput) async throws -> AdminDisableUserOutput
-    {
+    public func adminDisableUser(input: AdminDisableUserInput) async throws -> AdminDisableUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -552,8 +544,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminEnableUser(input: AdminEnableUserInput) async throws -> AdminEnableUserOutput
-    {
+    public func adminEnableUser(input: AdminEnableUserInput) async throws -> AdminEnableUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +600,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminForgetDevice(input: AdminForgetDeviceInput) async throws -> AdminForgetDeviceOutput
-    {
+    public func adminForgetDevice(input: AdminForgetDeviceInput) async throws -> AdminForgetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -665,8 +655,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func adminGetDevice(input: AdminGetDeviceInput) async throws -> AdminGetDeviceOutput
-    {
+    public func adminGetDevice(input: AdminGetDeviceInput) async throws -> AdminGetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -721,8 +710,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminGetUser(input: AdminGetUserInput) async throws -> AdminGetUserOutput
-    {
+    public func adminGetUser(input: AdminGetUserInput) async throws -> AdminGetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -786,8 +774,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminInitiateAuth(input: AdminInitiateAuthInput) async throws -> AdminInitiateAuthOutput
-    {
+    public func adminInitiateAuth(input: AdminInitiateAuthInput) async throws -> AdminInitiateAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -844,8 +831,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminLinkProviderForUser(input: AdminLinkProviderForUserInput) async throws -> AdminLinkProviderForUserOutput
-    {
+    public func adminLinkProviderForUser(input: AdminLinkProviderForUserInput) async throws -> AdminLinkProviderForUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -900,8 +886,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func adminListDevices(input: AdminListDevicesInput) async throws -> AdminListDevicesOutput
-    {
+    public func adminListDevices(input: AdminListDevicesInput) async throws -> AdminListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -956,8 +941,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminListGroupsForUser(input: AdminListGroupsForUserInput) async throws -> AdminListGroupsForUserOutput
-    {
+    public func adminListGroupsForUser(input: AdminListGroupsForUserInput) async throws -> AdminListGroupsForUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1013,8 +997,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
-    public func adminListUserAuthEvents(input: AdminListUserAuthEventsInput) async throws -> AdminListUserAuthEventsOutput
-    {
+    public func adminListUserAuthEvents(input: AdminListUserAuthEventsInput) async throws -> AdminListUserAuthEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1069,8 +1052,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminRemoveUserFromGroup(input: AdminRemoveUserFromGroupInput) async throws -> AdminRemoveUserFromGroupOutput
-    {
+    public func adminRemoveUserFromGroup(input: AdminRemoveUserFromGroupInput) async throws -> AdminRemoveUserFromGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1132,8 +1114,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminResetUserPassword(input: AdminResetUserPasswordInput) async throws -> AdminResetUserPasswordOutput
-    {
+    public func adminResetUserPassword(input: AdminResetUserPasswordInput) async throws -> AdminResetUserPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1183,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminRespondToAuthChallenge(input: AdminRespondToAuthChallengeInput) async throws -> AdminRespondToAuthChallengeOutput
-    {
+    public func adminRespondToAuthChallenge(input: AdminRespondToAuthChallengeInput) async throws -> AdminRespondToAuthChallengeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1259,8 +1239,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminSetUserMFAPreference(input: AdminSetUserMFAPreferenceInput) async throws -> AdminSetUserMFAPreferenceOutput
-    {
+    public func adminSetUserMFAPreference(input: AdminSetUserMFAPreferenceInput) async throws -> AdminSetUserMFAPreferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1295,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminSetUserPassword(input: AdminSetUserPasswordInput) async throws -> AdminSetUserPasswordOutput
-    {
+    public func adminSetUserPassword(input: AdminSetUserPasswordInput) async throws -> AdminSetUserPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1371,8 +1349,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminSetUserSettings(input: AdminSetUserSettingsInput) async throws -> AdminSetUserSettingsOutput
-    {
+    public func adminSetUserSettings(input: AdminSetUserSettingsInput) async throws -> AdminSetUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1428,8 +1405,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
-    public func adminUpdateAuthEventFeedback(input: AdminUpdateAuthEventFeedbackInput) async throws -> AdminUpdateAuthEventFeedbackOutput
-    {
+    public func adminUpdateAuthEventFeedback(input: AdminUpdateAuthEventFeedbackInput) async throws -> AdminUpdateAuthEventFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1485,8 +1461,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminUpdateDeviceStatus(input: AdminUpdateDeviceStatusInput) async throws -> AdminUpdateDeviceStatusOutput
-    {
+    public func adminUpdateDeviceStatus(input: AdminUpdateDeviceStatusInput) async throws -> AdminUpdateDeviceStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1548,8 +1523,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminUpdateUserAttributes(input: AdminUpdateUserAttributesInput) async throws -> AdminUpdateUserAttributesOutput
-    {
+    public func adminUpdateUserAttributes(input: AdminUpdateUserAttributesInput) async throws -> AdminUpdateUserAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1613,8 +1587,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func adminUserGlobalSignOut(input: AdminUserGlobalSignOutInput) async throws -> AdminUserGlobalSignOutOutput
-    {
+    public func adminUserGlobalSignOut(input: AdminUserGlobalSignOutInput) async throws -> AdminUserGlobalSignOutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1666,8 +1639,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `SoftwareTokenMFANotFoundException` : This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
-    public func associateSoftwareToken(input: AssociateSoftwareTokenInput) async throws -> AssociateSoftwareTokenOutput
-    {
+    public func associateSoftwareToken(input: AssociateSoftwareTokenInput) async throws -> AssociateSoftwareTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1719,8 +1691,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func changePassword(input: ChangePasswordInput) async throws -> ChangePasswordOutput
-    {
+    public func changePassword(input: ChangePasswordInput) async throws -> ChangePasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1774,8 +1745,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UsernameExistsException` : This exception is thrown when Amazon Cognito encounters a user name that already exists in the user pool.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func confirmDevice(input: ConfirmDeviceInput) async throws -> ConfirmDeviceOutput
-    {
+    public func confirmDevice(input: ConfirmDeviceInput) async throws -> ConfirmDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1832,8 +1802,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func confirmForgotPassword(input: ConfirmForgotPasswordInput) async throws -> ConfirmForgotPasswordOutput
-    {
+    public func confirmForgotPassword(input: ConfirmForgotPasswordInput) async throws -> ConfirmForgotPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1858,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func confirmSignUp(input: ConfirmSignUpInput) async throws -> ConfirmSignUpOutput
-    {
+    public func confirmSignUp(input: ConfirmSignUpInput) async throws -> ConfirmSignUpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1942,8 +1910,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1999,8 +1966,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput
-    {
+    public func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2055,8 +2021,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func createResourceServer(input: CreateResourceServerInput) async throws -> CreateResourceServerOutput
-    {
+    public func createResourceServer(input: CreateResourceServerInput) async throws -> CreateResourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2112,8 +2077,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func createUserImportJob(input: CreateUserImportJobInput) async throws -> CreateUserImportJobOutput
-    {
+    public func createUserImportJob(input: CreateUserImportJobInput) async throws -> CreateUserImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2171,8 +2135,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolTaggingException` : This exception is thrown when a user pool tag can't be set or updated.
-    public func createUserPool(input: CreateUserPoolInput) async throws -> CreateUserPoolOutput
-    {
+    public func createUserPool(input: CreateUserPoolInput) async throws -> CreateUserPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2229,8 +2192,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `ScopeDoesNotExistException` : This exception is thrown when the specified scope doesn't exist.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func createUserPoolClient(input: CreateUserPoolClientInput) async throws -> CreateUserPoolClientOutput
-    {
+    public func createUserPoolClient(input: CreateUserPoolClientInput) async throws -> CreateUserPoolClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2284,8 +2246,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
-    public func createUserPoolDomain(input: CreateUserPoolDomainInput) async throws -> CreateUserPoolDomainOutput
-    {
+    public func createUserPoolDomain(input: CreateUserPoolDomainInput) async throws -> CreateUserPoolDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2335,8 +2296,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2388,8 +2348,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnsupportedIdentityProviderException` : This exception is thrown when the specified identifier isn't supported.
-    public func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput
-    {
+    public func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2439,8 +2398,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func deleteResourceServer(input: DeleteResourceServerInput) async throws -> DeleteResourceServerOutput
-    {
+    public func deleteResourceServer(input: DeleteResourceServerInput) async throws -> DeleteResourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2494,8 +2452,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2545,8 +2502,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func deleteUserAttributes(input: DeleteUserAttributesInput) async throws -> DeleteUserAttributesOutput
-    {
+    public func deleteUserAttributes(input: DeleteUserAttributesInput) async throws -> DeleteUserAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2593,8 +2549,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserImportInProgressException` : This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
-    public func deleteUserPool(input: DeleteUserPoolInput) async throws -> DeleteUserPoolOutput
-    {
+    public func deleteUserPool(input: DeleteUserPoolInput) async throws -> DeleteUserPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2645,8 +2600,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func deleteUserPoolClient(input: DeleteUserPoolClientInput) async throws -> DeleteUserPoolClientOutput
-    {
+    public func deleteUserPoolClient(input: DeleteUserPoolClientInput) async throws -> DeleteUserPoolClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2695,8 +2649,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
-    public func deleteUserPoolDomain(input: DeleteUserPoolDomainInput) async throws -> DeleteUserPoolDomainOutput
-    {
+    public func deleteUserPoolDomain(input: DeleteUserPoolDomainInput) async throws -> DeleteUserPoolDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2746,8 +2699,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func describeIdentityProvider(input: DescribeIdentityProviderInput) async throws -> DescribeIdentityProviderOutput
-    {
+    public func describeIdentityProvider(input: DescribeIdentityProviderInput) async throws -> DescribeIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2797,8 +2749,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func describeResourceServer(input: DescribeResourceServerInput) async throws -> DescribeResourceServerOutput
-    {
+    public func describeResourceServer(input: DescribeResourceServerInput) async throws -> DescribeResourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2849,8 +2800,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
-    public func describeRiskConfiguration(input: DescribeRiskConfigurationInput) async throws -> DescribeRiskConfigurationOutput
-    {
+    public func describeRiskConfiguration(input: DescribeRiskConfigurationInput) async throws -> DescribeRiskConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2900,8 +2850,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func describeUserImportJob(input: DescribeUserImportJobInput) async throws -> DescribeUserImportJobOutput
-    {
+    public func describeUserImportJob(input: DescribeUserImportJobInput) async throws -> DescribeUserImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2956,8 +2905,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolTaggingException` : This exception is thrown when a user pool tag can't be set or updated.
-    public func describeUserPool(input: DescribeUserPoolInput) async throws -> DescribeUserPoolOutput
-    {
+    public func describeUserPool(input: DescribeUserPoolInput) async throws -> DescribeUserPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3011,8 +2959,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func describeUserPoolClient(input: DescribeUserPoolClientInput) async throws -> DescribeUserPoolClientOutput
-    {
+    public func describeUserPoolClient(input: DescribeUserPoolClientInput) async throws -> DescribeUserPoolClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3061,8 +3008,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
-    public func describeUserPoolDomain(input: DescribeUserPoolDomainInput) async throws -> DescribeUserPoolDomainOutput
-    {
+    public func describeUserPoolDomain(input: DescribeUserPoolDomainInput) async throws -> DescribeUserPoolDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3117,8 +3063,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func forgetDevice(input: ForgetDeviceInput) async throws -> ForgetDeviceOutput
-    {
+    public func forgetDevice(input: ForgetDeviceInput) async throws -> ForgetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3174,8 +3119,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func forgotPassword(input: ForgotPasswordInput) async throws -> ForgotPasswordOutput
-    {
+    public func forgotPassword(input: ForgotPasswordInput) async throws -> ForgotPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3221,8 +3165,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func getCSVHeader(input: GetCSVHeaderInput) async throws -> GetCSVHeaderOutput
-    {
+    public func getCSVHeader(input: GetCSVHeaderInput) async throws -> GetCSVHeaderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3277,8 +3220,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
-    {
+    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3324,8 +3266,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3375,8 +3316,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func getIdentityProviderByIdentifier(input: GetIdentityProviderByIdentifierInput) async throws -> GetIdentityProviderByIdentifierOutput
-    {
+    public func getIdentityProviderByIdentifier(input: GetIdentityProviderByIdentifierInput) async throws -> GetIdentityProviderByIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3426,8 +3366,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func getLogDeliveryConfiguration(input: GetLogDeliveryConfigurationInput) async throws -> GetLogDeliveryConfigurationOutput
-    {
+    public func getLogDeliveryConfiguration(input: GetLogDeliveryConfigurationInput) async throws -> GetLogDeliveryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3475,8 +3414,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
-    public func getSigningCertificate(input: GetSigningCertificateInput) async throws -> GetSigningCertificateOutput
-    {
+    public func getSigningCertificate(input: GetSigningCertificateInput) async throws -> GetSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3526,8 +3464,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func getUICustomization(input: GetUICustomizationInput) async throws -> GetUICustomizationOutput
-    {
+    public func getUICustomization(input: GetUICustomizationInput) async throws -> GetUICustomizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3581,8 +3518,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func getUser(input: GetUserInput) async throws -> GetUserOutput
-    {
+    public func getUser(input: GetUserInput) async throws -> GetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3640,8 +3576,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func getUserAttributeVerificationCode(input: GetUserAttributeVerificationCodeInput) async throws -> GetUserAttributeVerificationCodeOutput
-    {
+    public func getUserAttributeVerificationCode(input: GetUserAttributeVerificationCodeInput) async throws -> GetUserAttributeVerificationCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3687,8 +3622,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func getUserPoolMfaConfig(input: GetUserPoolMfaConfigInput) async throws -> GetUserPoolMfaConfigOutput
-    {
+    public func getUserPoolMfaConfig(input: GetUserPoolMfaConfigInput) async throws -> GetUserPoolMfaConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3750,8 +3684,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
-    public func globalSignOut(input: GlobalSignOutInput) async throws -> GlobalSignOutOutput
-    {
+    public func globalSignOut(input: GlobalSignOutInput) async throws -> GlobalSignOutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3807,8 +3740,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func initiateAuth(input: InitiateAuthInput) async throws -> InitiateAuthOutput
-    {
+    public func initiateAuth(input: InitiateAuthInput) async throws -> InitiateAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3859,8 +3791,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3910,8 +3841,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3965,8 +3895,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
-    {
+    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4020,8 +3949,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listResourceServers(input: ListResourceServersInput) async throws -> ListResourceServersOutput
-    {
+    public func listResourceServers(input: ListResourceServersInput) async throws -> ListResourceServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4071,8 +3999,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4126,8 +4053,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listUserImportJobs(input: ListUserImportJobsInput) async throws -> ListUserImportJobsOutput
-    {
+    public func listUserImportJobs(input: ListUserImportJobsInput) async throws -> ListUserImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4181,8 +4107,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listUserPoolClients(input: ListUserPoolClientsInput) async throws -> ListUserPoolClientsOutput
-    {
+    public func listUserPoolClients(input: ListUserPoolClientsInput) async throws -> ListUserPoolClientsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4235,8 +4160,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listUserPools(input: ListUserPoolsInput) async throws -> ListUserPoolsOutput
-    {
+    public func listUserPools(input: ListUserPoolsInput) async throws -> ListUserPoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4290,8 +4214,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4345,8 +4268,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func listUsersInGroup(input: ListUsersInGroupInput) async throws -> ListUsersInGroupOutput
-    {
+    public func listUsersInGroup(input: ListUsersInGroupInput) async throws -> ListUsersInGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4406,8 +4328,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func resendConfirmationCode(input: ResendConfirmationCodeInput) async throws -> ResendConfirmationCodeOutput
-    {
+    public func resendConfirmationCode(input: ResendConfirmationCodeInput) async throws -> ResendConfirmationCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4469,8 +4390,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func respondToAuthChallenge(input: RespondToAuthChallengeInput) async throws -> RespondToAuthChallengeOutput
-    {
+    public func respondToAuthChallenge(input: RespondToAuthChallengeInput) async throws -> RespondToAuthChallengeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4518,8 +4438,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnauthorizedException` : Exception that is thrown when the request isn't authorized. This can happen due to an invalid access token in the request.
     /// - `UnsupportedOperationException` : Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
     /// - `UnsupportedTokenTypeException` : Exception that is thrown when an unsupported token is passed to an operation.
-    public func revokeToken(input: RevokeTokenInput) async throws -> RevokeTokenOutput
-    {
+    public func revokeToken(input: RevokeTokenInput) async throws -> RevokeTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4565,8 +4484,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func setLogDeliveryConfiguration(input: SetLogDeliveryConfigurationInput) async throws -> SetLogDeliveryConfigurationOutput
-    {
+    public func setLogDeliveryConfiguration(input: SetLogDeliveryConfigurationInput) async throws -> SetLogDeliveryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4619,8 +4537,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
-    public func setRiskConfiguration(input: SetRiskConfigurationInput) async throws -> SetRiskConfigurationOutput
-    {
+    public func setRiskConfiguration(input: SetRiskConfigurationInput) async throws -> SetRiskConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4670,8 +4587,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func setUICustomization(input: SetUICustomizationInput) async throws -> SetUICustomizationOutput
-    {
+    public func setUICustomization(input: SetUICustomizationInput) async throws -> SetUICustomizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4724,8 +4640,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func setUserMFAPreference(input: SetUserMFAPreferenceInput) async throws -> SetUserMFAPreferenceOutput
-    {
+    public func setUserMFAPreference(input: SetUserMFAPreferenceInput) async throws -> SetUserMFAPreferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4773,8 +4688,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func setUserPoolMfaConfig(input: SetUserPoolMfaConfigInput) async throws -> SetUserPoolMfaConfigOutput
-    {
+    public func setUserPoolMfaConfig(input: SetUserPoolMfaConfigInput) async throws -> SetUserPoolMfaConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4827,8 +4741,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func setUserSettings(input: SetUserSettingsInput) async throws -> SetUserSettingsOutput
-    {
+    public func setUserSettings(input: SetUserSettingsInput) async throws -> SetUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4884,8 +4797,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UsernameExistsException` : This exception is thrown when Amazon Cognito encounters a user name that already exists in the user pool.
-    public func signUp(input: SignUpInput) async throws -> SignUpOutput
-    {
+    public func signUp(input: SignUpInput) async throws -> SignUpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4932,8 +4844,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func startUserImportJob(input: StartUserImportJobInput) async throws -> StartUserImportJobOutput
-    {
+    public func startUserImportJob(input: StartUserImportJobInput) async throws -> StartUserImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4984,8 +4895,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func stopUserImportJob(input: StopUserImportJobInput) async throws -> StopUserImportJobOutput
-    {
+    public func stopUserImportJob(input: StopUserImportJobInput) async throws -> StopUserImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5035,8 +4945,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5086,8 +4995,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5139,8 +5047,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
-    public func updateAuthEventFeedback(input: UpdateAuthEventFeedbackInput) async throws -> UpdateAuthEventFeedbackOutput
-    {
+    public func updateAuthEventFeedback(input: UpdateAuthEventFeedbackInput) async throws -> UpdateAuthEventFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5191,8 +5098,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func updateDeviceStatus(input: UpdateDeviceStatusInput) async throws -> UpdateDeviceStatusOutput
-    {
+    public func updateDeviceStatus(input: UpdateDeviceStatusInput) async throws -> UpdateDeviceStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5242,8 +5148,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5299,8 +5204,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnsupportedIdentityProviderException` : This exception is thrown when the specified identifier isn't supported.
-    public func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput
-    {
+    public func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5354,8 +5258,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func updateResourceServer(input: UpdateResourceServerInput) async throws -> UpdateResourceServerOutput
-    {
+    public func updateResourceServer(input: UpdateResourceServerInput) async throws -> UpdateResourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5419,8 +5322,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func updateUserAttributes(input: UpdateUserAttributesInput) async throws -> UpdateUserAttributesOutput
-    {
+    public func updateUserAttributes(input: UpdateUserAttributesInput) async throws -> UpdateUserAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5476,8 +5378,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserImportInProgressException` : This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
     /// - `UserPoolTaggingException` : This exception is thrown when a user pool tag can't be set or updated.
-    public func updateUserPool(input: UpdateUserPoolInput) async throws -> UpdateUserPoolOutput
-    {
+    public func updateUserPool(input: UpdateUserPoolInput) async throws -> UpdateUserPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5534,8 +5435,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `ScopeDoesNotExistException` : This exception is thrown when the specified scope doesn't exist.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func updateUserPoolClient(input: UpdateUserPoolClientInput) async throws -> UpdateUserPoolClientOutput
-    {
+    public func updateUserPoolClient(input: UpdateUserPoolClientInput) async throws -> UpdateUserPoolClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5589,8 +5489,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
-    public func updateUserPoolDomain(input: UpdateUserPoolDomainInput) async throws -> UpdateUserPoolDomainOutput
-    {
+    public func updateUserPoolDomain(input: UpdateUserPoolDomainInput) async throws -> UpdateUserPoolDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5648,8 +5547,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func verifySoftwareToken(input: VerifySoftwareTokenInput) async throws -> VerifySoftwareTokenOutput
-    {
+    public func verifySoftwareToken(input: VerifySoftwareTokenInput) async throws -> VerifySoftwareTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5703,8 +5601,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
-    public func verifyUserAttribute(input: VerifyUserAttributeInput) async throws -> VerifyUserAttributeOutput
-    {
+    public func verifyUserAttribute(input: VerifyUserAttributeInput) async throws -> VerifyUserAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -10054,6 +10054,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTWirelessClientTypes {}
+
 extension IoTWirelessClientTypes.Ip: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipAddress = "IpAddress"

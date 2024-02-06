@@ -66,7 +66,7 @@ public struct ConnectContactLensClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension ConnectContactLensClient: ConnectContactLensClientProtocol {
+extension ConnectContactLensClient {
     /// Performs the `ListRealtimeContactAnalysisSegments` operation on the `AmazonConnectContactLens` service.
     ///
     /// Provides a list of analysis segments for a real-time analysis session.
@@ -83,8 +83,7 @@ extension ConnectContactLensClient: ConnectContactLensClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listRealtimeContactAnalysisSegments(input: ListRealtimeContactAnalysisSegmentsInput) async throws -> ListRealtimeContactAnalysisSegmentsOutput
-    {
+    public func listRealtimeContactAnalysisSegments(input: ListRealtimeContactAnalysisSegmentsInput) async throws -> ListRealtimeContactAnalysisSegmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

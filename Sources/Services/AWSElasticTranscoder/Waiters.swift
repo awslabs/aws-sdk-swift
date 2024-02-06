@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ElasticTranscoderClientProtocol {
+extension ElasticTranscoderClient {
 
     static func jobCompleteWaiterConfig() throws -> WaiterConfiguration<ReadJobInput, ReadJobOutput> {
         let acceptors: [WaiterConfiguration<ReadJobInput, ReadJobOutput>.Acceptor] = [

@@ -66,7 +66,7 @@ public struct SsmSapClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension SsmSapClient: SsmSapClientProtocol {
+extension SsmSapClient {
     /// Performs the `DeleteResourcePermission` operation on the `SsmSap` service.
     ///
     /// Removes permissions associated with the target database.
@@ -81,8 +81,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteResourcePermission(input: DeleteResourcePermissionInput) async throws -> DeleteResourcePermissionOutput
-    {
+    public func deleteResourcePermission(input: DeleteResourcePermissionInput) async throws -> DeleteResourcePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deregisterApplication(input: DeregisterApplicationInput) async throws -> DeregisterApplicationOutput
-    {
+    public func deregisterApplication(input: DeregisterApplicationInput) async throws -> DeregisterApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
-    {
+    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
-    {
+    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput
-    {
+    public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +360,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getResourcePermission(input: GetResourcePermissionInput) async throws -> GetResourcePermissionOutput
-    {
+    public func getResourcePermission(input: GetResourcePermissionInput) async throws -> GetResourcePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +455,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    {
+    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,8 +502,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
-    {
+    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -558,8 +548,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
-    {
+    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +595,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -651,8 +639,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func putResourcePermission(input: PutResourcePermissionInput) async throws -> PutResourcePermissionOutput
-    {
+    public func putResourcePermission(input: PutResourcePermissionInput) async throws -> PutResourcePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +687,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func registerApplication(input: RegisterApplicationInput) async throws -> RegisterApplicationOutput
-    {
+    public func registerApplication(input: RegisterApplicationInput) async throws -> RegisterApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -750,8 +736,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startApplicationRefresh(input: StartApplicationRefreshInput) async throws -> StartApplicationRefreshOutput
-    {
+    public func startApplicationRefresh(input: StartApplicationRefreshInput) async throws -> StartApplicationRefreshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -798,8 +783,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -846,8 +830,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -894,8 +877,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput
-    {
+    public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

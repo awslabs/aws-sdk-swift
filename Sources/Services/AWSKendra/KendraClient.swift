@@ -66,7 +66,7 @@ public struct KendraClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension KendraClient: KendraClientProtocol {
+extension KendraClient {
     /// Performs the `AssociateEntitiesToExperience` operation on the `AWSKendraFrontendService` service.
     ///
     /// Grants users or groups in your IAM Identity Center identity source access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
@@ -84,8 +84,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func associateEntitiesToExperience(input: AssociateEntitiesToExperienceInput) async throws -> AssociateEntitiesToExperienceOutput
-    {
+    public func associateEntitiesToExperience(input: AssociateEntitiesToExperienceInput) async throws -> AssociateEntitiesToExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func associatePersonasToEntities(input: AssociatePersonasToEntitiesInput) async throws -> AssociatePersonasToEntitiesOutput
-    {
+    public func associatePersonasToEntities(input: AssociatePersonasToEntitiesInput) async throws -> AssociatePersonasToEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutput
-    {
+    public func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -239,8 +236,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func batchDeleteFeaturedResultsSet(input: BatchDeleteFeaturedResultsSetInput) async throws -> BatchDeleteFeaturedResultsSetOutput
-    {
+    public func batchDeleteFeaturedResultsSet(input: BatchDeleteFeaturedResultsSetInput) async throws -> BatchDeleteFeaturedResultsSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func batchGetDocumentStatus(input: BatchGetDocumentStatusInput) async throws -> BatchGetDocumentStatusOutput
-    {
+    public func batchGetDocumentStatus(input: BatchGetDocumentStatusInput) async throws -> BatchGetDocumentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutput
-    {
+    public func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -396,8 +390,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func clearQuerySuggestions(input: ClearQuerySuggestionsInput) async throws -> ClearQuerySuggestionsOutput
-    {
+    public func clearQuerySuggestions(input: ClearQuerySuggestionsInput) async throws -> ClearQuerySuggestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -449,8 +442,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createAccessControlConfiguration(input: CreateAccessControlConfigurationInput) async throws -> CreateAccessControlConfigurationOutput
-    {
+    public func createAccessControlConfiguration(input: CreateAccessControlConfigurationInput) async throws -> CreateAccessControlConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -504,8 +496,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-    {
+    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -558,8 +549,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createExperience(input: CreateExperienceInput) async throws -> CreateExperienceOutput
-    {
+    public func createExperience(input: CreateExperienceInput) async throws -> CreateExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +602,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createFaq(input: CreateFaqInput) async throws -> CreateFaqOutput
-    {
+    public func createFaq(input: CreateFaqInput) async throws -> CreateFaqOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +655,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createFeaturedResultsSet(input: CreateFeaturedResultsSetInput) async throws -> CreateFeaturedResultsSetOutput
-    {
+    public func createFeaturedResultsSet(input: CreateFeaturedResultsSetInput) async throws -> CreateFeaturedResultsSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +707,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput
-    {
+    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -773,8 +760,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createQuerySuggestionsBlockList(input: CreateQuerySuggestionsBlockListInput) async throws -> CreateQuerySuggestionsBlockListOutput
-    {
+    public func createQuerySuggestionsBlockList(input: CreateQuerySuggestionsBlockListInput) async throws -> CreateQuerySuggestionsBlockListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -827,8 +813,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func createThesaurus(input: CreateThesaurusInput) async throws -> CreateThesaurusOutput
-    {
+    public func createThesaurus(input: CreateThesaurusInput) async throws -> CreateThesaurusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -880,8 +865,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteAccessControlConfiguration(input: DeleteAccessControlConfigurationInput) async throws -> DeleteAccessControlConfigurationOutput
-    {
+    public func deleteAccessControlConfiguration(input: DeleteAccessControlConfigurationInput) async throws -> DeleteAccessControlConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -932,8 +916,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -984,8 +967,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteExperience(input: DeleteExperienceInput) async throws -> DeleteExperienceOutput
-    {
+    public func deleteExperience(input: DeleteExperienceInput) async throws -> DeleteExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1018,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteFaq(input: DeleteFaqInput) async throws -> DeleteFaqOutput
-    {
+    public func deleteFaq(input: DeleteFaqInput) async throws -> DeleteFaqOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1088,8 +1069,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput
-    {
+    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1120,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deletePrincipalMapping(input: DeletePrincipalMappingInput) async throws -> DeletePrincipalMappingOutput
-    {
+    public func deletePrincipalMapping(input: DeletePrincipalMappingInput) async throws -> DeletePrincipalMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1192,8 +1171,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteQuerySuggestionsBlockList(input: DeleteQuerySuggestionsBlockListInput) async throws -> DeleteQuerySuggestionsBlockListOutput
-    {
+    public func deleteQuerySuggestionsBlockList(input: DeleteQuerySuggestionsBlockListInput) async throws -> DeleteQuerySuggestionsBlockListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1244,8 +1222,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func deleteThesaurus(input: DeleteThesaurusInput) async throws -> DeleteThesaurusOutput
-    {
+    public func deleteThesaurus(input: DeleteThesaurusInput) async throws -> DeleteThesaurusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1295,8 +1272,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeAccessControlConfiguration(input: DescribeAccessControlConfigurationInput) async throws -> DescribeAccessControlConfigurationOutput
-    {
+    public func describeAccessControlConfiguration(input: DescribeAccessControlConfigurationInput) async throws -> DescribeAccessControlConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1346,8 +1322,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutput
-    {
+    public func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1397,8 +1372,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeExperience(input: DescribeExperienceInput) async throws -> DescribeExperienceOutput
-    {
+    public func describeExperience(input: DescribeExperienceInput) async throws -> DescribeExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,8 +1422,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeFaq(input: DescribeFaqInput) async throws -> DescribeFaqOutput
-    {
+    public func describeFaq(input: DescribeFaqInput) async throws -> DescribeFaqOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1499,8 +1472,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeFeaturedResultsSet(input: DescribeFeaturedResultsSetInput) async throws -> DescribeFeaturedResultsSetOutput
-    {
+    public func describeFeaturedResultsSet(input: DescribeFeaturedResultsSetInput) async throws -> DescribeFeaturedResultsSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1522,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutput
-    {
+    public func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1601,8 +1572,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describePrincipalMapping(input: DescribePrincipalMappingInput) async throws -> DescribePrincipalMappingOutput
-    {
+    public func describePrincipalMapping(input: DescribePrincipalMappingInput) async throws -> DescribePrincipalMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1652,8 +1622,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeQuerySuggestionsBlockList(input: DescribeQuerySuggestionsBlockListInput) async throws -> DescribeQuerySuggestionsBlockListOutput
-    {
+    public func describeQuerySuggestionsBlockList(input: DescribeQuerySuggestionsBlockListInput) async throws -> DescribeQuerySuggestionsBlockListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1703,8 +1672,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeQuerySuggestionsConfig(input: DescribeQuerySuggestionsConfigInput) async throws -> DescribeQuerySuggestionsConfigOutput
-    {
+    public func describeQuerySuggestionsConfig(input: DescribeQuerySuggestionsConfigInput) async throws -> DescribeQuerySuggestionsConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1754,8 +1722,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func describeThesaurus(input: DescribeThesaurusInput) async throws -> DescribeThesaurusOutput
-    {
+    public func describeThesaurus(input: DescribeThesaurusInput) async throws -> DescribeThesaurusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1805,8 +1772,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func disassociateEntitiesFromExperience(input: DisassociateEntitiesFromExperienceInput) async throws -> DisassociateEntitiesFromExperienceOutput
-    {
+    public func disassociateEntitiesFromExperience(input: DisassociateEntitiesFromExperienceInput) async throws -> DisassociateEntitiesFromExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1856,8 +1822,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func disassociatePersonasFromEntities(input: DisassociatePersonasFromEntitiesInput) async throws -> DisassociatePersonasFromEntitiesOutput
-    {
+    public func disassociatePersonasFromEntities(input: DisassociatePersonasFromEntitiesInput) async throws -> DisassociatePersonasFromEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1909,8 +1874,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func getQuerySuggestions(input: GetQuerySuggestionsInput) async throws -> GetQuerySuggestionsOutput
-    {
+    public func getQuerySuggestions(input: GetQuerySuggestionsInput) async throws -> GetQuerySuggestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1959,8 +1923,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `InvalidRequestException` : The input to the request is not valid. Please provide the correct input and try again.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
-    public func getSnapshots(input: GetSnapshotsInput) async throws -> GetSnapshotsOutput
-    {
+    public func getSnapshots(input: GetSnapshotsInput) async throws -> GetSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2010,8 +1973,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listAccessControlConfigurations(input: ListAccessControlConfigurationsInput) async throws -> ListAccessControlConfigurationsOutput
-    {
+    public func listAccessControlConfigurations(input: ListAccessControlConfigurationsInput) async throws -> ListAccessControlConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2062,8 +2024,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutput
-    {
+    public func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2113,8 +2074,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-    {
+    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2164,8 +2124,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listEntityPersonas(input: ListEntityPersonasInput) async throws -> ListEntityPersonasOutput
-    {
+    public func listEntityPersonas(input: ListEntityPersonasInput) async throws -> ListEntityPersonasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2215,8 +2174,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listExperienceEntities(input: ListExperienceEntitiesInput) async throws -> ListExperienceEntitiesOutput
-    {
+    public func listExperienceEntities(input: ListExperienceEntitiesInput) async throws -> ListExperienceEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2266,8 +2224,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listExperiences(input: ListExperiencesInput) async throws -> ListExperiencesOutput
-    {
+    public func listExperiences(input: ListExperiencesInput) async throws -> ListExperiencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2317,8 +2274,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listFaqs(input: ListFaqsInput) async throws -> ListFaqsOutput
-    {
+    public func listFaqs(input: ListFaqsInput) async throws -> ListFaqsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2368,8 +2324,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listFeaturedResultsSets(input: ListFeaturedResultsSetsInput) async throws -> ListFeaturedResultsSetsOutput
-    {
+    public func listFeaturedResultsSets(input: ListFeaturedResultsSetsInput) async throws -> ListFeaturedResultsSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2420,8 +2375,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listGroupsOlderThanOrderingId(input: ListGroupsOlderThanOrderingIdInput) async throws -> ListGroupsOlderThanOrderingIdOutput
-    {
+    public func listGroupsOlderThanOrderingId(input: ListGroupsOlderThanOrderingIdInput) async throws -> ListGroupsOlderThanOrderingIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2470,8 +2424,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput
-    {
+    public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2521,8 +2474,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listQuerySuggestionsBlockLists(input: ListQuerySuggestionsBlockListsInput) async throws -> ListQuerySuggestionsBlockListsOutput
-    {
+    public func listQuerySuggestionsBlockLists(input: ListQuerySuggestionsBlockListsInput) async throws -> ListQuerySuggestionsBlockListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2572,8 +2524,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2623,8 +2574,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func listThesauri(input: ListThesauriInput) async throws -> ListThesauriOutput
-    {
+    public func listThesauri(input: ListThesauriInput) async throws -> ListThesauriOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2676,8 +2626,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func putPrincipalMapping(input: PutPrincipalMappingInput) async throws -> PutPrincipalMappingOutput
-    {
+    public func putPrincipalMapping(input: PutPrincipalMappingInput) async throws -> PutPrincipalMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2738,8 +2687,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func query(input: QueryInput) async throws -> QueryOutput
-    {
+    public func query(input: QueryInput) async throws -> QueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2802,8 +2750,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func retrieve(input: RetrieveInput) async throws -> RetrieveOutput
-    {
+    public func retrieve(input: RetrieveInput) async throws -> RetrieveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2855,8 +2802,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutput
-    {
+    public func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2906,8 +2852,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutput
-    {
+    public func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2958,8 +2903,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutput
-    {
+    public func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3009,8 +2953,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3060,8 +3003,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3113,8 +3055,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateAccessControlConfiguration(input: UpdateAccessControlConfigurationInput) async throws -> UpdateAccessControlConfigurationOutput
-    {
+    public func updateAccessControlConfiguration(input: UpdateAccessControlConfigurationInput) async throws -> UpdateAccessControlConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3165,8 +3106,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3217,8 +3157,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateExperience(input: UpdateExperienceInput) async throws -> UpdateExperienceOutput
-    {
+    public func updateExperience(input: UpdateExperienceInput) async throws -> UpdateExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3269,8 +3208,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateFeaturedResultsSet(input: UpdateFeaturedResultsSetInput) async throws -> UpdateFeaturedResultsSetOutput
-    {
+    public func updateFeaturedResultsSet(input: UpdateFeaturedResultsSetInput) async throws -> UpdateFeaturedResultsSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3322,8 +3260,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput
-    {
+    public func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3374,8 +3311,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateQuerySuggestionsBlockList(input: UpdateQuerySuggestionsBlockListInput) async throws -> UpdateQuerySuggestionsBlockListOutput
-    {
+    public func updateQuerySuggestionsBlockList(input: UpdateQuerySuggestionsBlockListInput) async throws -> UpdateQuerySuggestionsBlockListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3426,8 +3362,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateQuerySuggestionsConfig(input: UpdateQuerySuggestionsConfigInput) async throws -> UpdateQuerySuggestionsConfigOutput
-    {
+    public func updateQuerySuggestionsConfig(input: UpdateQuerySuggestionsConfigInput) async throws -> UpdateQuerySuggestionsConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3478,8 +3413,7 @@ extension KendraClient: KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    public func updateThesaurus(input: UpdateThesaurusInput) async throws -> UpdateThesaurusOutput
-    {
+    public func updateThesaurus(input: UpdateThesaurusInput) async throws -> UpdateThesaurusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

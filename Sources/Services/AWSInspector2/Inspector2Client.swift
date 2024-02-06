@@ -66,7 +66,7 @@ public struct Inspector2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension Inspector2Client: Inspector2ClientProtocol {
+extension Inspector2Client {
     /// Performs the `AssociateMember` operation on the `Inspector2` service.
     ///
     /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html) for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html) for a single account.
@@ -82,8 +82,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutput
-    {
+    public func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutput
-    {
+    public func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutput
-    {
+    public func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutput
-    {
+    public func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutput
-    {
+    public func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func batchGetMemberEc2DeepInspectionStatus(input: BatchGetMemberEc2DeepInspectionStatusInput) async throws -> BatchGetMemberEc2DeepInspectionStatusOutput
-    {
+    public func batchGetMemberEc2DeepInspectionStatus(input: BatchGetMemberEc2DeepInspectionStatusInput) async throws -> BatchGetMemberEc2DeepInspectionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutput
-    {
+    public func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -427,8 +420,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutput
-    {
+    public func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -477,8 +469,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutput
-    {
+    public func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput
-    {
+    public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -578,8 +568,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutput
-    {
+    public func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -628,8 +617,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutput
-    {
+    public func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -678,8 +666,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput
-    {
+    public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +714,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-    {
+    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -774,8 +760,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func disable(input: DisableInput) async throws -> DisableOutput
-    {
+    public func disable(input: DisableInput) async throws -> DisableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -825,8 +810,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func disableDelegatedAdminAccount(input: DisableDelegatedAdminAccountInput) async throws -> DisableDelegatedAdminAccountOutput
-    {
+    public func disableDelegatedAdminAccount(input: DisableDelegatedAdminAccountInput) async throws -> DisableDelegatedAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -874,8 +858,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput
-    {
+    public func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +907,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func enable(input: EnableInput) async throws -> EnableOutput
-    {
+    public func enable(input: EnableInput) async throws -> EnableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -976,8 +958,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func enableDelegatedAdminAccount(input: EnableDelegatedAdminAccountInput) async throws -> EnableDelegatedAdminAccountOutput
-    {
+    public func enableDelegatedAdminAccount(input: EnableDelegatedAdminAccountInput) async throws -> EnableDelegatedAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1025,8 +1006,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput
-    {
+    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1072,8 +1052,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutput
-    {
+    public func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1118,8 +1097,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutput
-    {
+    public func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1165,8 +1143,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutput
-    {
+    public func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1213,8 +1190,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutput
-    {
+    public func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1263,8 +1239,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func getMember(input: GetMemberInput) async throws -> GetMemberOutput
-    {
+    public func getMember(input: GetMemberInput) async throws -> GetMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1313,8 +1288,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutput
-    {
+    public func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1362,8 +1336,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutput
-    {
+    public func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1410,8 +1383,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutput
-    {
+    public func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1458,8 +1430,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listCoverageStatistics(input: ListCoverageStatisticsInput) async throws -> ListCoverageStatisticsOutput
-    {
+    public func listCoverageStatistics(input: ListCoverageStatisticsInput) async throws -> ListCoverageStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1478,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listDelegatedAdminAccounts(input: ListDelegatedAdminAccountsInput) async throws -> ListDelegatedAdminAccountsOutput
-    {
+    public func listDelegatedAdminAccounts(input: ListDelegatedAdminAccountsInput) async throws -> ListDelegatedAdminAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1556,8 +1526,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput
-    {
+    public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1604,8 +1573,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listFindingAggregations(input: ListFindingAggregationsInput) async throws -> ListFindingAggregationsOutput
-    {
+    public func listFindingAggregations(input: ListFindingAggregationsInput) async throws -> ListFindingAggregationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1652,8 +1620,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
-    {
+    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1701,8 +1668,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1750,8 +1716,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1796,8 +1761,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutput
-    {
+    public func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1846,8 +1810,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutput
-    {
+    public func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1895,8 +1858,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutput
-    {
+    public func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1945,8 +1907,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1994,8 +1955,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2041,8 +2001,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
-    {
+    public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2090,8 +2049,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutput
-    {
+    public func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2140,8 +2098,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutput
-    {
+    public func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2190,8 +2147,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutput
-    {
+    public func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2239,8 +2195,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func updateOrgEc2DeepInspectionConfiguration(input: UpdateOrgEc2DeepInspectionConfigurationInput) async throws -> UpdateOrgEc2DeepInspectionConfigurationOutput
-    {
+    public func updateOrgEc2DeepInspectionConfiguration(input: UpdateOrgEc2DeepInspectionConfigurationInput) async throws -> UpdateOrgEc2DeepInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2288,8 +2243,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-    {
+    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

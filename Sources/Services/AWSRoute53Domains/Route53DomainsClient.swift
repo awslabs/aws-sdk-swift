@@ -66,7 +66,7 @@ public struct Route53DomainsClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension Route53DomainsClient: Route53DomainsClientProtocol {
+extension Route53DomainsClient {
     /// Performs the `AcceptDomainTransferFromAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
     ///
     /// Accepts the transfer of a domain from another Amazon Web Services account to the currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). If you use the CLI command at [accept-domain-transfer-from-another-aws-account](https://docs.aws.amazon.com/cli/latest/reference/route53domains/accept-domain-transfer-from-another-aws-account.html), use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
@@ -82,8 +82,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func acceptDomainTransferFromAnotherAwsAccount(input: AcceptDomainTransferFromAnotherAwsAccountInput) async throws -> AcceptDomainTransferFromAnotherAwsAccountOutput
-    {
+    public func acceptDomainTransferFromAnotherAwsAccount(input: AcceptDomainTransferFromAnotherAwsAccountInput) async throws -> AcceptDomainTransferFromAnotherAwsAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func associateDelegationSignerToDomain(input: AssociateDelegationSignerToDomainInput) async throws -> AssociateDelegationSignerToDomainOutput
-    {
+    public func associateDelegationSignerToDomain(input: AssociateDelegationSignerToDomainInput) async throws -> AssociateDelegationSignerToDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func cancelDomainTransferToAnotherAwsAccount(input: CancelDomainTransferToAnotherAwsAccountInput) async throws -> CancelDomainTransferToAnotherAwsAccountOutput
-    {
+    public func cancelDomainTransferToAnotherAwsAccount(input: CancelDomainTransferToAnotherAwsAccountInput) async throws -> CancelDomainTransferToAnotherAwsAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func checkDomainAvailability(input: CheckDomainAvailabilityInput) async throws -> CheckDomainAvailabilityOutput
-    {
+    public func checkDomainAvailability(input: CheckDomainAvailabilityInput) async throws -> CheckDomainAvailabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func checkDomainTransferability(input: CheckDomainTransferabilityInput) async throws -> CheckDomainTransferabilityOutput
-    {
+    public func checkDomainTransferability(input: CheckDomainTransferabilityInput) async throws -> CheckDomainTransferabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +330,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func deleteTagsForDomain(input: DeleteTagsForDomainInput) async throws -> DeleteTagsForDomainOutput
-    {
+    public func deleteTagsForDomain(input: DeleteTagsForDomainInput) async throws -> DeleteTagsForDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func disableDomainAutoRenew(input: DisableDomainAutoRenewInput) async throws -> DisableDomainAutoRenewOutput
-    {
+    public func disableDomainAutoRenew(input: DisableDomainAutoRenewInput) async throws -> DisableDomainAutoRenewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -483,8 +475,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func disableDomainTransferLock(input: DisableDomainTransferLockInput) async throws -> DisableDomainTransferLockOutput
-    {
+    public func disableDomainTransferLock(input: DisableDomainTransferLockInput) async throws -> DisableDomainTransferLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -534,8 +525,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func disassociateDelegationSignerFromDomain(input: DisassociateDelegationSignerFromDomainInput) async throws -> DisassociateDelegationSignerFromDomainOutput
-    {
+    public func disassociateDelegationSignerFromDomain(input: DisassociateDelegationSignerFromDomainInput) async throws -> DisassociateDelegationSignerFromDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -583,8 +573,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func enableDomainAutoRenew(input: EnableDomainAutoRenewInput) async throws -> EnableDomainAutoRenewOutput
-    {
+    public func enableDomainAutoRenew(input: EnableDomainAutoRenewInput) async throws -> EnableDomainAutoRenewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -634,8 +623,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func enableDomainTransferLock(input: EnableDomainTransferLockInput) async throws -> EnableDomainTransferLockOutput
-    {
+    public func enableDomainTransferLock(input: EnableDomainTransferLockInput) async throws -> EnableDomainTransferLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -683,8 +671,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func getContactReachabilityStatus(input: GetContactReachabilityStatusInput) async throws -> GetContactReachabilityStatusOutput
-    {
+    public func getContactReachabilityStatus(input: GetContactReachabilityStatusInput) async throws -> GetContactReachabilityStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -731,8 +718,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func getDomainDetail(input: GetDomainDetailInput) async throws -> GetDomainDetailOutput
-    {
+    public func getDomainDetail(input: GetDomainDetailInput) async throws -> GetDomainDetailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -779,8 +765,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func getDomainSuggestions(input: GetDomainSuggestionsInput) async throws -> GetDomainSuggestionsOutput
-    {
+    public func getDomainSuggestions(input: GetDomainSuggestionsInput) async throws -> GetDomainSuggestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -826,8 +811,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-    public func getOperationDetail(input: GetOperationDetailInput) async throws -> GetOperationDetailOutput
-    {
+    public func getOperationDetail(input: GetOperationDetailInput) async throws -> GetOperationDetailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +857,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -920,8 +903,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
-    {
+    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -978,8 +960,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func listPrices(input: ListPricesInput) async throws -> ListPricesOutput
-    {
+    public func listPrices(input: ListPricesInput) async throws -> ListPricesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1027,8 +1008,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func listTagsForDomain(input: ListTagsForDomainInput) async throws -> ListTagsForDomainOutput
-    {
+    public func listTagsForDomain(input: ListTagsForDomainInput) async throws -> ListTagsForDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1078,8 +1058,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func pushDomain(input: PushDomainInput) async throws -> PushDomainOutput
-    {
+    public func pushDomain(input: PushDomainInput) async throws -> PushDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1119,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput
-    {
+    public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1189,8 +1167,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func rejectDomainTransferFromAnotherAwsAccount(input: RejectDomainTransferFromAnotherAwsAccountInput) async throws -> RejectDomainTransferFromAnotherAwsAccountOutput
-    {
+    public func rejectDomainTransferFromAnotherAwsAccount(input: RejectDomainTransferFromAnotherAwsAccountInput) async throws -> RejectDomainTransferFromAnotherAwsAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1217,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func renewDomain(input: RenewDomainInput) async throws -> RenewDomainOutput
-    {
+    public func renewDomain(input: RenewDomainInput) async throws -> RenewDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1289,8 +1265,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func resendContactReachabilityEmail(input: ResendContactReachabilityEmailInput) async throws -> ResendContactReachabilityEmailOutput
-    {
+    public func resendContactReachabilityEmail(input: ResendContactReachabilityEmailInput) async throws -> ResendContactReachabilityEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1311,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-    public func resendOperationAuthorization(input: ResendOperationAuthorizationInput) async throws -> ResendOperationAuthorizationOutput
-    {
+    public func resendOperationAuthorization(input: ResendOperationAuthorizationInput) async throws -> ResendOperationAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1384,8 +1358,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func retrieveDomainAuthCode(input: RetrieveDomainAuthCodeInput) async throws -> RetrieveDomainAuthCodeOutput
-    {
+    public func retrieveDomainAuthCode(input: RetrieveDomainAuthCodeInput) async throws -> RetrieveDomainAuthCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1445,8 +1418,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func transferDomain(input: TransferDomainInput) async throws -> TransferDomainOutput
-    {
+    public func transferDomain(input: TransferDomainInput) async throws -> TransferDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1504,8 +1476,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func transferDomainToAnotherAwsAccount(input: TransferDomainToAnotherAwsAccountInput) async throws -> TransferDomainToAnotherAwsAccountOutput
-    {
+    public func transferDomainToAnotherAwsAccount(input: TransferDomainToAnotherAwsAccountInput) async throws -> TransferDomainToAnotherAwsAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1555,8 +1526,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func updateDomainContact(input: UpdateDomainContactInput) async throws -> UpdateDomainContactOutput
-    {
+    public func updateDomainContact(input: UpdateDomainContactInput) async throws -> UpdateDomainContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1606,8 +1576,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func updateDomainContactPrivacy(input: UpdateDomainContactPrivacyInput) async throws -> UpdateDomainContactPrivacyOutput
-    {
+    public func updateDomainContactPrivacy(input: UpdateDomainContactPrivacyInput) async throws -> UpdateDomainContactPrivacyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1626,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func updateDomainNameservers(input: UpdateDomainNameserversInput) async throws -> UpdateDomainNameserversOutput
-    {
+    public func updateDomainNameservers(input: UpdateDomainNameserversInput) async throws -> UpdateDomainNameserversOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1706,8 +1674,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
-    public func updateTagsForDomain(input: UpdateTagsForDomainInput) async throws -> UpdateTagsForDomainOutput
-    {
+    public func updateTagsForDomain(input: UpdateTagsForDomainInput) async throws -> UpdateTagsForDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1753,8 +1720,7 @@ extension Route53DomainsClient: Route53DomainsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-    public func viewBilling(input: ViewBillingInput) async throws -> ViewBillingOutput
-    {
+    public func viewBilling(input: ViewBillingInput) async throws -> ViewBillingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct MarketplaceDeploymentClientLogHandlerFactory: ClientRuntime.SDKLog
     }
 }
 
-extension MarketplaceDeploymentClient: MarketplaceDeploymentClientProtocol {
+extension MarketplaceDeploymentClient {
     /// Performs the `ListTagsForResource` operation on the `AWSMPDeploymentParametersService` service.
     ///
     /// Lists all tags that have been added to a deployment parameter resource.
@@ -83,8 +83,7 @@ extension MarketplaceDeploymentClient: MarketplaceDeploymentClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : Too many requests.
     /// - `ValidationException` : An error occurred during validation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension MarketplaceDeploymentClient: MarketplaceDeploymentClientProtocol {
     /// - `ServiceQuotaExceededException` : The maximum number of requests per account has been exceeded.
     /// - `ThrottlingException` : Too many requests.
     /// - `ValidationException` : An error occurred during validation.
-    public func putDeploymentParameter(input: PutDeploymentParameterInput) async throws -> PutDeploymentParameterOutput
-    {
+    public func putDeploymentParameter(input: PutDeploymentParameterInput) async throws -> PutDeploymentParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension MarketplaceDeploymentClient: MarketplaceDeploymentClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : Too many requests.
     /// - `ValidationException` : An error occurred during validation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension MarketplaceDeploymentClient: MarketplaceDeploymentClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : Too many requests.
     /// - `ValidationException` : An error occurred during validation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

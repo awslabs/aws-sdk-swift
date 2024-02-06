@@ -66,7 +66,7 @@ public struct SESv2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SESv2Client: SESv2ClientProtocol {
+extension SESv2Client {
     /// Performs the `BatchGetMetricData` operation on the `SimpleEmailService_v2` service.
     ///
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
@@ -82,8 +82,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `InternalServiceErrorException` : The request couldn't be processed because an error occurred with the Amazon SES API v2.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func batchGetMetricData(input: BatchGetMetricDataInput) async throws -> BatchGetMetricDataOutput
-    {
+    public func batchGetMetricData(input: BatchGetMetricDataInput) async throws -> BatchGetMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func cancelExportJob(input: CancelExportJobInput) async throws -> CancelExportJobOutput
-    {
+    public func cancelExportJob(input: CancelExportJobInput) async throws -> CancelExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
-    {
+    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
-    {
+    public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput
-    {
+    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createContactList(input: CreateContactListInput) async throws -> CreateContactListOutput
-    {
+    public func createContactList(input: CreateContactListInput) async throws -> CreateContactListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput
-    {
+    public func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createDedicatedIpPool(input: CreateDedicatedIpPoolInput) async throws -> CreateDedicatedIpPoolOutput
-    {
+    public func createDedicatedIpPool(input: CreateDedicatedIpPoolInput) async throws -> CreateDedicatedIpPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createDeliverabilityTestReport(input: CreateDeliverabilityTestReportInput) async throws -> CreateDeliverabilityTestReportOutput
-    {
+    public func createDeliverabilityTestReport(input: CreateDeliverabilityTestReportInput) async throws -> CreateDeliverabilityTestReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -531,8 +522,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createEmailIdentity(input: CreateEmailIdentityInput) async throws -> CreateEmailIdentityOutput
-    {
+    public func createEmailIdentity(input: CreateEmailIdentityInput) async throws -> CreateEmailIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -581,8 +571,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createEmailIdentityPolicy(input: CreateEmailIdentityPolicyInput) async throws -> CreateEmailIdentityPolicyOutput
-    {
+    public func createEmailIdentityPolicy(input: CreateEmailIdentityPolicyInput) async throws -> CreateEmailIdentityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput
-    {
+    public func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -679,8 +667,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput
-    {
+    public func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +714,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput
-    {
+    public func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -776,8 +762,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
-    {
+    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +806,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
-    {
+    public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -866,8 +850,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
-    {
+    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -912,8 +895,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteContactList(input: DeleteContactListInput) async throws -> DeleteContactListOutput
-    {
+    public func deleteContactList(input: DeleteContactListInput) async throws -> DeleteContactListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +939,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput
-    {
+    public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1003,8 +984,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteDedicatedIpPool(input: DeleteDedicatedIpPoolInput) async throws -> DeleteDedicatedIpPoolOutput
-    {
+    public func deleteDedicatedIpPool(input: DeleteDedicatedIpPoolInput) async throws -> DeleteDedicatedIpPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1049,8 +1029,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteEmailIdentity(input: DeleteEmailIdentityInput) async throws -> DeleteEmailIdentityOutput
-    {
+    public func deleteEmailIdentity(input: DeleteEmailIdentityInput) async throws -> DeleteEmailIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1094,8 +1073,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteEmailIdentityPolicy(input: DeleteEmailIdentityPolicyInput) async throws -> DeleteEmailIdentityPolicyOutput
-    {
+    public func deleteEmailIdentityPolicy(input: DeleteEmailIdentityPolicyInput) async throws -> DeleteEmailIdentityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1139,8 +1117,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput
-    {
+    public func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1184,8 +1161,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func deleteSuppressedDestination(input: DeleteSuppressedDestinationInput) async throws -> DeleteSuppressedDestinationOutput
-    {
+    public func deleteSuppressedDestination(input: DeleteSuppressedDestinationInput) async throws -> DeleteSuppressedDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1228,8 +1204,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
-    {
+    public func getAccount(input: GetAccountInput) async throws -> GetAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1273,8 +1248,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getBlacklistReports(input: GetBlacklistReportsInput) async throws -> GetBlacklistReportsOutput
-    {
+    public func getBlacklistReports(input: GetBlacklistReportsInput) async throws -> GetBlacklistReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1293,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getConfigurationSet(input: GetConfigurationSetInput) async throws -> GetConfigurationSetOutput
-    {
+    public func getConfigurationSet(input: GetConfigurationSetInput) async throws -> GetConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1364,8 +1337,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput
-    {
+    public func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1409,8 +1381,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getContact(input: GetContactInput) async throws -> GetContactOutput
-    {
+    public func getContact(input: GetContactInput) async throws -> GetContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1425,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getContactList(input: GetContactListInput) async throws -> GetContactListOutput
-    {
+    public func getContactList(input: GetContactListInput) async throws -> GetContactListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1499,8 +1469,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput
-    {
+    public func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1544,8 +1513,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDedicatedIp(input: GetDedicatedIpInput) async throws -> GetDedicatedIpOutput
-    {
+    public func getDedicatedIp(input: GetDedicatedIpInput) async throws -> GetDedicatedIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1557,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDedicatedIpPool(input: GetDedicatedIpPoolInput) async throws -> GetDedicatedIpPoolOutput
-    {
+    public func getDedicatedIpPool(input: GetDedicatedIpPoolInput) async throws -> GetDedicatedIpPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1634,8 +1601,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDedicatedIps(input: GetDedicatedIpsInput) async throws -> GetDedicatedIpsOutput
-    {
+    public func getDedicatedIps(input: GetDedicatedIpsInput) async throws -> GetDedicatedIpsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1680,8 +1646,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDeliverabilityDashboardOptions(input: GetDeliverabilityDashboardOptionsInput) async throws -> GetDeliverabilityDashboardOptionsOutput
-    {
+    public func getDeliverabilityDashboardOptions(input: GetDeliverabilityDashboardOptionsInput) async throws -> GetDeliverabilityDashboardOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1725,8 +1690,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDeliverabilityTestReport(input: GetDeliverabilityTestReportInput) async throws -> GetDeliverabilityTestReportOutput
-    {
+    public func getDeliverabilityTestReport(input: GetDeliverabilityTestReportInput) async throws -> GetDeliverabilityTestReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1770,8 +1734,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDomainDeliverabilityCampaign(input: GetDomainDeliverabilityCampaignInput) async throws -> GetDomainDeliverabilityCampaignOutput
-    {
+    public func getDomainDeliverabilityCampaign(input: GetDomainDeliverabilityCampaignInput) async throws -> GetDomainDeliverabilityCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1815,8 +1778,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getDomainStatisticsReport(input: GetDomainStatisticsReportInput) async throws -> GetDomainStatisticsReportOutput
-    {
+    public func getDomainStatisticsReport(input: GetDomainStatisticsReportInput) async throws -> GetDomainStatisticsReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1861,8 +1823,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getEmailIdentity(input: GetEmailIdentityInput) async throws -> GetEmailIdentityOutput
-    {
+    public func getEmailIdentity(input: GetEmailIdentityInput) async throws -> GetEmailIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1906,8 +1867,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getEmailIdentityPolicies(input: GetEmailIdentityPoliciesInput) async throws -> GetEmailIdentityPoliciesOutput
-    {
+    public func getEmailIdentityPolicies(input: GetEmailIdentityPoliciesInput) async throws -> GetEmailIdentityPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1951,8 +1911,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput
-    {
+    public func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1996,8 +1955,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput
-    {
+    public func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2041,8 +1999,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput
-    {
+    public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2086,8 +2043,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getMessageInsights(input: GetMessageInsightsInput) async throws -> GetMessageInsightsOutput
-    {
+    public func getMessageInsights(input: GetMessageInsightsInput) async throws -> GetMessageInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2131,8 +2087,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func getSuppressedDestination(input: GetSuppressedDestinationInput) async throws -> GetSuppressedDestinationOutput
-    {
+    public func getSuppressedDestination(input: GetSuppressedDestinationInput) async throws -> GetSuppressedDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2175,8 +2130,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
-    {
+    public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2220,8 +2174,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listContactLists(input: ListContactListsInput) async throws -> ListContactListsOutput
-    {
+    public func listContactLists(input: ListContactListsInput) async throws -> ListContactListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2266,8 +2219,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listContacts(input: ListContactsInput) async throws -> ListContactsOutput
-    {
+    public func listContacts(input: ListContactsInput) async throws -> ListContactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2314,8 +2266,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput
-    {
+    public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2359,8 +2310,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listDedicatedIpPools(input: ListDedicatedIpPoolsInput) async throws -> ListDedicatedIpPoolsOutput
-    {
+    public func listDedicatedIpPools(input: ListDedicatedIpPoolsInput) async throws -> ListDedicatedIpPoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2405,8 +2355,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listDeliverabilityTestReports(input: ListDeliverabilityTestReportsInput) async throws -> ListDeliverabilityTestReportsOutput
-    {
+    public func listDeliverabilityTestReports(input: ListDeliverabilityTestReportsInput) async throws -> ListDeliverabilityTestReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2451,8 +2400,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listDomainDeliverabilityCampaigns(input: ListDomainDeliverabilityCampaignsInput) async throws -> ListDomainDeliverabilityCampaignsOutput
-    {
+    public func listDomainDeliverabilityCampaigns(input: ListDomainDeliverabilityCampaignsInput) async throws -> ListDomainDeliverabilityCampaignsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2496,8 +2444,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutput
-    {
+    public func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2541,8 +2488,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listEmailTemplates(input: ListEmailTemplatesInput) async throws -> ListEmailTemplatesOutput
-    {
+    public func listEmailTemplates(input: ListEmailTemplatesInput) async throws -> ListEmailTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2586,8 +2532,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listExportJobs(input: ListExportJobsInput) async throws -> ListExportJobsOutput
-    {
+    public func listExportJobs(input: ListExportJobsInput) async throws -> ListExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2633,8 +2578,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutput
-    {
+    public func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2682,8 +2626,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
-    {
+    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2730,8 +2673,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InvalidNextTokenException` : The specified request includes an invalid or expired token.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listSuppressedDestinations(input: ListSuppressedDestinationsInput) async throws -> ListSuppressedDestinationsOutput
-    {
+    public func listSuppressedDestinations(input: ListSuppressedDestinationsInput) async throws -> ListSuppressedDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2776,8 +2718,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2821,8 +2762,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putAccountDedicatedIpWarmupAttributes(input: PutAccountDedicatedIpWarmupAttributesInput) async throws -> PutAccountDedicatedIpWarmupAttributesOutput
-    {
+    public func putAccountDedicatedIpWarmupAttributes(input: PutAccountDedicatedIpWarmupAttributesInput) async throws -> PutAccountDedicatedIpWarmupAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2869,8 +2809,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `ConflictException` : If there is already an ongoing account details update under review.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putAccountDetails(input: PutAccountDetailsInput) async throws -> PutAccountDetailsOutput
-    {
+    public func putAccountDetails(input: PutAccountDetailsInput) async throws -> PutAccountDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2916,8 +2855,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putAccountSendingAttributes(input: PutAccountSendingAttributesInput) async throws -> PutAccountSendingAttributesOutput
-    {
+    public func putAccountSendingAttributes(input: PutAccountSendingAttributesInput) async throws -> PutAccountSendingAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2963,8 +2901,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putAccountSuppressionAttributes(input: PutAccountSuppressionAttributesInput) async throws -> PutAccountSuppressionAttributesOutput
-    {
+    public func putAccountSuppressionAttributes(input: PutAccountSuppressionAttributesInput) async throws -> PutAccountSuppressionAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3010,8 +2947,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putAccountVdmAttributes(input: PutAccountVdmAttributesInput) async throws -> PutAccountVdmAttributesOutput
-    {
+    public func putAccountVdmAttributes(input: PutAccountVdmAttributesInput) async throws -> PutAccountVdmAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3058,8 +2994,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput
-    {
+    public func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3106,8 +3041,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putConfigurationSetReputationOptions(input: PutConfigurationSetReputationOptionsInput) async throws -> PutConfigurationSetReputationOptionsOutput
-    {
+    public func putConfigurationSetReputationOptions(input: PutConfigurationSetReputationOptionsInput) async throws -> PutConfigurationSetReputationOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3154,8 +3088,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putConfigurationSetSendingOptions(input: PutConfigurationSetSendingOptionsInput) async throws -> PutConfigurationSetSendingOptionsOutput
-    {
+    public func putConfigurationSetSendingOptions(input: PutConfigurationSetSendingOptionsInput) async throws -> PutConfigurationSetSendingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3202,8 +3135,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putConfigurationSetSuppressionOptions(input: PutConfigurationSetSuppressionOptionsInput) async throws -> PutConfigurationSetSuppressionOptionsOutput
-    {
+    public func putConfigurationSetSuppressionOptions(input: PutConfigurationSetSuppressionOptionsInput) async throws -> PutConfigurationSetSuppressionOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3250,8 +3182,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putConfigurationSetTrackingOptions(input: PutConfigurationSetTrackingOptionsInput) async throws -> PutConfigurationSetTrackingOptionsOutput
-    {
+    public func putConfigurationSetTrackingOptions(input: PutConfigurationSetTrackingOptionsInput) async throws -> PutConfigurationSetTrackingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3298,8 +3229,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putConfigurationSetVdmOptions(input: PutConfigurationSetVdmOptionsInput) async throws -> PutConfigurationSetVdmOptionsOutput
-    {
+    public func putConfigurationSetVdmOptions(input: PutConfigurationSetVdmOptionsInput) async throws -> PutConfigurationSetVdmOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3346,8 +3276,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putDedicatedIpInPool(input: PutDedicatedIpInPoolInput) async throws -> PutDedicatedIpInPoolOutput
-    {
+    public func putDedicatedIpInPool(input: PutDedicatedIpInPoolInput) async throws -> PutDedicatedIpInPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3395,8 +3324,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putDedicatedIpPoolScalingAttributes(input: PutDedicatedIpPoolScalingAttributesInput) async throws -> PutDedicatedIpPoolScalingAttributesOutput
-    {
+    public func putDedicatedIpPoolScalingAttributes(input: PutDedicatedIpPoolScalingAttributesInput) async throws -> PutDedicatedIpPoolScalingAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3443,8 +3371,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putDedicatedIpWarmupAttributes(input: PutDedicatedIpWarmupAttributesInput) async throws -> PutDedicatedIpWarmupAttributesOutput
-    {
+    public func putDedicatedIpWarmupAttributes(input: PutDedicatedIpWarmupAttributesInput) async throws -> PutDedicatedIpWarmupAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3493,8 +3420,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putDeliverabilityDashboardOption(input: PutDeliverabilityDashboardOptionInput) async throws -> PutDeliverabilityDashboardOptionOutput
-    {
+    public func putDeliverabilityDashboardOption(input: PutDeliverabilityDashboardOptionInput) async throws -> PutDeliverabilityDashboardOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3541,8 +3467,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putEmailIdentityConfigurationSetAttributes(input: PutEmailIdentityConfigurationSetAttributesInput) async throws -> PutEmailIdentityConfigurationSetAttributesOutput
-    {
+    public func putEmailIdentityConfigurationSetAttributes(input: PutEmailIdentityConfigurationSetAttributesInput) async throws -> PutEmailIdentityConfigurationSetAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3589,8 +3514,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putEmailIdentityDkimAttributes(input: PutEmailIdentityDkimAttributesInput) async throws -> PutEmailIdentityDkimAttributesOutput
-    {
+    public func putEmailIdentityDkimAttributes(input: PutEmailIdentityDkimAttributesInput) async throws -> PutEmailIdentityDkimAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3649,8 +3573,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putEmailIdentityDkimSigningAttributes(input: PutEmailIdentityDkimSigningAttributesInput) async throws -> PutEmailIdentityDkimSigningAttributesOutput
-    {
+    public func putEmailIdentityDkimSigningAttributes(input: PutEmailIdentityDkimSigningAttributesInput) async throws -> PutEmailIdentityDkimSigningAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3697,8 +3620,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putEmailIdentityFeedbackAttributes(input: PutEmailIdentityFeedbackAttributesInput) async throws -> PutEmailIdentityFeedbackAttributesOutput
-    {
+    public func putEmailIdentityFeedbackAttributes(input: PutEmailIdentityFeedbackAttributesInput) async throws -> PutEmailIdentityFeedbackAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3745,8 +3667,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putEmailIdentityMailFromAttributes(input: PutEmailIdentityMailFromAttributesInput) async throws -> PutEmailIdentityMailFromAttributesOutput
-    {
+    public func putEmailIdentityMailFromAttributes(input: PutEmailIdentityMailFromAttributesInput) async throws -> PutEmailIdentityMailFromAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3792,8 +3713,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func putSuppressedDestination(input: PutSuppressedDestinationInput) async throws -> PutSuppressedDestinationOutput
-    {
+    public func putSuppressedDestination(input: PutSuppressedDestinationInput) async throws -> PutSuppressedDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3845,8 +3765,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func sendBulkEmail(input: SendBulkEmailInput) async throws -> SendBulkEmailOutput
-    {
+    public func sendBulkEmail(input: SendBulkEmailInput) async throws -> SendBulkEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3897,8 +3816,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput
-    {
+    public func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3956,8 +3874,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput
-    {
+    public func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4005,8 +3922,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4053,8 +3969,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func testRenderEmailTemplate(input: TestRenderEmailTemplateInput) async throws -> TestRenderEmailTemplateOutput
-    {
+    public func testRenderEmailTemplate(input: TestRenderEmailTemplateInput) async throws -> TestRenderEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4102,8 +4017,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4148,8 +4062,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput
-    {
+    public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4197,8 +4110,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
-    {
+    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4246,8 +4158,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func updateContactList(input: UpdateContactListInput) async throws -> UpdateContactListOutput
-    {
+    public func updateContactList(input: UpdateContactListInput) async throws -> UpdateContactListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4294,8 +4205,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput
-    {
+    public func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4342,8 +4252,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func updateEmailIdentityPolicy(input: UpdateEmailIdentityPolicyInput) async throws -> UpdateEmailIdentityPolicyOutput
-    {
+    public func updateEmailIdentityPolicy(input: UpdateEmailIdentityPolicyInput) async throws -> UpdateEmailIdentityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4390,8 +4299,7 @@ extension SESv2Client: SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    public func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutput
-    {
+    public func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

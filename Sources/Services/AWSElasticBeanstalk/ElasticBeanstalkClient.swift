@@ -62,7 +62,7 @@ public struct ElasticBeanstalkClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
+extension ElasticBeanstalkClient {
     /// Performs the `AbortEnvironmentUpdate` operation on the `AWSElasticBeanstalkService` service.
     ///
     /// Cancels in-progress environment configuration update or application version deployment.
@@ -75,8 +75,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func abortEnvironmentUpdate(input: AbortEnvironmentUpdateInput) async throws -> AbortEnvironmentUpdateOutput
-    {
+    public func abortEnvironmentUpdate(input: AbortEnvironmentUpdateInput) async throws -> AbortEnvironmentUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -122,8 +121,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `ManagedActionInvalidStateException` : Cannot modify the managed action in its current state.
-    public func applyEnvironmentManagedAction(input: ApplyEnvironmentManagedActionInput) async throws -> ApplyEnvironmentManagedActionOutput
-    {
+    public func applyEnvironmentManagedAction(input: ApplyEnvironmentManagedActionInput) async throws -> ApplyEnvironmentManagedActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -168,8 +166,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func associateEnvironmentOperationsRole(input: AssociateEnvironmentOperationsRoleInput) async throws -> AssociateEnvironmentOperationsRoleOutput
-    {
+    public func associateEnvironmentOperationsRole(input: AssociateEnvironmentOperationsRoleInput) async throws -> AssociateEnvironmentOperationsRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -209,8 +206,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter CheckDNSAvailabilityInput : Results message indicating whether a CNAME is available.
     ///
     /// - Returns: `CheckDNSAvailabilityOutput` : Indicates if the specified CNAME is available.
-    public func checkDNSAvailability(input: CheckDNSAvailabilityInput) async throws -> CheckDNSAvailabilityOutput
-    {
+    public func checkDNSAvailability(input: CheckDNSAvailabilityInput) async throws -> CheckDNSAvailabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -256,8 +252,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
-    public func composeEnvironments(input: ComposeEnvironmentsInput) async throws -> ComposeEnvironmentsOutput
-    {
+    public func composeEnvironments(input: ComposeEnvironmentsInput) async throws -> ComposeEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -302,8 +297,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TooManyApplicationsException` : The specified account has reached its limit of applications.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -358,8 +352,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// * DUB/eu-west-1
     /// - `TooManyApplicationsException` : The specified account has reached its limit of applications.
     /// - `TooManyApplicationVersionsException` : The specified account has reached its limit of application versions.
-    public func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput
-    {
+    public func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -412,8 +405,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     /// - `TooManyConfigurationTemplatesException` : The specified account has reached its limit of configuration templates.
-    public func createConfigurationTemplate(input: CreateConfigurationTemplateInput) async throws -> CreateConfigurationTemplateOutput
-    {
+    public func createConfigurationTemplate(input: CreateConfigurationTemplateInput) async throws -> CreateConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +451,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -507,8 +498,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyPlatformsException` : You have exceeded the maximum number of allowed platforms associated with the account.
-    public func createPlatformVersion(input: CreatePlatformVersionInput) async throws -> CreatePlatformVersionOutput
-    {
+    public func createPlatformVersion(input: CreatePlatformVersionInput) async throws -> CreatePlatformVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -555,8 +545,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `S3SubscriptionRequiredException` : The specified account does not have a subscription to Amazon S3.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    public func createStorageLocation(input: CreateStorageLocationInput) async throws -> CreateStorageLocationOutput
-    {
+    public func createStorageLocation(input: CreateStorageLocationInput) async throws -> CreateStorageLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -601,8 +590,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -656,8 +644,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// * DUB/eu-west-1
     /// - `SourceBundleDeletionException` : Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
-    public func deleteApplicationVersion(input: DeleteApplicationVersionInput) async throws -> DeleteApplicationVersionOutput
-    {
+    public func deleteApplicationVersion(input: DeleteApplicationVersionInput) async throws -> DeleteApplicationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -702,8 +689,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-    public func deleteConfigurationTemplate(input: DeleteConfigurationTemplateInput) async throws -> DeleteConfigurationTemplateOutput
-    {
+    public func deleteConfigurationTemplate(input: DeleteConfigurationTemplateInput) async throws -> DeleteConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -743,8 +729,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter DeleteEnvironmentConfigurationInput : Request to delete a draft environment configuration.
     ///
     /// - Returns: `DeleteEnvironmentConfigurationOutput` : [no documentation found]
-    public func deleteEnvironmentConfiguration(input: DeleteEnvironmentConfigurationInput) async throws -> DeleteEnvironmentConfigurationOutput
-    {
+    public func deleteEnvironmentConfiguration(input: DeleteEnvironmentConfigurationInput) async throws -> DeleteEnvironmentConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -792,8 +777,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     /// - `PlatformVersionStillReferencedException` : You cannot delete the platform version because there are still environments running on it.
-    public func deletePlatformVersion(input: DeletePlatformVersionInput) async throws -> DeletePlatformVersionOutput
-    {
+    public func deletePlatformVersion(input: DeletePlatformVersionInput) async throws -> DeletePlatformVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +822,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -879,8 +862,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter DescribeApplicationVersionsInput : Request to describe application versions.
     ///
     /// - Returns: `DescribeApplicationVersionsOutput` : Result message wrapping a list of application version descriptions.
-    public func describeApplicationVersions(input: DescribeApplicationVersionsInput) async throws -> DescribeApplicationVersionsOutput
-    {
+    public func describeApplicationVersions(input: DescribeApplicationVersionsInput) async throws -> DescribeApplicationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -920,8 +902,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter DescribeApplicationsInput : Request to describe one or more applications.
     ///
     /// - Returns: `DescribeApplicationsOutput` : Result message containing a list of application descriptions.
-    public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
-    {
+    public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -966,8 +947,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    public func describeConfigurationOptions(input: DescribeConfigurationOptionsInput) async throws -> DescribeConfigurationOptionsOutput
-    {
+    public func describeConfigurationOptions(input: DescribeConfigurationOptionsInput) async throws -> DescribeConfigurationOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1014,8 +994,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    public func describeConfigurationSettings(input: DescribeConfigurationSettingsInput) async throws -> DescribeConfigurationSettingsOutput
-    {
+    public func describeConfigurationSettings(input: DescribeConfigurationSettingsInput) async throws -> DescribeConfigurationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1061,8 +1040,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InvalidRequestException` : One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-    public func describeEnvironmentHealth(input: DescribeEnvironmentHealthInput) async throws -> DescribeEnvironmentHealthOutput
-    {
+    public func describeEnvironmentHealth(input: DescribeEnvironmentHealthInput) async throws -> DescribeEnvironmentHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1107,8 +1085,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    public func describeEnvironmentManagedActionHistory(input: DescribeEnvironmentManagedActionHistoryInput) async throws -> DescribeEnvironmentManagedActionHistoryOutput
-    {
+    public func describeEnvironmentManagedActionHistory(input: DescribeEnvironmentManagedActionHistoryInput) async throws -> DescribeEnvironmentManagedActionHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1153,8 +1130,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    public func describeEnvironmentManagedActions(input: DescribeEnvironmentManagedActionsInput) async throws -> DescribeEnvironmentManagedActionsOutput
-    {
+    public func describeEnvironmentManagedActions(input: DescribeEnvironmentManagedActionsInput) async throws -> DescribeEnvironmentManagedActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1199,8 +1175,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func describeEnvironmentResources(input: DescribeEnvironmentResourcesInput) async throws -> DescribeEnvironmentResourcesOutput
-    {
+    public func describeEnvironmentResources(input: DescribeEnvironmentResourcesInput) async throws -> DescribeEnvironmentResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1215,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter DescribeEnvironmentsInput : Request to describe one or more environments.
     ///
     /// - Returns: `DescribeEnvironmentsOutput` : Result message containing a list of environment descriptions.
-    public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput
-    {
+    public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1281,8 +1255,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter DescribeEventsInput : Request to retrieve a list of events for an environment.
     ///
     /// - Returns: `DescribeEventsOutput` : Result message wrapping a list of event descriptions.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1301,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InvalidRequestException` : One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-    public func describeInstancesHealth(input: DescribeInstancesHealthInput) async throws -> DescribeInstancesHealthOutput
-    {
+    public func describeInstancesHealth(input: DescribeInstancesHealthInput) async throws -> DescribeInstancesHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1375,8 +1347,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func describePlatformVersion(input: DescribePlatformVersionInput) async throws -> DescribePlatformVersionOutput
-    {
+    public func describePlatformVersion(input: DescribePlatformVersionInput) async throws -> DescribePlatformVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1421,8 +1392,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func disassociateEnvironmentOperationsRole(input: DisassociateEnvironmentOperationsRoleInput) async throws -> DisassociateEnvironmentOperationsRoleOutput
-    {
+    public func disassociateEnvironmentOperationsRole(input: DisassociateEnvironmentOperationsRoleInput) async throws -> DisassociateEnvironmentOperationsRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1462,8 +1432,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter ListAvailableSolutionStacksInput : [no documentation found]
     ///
     /// - Returns: `ListAvailableSolutionStacksOutput` : A list of available AWS Elastic Beanstalk solution stacks.
-    public func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutput
-    {
+    public func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1503,8 +1472,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter ListPlatformBranchesInput : [no documentation found]
     ///
     /// - Returns: `ListPlatformBranchesOutput` : [no documentation found]
-    public func listPlatformBranches(input: ListPlatformBranchesInput) async throws -> ListPlatformBranchesOutput
-    {
+    public func listPlatformBranches(input: ListPlatformBranchesInput) async throws -> ListPlatformBranchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1518,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func listPlatformVersions(input: ListPlatformVersionsInput) async throws -> ListPlatformVersionsOutput
-    {
+    public func listPlatformVersions(input: ListPlatformVersionsInput) async throws -> ListPlatformVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1598,8 +1565,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
     /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1644,8 +1610,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func rebuildEnvironment(input: RebuildEnvironmentInput) async throws -> RebuildEnvironmentOutput
-    {
+    public func rebuildEnvironment(input: RebuildEnvironmentInput) async throws -> RebuildEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1687,8 +1652,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter RequestEnvironmentInfoInput : Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket.
     ///
     /// - Returns: `RequestEnvironmentInfoOutput` : [no documentation found]
-    public func requestEnvironmentInfo(input: RequestEnvironmentInfoInput) async throws -> RequestEnvironmentInfoOutput
-    {
+    public func requestEnvironmentInfo(input: RequestEnvironmentInfoInput) async throws -> RequestEnvironmentInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1728,8 +1692,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter RestartAppServerInput :
     ///
     /// - Returns: `RestartAppServerOutput` : [no documentation found]
-    public func restartAppServer(input: RestartAppServerInput) async throws -> RestartAppServerOutput
-    {
+    public func restartAppServer(input: RestartAppServerInput) async throws -> RestartAppServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1771,8 +1734,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter RetrieveEnvironmentInfoInput : Request to download logs retrieved with [RequestEnvironmentInfo].
     ///
     /// - Returns: `RetrieveEnvironmentInfoOutput` : Result message containing a description of the requested environment info.
-    public func retrieveEnvironmentInfo(input: RetrieveEnvironmentInfoInput) async throws -> RetrieveEnvironmentInfoOutput
-    {
+    public func retrieveEnvironmentInfo(input: RetrieveEnvironmentInfoInput) async throws -> RetrieveEnvironmentInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1812,8 +1774,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter SwapEnvironmentCNAMEsInput : Swaps the CNAMEs of two environments.
     ///
     /// - Returns: `SwapEnvironmentCNAMEsOutput` : [no documentation found]
-    public func swapEnvironmentCNAMEs(input: SwapEnvironmentCNAMEsInput) async throws -> SwapEnvironmentCNAMEsOutput
-    {
+    public func swapEnvironmentCNAMEs(input: SwapEnvironmentCNAMEsInput) async throws -> SwapEnvironmentCNAMEsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1858,8 +1819,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func terminateEnvironment(input: TerminateEnvironmentInput) async throws -> TerminateEnvironmentOutput
-    {
+    public func terminateEnvironment(input: TerminateEnvironmentInput) async throws -> TerminateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1899,8 +1859,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter UpdateApplicationInput : Request to update an application.
     ///
     /// - Returns: `UpdateApplicationOutput` : Result message containing a single description of an application.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1945,8 +1904,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    public func updateApplicationResourceLifecycle(input: UpdateApplicationResourceLifecycleInput) async throws -> UpdateApplicationResourceLifecycleOutput
-    {
+    public func updateApplicationResourceLifecycle(input: UpdateApplicationResourceLifecycleInput) async throws -> UpdateApplicationResourceLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1986,8 +1944,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - Parameter UpdateApplicationVersionInput :
     ///
     /// - Returns: `UpdateApplicationVersionOutput` : Result message wrapping a single description of an application version.
-    public func updateApplicationVersion(input: UpdateApplicationVersionInput) async throws -> UpdateApplicationVersionOutput
-    {
+    public func updateApplicationVersion(input: UpdateApplicationVersionInput) async throws -> UpdateApplicationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2035,8 +1992,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    public func updateConfigurationTemplate(input: UpdateConfigurationTemplateInput) async throws -> UpdateConfigurationTemplateOutput
-    {
+    public func updateConfigurationTemplate(input: UpdateConfigurationTemplateInput) async throws -> UpdateConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2082,8 +2038,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2132,8 +2087,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
     /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     /// - `TooManyTagsException` : The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
-    public func updateTagsForResource(input: UpdateTagsForResourceInput) async throws -> UpdateTagsForResourceOutput
-    {
+    public func updateTagsForResource(input: UpdateTagsForResourceInput) async throws -> UpdateTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2179,8 +2133,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    public func validateConfigurationSettings(input: ValidateConfigurationSettingsInput) async throws -> ValidateConfigurationSettingsOutput
-    {
+    public func validateConfigurationSettings(input: ValidateConfigurationSettingsInput) async throws -> ValidateConfigurationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -1089,6 +1089,8 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 }
 
+public enum ChimeSDKMediaPipelinesClientTypes {}
+
 extension ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConcatenationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactsConfiguration = "ArtifactsConfiguration"

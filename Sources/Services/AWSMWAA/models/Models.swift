@@ -1877,6 +1877,8 @@ extension MWAAClientTypes {
     }
 }
 
+public enum MWAAClientTypes {}
+
 extension MWAAClientTypes.MetricDatum: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"

@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ElasticBeanstalkClientProtocol {
+extension ElasticBeanstalkClient {
 
     static func environmentExistsWaiterConfig() throws -> WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput> {
         let acceptors: [WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>.Acceptor] = [

@@ -1715,6 +1715,8 @@ extension CloudFormationClientTypes {
     }
 }
 
+public enum CloudFormationClientTypes {}
+
 extension CloudFormationClientTypes {
     public enum ConcurrencyMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case softFailureTolerance

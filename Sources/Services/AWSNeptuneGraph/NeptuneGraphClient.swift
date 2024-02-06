@@ -66,7 +66,7 @@ public struct NeptuneGraphClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension NeptuneGraphClient: NeptuneGraphClientProtocol {
+extension NeptuneGraphClient {
     /// Performs the `CancelImportTask` operation on the `AmazonNeptuneGraph` service.
     ///
     /// Deletes the specified import task
@@ -83,8 +83,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput
-    {
+    public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutput
-    {
+    public func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func createGraphSnapshot(input: CreateGraphSnapshotInput) async throws -> CreateGraphSnapshotOutput
-    {
+    public func createGraphSnapshot(input: CreateGraphSnapshotInput) async throws -> CreateGraphSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func createGraphUsingImportTask(input: CreateGraphUsingImportTaskInput) async throws -> CreateGraphUsingImportTaskOutput
-    {
+    public func createGraphUsingImportTask(input: CreateGraphUsingImportTaskInput) async throws -> CreateGraphUsingImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func createPrivateGraphEndpoint(input: CreatePrivateGraphEndpointInput) async throws -> CreatePrivateGraphEndpointOutput
-    {
+    public func createPrivateGraphEndpoint(input: CreatePrivateGraphEndpointInput) async throws -> CreatePrivateGraphEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutput
-    {
+    public func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,8 +374,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func deleteGraphSnapshot(input: DeleteGraphSnapshotInput) async throws -> DeleteGraphSnapshotOutput
-    {
+    public func deleteGraphSnapshot(input: DeleteGraphSnapshotInput) async throws -> DeleteGraphSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -427,8 +420,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func deletePrivateGraphEndpoint(input: DeletePrivateGraphEndpointInput) async throws -> DeletePrivateGraphEndpointOutput
-    {
+    public func deletePrivateGraphEndpoint(input: DeletePrivateGraphEndpointInput) async throws -> DeletePrivateGraphEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func getGraph(input: GetGraphInput) async throws -> GetGraphOutput
-    {
+    public func getGraph(input: GetGraphInput) async throws -> GetGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -519,8 +510,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func getGraphSnapshot(input: GetGraphSnapshotInput) async throws -> GetGraphSnapshotOutput
-    {
+    public func getGraphSnapshot(input: GetGraphSnapshotInput) async throws -> GetGraphSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +555,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func getImportTask(input: GetImportTaskInput) async throws -> GetImportTaskOutput
-    {
+    public func getImportTask(input: GetImportTaskInput) async throws -> GetImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -611,8 +600,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func getPrivateGraphEndpoint(input: GetPrivateGraphEndpointInput) async throws -> GetPrivateGraphEndpointOutput
-    {
+    public func getPrivateGraphEndpoint(input: GetPrivateGraphEndpointInput) async throws -> GetPrivateGraphEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -657,8 +645,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func listGraphSnapshots(input: ListGraphSnapshotsInput) async throws -> ListGraphSnapshotsOutput
-    {
+    public func listGraphSnapshots(input: ListGraphSnapshotsInput) async throws -> ListGraphSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -703,8 +690,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    public func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutput
-    {
+    public func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -750,8 +736,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func listImportTasks(input: ListImportTasksInput) async throws -> ListImportTasksOutput
-    {
+    public func listImportTasks(input: ListImportTasksInput) async throws -> ListImportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +782,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func listPrivateGraphEndpoints(input: ListPrivateGraphEndpointsInput) async throws -> ListPrivateGraphEndpointsOutput
-    {
+    public func listPrivateGraphEndpoints(input: ListPrivateGraphEndpointsInput) async throws -> ListPrivateGraphEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -844,8 +828,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -891,8 +874,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func resetGraph(input: ResetGraphInput) async throws -> ResetGraphOutput
-    {
+    public func resetGraph(input: ResetGraphInput) async throws -> ResetGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -942,8 +924,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func restoreGraphFromSnapshot(input: RestoreGraphFromSnapshotInput) async throws -> RestoreGraphFromSnapshotOutput
-    {
+    public func restoreGraphFromSnapshot(input: RestoreGraphFromSnapshotInput) async throws -> RestoreGraphFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -991,8 +972,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1040,8 +1020,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1088,8 +1067,7 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
     /// - `ValidationException` : A resource could not be validated
-    public func updateGraph(input: UpdateGraphInput) async throws -> UpdateGraphOutput
-    {
+    public func updateGraph(input: UpdateGraphInput) async throws -> UpdateGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

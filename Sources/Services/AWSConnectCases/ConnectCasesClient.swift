@@ -66,7 +66,7 @@ public struct ConnectCasesClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension ConnectCasesClient: ConnectCasesClientProtocol {
+extension ConnectCasesClient {
     /// Performs the `BatchGetField` operation on the `AmazonConnectCases` service.
     ///
     /// Returns the description for the list of fields in the request parameters.
@@ -83,8 +83,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func batchGetField(input: BatchGetFieldInput) async throws -> BatchGetFieldOutput
-    {
+    public func batchGetField(input: BatchGetFieldInput) async throws -> BatchGetFieldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func batchPutFieldOptions(input: BatchPutFieldOptionsInput) async throws -> BatchPutFieldOptionsOutput
-    {
+    public func batchPutFieldOptions(input: BatchPutFieldOptionsInput) async throws -> BatchPutFieldOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput
-    {
+    public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    {
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func createField(input: CreateFieldInput) async throws -> CreateFieldOutput
-    {
+    public func createField(input: CreateFieldInput) async throws -> CreateFieldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func createLayout(input: CreateLayoutInput) async throws -> CreateLayoutOutput
-    {
+    public func createLayout(input: CreateLayoutInput) async throws -> CreateLayoutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -407,8 +401,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutput
-    {
+    public func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +452,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
-    {
+    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -510,8 +502,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +548,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func getCase(input: GetCaseInput) async throws -> GetCaseOutput
-    {
+    public func getCase(input: GetCaseInput) async throws -> GetCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -607,8 +597,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func getCaseEventConfiguration(input: GetCaseEventConfigurationInput) async throws -> GetCaseEventConfigurationOutput
-    {
+    public func getCaseEventConfiguration(input: GetCaseEventConfigurationInput) async throws -> GetCaseEventConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -654,8 +643,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
-    {
+    public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -701,8 +689,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func getLayout(input: GetLayoutInput) async throws -> GetLayoutOutput
-    {
+    public func getLayout(input: GetLayoutInput) async throws -> GetLayoutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -748,8 +735,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
-    {
+    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +781,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listCasesForContact(input: ListCasesForContactInput) async throws -> ListCasesForContactOutput
-    {
+    public func listCasesForContact(input: ListCasesForContactInput) async throws -> ListCasesForContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -844,8 +829,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +876,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listFieldOptions(input: ListFieldOptionsInput) async throws -> ListFieldOptionsOutput
-    {
+    public func listFieldOptions(input: ListFieldOptionsInput) async throws -> ListFieldOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -940,8 +923,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listFields(input: ListFieldsInput) async throws -> ListFieldsOutput
-    {
+    public func listFields(input: ListFieldsInput) async throws -> ListFieldsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -988,8 +970,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listLayouts(input: ListLayoutsInput) async throws -> ListLayoutsOutput
-    {
+    public func listLayouts(input: ListLayoutsInput) async throws -> ListLayoutsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1017,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1083,8 +1063,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    {
+    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1131,8 +1110,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func putCaseEventConfiguration(input: PutCaseEventConfigurationInput) async throws -> PutCaseEventConfigurationOutput
-    {
+    public func putCaseEventConfiguration(input: PutCaseEventConfigurationInput) async throws -> PutCaseEventConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1181,8 +1159,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func searchCases(input: SearchCasesInput) async throws -> SearchCasesOutput
-    {
+    public func searchCases(input: SearchCasesInput) async throws -> SearchCasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1231,8 +1208,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func searchRelatedItems(input: SearchRelatedItemsInput) async throws -> SearchRelatedItemsOutput
-    {
+    public func searchRelatedItems(input: SearchRelatedItemsInput) async throws -> SearchRelatedItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1281,8 +1257,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1331,8 +1306,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1379,8 +1353,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func updateCase(input: UpdateCaseInput) async throws -> UpdateCaseOutput
-    {
+    public func updateCase(input: UpdateCaseInput) async throws -> UpdateCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1430,8 +1403,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func updateField(input: UpdateFieldInput) async throws -> UpdateFieldOutput
-    {
+    public func updateField(input: UpdateFieldInput) async throws -> UpdateFieldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1482,8 +1454,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func updateLayout(input: UpdateLayoutInput) async throws -> UpdateLayoutOutput
-    {
+    public func updateLayout(input: UpdateLayoutInput) async throws -> UpdateLayoutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1533,8 +1504,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
-    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
-    {
+    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

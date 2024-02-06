@@ -66,7 +66,7 @@ public struct ImagebuilderClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension ImagebuilderClient: ImagebuilderClientProtocol {
+extension ImagebuilderClient {
     /// Performs the `CancelImageCreation` operation on the `imagebuilder` service.
     ///
     /// CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
@@ -86,8 +86,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func cancelImageCreation(input: CancelImageCreationInput) async throws -> CancelImageCreationOutput
-    {
+    public func cancelImageCreation(input: CancelImageCreationInput) async throws -> CancelImageCreationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func cancelLifecycleExecution(input: CancelLifecycleExecutionInput) async throws -> CancelLifecycleExecutionOutput
-    {
+    public func cancelLifecycleExecution(input: CancelLifecycleExecutionInput) async throws -> CancelLifecycleExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -201,8 +199,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
-    {
+    public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -258,8 +255,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createContainerRecipe(input: CreateContainerRecipeInput) async throws -> CreateContainerRecipeOutput
-    {
+    public func createContainerRecipe(input: CreateContainerRecipeInput) async throws -> CreateContainerRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -315,8 +311,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createDistributionConfiguration(input: CreateDistributionConfigurationInput) async throws -> CreateDistributionConfigurationOutput
-    {
+    public func createDistributionConfiguration(input: CreateDistributionConfigurationInput) async throws -> CreateDistributionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -370,8 +365,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createImage(input: CreateImageInput) async throws -> CreateImageOutput
-    {
+    public func createImage(input: CreateImageInput) async throws -> CreateImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +420,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createImagePipeline(input: CreateImagePipelineInput) async throws -> CreateImagePipelineOutput
-    {
+    public func createImagePipeline(input: CreateImagePipelineInput) async throws -> CreateImagePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -483,8 +476,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createImageRecipe(input: CreateImageRecipeInput) async throws -> CreateImageRecipeOutput
-    {
+    public func createImageRecipe(input: CreateImageRecipeInput) async throws -> CreateImageRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +531,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createInfrastructureConfiguration(input: CreateInfrastructureConfigurationInput) async throws -> CreateInfrastructureConfigurationOutput
-    {
+    public func createInfrastructureConfiguration(input: CreateInfrastructureConfigurationInput) async throws -> CreateInfrastructureConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -595,8 +586,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput
-    {
+    public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +642,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
-    {
+    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -705,8 +694,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
-    {
+    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +743,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteContainerRecipe(input: DeleteContainerRecipeInput) async throws -> DeleteContainerRecipeOutput
-    {
+    public func deleteContainerRecipe(input: DeleteContainerRecipeInput) async throws -> DeleteContainerRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +792,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteDistributionConfiguration(input: DeleteDistributionConfigurationInput) async throws -> DeleteDistributionConfigurationOutput
-    {
+    public func deleteDistributionConfiguration(input: DeleteDistributionConfigurationInput) async throws -> DeleteDistributionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -861,8 +847,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
-    {
+    public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -911,8 +896,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteImagePipeline(input: DeleteImagePipelineInput) async throws -> DeleteImagePipelineOutput
-    {
+    public func deleteImagePipeline(input: DeleteImagePipelineInput) async throws -> DeleteImagePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -961,8 +945,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteImageRecipe(input: DeleteImageRecipeInput) async throws -> DeleteImageRecipeOutput
-    {
+    public func deleteImageRecipe(input: DeleteImageRecipeInput) async throws -> DeleteImageRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +994,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteInfrastructureConfiguration(input: DeleteInfrastructureConfigurationInput) async throws -> DeleteInfrastructureConfigurationOutput
-    {
+    public func deleteInfrastructureConfiguration(input: DeleteInfrastructureConfigurationInput) async throws -> DeleteInfrastructureConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1061,8 +1043,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
-    {
+    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1111,8 +1092,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
-    {
+    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1160,8 +1140,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
-    {
+    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1209,8 +1188,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getComponentPolicy(input: GetComponentPolicyInput) async throws -> GetComponentPolicyOutput
-    {
+    public func getComponentPolicy(input: GetComponentPolicyInput) async throws -> GetComponentPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1258,8 +1236,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getContainerRecipe(input: GetContainerRecipeInput) async throws -> GetContainerRecipeOutput
-    {
+    public func getContainerRecipe(input: GetContainerRecipeInput) async throws -> GetContainerRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1284,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getContainerRecipePolicy(input: GetContainerRecipePolicyInput) async throws -> GetContainerRecipePolicyOutput
-    {
+    public func getContainerRecipePolicy(input: GetContainerRecipePolicyInput) async throws -> GetContainerRecipePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1356,8 +1332,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getDistributionConfiguration(input: GetDistributionConfigurationInput) async throws -> GetDistributionConfigurationOutput
-    {
+    public func getDistributionConfiguration(input: GetDistributionConfigurationInput) async throws -> GetDistributionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1405,8 +1380,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getImage(input: GetImageInput) async throws -> GetImageOutput
-    {
+    public func getImage(input: GetImageInput) async throws -> GetImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1428,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getImagePipeline(input: GetImagePipelineInput) async throws -> GetImagePipelineOutput
-    {
+    public func getImagePipeline(input: GetImagePipelineInput) async throws -> GetImagePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1503,8 +1476,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getImagePolicy(input: GetImagePolicyInput) async throws -> GetImagePolicyOutput
-    {
+    public func getImagePolicy(input: GetImagePolicyInput) async throws -> GetImagePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1552,8 +1524,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getImageRecipe(input: GetImageRecipeInput) async throws -> GetImageRecipeOutput
-    {
+    public func getImageRecipe(input: GetImageRecipeInput) async throws -> GetImageRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1601,8 +1572,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getImageRecipePolicy(input: GetImageRecipePolicyInput) async throws -> GetImageRecipePolicyOutput
-    {
+    public func getImageRecipePolicy(input: GetImageRecipePolicyInput) async throws -> GetImageRecipePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1650,8 +1620,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getInfrastructureConfiguration(input: GetInfrastructureConfigurationInput) async throws -> GetInfrastructureConfigurationOutput
-    {
+    public func getInfrastructureConfiguration(input: GetInfrastructureConfigurationInput) async throws -> GetInfrastructureConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1699,8 +1668,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getLifecycleExecution(input: GetLifecycleExecutionInput) async throws -> GetLifecycleExecutionOutput
-    {
+    public func getLifecycleExecution(input: GetLifecycleExecutionInput) async throws -> GetLifecycleExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1748,8 +1716,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
-    {
+    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1797,8 +1764,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
-    {
+    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1846,8 +1812,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getWorkflowExecution(input: GetWorkflowExecutionInput) async throws -> GetWorkflowExecutionOutput
-    {
+    public func getWorkflowExecution(input: GetWorkflowExecutionInput) async throws -> GetWorkflowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1895,8 +1860,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func getWorkflowStepExecution(input: GetWorkflowStepExecutionInput) async throws -> GetWorkflowStepExecutionOutput
-    {
+    public func getWorkflowStepExecution(input: GetWorkflowStepExecutionInput) async throws -> GetWorkflowStepExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1948,8 +1912,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func importComponent(input: ImportComponentInput) async throws -> ImportComponentOutput
-    {
+    public func importComponent(input: ImportComponentInput) async throws -> ImportComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1997,8 +1960,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func importVmImage(input: ImportVmImageInput) async throws -> ImportVmImageOutput
-    {
+    public func importVmImage(input: ImportVmImageInput) async throws -> ImportVmImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2050,8 +2012,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listComponentBuildVersions(input: ListComponentBuildVersionsInput) async throws -> ListComponentBuildVersionsOutput
-    {
+    public func listComponentBuildVersions(input: ListComponentBuildVersionsInput) async throws -> ListComponentBuildVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2102,8 +2063,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    {
+    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2154,8 +2114,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listContainerRecipes(input: ListContainerRecipesInput) async throws -> ListContainerRecipesOutput
-    {
+    public func listContainerRecipes(input: ListContainerRecipesInput) async throws -> ListContainerRecipesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2206,8 +2165,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listDistributionConfigurations(input: ListDistributionConfigurationsInput) async throws -> ListDistributionConfigurationsOutput
-    {
+    public func listDistributionConfigurations(input: ListDistributionConfigurationsInput) async throws -> ListDistributionConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2258,8 +2216,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImageBuildVersions(input: ListImageBuildVersionsInput) async throws -> ListImageBuildVersionsOutput
-    {
+    public func listImageBuildVersions(input: ListImageBuildVersionsInput) async throws -> ListImageBuildVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2311,8 +2268,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImagePackages(input: ListImagePackagesInput) async throws -> ListImagePackagesOutput
-    {
+    public func listImagePackages(input: ListImagePackagesInput) async throws -> ListImagePackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2364,8 +2320,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImagePipelineImages(input: ListImagePipelineImagesInput) async throws -> ListImagePipelineImagesOutput
-    {
+    public func listImagePipelineImages(input: ListImagePipelineImagesInput) async throws -> ListImagePipelineImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2416,8 +2371,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImagePipelines(input: ListImagePipelinesInput) async throws -> ListImagePipelinesOutput
-    {
+    public func listImagePipelines(input: ListImagePipelinesInput) async throws -> ListImagePipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2468,8 +2422,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImageRecipes(input: ListImageRecipesInput) async throws -> ListImageRecipesOutput
-    {
+    public func listImageRecipes(input: ListImageRecipesInput) async throws -> ListImageRecipesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2528,8 +2481,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImageScanFindingAggregations(input: ListImageScanFindingAggregationsInput) async throws -> ListImageScanFindingAggregationsOutput
-    {
+    public func listImageScanFindingAggregations(input: ListImageScanFindingAggregationsInput) async throws -> ListImageScanFindingAggregationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2580,8 +2532,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImageScanFindings(input: ListImageScanFindingsInput) async throws -> ListImageScanFindingsOutput
-    {
+    public func listImageScanFindings(input: ListImageScanFindingsInput) async throws -> ListImageScanFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2632,8 +2583,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listImages(input: ListImagesInput) async throws -> ListImagesOutput
-    {
+    public func listImages(input: ListImagesInput) async throws -> ListImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2684,8 +2634,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listInfrastructureConfigurations(input: ListInfrastructureConfigurationsInput) async throws -> ListInfrastructureConfigurationsOutput
-    {
+    public func listInfrastructureConfigurations(input: ListInfrastructureConfigurationsInput) async throws -> ListInfrastructureConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2736,8 +2685,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listLifecycleExecutionResources(input: ListLifecycleExecutionResourcesInput) async throws -> ListLifecycleExecutionResourcesOutput
-    {
+    public func listLifecycleExecutionResources(input: ListLifecycleExecutionResourcesInput) async throws -> ListLifecycleExecutionResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2788,8 +2736,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listLifecycleExecutions(input: ListLifecycleExecutionsInput) async throws -> ListLifecycleExecutionsOutput
-    {
+    public func listLifecycleExecutions(input: ListLifecycleExecutionsInput) async throws -> ListLifecycleExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2840,8 +2787,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listLifecyclePolicies(input: ListLifecyclePoliciesInput) async throws -> ListLifecyclePoliciesOutput
-    {
+    public func listLifecyclePolicies(input: ListLifecyclePoliciesInput) async throws -> ListLifecyclePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2888,8 +2834,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2937,8 +2882,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listWaitingWorkflowSteps(input: ListWaitingWorkflowStepsInput) async throws -> ListWaitingWorkflowStepsOutput
-    {
+    public func listWaitingWorkflowSteps(input: ListWaitingWorkflowStepsInput) async throws -> ListWaitingWorkflowStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2989,8 +2933,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listWorkflowBuildVersions(input: ListWorkflowBuildVersionsInput) async throws -> ListWorkflowBuildVersionsOutput
-    {
+    public func listWorkflowBuildVersions(input: ListWorkflowBuildVersionsInput) async throws -> ListWorkflowBuildVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3041,8 +2984,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutput
-    {
+    public func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3093,8 +3035,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listWorkflowStepExecutions(input: ListWorkflowStepExecutionsInput) async throws -> ListWorkflowStepExecutionsOutput
-    {
+    public func listWorkflowStepExecutions(input: ListWorkflowStepExecutionsInput) async throws -> ListWorkflowStepExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3145,8 +3086,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-    {
+    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3198,8 +3138,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func putComponentPolicy(input: PutComponentPolicyInput) async throws -> PutComponentPolicyOutput
-    {
+    public func putComponentPolicy(input: PutComponentPolicyInput) async throws -> PutComponentPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3251,8 +3190,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func putContainerRecipePolicy(input: PutContainerRecipePolicyInput) async throws -> PutContainerRecipePolicyOutput
-    {
+    public func putContainerRecipePolicy(input: PutContainerRecipePolicyInput) async throws -> PutContainerRecipePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3304,8 +3242,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func putImagePolicy(input: PutImagePolicyInput) async throws -> PutImagePolicyOutput
-    {
+    public func putImagePolicy(input: PutImagePolicyInput) async throws -> PutImagePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3357,8 +3294,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func putImageRecipePolicy(input: PutImageRecipePolicyInput) async throws -> PutImageRecipePolicyOutput
-    {
+    public func putImageRecipePolicy(input: PutImageRecipePolicyInput) async throws -> PutImageRecipePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3412,8 +3348,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func sendWorkflowStepAction(input: SendWorkflowStepActionInput) async throws -> SendWorkflowStepActionOutput
-    {
+    public func sendWorkflowStepAction(input: SendWorkflowStepActionInput) async throws -> SendWorkflowStepActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3467,8 +3402,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func startImagePipelineExecution(input: StartImagePipelineExecutionInput) async throws -> StartImagePipelineExecutionOutput
-    {
+    public func startImagePipelineExecution(input: StartImagePipelineExecutionInput) async throws -> StartImagePipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3522,8 +3456,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func startResourceStateUpdate(input: StartResourceStateUpdateInput) async throws -> StartResourceStateUpdateOutput
-    {
+    public func startResourceStateUpdate(input: StartResourceStateUpdateInput) async throws -> StartResourceStateUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3571,8 +3504,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3619,8 +3551,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3671,8 +3602,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput) async throws -> UpdateDistributionConfigurationOutput
-    {
+    public func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput) async throws -> UpdateDistributionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3725,8 +3655,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func updateImagePipeline(input: UpdateImagePipelineInput) async throws -> UpdateImagePipelineOutput
-    {
+    public func updateImagePipeline(input: UpdateImagePipelineInput) async throws -> UpdateImagePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3779,8 +3708,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func updateInfrastructureConfiguration(input: UpdateInfrastructureConfigurationInput) async throws -> UpdateInfrastructureConfigurationOutput
-    {
+    public func updateInfrastructureConfiguration(input: UpdateInfrastructureConfigurationInput) async throws -> UpdateInfrastructureConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3834,8 +3762,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
-    public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput
-    {
+    public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

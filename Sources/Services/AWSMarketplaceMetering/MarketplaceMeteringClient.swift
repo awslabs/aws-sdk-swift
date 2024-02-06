@@ -66,7 +66,7 @@ public struct MarketplaceMeteringClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
+extension MarketplaceMeteringClient {
     /// Performs the `BatchMeterUsage` operation on the `AWSMPMeteringService` service.
     ///
     /// BatchMeterUsage is called from a SaaS application listed on AWS Marketplace to post metering records for a set of customers. For identical requests, the API is idempotent; requests can be retried with the same records or a subset of the input records. Every request to BatchMeterUsage is for one product. If you need to meter usage for multiple products, you must make multiple calls to BatchMeterUsage. Usage records are expected to be submitted as quickly as possible after the event that is being recorded, and are not accepted more than 6 hours after the event. BatchMeterUsage can process up to 25 UsageRecords at a time. A UsageRecord can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define (or allow the customer to define). BatchMeterUsage returns a list of UsageRecordResult objects, showing the result for each UsageRecord, as well as a list of UnprocessedRecords, indicating errors in the service side that you should retry. BatchMeterUsage requests must be less than 1MB in size. For an example of using BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the AWS Marketplace Seller Guide.
@@ -87,8 +87,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
     /// - `InvalidUsageDimensionException` : The usage dimension does not match one of the UsageDimensions associated with products.
     /// - `ThrottlingException` : The calls to the API are throttled.
     /// - `TimestampOutOfBoundsException` : The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
-    public func batchMeterUsage(input: BatchMeterUsageInput) async throws -> BatchMeterUsageOutput
-    {
+    public func batchMeterUsage(input: BatchMeterUsageInput) async throws -> BatchMeterUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -143,8 +142,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
     /// - `InvalidUsageDimensionException` : The usage dimension does not match one of the UsageDimensions associated with products.
     /// - `ThrottlingException` : The calls to the API are throttled.
     /// - `TimestampOutOfBoundsException` : The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
-    public func meterUsage(input: MeterUsageInput) async throws -> MeterUsageOutput
-    {
+    public func meterUsage(input: MeterUsageInput) async throws -> MeterUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -201,8 +199,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
     /// - `InvalidRegionException` : RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
     /// - `PlatformNotSupportedException` : AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.
     /// - `ThrottlingException` : The calls to the API are throttled.
-    public func registerUsage(input: RegisterUsageInput) async throws -> RegisterUsageOutput
-    {
+    public func registerUsage(input: RegisterUsageInput) async throws -> RegisterUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -252,8 +249,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
     /// - `InternalServiceErrorException` : An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
     /// - `InvalidTokenException` : Registration token is invalid.
     /// - `ThrottlingException` : The calls to the API are throttled.
-    public func resolveCustomer(input: ResolveCustomerInput) async throws -> ResolveCustomerOutput
-    {
+    public func resolveCustomer(input: ResolveCustomerInput) async throws -> ResolveCustomerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

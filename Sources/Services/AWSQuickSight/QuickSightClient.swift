@@ -66,7 +66,7 @@ public struct QuickSightClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension QuickSightClient: QuickSightClientProtocol {
+extension QuickSightClient {
     /// Performs the `CancelIngestion` operation on the `QuickSight_20180401` service.
     ///
     /// Cancels an ongoing ingestion of data into SPICE.
@@ -84,8 +84,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func cancelIngestion(input: CancelIngestionInput) async throws -> CancelIngestionOutput
-    {
+    public func cancelIngestion(input: CancelIngestionInput) async throws -> CancelIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func createAccountCustomization(input: CreateAccountCustomizationInput) async throws -> CreateAccountCustomizationOutput
-    {
+    public func createAccountCustomization(input: CreateAccountCustomizationInput) async throws -> CreateAccountCustomizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func createAccountSubscription(input: CreateAccountSubscriptionInput) async throws -> CreateAccountSubscriptionOutput
-    {
+    public func createAccountSubscription(input: CreateAccountSubscriptionInput) async throws -> CreateAccountSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createAnalysis(input: CreateAnalysisInput) async throws -> CreateAnalysisOutput
-    {
+    public func createAnalysis(input: CreateAnalysisInput) async throws -> CreateAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput
-    {
+    public func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -349,8 +344,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput
-    {
+    public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -402,8 +396,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-    {
+    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -456,8 +449,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput
-    {
+    public func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createFolderMembership(input: CreateFolderMembershipInput) async throws -> CreateFolderMembershipOutput
-    {
+    public func createFolderMembership(input: CreateFolderMembershipInput) async throws -> CreateFolderMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -560,8 +551,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +602,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput
-    {
+    public func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +650,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func createIAMPolicyAssignment(input: CreateIAMPolicyAssignmentInput) async throws -> CreateIAMPolicyAssignmentOutput
-    {
+    public func createIAMPolicyAssignment(input: CreateIAMPolicyAssignmentInput) async throws -> CreateIAMPolicyAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +701,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput
-    {
+    public func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput
-    {
+    public func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +807,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func createRefreshSchedule(input: CreateRefreshScheduleInput) async throws -> CreateRefreshScheduleOutput
-    {
+    public func createRefreshSchedule(input: CreateRefreshScheduleInput) async throws -> CreateRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +858,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func createRoleMembership(input: CreateRoleMembershipInput) async throws -> CreateRoleMembershipOutput
-    {
+    public func createRoleMembership(input: CreateRoleMembershipInput) async throws -> CreateRoleMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +908,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
-    {
+    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -976,8 +959,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createTemplateAlias(input: CreateTemplateAliasInput) async throws -> CreateTemplateAliasOutput
-    {
+    public func createTemplateAlias(input: CreateTemplateAliasInput) async throws -> CreateTemplateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,8 +1011,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput
-    {
+    public func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1063,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutput
-    {
+    public func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1135,8 +1115,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput
-    {
+    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1167,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func createTopicRefreshSchedule(input: CreateTopicRefreshScheduleInput) async throws -> CreateTopicRefreshScheduleOutput
-    {
+    public func createTopicRefreshSchedule(input: CreateTopicRefreshScheduleInput) async throws -> CreateTopicRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1241,8 +1219,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func createVPCConnection(input: CreateVPCConnectionInput) async throws -> CreateVPCConnectionOutput
-    {
+    public func createVPCConnection(input: CreateVPCConnectionInput) async throws -> CreateVPCConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1295,8 +1272,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteAccountCustomization(input: DeleteAccountCustomizationInput) async throws -> DeleteAccountCustomizationOutput
-    {
+    public func deleteAccountCustomization(input: DeleteAccountCustomizationInput) async throws -> DeleteAccountCustomizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1345,8 +1321,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteAccountSubscription(input: DeleteAccountSubscriptionInput) async throws -> DeleteAccountSubscriptionOutput
-    {
+    public func deleteAccountSubscription(input: DeleteAccountSubscriptionInput) async throws -> DeleteAccountSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1393,8 +1368,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutput
-    {
+    public func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1442,8 +1416,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput
-    {
+    public func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1490,8 +1463,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput
-    {
+    public func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1539,8 +1511,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteDataSetRefreshProperties(input: DeleteDataSetRefreshPropertiesInput) async throws -> DeleteDataSetRefreshPropertiesOutput
-    {
+    public func deleteDataSetRefreshProperties(input: DeleteDataSetRefreshPropertiesInput) async throws -> DeleteDataSetRefreshPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1586,8 +1557,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1636,8 +1606,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput
-    {
+    public func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1684,8 +1653,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteFolderMembership(input: DeleteFolderMembershipInput) async throws -> DeleteFolderMembershipOutput
-    {
+    public func deleteFolderMembership(input: DeleteFolderMembershipInput) async throws -> DeleteFolderMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1701,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1782,8 +1749,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput
-    {
+    public func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1831,8 +1797,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteIAMPolicyAssignment(input: DeleteIAMPolicyAssignmentInput) async throws -> DeleteIAMPolicyAssignmentOutput
-    {
+    public func deleteIAMPolicyAssignment(input: DeleteIAMPolicyAssignmentInput) async throws -> DeleteIAMPolicyAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1878,8 +1843,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteIdentityPropagationConfig(input: DeleteIdentityPropagationConfigInput) async throws -> DeleteIdentityPropagationConfigOutput
-    {
+    public func deleteIdentityPropagationConfig(input: DeleteIdentityPropagationConfigInput) async throws -> DeleteIdentityPropagationConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1927,8 +1891,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
-    {
+    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1975,8 +1938,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteRefreshSchedule(input: DeleteRefreshScheduleInput) async throws -> DeleteRefreshScheduleOutput
-    {
+    public func deleteRefreshSchedule(input: DeleteRefreshScheduleInput) async throws -> DeleteRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2024,8 +1986,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteRoleCustomPermission(input: DeleteRoleCustomPermissionInput) async throws -> DeleteRoleCustomPermissionOutput
-    {
+    public func deleteRoleCustomPermission(input: DeleteRoleCustomPermissionInput) async throws -> DeleteRoleCustomPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2073,8 +2034,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteRoleMembership(input: DeleteRoleMembershipInput) async throws -> DeleteRoleMembershipOutput
-    {
+    public func deleteRoleMembership(input: DeleteRoleMembershipInput) async throws -> DeleteRoleMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2122,8 +2082,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput
-    {
+    public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2170,8 +2129,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteTemplateAlias(input: DeleteTemplateAliasInput) async throws -> DeleteTemplateAliasOutput
-    {
+    public func deleteTemplateAlias(input: DeleteTemplateAliasInput) async throws -> DeleteTemplateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2219,8 +2177,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput
-    {
+    public func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2268,8 +2225,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutput
-    {
+    public func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2316,8 +2272,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput
-    {
+    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2366,8 +2321,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteTopicRefreshSchedule(input: DeleteTopicRefreshScheduleInput) async throws -> DeleteTopicRefreshScheduleOutput
-    {
+    public func deleteTopicRefreshSchedule(input: DeleteTopicRefreshScheduleInput) async throws -> DeleteTopicRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2415,8 +2369,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2464,8 +2417,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func deleteUserByPrincipalId(input: DeleteUserByPrincipalIdInput) async throws -> DeleteUserByPrincipalIdOutput
-    {
+    public func deleteUserByPrincipalId(input: DeleteUserByPrincipalIdInput) async throws -> DeleteUserByPrincipalIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2513,8 +2465,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func deleteVPCConnection(input: DeleteVPCConnectionInput) async throws -> DeleteVPCConnectionOutput
-    {
+    public func deleteVPCConnection(input: DeleteVPCConnectionInput) async throws -> DeleteVPCConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2578,8 +2529,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeAccountCustomization(input: DescribeAccountCustomizationInput) async throws -> DescribeAccountCustomizationOutput
-    {
+    public func describeAccountCustomization(input: DescribeAccountCustomizationInput) async throws -> DescribeAccountCustomizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2627,8 +2577,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput
-    {
+    public func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2675,8 +2624,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeAccountSubscription(input: DescribeAccountSubscriptionInput) async throws -> DescribeAccountSubscriptionOutput
-    {
+    public func describeAccountSubscription(input: DescribeAccountSubscriptionInput) async throws -> DescribeAccountSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2723,8 +2671,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutput
-    {
+    public func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2773,8 +2720,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutput
-    {
+    public func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2820,8 +2766,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutput
-    {
+    public func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2865,8 +2810,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeAssetBundleExportJob(input: DescribeAssetBundleExportJobInput) async throws -> DescribeAssetBundleExportJobOutput
-    {
+    public func describeAssetBundleExportJob(input: DescribeAssetBundleExportJobInput) async throws -> DescribeAssetBundleExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2910,8 +2854,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeAssetBundleImportJob(input: DescribeAssetBundleImportJobInput) async throws -> DescribeAssetBundleImportJobOutput
-    {
+    public func describeAssetBundleImportJob(input: DescribeAssetBundleImportJobInput) async throws -> DescribeAssetBundleImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2958,8 +2901,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutput
-    {
+    public func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3009,8 +2951,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutput
-    {
+    public func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3057,8 +2998,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutput
-    {
+    public func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3104,8 +3044,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeDashboardSnapshotJob(input: DescribeDashboardSnapshotJobInput) async throws -> DescribeDashboardSnapshotJobOutput
-    {
+    public func describeDashboardSnapshotJob(input: DescribeDashboardSnapshotJobInput) async throws -> DescribeDashboardSnapshotJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3153,8 +3092,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeDashboardSnapshotJobResult(input: DescribeDashboardSnapshotJobResultInput) async throws -> DescribeDashboardSnapshotJobResultOutput
-    {
+    public func describeDashboardSnapshotJobResult(input: DescribeDashboardSnapshotJobResultInput) async throws -> DescribeDashboardSnapshotJobResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3200,8 +3138,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeDataSet(input: DescribeDataSetInput) async throws -> DescribeDataSetOutput
-    {
+    public func describeDataSet(input: DescribeDataSetInput) async throws -> DescribeDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3247,8 +3184,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeDataSetPermissions(input: DescribeDataSetPermissionsInput) async throws -> DescribeDataSetPermissionsOutput
-    {
+    public func describeDataSetPermissions(input: DescribeDataSetPermissionsInput) async throws -> DescribeDataSetPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3296,8 +3232,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeDataSetRefreshProperties(input: DescribeDataSetRefreshPropertiesInput) async throws -> DescribeDataSetRefreshPropertiesOutput
-    {
+    public func describeDataSetRefreshProperties(input: DescribeDataSetRefreshPropertiesInput) async throws -> DescribeDataSetRefreshPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3343,8 +3278,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutput
-    {
+    public func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3390,8 +3324,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeDataSourcePermissions(input: DescribeDataSourcePermissionsInput) async throws -> DescribeDataSourcePermissionsOutput
-    {
+    public func describeDataSourcePermissions(input: DescribeDataSourcePermissionsInput) async throws -> DescribeDataSourcePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3438,8 +3371,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeFolder(input: DescribeFolderInput) async throws -> DescribeFolderOutput
-    {
+    public func describeFolder(input: DescribeFolderInput) async throws -> DescribeFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3487,8 +3419,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeFolderPermissions(input: DescribeFolderPermissionsInput) async throws -> DescribeFolderPermissionsOutput
-    {
+    public func describeFolderPermissions(input: DescribeFolderPermissionsInput) async throws -> DescribeFolderPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3537,8 +3468,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeFolderResolvedPermissions(input: DescribeFolderResolvedPermissionsInput) async throws -> DescribeFolderResolvedPermissionsOutput
-    {
+    public func describeFolderResolvedPermissions(input: DescribeFolderResolvedPermissionsInput) async throws -> DescribeFolderResolvedPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3587,8 +3517,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
-    {
+    public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3636,8 +3565,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput
-    {
+    public func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3684,8 +3612,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeIAMPolicyAssignment(input: DescribeIAMPolicyAssignmentInput) async throws -> DescribeIAMPolicyAssignmentOutput
-    {
+    public func describeIAMPolicyAssignment(input: DescribeIAMPolicyAssignmentInput) async throws -> DescribeIAMPolicyAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3732,8 +3659,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeIngestion(input: DescribeIngestionInput) async throws -> DescribeIngestionOutput
-    {
+    public func describeIngestion(input: DescribeIngestionInput) async throws -> DescribeIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3779,8 +3705,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeIpRestriction(input: DescribeIpRestrictionInput) async throws -> DescribeIpRestrictionOutput
-    {
+    public func describeIpRestriction(input: DescribeIpRestrictionInput) async throws -> DescribeIpRestrictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3827,8 +3752,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutput
-    {
+    public func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3875,8 +3799,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeRefreshSchedule(input: DescribeRefreshScheduleInput) async throws -> DescribeRefreshScheduleOutput
-    {
+    public func describeRefreshSchedule(input: DescribeRefreshScheduleInput) async throws -> DescribeRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3924,8 +3847,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeRoleCustomPermission(input: DescribeRoleCustomPermissionInput) async throws -> DescribeRoleCustomPermissionOutput
-    {
+    public func describeRoleCustomPermission(input: DescribeRoleCustomPermissionInput) async throws -> DescribeRoleCustomPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3974,8 +3896,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutput
-    {
+    public func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4021,8 +3942,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutput
-    {
+    public func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4071,8 +3991,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutput
-    {
+    public func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4120,8 +4039,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutput
-    {
+    public func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4169,8 +4087,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeTheme(input: DescribeThemeInput) async throws -> DescribeThemeOutput
-    {
+    public func describeTheme(input: DescribeThemeInput) async throws -> DescribeThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4218,8 +4135,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeThemeAlias(input: DescribeThemeAliasInput) async throws -> DescribeThemeAliasOutput
-    {
+    public func describeThemeAlias(input: DescribeThemeAliasInput) async throws -> DescribeThemeAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4266,8 +4182,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeThemePermissions(input: DescribeThemePermissionsInput) async throws -> DescribeThemePermissionsOutput
-    {
+    public func describeThemePermissions(input: DescribeThemePermissionsInput) async throws -> DescribeThemePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4313,8 +4228,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeTopic(input: DescribeTopicInput) async throws -> DescribeTopicOutput
-    {
+    public func describeTopic(input: DescribeTopicInput) async throws -> DescribeTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4360,8 +4274,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeTopicPermissions(input: DescribeTopicPermissionsInput) async throws -> DescribeTopicPermissionsOutput
-    {
+    public func describeTopicPermissions(input: DescribeTopicPermissionsInput) async throws -> DescribeTopicPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4407,8 +4320,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeTopicRefresh(input: DescribeTopicRefreshInput) async throws -> DescribeTopicRefreshOutput
-    {
+    public func describeTopicRefresh(input: DescribeTopicRefreshInput) async throws -> DescribeTopicRefreshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4457,8 +4369,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeTopicRefreshSchedule(input: DescribeTopicRefreshScheduleInput) async throws -> DescribeTopicRefreshScheduleOutput
-    {
+    public func describeTopicRefreshSchedule(input: DescribeTopicRefreshScheduleInput) async throws -> DescribeTopicRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4506,8 +4417,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    {
+    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4554,8 +4464,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func describeVPCConnection(input: DescribeVPCConnectionInput) async throws -> DescribeVPCConnectionOutput
-    {
+    public func describeVPCConnection(input: DescribeVPCConnectionInput) async throws -> DescribeVPCConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4613,8 +4522,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput) async throws -> GenerateEmbedUrlForAnonymousUserOutput
-    {
+    public func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput) async throws -> GenerateEmbedUrlForAnonymousUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4676,8 +4584,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput) async throws -> GenerateEmbedUrlForRegisteredUserOutput
-    {
+    public func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput) async throws -> GenerateEmbedUrlForRegisteredUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4746,8 +4653,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput) async throws -> GetDashboardEmbedUrlOutput
-    {
+    public func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput) async throws -> GetDashboardEmbedUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4802,8 +4708,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func getSessionEmbedUrl(input: GetSessionEmbedUrlInput) async throws -> GetSessionEmbedUrlOutput
-    {
+    public func getSessionEmbedUrl(input: GetSessionEmbedUrlInput) async throws -> GetSessionEmbedUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4849,8 +4754,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listAnalyses(input: ListAnalysesInput) async throws -> ListAnalysesOutput
-    {
+    public func listAnalyses(input: ListAnalysesInput) async throws -> ListAnalysesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4897,8 +4801,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listAssetBundleExportJobs(input: ListAssetBundleExportJobsInput) async throws -> ListAssetBundleExportJobsOutput
-    {
+    public func listAssetBundleExportJobs(input: ListAssetBundleExportJobsInput) async throws -> ListAssetBundleExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4945,8 +4848,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listAssetBundleImportJobs(input: ListAssetBundleImportJobsInput) async throws -> ListAssetBundleImportJobsOutput
-    {
+    public func listAssetBundleImportJobs(input: ListAssetBundleImportJobsInput) async throws -> ListAssetBundleImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4994,8 +4896,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listDashboardVersions(input: ListDashboardVersionsInput) async throws -> ListDashboardVersionsOutput
-    {
+    public func listDashboardVersions(input: ListDashboardVersionsInput) async throws -> ListDashboardVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5041,8 +4942,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput
-    {
+    public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5089,8 +4989,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
-    {
+    public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5137,8 +5036,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-    {
+    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5187,8 +5085,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listFolderMembers(input: ListFolderMembersInput) async throws -> ListFolderMembersOutput
-    {
+    public func listFolderMembers(input: ListFolderMembersInput) async throws -> ListFolderMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5237,8 +5134,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listFolders(input: ListFoldersInput) async throws -> ListFoldersOutput
-    {
+    public func listFolders(input: ListFoldersInput) async throws -> ListFoldersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5288,8 +5184,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput
-    {
+    public func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5339,8 +5234,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5388,8 +5282,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listIAMPolicyAssignments(input: ListIAMPolicyAssignmentsInput) async throws -> ListIAMPolicyAssignmentsOutput
-    {
+    public func listIAMPolicyAssignments(input: ListIAMPolicyAssignmentsInput) async throws -> ListIAMPolicyAssignmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5438,8 +5331,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listIAMPolicyAssignmentsForUser(input: ListIAMPolicyAssignmentsForUserInput) async throws -> ListIAMPolicyAssignmentsForUserOutput
-    {
+    public func listIAMPolicyAssignmentsForUser(input: ListIAMPolicyAssignmentsForUserInput) async throws -> ListIAMPolicyAssignmentsForUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5486,8 +5378,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listIdentityPropagationConfigs(input: ListIdentityPropagationConfigsInput) async throws -> ListIdentityPropagationConfigsOutput
-    {
+    public func listIdentityPropagationConfigs(input: ListIdentityPropagationConfigsInput) async throws -> ListIdentityPropagationConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5536,8 +5427,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput
-    {
+    public func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5587,8 +5477,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput
-    {
+    public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5636,8 +5525,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listRefreshSchedules(input: ListRefreshSchedulesInput) async throws -> ListRefreshSchedulesOutput
-    {
+    public func listRefreshSchedules(input: ListRefreshSchedulesInput) async throws -> ListRefreshSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5687,8 +5575,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func listRoleMemberships(input: ListRoleMembershipsInput) async throws -> ListRoleMembershipsOutput
-    {
+    public func listRoleMemberships(input: ListRoleMembershipsInput) async throws -> ListRoleMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5735,8 +5622,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5782,8 +5668,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listTemplateAliases(input: ListTemplateAliasesInput) async throws -> ListTemplateAliasesOutput
-    {
+    public func listTemplateAliases(input: ListTemplateAliasesInput) async throws -> ListTemplateAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5831,8 +5716,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput
-    {
+    public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5880,8 +5764,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    {
+    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5930,8 +5813,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listThemeAliases(input: ListThemeAliasesInput) async throws -> ListThemeAliasesOutput
-    {
+    public func listThemeAliases(input: ListThemeAliasesInput) async throws -> ListThemeAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5980,8 +5862,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listThemeVersions(input: ListThemeVersionsInput) async throws -> ListThemeVersionsOutput
-    {
+    public func listThemeVersions(input: ListThemeVersionsInput) async throws -> ListThemeVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6030,8 +5911,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listThemes(input: ListThemesInput) async throws -> ListThemesOutput
-    {
+    public func listThemes(input: ListThemesInput) async throws -> ListThemesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6081,8 +5961,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func listTopicRefreshSchedules(input: ListTopicRefreshSchedulesInput) async throws -> ListTopicRefreshSchedulesOutput
-    {
+    public func listTopicRefreshSchedules(input: ListTopicRefreshSchedulesInput) async throws -> ListTopicRefreshSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6128,8 +6007,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutput
-    {
+    public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6178,8 +6056,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func listUserGroups(input: ListUserGroupsInput) async throws -> ListUserGroupsOutput
-    {
+    public func listUserGroups(input: ListUserGroupsInput) async throws -> ListUserGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6229,8 +6106,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6278,8 +6154,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func listVPCConnections(input: ListVPCConnectionsInput) async throws -> ListVPCConnectionsOutput
-    {
+    public func listVPCConnections(input: ListVPCConnectionsInput) async throws -> ListVPCConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6329,8 +6204,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func putDataSetRefreshProperties(input: PutDataSetRefreshPropertiesInput) async throws -> PutDataSetRefreshPropertiesOutput
-    {
+    public func putDataSetRefreshProperties(input: PutDataSetRefreshPropertiesInput) async throws -> PutDataSetRefreshPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6383,8 +6257,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func registerUser(input: RegisterUserInput) async throws -> RegisterUserOutput
-    {
+    public func registerUser(input: RegisterUserInput) async throws -> RegisterUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6434,8 +6307,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func restoreAnalysis(input: RestoreAnalysisInput) async throws -> RestoreAnalysisOutput
-    {
+    public func restoreAnalysis(input: RestoreAnalysisInput) async throws -> RestoreAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6482,8 +6354,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutput
-    {
+    public func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6533,8 +6404,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutput
-    {
+    public func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6584,8 +6454,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func searchDataSets(input: SearchDataSetsInput) async throws -> SearchDataSetsOutput
-    {
+    public func searchDataSets(input: SearchDataSetsInput) async throws -> SearchDataSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6635,8 +6504,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func searchDataSources(input: SearchDataSourcesInput) async throws -> SearchDataSourcesOutput
-    {
+    public func searchDataSources(input: SearchDataSourcesInput) async throws -> SearchDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6688,8 +6556,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutput
-    {
+    public func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6741,8 +6608,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func searchGroups(input: SearchGroupsInput) async throws -> SearchGroupsOutput
-    {
+    public func searchGroups(input: SearchGroupsInput) async throws -> SearchGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6794,8 +6660,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func startAssetBundleExportJob(input: StartAssetBundleExportJobInput) async throws -> StartAssetBundleExportJobOutput
-    {
+    public func startAssetBundleExportJob(input: StartAssetBundleExportJobInput) async throws -> StartAssetBundleExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6846,8 +6711,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func startAssetBundleImportJob(input: StartAssetBundleImportJobInput) async throws -> StartAssetBundleImportJobOutput
-    {
+    public func startAssetBundleImportJob(input: StartAssetBundleImportJobInput) async throws -> StartAssetBundleImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6909,8 +6773,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func startDashboardSnapshotJob(input: StartDashboardSnapshotJobInput) async throws -> StartDashboardSnapshotJobOutput
-    {
+    public func startDashboardSnapshotJob(input: StartDashboardSnapshotJobInput) async throws -> StartDashboardSnapshotJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6964,8 +6827,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7014,8 +6876,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7064,8 +6925,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateAccountCustomization(input: UpdateAccountCustomizationInput) async throws -> UpdateAccountCustomizationOutput
-    {
+    public func updateAccountCustomization(input: UpdateAccountCustomizationInput) async throws -> UpdateAccountCustomizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7116,8 +6976,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
-    {
+    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7168,8 +7027,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateAnalysis(input: UpdateAnalysisInput) async throws -> UpdateAnalysisOutput
-    {
+    public func updateAnalysis(input: UpdateAnalysisInput) async throws -> UpdateAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7220,8 +7078,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput) async throws -> UpdateAnalysisPermissionsOutput
-    {
+    public func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput) async throws -> UpdateAnalysisPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7272,8 +7129,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput
-    {
+    public func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7324,8 +7180,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateDashboardLinks(input: UpdateDashboardLinksInput) async throws -> UpdateDashboardLinksOutput
-    {
+    public func updateDashboardLinks(input: UpdateDashboardLinksInput) async throws -> UpdateDashboardLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7376,8 +7231,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateDashboardPermissions(input: UpdateDashboardPermissionsInput) async throws -> UpdateDashboardPermissionsOutput
-    {
+    public func updateDashboardPermissions(input: UpdateDashboardPermissionsInput) async throws -> UpdateDashboardPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7427,8 +7281,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateDashboardPublishedVersion(input: UpdateDashboardPublishedVersionInput) async throws -> UpdateDashboardPublishedVersionOutput
-    {
+    public func updateDashboardPublishedVersion(input: UpdateDashboardPublishedVersionInput) async throws -> UpdateDashboardPublishedVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7477,8 +7330,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput
-    {
+    public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7528,8 +7380,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateDataSetPermissions(input: UpdateDataSetPermissionsInput) async throws -> UpdateDataSetPermissionsOutput
-    {
+    public func updateDataSetPermissions(input: UpdateDataSetPermissionsInput) async throws -> UpdateDataSetPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7579,8 +7430,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7630,8 +7480,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateDataSourcePermissions(input: UpdateDataSourcePermissionsInput) async throws -> UpdateDataSourcePermissionsOutput
-    {
+    public func updateDataSourcePermissions(input: UpdateDataSourcePermissionsInput) async throws -> UpdateDataSourcePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7683,8 +7532,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput
-    {
+    public func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7735,8 +7583,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateFolderPermissions(input: UpdateFolderPermissionsInput) async throws -> UpdateFolderPermissionsOutput
-    {
+    public func updateFolderPermissions(input: UpdateFolderPermissionsInput) async throws -> UpdateFolderPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7787,8 +7634,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7839,8 +7685,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateIAMPolicyAssignment(input: UpdateIAMPolicyAssignmentInput) async throws -> UpdateIAMPolicyAssignmentOutput
-    {
+    public func updateIAMPolicyAssignment(input: UpdateIAMPolicyAssignmentInput) async throws -> UpdateIAMPolicyAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7889,8 +7734,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateIdentityPropagationConfig(input: UpdateIdentityPropagationConfigInput) async throws -> UpdateIdentityPropagationConfigOutput
-    {
+    public func updateIdentityPropagationConfig(input: UpdateIdentityPropagationConfigInput) async throws -> UpdateIdentityPropagationConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7940,8 +7784,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateIpRestriction(input: UpdateIpRestrictionInput) async throws -> UpdateIpRestrictionOutput
-    {
+    public func updateIpRestriction(input: UpdateIpRestrictionInput) async throws -> UpdateIpRestrictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7991,8 +7834,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    public func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutput
-    {
+    public func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8043,8 +7885,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateRefreshSchedule(input: UpdateRefreshScheduleInput) async throws -> UpdateRefreshScheduleOutput
-    {
+    public func updateRefreshSchedule(input: UpdateRefreshScheduleInput) async throws -> UpdateRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8095,8 +7936,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateRoleCustomPermission(input: UpdateRoleCustomPermissionInput) async throws -> UpdateRoleCustomPermissionOutput
-    {
+    public func updateRoleCustomPermission(input: UpdateRoleCustomPermissionInput) async throws -> UpdateRoleCustomPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8148,8 +7988,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
-    {
+    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8198,8 +8037,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateTemplateAlias(input: UpdateTemplateAliasInput) async throws -> UpdateTemplateAliasOutput
-    {
+    public func updateTemplateAlias(input: UpdateTemplateAliasInput) async throws -> UpdateTemplateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8250,8 +8088,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateTemplatePermissions(input: UpdateTemplatePermissionsInput) async throws -> UpdateTemplatePermissionsOutput
-    {
+    public func updateTemplatePermissions(input: UpdateTemplatePermissionsInput) async throws -> UpdateTemplatePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8303,8 +8140,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput
-    {
+    public func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8355,8 +8191,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateThemeAlias(input: UpdateThemeAliasInput) async throws -> UpdateThemeAliasOutput
-    {
+    public func updateThemeAlias(input: UpdateThemeAliasInput) async throws -> UpdateThemeAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8449,8 +8284,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateThemePermissions(input: UpdateThemePermissionsInput) async throws -> UpdateThemePermissionsOutput
-    {
+    public func updateThemePermissions(input: UpdateThemePermissionsInput) async throws -> UpdateThemePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8502,8 +8336,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateTopic(input: UpdateTopicInput) async throws -> UpdateTopicOutput
-    {
+    public func updateTopic(input: UpdateTopicInput) async throws -> UpdateTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8555,8 +8388,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateTopicPermissions(input: UpdateTopicPermissionsInput) async throws -> UpdateTopicPermissionsOutput
-    {
+    public func updateTopicPermissions(input: UpdateTopicPermissionsInput) async throws -> UpdateTopicPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8608,8 +8440,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateTopicRefreshSchedule(input: UpdateTopicRefreshScheduleInput) async throws -> UpdateTopicRefreshScheduleOutput
-    {
+    public func updateTopicRefreshSchedule(input: UpdateTopicRefreshScheduleInput) async throws -> UpdateTopicRefreshScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8660,8 +8491,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8713,8 +8543,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    public func updateVPCConnection(input: UpdateVPCConnectionInput) async throws -> UpdateVPCConnectionOutput
-    {
+    public func updateVPCConnection(input: UpdateVPCConnectionInput) async throws -> UpdateVPCConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

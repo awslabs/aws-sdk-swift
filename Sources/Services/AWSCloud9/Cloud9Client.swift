@@ -66,7 +66,7 @@ public struct Cloud9ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension Cloud9Client: Cloud9ClientProtocol {
+extension Cloud9Client {
     /// Performs the `CreateEnvironmentEC2` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
     /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
@@ -85,8 +85,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func createEnvironmentEC2(input: CreateEnvironmentEC2Input) async throws -> CreateEnvironmentEC2Output
-    {
+    public func createEnvironmentEC2(input: CreateEnvironmentEC2Input) async throws -> CreateEnvironmentEC2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func createEnvironmentMembership(input: CreateEnvironmentMembershipInput) async throws -> CreateEnvironmentMembershipOutput
-    {
+    public func createEnvironmentMembership(input: CreateEnvironmentMembershipInput) async throws -> CreateEnvironmentMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -191,8 +189,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -244,8 +241,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func deleteEnvironmentMembership(input: DeleteEnvironmentMembershipInput) async throws -> DeleteEnvironmentMembershipOutput
-    {
+    public func deleteEnvironmentMembership(input: DeleteEnvironmentMembershipInput) async throws -> DeleteEnvironmentMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -297,8 +293,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func describeEnvironmentMemberships(input: DescribeEnvironmentMembershipsInput) async throws -> DescribeEnvironmentMembershipsOutput
-    {
+    public func describeEnvironmentMemberships(input: DescribeEnvironmentMembershipsInput) async throws -> DescribeEnvironmentMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -350,8 +345,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func describeEnvironmentStatus(input: DescribeEnvironmentStatusInput) async throws -> DescribeEnvironmentStatusOutput
-    {
+    public func describeEnvironmentStatus(input: DescribeEnvironmentStatusInput) async throws -> DescribeEnvironmentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -403,8 +397,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput
-    {
+    public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -456,8 +449,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -505,8 +497,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `BadRequestException` : The target request is invalid.
     /// - `InternalServerErrorException` : An internal server error occurred.
     /// - `NotFoundException` : The target resource cannot be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -555,8 +546,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `ConcurrentAccessException` : A concurrent access issue occurred.
     /// - `InternalServerErrorException` : An internal server error occurred.
     /// - `NotFoundException` : The target resource cannot be found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -605,8 +595,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `ConcurrentAccessException` : A concurrent access issue occurred.
     /// - `InternalServerErrorException` : An internal server error occurred.
     /// - `NotFoundException` : The target resource cannot be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -658,8 +647,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +699,7 @@ extension Cloud9Client: Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    public func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput) async throws -> UpdateEnvironmentMembershipOutput
-    {
+    public func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput) async throws -> UpdateEnvironmentMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

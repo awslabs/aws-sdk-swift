@@ -66,7 +66,7 @@ public struct FirehoseClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension FirehoseClient: FirehoseClientProtocol {
+extension FirehoseClient {
     /// Performs the `CreateDeliveryStream` operation on the `Firehose_20150804` service.
     ///
     /// Creates a Kinesis Data Firehose delivery stream. By default, you can create up to 50 delivery streams per Amazon Web Services Region. This is an asynchronous operation that immediately returns. The initial status of the delivery stream is CREATING. After the delivery stream is created, its status is ACTIVE and it now accepts data. If the delivery stream creation fails, the status transitions to CREATING_FAILED. Attempts to send data to a delivery stream that is not in the ACTIVE state cause an exception. To check the state of a delivery stream, use [DescribeDeliveryStream]. If the status of a delivery stream is CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the [DeleteDeliveryStream] operation to delete it. A Kinesis Data Firehose delivery stream can be configured to receive records directly from providers using [PutRecord] or [PutRecordBatch], or it can be configured to use an existing Kinesis stream as its source. To specify a Kinesis data stream as input, set the DeliveryStreamType parameter to KinesisStreamAsSource, and provide the Kinesis stream Amazon Resource Name (ARN) and role ARN in the KinesisStreamSourceConfiguration parameter. To create a delivery stream with server-side encryption (SSE) enabled, include [DeliveryStreamEncryptionConfigurationInput] in your request. This is optional. You can also invoke [StartDeliveryStreamEncryption] to turn on SSE for an existing delivery stream that doesn't have SSE enabled. A delivery stream is configured with a single destination, such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon OpenSearch Service, Amazon OpenSearch Serverless, Splunk, and any custom HTTP endpoint or HTTP endpoints owned by or supported by third-party service providers, including Datadog, Dynatrace, LogicMonitor, MongoDB, New Relic, and Sumo Logic. You must specify only one of the following destination configuration parameters: ExtendedS3DestinationConfiguration, S3DestinationConfiguration, ElasticsearchDestinationConfiguration, RedshiftDestinationConfiguration, or SplunkDestinationConfiguration. When you specify S3DestinationConfiguration, you can also provide the following optional values: BufferingHints, EncryptionConfiguration, and CompressionFormat. By default, if no BufferingHints value is provided, Kinesis Data Firehose buffers data up to 5 MB or for 5 minutes, whichever condition is satisfied first. BufferingHints is a hint, so there are some cases where the service cannot adhere to these conditions strictly. For example, record boundaries might be such that the size is a little over or under the configured buffering size. By default, no encryption is performed. We strongly recommend that you enable encryption to ensure secure data storage in Amazon S3. A few notes about Amazon Redshift as a destination:
@@ -91,8 +91,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
-    public func createDeliveryStream(input: CreateDeliveryStreamInput) async throws -> CreateDeliveryStreamOutput
-    {
+    public func createDeliveryStream(input: CreateDeliveryStreamInput) async throws -> CreateDeliveryStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func deleteDeliveryStream(input: DeleteDeliveryStreamInput) async throws -> DeleteDeliveryStreamOutput
-    {
+    public func deleteDeliveryStream(input: DeleteDeliveryStreamInput) async throws -> DeleteDeliveryStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func describeDeliveryStream(input: DescribeDeliveryStreamInput) async throws -> DescribeDeliveryStreamOutput
-    {
+    public func describeDeliveryStream(input: DescribeDeliveryStreamInput) async throws -> DescribeDeliveryStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - Parameter ListDeliveryStreamsInput : [no documentation found]
     ///
     /// - Returns: `ListDeliveryStreamsOutput` : [no documentation found]
-    public func listDeliveryStreams(input: ListDeliveryStreamsInput) async throws -> ListDeliveryStreamsOutput
-    {
+    public func listDeliveryStreams(input: ListDeliveryStreamsInput) async throws -> ListDeliveryStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter has a value that is not valid.
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func listTagsForDeliveryStream(input: ListTagsForDeliveryStreamInput) async throws -> ListTagsForDeliveryStreamOutput
-    {
+    public func listTagsForDeliveryStream(input: ListTagsForDeliveryStreamInput) async throws -> ListTagsForDeliveryStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidSourceException` : Only requests from CloudWatch Logs are supported when CloudWatch Logs decompression is enabled.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput
-    {
+    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidSourceException` : Only requests from CloudWatch Logs are supported when CloudWatch Logs decompression is enabled.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-    public func putRecordBatch(input: PutRecordBatchInput) async throws -> PutRecordBatchOutput
-    {
+    public func putRecordBatch(input: PutRecordBatchInput) async throws -> PutRecordBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func startDeliveryStreamEncryption(input: StartDeliveryStreamEncryptionInput) async throws -> StartDeliveryStreamEncryptionOutput
-    {
+    public func startDeliveryStreamEncryption(input: StartDeliveryStreamEncryptionInput) async throws -> StartDeliveryStreamEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func stopDeliveryStreamEncryption(input: StopDeliveryStreamEncryptionInput) async throws -> StopDeliveryStreamEncryptionOutput
-    {
+    public func stopDeliveryStreamEncryption(input: StopDeliveryStreamEncryptionInput) async throws -> StopDeliveryStreamEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +521,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func tagDeliveryStream(input: TagDeliveryStreamInput) async throws -> TagDeliveryStreamOutput
-    {
+    public func tagDeliveryStream(input: TagDeliveryStreamInput) async throws -> TagDeliveryStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -580,8 +570,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func untagDeliveryStream(input: UntagDeliveryStreamInput) async throws -> UntagDeliveryStreamOutput
-    {
+    public func untagDeliveryStream(input: UntagDeliveryStreamInput) async throws -> UntagDeliveryStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter has a value that is not valid.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
-    {
+    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

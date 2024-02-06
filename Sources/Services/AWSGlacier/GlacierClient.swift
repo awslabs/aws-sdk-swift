@@ -66,7 +66,7 @@ public struct GlacierClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension GlacierClient: GlacierClientProtocol {
+extension GlacierClient {
     /// Performs the `AbortMultipartUpload` operation on the `Glacier` service.
     ///
     /// This operation aborts a multipart upload identified by the upload ID. After the Abort Multipart Upload request succeeds, you cannot upload any more parts to the multipart upload or complete the multipart upload. Aborting a completed upload fails. However, aborting an already-aborted upload will succeed, for a short time. For more information about uploading a part and completing a multipart upload, see [UploadMultipartPart] and [CompleteMultipartUpload]. This operation is idempotent. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html) in the Amazon Glacier Developer Guide.
@@ -82,8 +82,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput
-    {
+    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput
-    {
+    public func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -195,8 +193,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput
-    {
+    public func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -255,8 +252,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput
-    {
+    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -312,8 +308,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput
-    {
+    public func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +370,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput
-    {
+    public func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -438,8 +432,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput
-    {
+    public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +487,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput
-    {
+    public func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -550,8 +542,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput
-    {
+    public func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +597,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput
-    {
+    public func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -662,8 +652,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
-    {
+    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +707,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput
-    {
+    public func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -773,8 +761,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput
-    {
+    public func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -829,8 +816,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput
-    {
+    public func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -886,8 +872,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput
-    {
+    public func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -953,8 +938,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput
-    {
+    public func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1009,8 +993,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput
-    {
+    public func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1067,8 +1050,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `PolicyEnforcedException` : Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func initiateJob(input: InitiateJobInput) async throws -> InitiateJobOutput
-    {
+    public func initiateJob(input: InitiateJobInput) async throws -> InitiateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1126,8 +1108,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput
-    {
+    public func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1192,8 +1173,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput
-    {
+    public func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1251,8 +1231,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1308,8 +1287,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput
-    {
+    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1365,8 +1343,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput
-    {
+    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1421,8 +1398,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput
-    {
+    public func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1477,8 +1453,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput
-    {
+    public func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1533,8 +1508,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput
-    {
+    public func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1590,8 +1564,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput
-    {
+    public func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1646,8 +1619,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput
-    {
+    public func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1705,8 +1677,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput
-    {
+    public func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1764,8 +1735,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput
-    {
+    public func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1830,8 +1800,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput
-    {
+    public func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1890,8 +1859,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func uploadArchive(input: UploadArchiveInput) async throws -> UploadArchiveOutput
-    {
+    public func uploadArchive(input: UploadArchiveInput) async throws -> UploadArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1960,8 +1928,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func uploadMultipartPart(input: UploadMultipartPartInput) async throws -> UploadMultipartPartOutput
-    {
+    public func uploadMultipartPart(input: UploadMultipartPartInput) async throws -> UploadMultipartPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

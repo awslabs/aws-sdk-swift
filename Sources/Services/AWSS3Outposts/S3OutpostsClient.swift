@@ -66,7 +66,7 @@ public struct S3OutpostsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension S3OutpostsClient: S3OutpostsClientProtocol {
+extension S3OutpostsClient {
     /// Performs the `CreateEndpoint` operation on the `S3Outposts` service.
     ///
     /// Creates an endpoint and associates it with the specified Outpost. It can take up to 5 minutes for this action to finish. Related actions include:
@@ -89,8 +89,7 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
-    {
+    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -144,8 +143,7 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -196,8 +194,7 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
-    {
+    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// - `InternalServerException` : There was an exception with the internal server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    public func listOutpostsWithS3(input: ListOutpostsWithS3Input) async throws -> ListOutpostsWithS3Output
-    {
+    public func listOutpostsWithS3(input: ListOutpostsWithS3Input) async throws -> ListOutpostsWithS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension S3OutpostsClient: S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    public func listSharedEndpoints(input: ListSharedEndpointsInput) async throws -> ListSharedEndpointsOutput
-    {
+    public func listSharedEndpoints(input: ListSharedEndpointsInput) async throws -> ListSharedEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

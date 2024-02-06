@@ -66,7 +66,7 @@ public struct LambdaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension LambdaClient: LambdaClientProtocol {
+extension LambdaClient {
     /// Performs the `AddLayerVersionPermission` operation on the `AWSGirApiService` service.
     ///
     /// Adds permissions to the resource-based policy of a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call [RemoveLayerVersionPermission] with the statement ID that you specified when you added it.
@@ -85,8 +85,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func addLayerVersionPermission(input: AddLayerVersionPermissionInput) async throws -> AddLayerVersionPermissionOutput
-    {
+    public func addLayerVersionPermission(input: AddLayerVersionPermissionInput) async throws -> AddLayerVersionPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
-    {
+    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    {
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func createCodeSigningConfig(input: CreateCodeSigningConfigInput) async throws -> CreateCodeSigningConfigOutput
-    {
+    public func createCodeSigningConfig(input: CreateCodeSigningConfigInput) async throws -> CreateCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +326,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createEventSourceMapping(input: CreateEventSourceMappingInput) async throws -> CreateEventSourceMappingOutput
-    {
+    public func createEventSourceMapping(input: CreateEventSourceMappingInput) async throws -> CreateEventSourceMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +379,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
-    {
+    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -434,8 +428,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func createFunctionUrlConfig(input: CreateFunctionUrlConfigInput) async throws -> CreateFunctionUrlConfigOutput
-    {
+    public func createFunctionUrlConfig(input: CreateFunctionUrlConfigInput) async throws -> CreateFunctionUrlConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +477,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
-    {
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +522,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func deleteCodeSigningConfig(input: DeleteCodeSigningConfigInput) async throws -> DeleteCodeSigningConfigOutput
-    {
+    public func deleteCodeSigningConfig(input: DeleteCodeSigningConfigInput) async throws -> DeleteCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -578,8 +569,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteEventSourceMapping(input: DeleteEventSourceMappingInput) async throws -> DeleteEventSourceMappingOutput
-    {
+    public func deleteEventSourceMapping(input: DeleteEventSourceMappingInput) async throws -> DeleteEventSourceMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -625,8 +615,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
-    {
+    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +663,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionCodeSigningConfig(input: DeleteFunctionCodeSigningConfigInput) async throws -> DeleteFunctionCodeSigningConfigOutput
-    {
+    public func deleteFunctionCodeSigningConfig(input: DeleteFunctionCodeSigningConfigInput) async throws -> DeleteFunctionCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -721,8 +709,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionConcurrency(input: DeleteFunctionConcurrencyInput) async throws -> DeleteFunctionConcurrencyOutput
-    {
+    public func deleteFunctionConcurrency(input: DeleteFunctionConcurrencyInput) async throws -> DeleteFunctionConcurrencyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionEventInvokeConfig(input: DeleteFunctionEventInvokeConfigInput) async throws -> DeleteFunctionEventInvokeConfigOutput
-    {
+    public func deleteFunctionEventInvokeConfig(input: DeleteFunctionEventInvokeConfigInput) async throws -> DeleteFunctionEventInvokeConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -815,8 +801,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteFunctionUrlConfig(input: DeleteFunctionUrlConfigInput) async throws -> DeleteFunctionUrlConfigOutput
-    {
+    public func deleteFunctionUrlConfig(input: DeleteFunctionUrlConfigInput) async throws -> DeleteFunctionUrlConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -860,8 +845,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// __Possible Exceptions:__
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteLayerVersion(input: DeleteLayerVersionInput) async throws -> DeleteLayerVersionOutput
-    {
+    public func deleteLayerVersion(input: DeleteLayerVersionInput) async throws -> DeleteLayerVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +891,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func deleteProvisionedConcurrencyConfig(input: DeleteProvisionedConcurrencyConfigInput) async throws -> DeleteProvisionedConcurrencyConfigOutput
-    {
+    public func deleteProvisionedConcurrencyConfig(input: DeleteProvisionedConcurrencyConfigInput) async throws -> DeleteProvisionedConcurrencyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -952,8 +935,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// __Possible Exceptions:__
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
-    {
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -998,8 +980,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput
-    {
+    public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1043,8 +1024,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func getCodeSigningConfig(input: GetCodeSigningConfigInput) async throws -> GetCodeSigningConfigOutput
-    {
+    public func getCodeSigningConfig(input: GetCodeSigningConfigInput) async throws -> GetCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1089,8 +1069,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getEventSourceMapping(input: GetEventSourceMappingInput) async throws -> GetEventSourceMappingOutput
-    {
+    public func getEventSourceMapping(input: GetEventSourceMappingInput) async throws -> GetEventSourceMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1135,8 +1114,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
-    {
+    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1182,8 +1160,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionCodeSigningConfig(input: GetFunctionCodeSigningConfigInput) async throws -> GetFunctionCodeSigningConfigOutput
-    {
+    public func getFunctionCodeSigningConfig(input: GetFunctionCodeSigningConfigInput) async throws -> GetFunctionCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1228,8 +1205,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionConcurrency(input: GetFunctionConcurrencyInput) async throws -> GetFunctionConcurrencyOutput
-    {
+    public func getFunctionConcurrency(input: GetFunctionConcurrencyInput) async throws -> GetFunctionConcurrencyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1274,8 +1250,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionConfiguration(input: GetFunctionConfigurationInput) async throws -> GetFunctionConfigurationOutput
-    {
+    public func getFunctionConfiguration(input: GetFunctionConfigurationInput) async throws -> GetFunctionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1321,8 +1296,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionEventInvokeConfig(input: GetFunctionEventInvokeConfigInput) async throws -> GetFunctionEventInvokeConfigOutput
-    {
+    public func getFunctionEventInvokeConfig(input: GetFunctionEventInvokeConfigInput) async throws -> GetFunctionEventInvokeConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1368,8 +1342,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getFunctionUrlConfig(input: GetFunctionUrlConfigInput) async throws -> GetFunctionUrlConfigOutput
-    {
+    public func getFunctionUrlConfig(input: GetFunctionUrlConfigInput) async throws -> GetFunctionUrlConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1415,8 +1388,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getLayerVersion(input: GetLayerVersionInput) async throws -> GetLayerVersionOutput
-    {
+    public func getLayerVersion(input: GetLayerVersionInput) async throws -> GetLayerVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1461,8 +1433,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getLayerVersionByArn(input: GetLayerVersionByArnInput) async throws -> GetLayerVersionByArnOutput
-    {
+    public func getLayerVersionByArn(input: GetLayerVersionByArnInput) async throws -> GetLayerVersionByArnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1508,8 +1479,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getLayerVersionPolicy(input: GetLayerVersionPolicyInput) async throws -> GetLayerVersionPolicyOutput
-    {
+    public func getLayerVersionPolicy(input: GetLayerVersionPolicyInput) async throws -> GetLayerVersionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1554,8 +1524,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1602,8 +1571,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getProvisionedConcurrencyConfig(input: GetProvisionedConcurrencyConfigInput) async throws -> GetProvisionedConcurrencyConfigOutput
-    {
+    public func getProvisionedConcurrencyConfig(input: GetProvisionedConcurrencyConfigInput) async throws -> GetProvisionedConcurrencyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1649,8 +1617,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func getRuntimeManagementConfig(input: GetRuntimeManagementConfigInput) async throws -> GetRuntimeManagementConfigOutput
-    {
+    public func getRuntimeManagementConfig(input: GetRuntimeManagementConfigInput) async throws -> GetRuntimeManagementConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1722,8 +1689,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     /// - `UnsupportedMediaTypeException` : The content type of the Invoke request body is not JSON.
-    public func invoke(input: InvokeInput) async throws -> InvokeOutput
-    {
+    public func invoke(input: InvokeInput) async throws -> InvokeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1775,8 +1741,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func invokeAsync(input: InvokeAsyncInput) async throws -> InvokeAsyncOutput
-    {
+    public func invokeAsync(input: InvokeAsyncInput) async throws -> InvokeAsyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1850,8 +1815,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     /// - `UnsupportedMediaTypeException` : The content type of the Invoke request body is not JSON.
-    public func invokeWithResponseStream(input: InvokeWithResponseStreamInput) async throws -> InvokeWithResponseStreamOutput
-    {
+    public func invokeWithResponseStream(input: InvokeWithResponseStreamInput) async throws -> InvokeWithResponseStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1901,8 +1865,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    {
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1946,8 +1909,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func listCodeSigningConfigs(input: ListCodeSigningConfigsInput) async throws -> ListCodeSigningConfigsOutput
-    {
+    public func listCodeSigningConfigs(input: ListCodeSigningConfigsInput) async throws -> ListCodeSigningConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1993,8 +1955,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listEventSourceMappings(input: ListEventSourceMappingsInput) async throws -> ListEventSourceMappingsOutput
-    {
+    public func listEventSourceMappings(input: ListEventSourceMappingsInput) async throws -> ListEventSourceMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2040,8 +2001,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listFunctionEventInvokeConfigs(input: ListFunctionEventInvokeConfigsInput) async throws -> ListFunctionEventInvokeConfigsOutput
-    {
+    public func listFunctionEventInvokeConfigs(input: ListFunctionEventInvokeConfigsInput) async throws -> ListFunctionEventInvokeConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2087,8 +2047,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listFunctionUrlConfigs(input: ListFunctionUrlConfigsInput) async throws -> ListFunctionUrlConfigsOutput
-    {
+    public func listFunctionUrlConfigs(input: ListFunctionUrlConfigsInput) async throws -> ListFunctionUrlConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2133,8 +2092,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
-    {
+    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2179,8 +2137,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func listFunctionsByCodeSigningConfig(input: ListFunctionsByCodeSigningConfigInput) async throws -> ListFunctionsByCodeSigningConfigOutput
-    {
+    public func listFunctionsByCodeSigningConfig(input: ListFunctionsByCodeSigningConfigInput) async throws -> ListFunctionsByCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2226,8 +2183,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listLayerVersions(input: ListLayerVersionsInput) async throws -> ListLayerVersionsOutput
-    {
+    public func listLayerVersions(input: ListLayerVersionsInput) async throws -> ListLayerVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2272,8 +2228,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listLayers(input: ListLayersInput) async throws -> ListLayersOutput
-    {
+    public func listLayers(input: ListLayersInput) async throws -> ListLayersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2319,8 +2274,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listProvisionedConcurrencyConfigs(input: ListProvisionedConcurrencyConfigsInput) async throws -> ListProvisionedConcurrencyConfigsOutput
-    {
+    public func listProvisionedConcurrencyConfigs(input: ListProvisionedConcurrencyConfigsInput) async throws -> ListProvisionedConcurrencyConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2366,8 +2320,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2412,8 +2365,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func listVersionsByFunction(input: ListVersionsByFunctionInput) async throws -> ListVersionsByFunctionOutput
-    {
+    public func listVersionsByFunction(input: ListVersionsByFunctionInput) async throws -> ListVersionsByFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2460,8 +2412,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func publishLayerVersion(input: PublishLayerVersionInput) async throws -> PublishLayerVersionOutput
-    {
+    public func publishLayerVersion(input: PublishLayerVersionInput) async throws -> PublishLayerVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2512,8 +2463,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func publishVersion(input: PublishVersionInput) async throws -> PublishVersionOutput
-    {
+    public func publishVersion(input: PublishVersionInput) async throws -> PublishVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2563,8 +2513,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putFunctionCodeSigningConfig(input: PutFunctionCodeSigningConfigInput) async throws -> PutFunctionCodeSigningConfigOutput
-    {
+    public func putFunctionCodeSigningConfig(input: PutFunctionCodeSigningConfigInput) async throws -> PutFunctionCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2613,8 +2562,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putFunctionConcurrency(input: PutFunctionConcurrencyInput) async throws -> PutFunctionConcurrencyOutput
-    {
+    public func putFunctionConcurrency(input: PutFunctionConcurrencyInput) async throws -> PutFunctionConcurrencyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2663,8 +2611,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putFunctionEventInvokeConfig(input: PutFunctionEventInvokeConfigInput) async throws -> PutFunctionEventInvokeConfigOutput
-    {
+    public func putFunctionEventInvokeConfig(input: PutFunctionEventInvokeConfigInput) async throws -> PutFunctionEventInvokeConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2714,8 +2661,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putProvisionedConcurrencyConfig(input: PutProvisionedConcurrencyConfigInput) async throws -> PutProvisionedConcurrencyConfigOutput
-    {
+    public func putProvisionedConcurrencyConfig(input: PutProvisionedConcurrencyConfigInput) async throws -> PutProvisionedConcurrencyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2765,8 +2711,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func putRuntimeManagementConfig(input: PutRuntimeManagementConfigInput) async throws -> PutRuntimeManagementConfigOutput
-    {
+    public func putRuntimeManagementConfig(input: PutRuntimeManagementConfigInput) async throws -> PutRuntimeManagementConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2816,8 +2761,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func removeLayerVersionPermission(input: RemoveLayerVersionPermissionInput) async throws -> RemoveLayerVersionPermissionOutput
-    {
+    public func removeLayerVersionPermission(input: RemoveLayerVersionPermissionInput) async throws -> RemoveLayerVersionPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2864,8 +2808,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
-    {
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2912,8 +2855,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2962,8 +2904,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3011,8 +2952,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
-    {
+    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3059,8 +2999,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
-    public func updateCodeSigningConfig(input: UpdateCodeSigningConfigInput) async throws -> UpdateCodeSigningConfigOutput
-    {
+    public func updateCodeSigningConfig(input: UpdateCodeSigningConfigInput) async throws -> UpdateCodeSigningConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3154,8 +3093,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateEventSourceMapping(input: UpdateEventSourceMappingInput) async throws -> UpdateEventSourceMappingOutput
-    {
+    public func updateEventSourceMapping(input: UpdateEventSourceMappingInput) async throws -> UpdateEventSourceMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3209,8 +3147,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionCode(input: UpdateFunctionCodeInput) async throws -> UpdateFunctionCodeOutput
-    {
+    public func updateFunctionCode(input: UpdateFunctionCodeInput) async throws -> UpdateFunctionCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3263,8 +3200,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionConfiguration(input: UpdateFunctionConfigurationInput) async throws -> UpdateFunctionConfigurationOutput
-    {
+    public func updateFunctionConfiguration(input: UpdateFunctionConfigurationInput) async throws -> UpdateFunctionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3313,8 +3249,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionEventInvokeConfig(input: UpdateFunctionEventInvokeConfigInput) async throws -> UpdateFunctionEventInvokeConfigOutput
-    {
+    public func updateFunctionEventInvokeConfig(input: UpdateFunctionEventInvokeConfigInput) async throws -> UpdateFunctionEventInvokeConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3364,8 +3299,7 @@ extension LambdaClient: LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-    public func updateFunctionUrlConfig(input: UpdateFunctionUrlConfigInput) async throws -> UpdateFunctionUrlConfigOutput
-    {
+    public func updateFunctionUrlConfig(input: UpdateFunctionUrlConfigInput) async throws -> UpdateFunctionUrlConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

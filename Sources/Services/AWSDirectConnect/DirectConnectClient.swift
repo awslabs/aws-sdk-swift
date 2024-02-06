@@ -66,7 +66,7 @@ public struct DirectConnectClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension DirectConnectClient: DirectConnectClientProtocol {
+extension DirectConnectClient {
     /// Performs the `AcceptDirectConnectGatewayAssociationProposal` operation on the `OvertureService` service.
     ///
     /// Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.
@@ -80,8 +80,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func acceptDirectConnectGatewayAssociationProposal(input: AcceptDirectConnectGatewayAssociationProposalInput) async throws -> AcceptDirectConnectGatewayAssociationProposalOutput
-    {
+    public func acceptDirectConnectGatewayAssociationProposal(input: AcceptDirectConnectGatewayAssociationProposalInput) async throws -> AcceptDirectConnectGatewayAssociationProposalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func allocateConnectionOnInterconnect(input: AllocateConnectionOnInterconnectInput) async throws -> AllocateConnectionOnInterconnectOutput
-    {
+    public func allocateConnectionOnInterconnect(input: AllocateConnectionOnInterconnectInput) async throws -> AllocateConnectionOnInterconnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func allocateHostedConnection(input: AllocateHostedConnectionInput) async throws -> AllocateHostedConnectionOutput
-    {
+    public func allocateHostedConnection(input: AllocateHostedConnectionInput) async throws -> AllocateHostedConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput) async throws -> AllocatePrivateVirtualInterfaceOutput
-    {
+    public func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput) async throws -> AllocatePrivateVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput) async throws -> AllocatePublicVirtualInterfaceOutput
-    {
+    public func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput) async throws -> AllocatePublicVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput) async throws -> AllocateTransitVirtualInterfaceOutput
-    {
+    public func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput) async throws -> AllocateTransitVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func associateConnectionWithLag(input: AssociateConnectionWithLagInput) async throws -> AssociateConnectionWithLagOutput
-    {
+    public func associateConnectionWithLag(input: AssociateConnectionWithLagInput) async throws -> AssociateConnectionWithLagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func associateHostedConnection(input: AssociateHostedConnectionInput) async throws -> AssociateHostedConnectionOutput
-    {
+    public func associateHostedConnection(input: AssociateHostedConnectionInput) async throws -> AssociateHostedConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func associateMacSecKey(input: AssociateMacSecKeyInput) async throws -> AssociateMacSecKeyOutput
-    {
+    public func associateMacSecKey(input: AssociateMacSecKeyInput) async throws -> AssociateMacSecKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -521,8 +512,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func associateVirtualInterface(input: AssociateVirtualInterfaceInput) async throws -> AssociateVirtualInterfaceOutput
-    {
+    public func associateVirtualInterface(input: AssociateVirtualInterfaceInput) async throws -> AssociateVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -569,8 +559,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func confirmConnection(input: ConfirmConnectionInput) async throws -> ConfirmConnectionOutput
-    {
+    public func confirmConnection(input: ConfirmConnectionInput) async throws -> ConfirmConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -617,8 +606,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func confirmCustomerAgreement(input: ConfirmCustomerAgreementInput) async throws -> ConfirmCustomerAgreementOutput
-    {
+    public func confirmCustomerAgreement(input: ConfirmCustomerAgreementInput) async throws -> ConfirmCustomerAgreementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -665,8 +653,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func confirmPrivateVirtualInterface(input: ConfirmPrivateVirtualInterfaceInput) async throws -> ConfirmPrivateVirtualInterfaceOutput
-    {
+    public func confirmPrivateVirtualInterface(input: ConfirmPrivateVirtualInterfaceInput) async throws -> ConfirmPrivateVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +700,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func confirmPublicVirtualInterface(input: ConfirmPublicVirtualInterfaceInput) async throws -> ConfirmPublicVirtualInterfaceOutput
-    {
+    public func confirmPublicVirtualInterface(input: ConfirmPublicVirtualInterfaceInput) async throws -> ConfirmPublicVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -761,8 +747,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func confirmTransitVirtualInterface(input: ConfirmTransitVirtualInterfaceInput) async throws -> ConfirmTransitVirtualInterfaceOutput
-    {
+    public func confirmTransitVirtualInterface(input: ConfirmTransitVirtualInterfaceInput) async throws -> ConfirmTransitVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +794,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func createBGPPeer(input: CreateBGPPeerInput) async throws -> CreateBGPPeerOutput
-    {
+    public func createBGPPeer(input: CreateBGPPeerInput) async throws -> CreateBGPPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -859,8 +843,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    {
+    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +890,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func createDirectConnectGateway(input: CreateDirectConnectGatewayInput) async throws -> CreateDirectConnectGatewayOutput
-    {
+    public func createDirectConnectGateway(input: CreateDirectConnectGatewayInput) async throws -> CreateDirectConnectGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -955,8 +937,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func createDirectConnectGatewayAssociation(input: CreateDirectConnectGatewayAssociationInput) async throws -> CreateDirectConnectGatewayAssociationOutput
-    {
+    public func createDirectConnectGatewayAssociation(input: CreateDirectConnectGatewayAssociationInput) async throws -> CreateDirectConnectGatewayAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1003,8 +984,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func createDirectConnectGatewayAssociationProposal(input: CreateDirectConnectGatewayAssociationProposalInput) async throws -> CreateDirectConnectGatewayAssociationProposalOutput
-    {
+    public func createDirectConnectGatewayAssociationProposal(input: CreateDirectConnectGatewayAssociationProposalInput) async throws -> CreateDirectConnectGatewayAssociationProposalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1033,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func createInterconnect(input: CreateInterconnectInput) async throws -> CreateInterconnectOutput
-    {
+    public func createInterconnect(input: CreateInterconnectInput) async throws -> CreateInterconnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1082,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func createLag(input: CreateLagInput) async throws -> CreateLagOutput
-    {
+    public func createLag(input: CreateLagInput) async throws -> CreateLagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1153,8 +1131,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput) async throws -> CreatePrivateVirtualInterfaceOutput
-    {
+    public func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput) async throws -> CreatePrivateVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1203,8 +1180,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput) async throws -> CreatePublicVirtualInterfaceOutput
-    {
+    public func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput) async throws -> CreatePublicVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1253,8 +1229,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput) async throws -> CreateTransitVirtualInterfaceOutput
-    {
+    public func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput) async throws -> CreateTransitVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1301,8 +1276,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteBGPPeer(input: DeleteBGPPeerInput) async throws -> DeleteBGPPeerOutput
-    {
+    public func deleteBGPPeer(input: DeleteBGPPeerInput) async throws -> DeleteBGPPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1349,8 +1323,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1397,8 +1370,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteDirectConnectGateway(input: DeleteDirectConnectGatewayInput) async throws -> DeleteDirectConnectGatewayOutput
-    {
+    public func deleteDirectConnectGateway(input: DeleteDirectConnectGatewayInput) async throws -> DeleteDirectConnectGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1445,8 +1417,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteDirectConnectGatewayAssociation(input: DeleteDirectConnectGatewayAssociationInput) async throws -> DeleteDirectConnectGatewayAssociationOutput
-    {
+    public func deleteDirectConnectGatewayAssociation(input: DeleteDirectConnectGatewayAssociationInput) async throws -> DeleteDirectConnectGatewayAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1493,8 +1464,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteDirectConnectGatewayAssociationProposal(input: DeleteDirectConnectGatewayAssociationProposalInput) async throws -> DeleteDirectConnectGatewayAssociationProposalOutput
-    {
+    public func deleteDirectConnectGatewayAssociationProposal(input: DeleteDirectConnectGatewayAssociationProposalInput) async throws -> DeleteDirectConnectGatewayAssociationProposalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1511,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteInterconnect(input: DeleteInterconnectInput) async throws -> DeleteInterconnectOutput
-    {
+    public func deleteInterconnect(input: DeleteInterconnectInput) async throws -> DeleteInterconnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1558,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteLag(input: DeleteLagInput) async throws -> DeleteLagOutput
-    {
+    public func deleteLag(input: DeleteLagInput) async throws -> DeleteLagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1637,8 +1605,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func deleteVirtualInterface(input: DeleteVirtualInterfaceInput) async throws -> DeleteVirtualInterfaceOutput
-    {
+    public func deleteVirtualInterface(input: DeleteVirtualInterfaceInput) async throws -> DeleteVirtualInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1686,8 +1653,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeConnectionLoa(input: DescribeConnectionLoaInput) async throws -> DescribeConnectionLoaOutput
-    {
+    public func describeConnectionLoa(input: DescribeConnectionLoaInput) async throws -> DescribeConnectionLoaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1734,8 +1700,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutput
-    {
+    public func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1748,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeConnectionsOnInterconnect(input: DescribeConnectionsOnInterconnectInput) async throws -> DescribeConnectionsOnInterconnectOutput
-    {
+    public func describeConnectionsOnInterconnect(input: DescribeConnectionsOnInterconnectInput) async throws -> DescribeConnectionsOnInterconnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1831,8 +1795,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeCustomerMetadata(input: DescribeCustomerMetadataInput) async throws -> DescribeCustomerMetadataOutput
-    {
+    public func describeCustomerMetadata(input: DescribeCustomerMetadataInput) async throws -> DescribeCustomerMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1879,8 +1842,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeDirectConnectGatewayAssociationProposals(input: DescribeDirectConnectGatewayAssociationProposalsInput) async throws -> DescribeDirectConnectGatewayAssociationProposalsOutput
-    {
+    public func describeDirectConnectGatewayAssociationProposals(input: DescribeDirectConnectGatewayAssociationProposalsInput) async throws -> DescribeDirectConnectGatewayAssociationProposalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1937,8 +1899,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeDirectConnectGatewayAssociations(input: DescribeDirectConnectGatewayAssociationsInput) async throws -> DescribeDirectConnectGatewayAssociationsOutput
-    {
+    public func describeDirectConnectGatewayAssociations(input: DescribeDirectConnectGatewayAssociationsInput) async throws -> DescribeDirectConnectGatewayAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1985,8 +1946,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeDirectConnectGatewayAttachments(input: DescribeDirectConnectGatewayAttachmentsInput) async throws -> DescribeDirectConnectGatewayAttachmentsOutput
-    {
+    public func describeDirectConnectGatewayAttachments(input: DescribeDirectConnectGatewayAttachmentsInput) async throws -> DescribeDirectConnectGatewayAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2033,8 +1993,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeDirectConnectGateways(input: DescribeDirectConnectGatewaysInput) async throws -> DescribeDirectConnectGatewaysOutput
-    {
+    public func describeDirectConnectGateways(input: DescribeDirectConnectGatewaysInput) async throws -> DescribeDirectConnectGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2081,8 +2040,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeHostedConnections(input: DescribeHostedConnectionsInput) async throws -> DescribeHostedConnectionsOutput
-    {
+    public func describeHostedConnections(input: DescribeHostedConnectionsInput) async throws -> DescribeHostedConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2130,8 +2088,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeInterconnectLoa(input: DescribeInterconnectLoaInput) async throws -> DescribeInterconnectLoaOutput
-    {
+    public func describeInterconnectLoa(input: DescribeInterconnectLoaInput) async throws -> DescribeInterconnectLoaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2178,8 +2135,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeInterconnects(input: DescribeInterconnectsInput) async throws -> DescribeInterconnectsOutput
-    {
+    public func describeInterconnects(input: DescribeInterconnectsInput) async throws -> DescribeInterconnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2226,8 +2182,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeLags(input: DescribeLagsInput) async throws -> DescribeLagsOutput
-    {
+    public func describeLags(input: DescribeLagsInput) async throws -> DescribeLagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2274,8 +2229,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeLoa(input: DescribeLoaInput) async throws -> DescribeLoaOutput
-    {
+    public func describeLoa(input: DescribeLoaInput) async throws -> DescribeLoaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2322,8 +2276,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeLocations(input: DescribeLocationsInput) async throws -> DescribeLocationsOutput
-    {
+    public func describeLocations(input: DescribeLocationsInput) async throws -> DescribeLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2370,8 +2323,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeRouterConfiguration(input: DescribeRouterConfigurationInput) async throws -> DescribeRouterConfigurationOutput
-    {
+    public func describeRouterConfiguration(input: DescribeRouterConfigurationInput) async throws -> DescribeRouterConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2418,8 +2370,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2466,8 +2417,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeVirtualGateways(input: DescribeVirtualGatewaysInput) async throws -> DescribeVirtualGatewaysOutput
-    {
+    public func describeVirtualGateways(input: DescribeVirtualGatewaysInput) async throws -> DescribeVirtualGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2514,8 +2464,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func describeVirtualInterfaces(input: DescribeVirtualInterfacesInput) async throws -> DescribeVirtualInterfacesOutput
-    {
+    public func describeVirtualInterfaces(input: DescribeVirtualInterfacesInput) async throws -> DescribeVirtualInterfacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2562,8 +2511,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func disassociateConnectionFromLag(input: DisassociateConnectionFromLagInput) async throws -> DisassociateConnectionFromLagOutput
-    {
+    public func disassociateConnectionFromLag(input: DisassociateConnectionFromLagInput) async throws -> DisassociateConnectionFromLagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2610,8 +2558,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func disassociateMacSecKey(input: DisassociateMacSecKeyInput) async throws -> DisassociateMacSecKeyOutput
-    {
+    public func disassociateMacSecKey(input: DisassociateMacSecKeyInput) async throws -> DisassociateMacSecKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2658,8 +2605,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func listVirtualInterfaceTestHistory(input: ListVirtualInterfaceTestHistoryInput) async throws -> ListVirtualInterfaceTestHistoryOutput
-    {
+    public func listVirtualInterfaceTestHistory(input: ListVirtualInterfaceTestHistoryInput) async throws -> ListVirtualInterfaceTestHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2706,8 +2652,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func startBgpFailoverTest(input: StartBgpFailoverTestInput) async throws -> StartBgpFailoverTestOutput
-    {
+    public func startBgpFailoverTest(input: StartBgpFailoverTestInput) async throws -> StartBgpFailoverTestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2754,8 +2699,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func stopBgpFailoverTest(input: StopBgpFailoverTestInput) async throws -> StopBgpFailoverTestOutput
-    {
+    public func stopBgpFailoverTest(input: StopBgpFailoverTestInput) async throws -> StopBgpFailoverTestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2804,8 +2748,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2852,8 +2795,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2904,8 +2846,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
-    {
+    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2952,8 +2893,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func updateDirectConnectGateway(input: UpdateDirectConnectGatewayInput) async throws -> UpdateDirectConnectGatewayOutput
-    {
+    public func updateDirectConnectGateway(input: UpdateDirectConnectGatewayInput) async throws -> UpdateDirectConnectGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3000,8 +2940,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func updateDirectConnectGatewayAssociation(input: UpdateDirectConnectGatewayAssociationInput) async throws -> UpdateDirectConnectGatewayAssociationOutput
-    {
+    public func updateDirectConnectGatewayAssociation(input: UpdateDirectConnectGatewayAssociationInput) async throws -> UpdateDirectConnectGatewayAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3059,8 +2998,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func updateLag(input: UpdateLagInput) async throws -> UpdateLagOutput
-    {
+    public func updateLag(input: UpdateLagInput) async throws -> UpdateLagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3107,8 +3045,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
-    public func updateVirtualInterfaceAttributes(input: UpdateVirtualInterfaceAttributesInput) async throws -> UpdateVirtualInterfaceAttributesOutput
-    {
+    public func updateVirtualInterfaceAttributes(input: UpdateVirtualInterfaceAttributesInput) async throws -> UpdateVirtualInterfaceAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

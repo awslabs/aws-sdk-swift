@@ -66,7 +66,7 @@ public struct EMRServerlessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension EMRServerlessClient: EMRServerlessClientProtocol {
+extension EMRServerlessClient {
     /// Performs the `CancelJobRun` operation on the `AwsToledoWebService` service.
     ///
     /// Cancels a job run.
@@ -81,8 +81,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput
-    {
+    public func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -221,8 +218,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -266,8 +262,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getDashboardForJobRun(input: GetDashboardForJobRunInput) async throws -> GetDashboardForJobRunOutput
-    {
+    public func getDashboardForJobRun(input: GetDashboardForJobRunInput) async throws -> GetDashboardForJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -311,8 +306,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput
-    {
+    public func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -355,8 +349,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +393,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
-    {
+    public func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +438,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +483,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput
-    {
+    public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +528,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
-    {
+    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +576,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput
-    {
+    public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,8 +620,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +667,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -726,8 +712,7 @@ extension EMRServerlessClient: EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

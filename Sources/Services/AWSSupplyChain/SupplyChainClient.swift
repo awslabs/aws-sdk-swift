@@ -66,7 +66,7 @@ public struct SupplyChainClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension SupplyChainClient: SupplyChainClientProtocol {
+extension SupplyChainClient {
     /// Performs the `CreateBillOfMaterialsImportJob` operation on the `GalaxyPublicAPIGateway` service.
     ///
     /// CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide. The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
@@ -85,8 +85,7 @@ extension SupplyChainClient: SupplyChainClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an AWS service.
-    public func createBillOfMaterialsImportJob(input: CreateBillOfMaterialsImportJobInput) async throws -> CreateBillOfMaterialsImportJobOutput
-    {
+    public func createBillOfMaterialsImportJob(input: CreateBillOfMaterialsImportJobInput) async throws -> CreateBillOfMaterialsImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension SupplyChainClient: SupplyChainClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an AWS service.
-    public func getBillOfMaterialsImportJob(input: GetBillOfMaterialsImportJobInput) async throws -> GetBillOfMaterialsImportJobOutput
-    {
+    public func getBillOfMaterialsImportJob(input: GetBillOfMaterialsImportJobInput) async throws -> GetBillOfMaterialsImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

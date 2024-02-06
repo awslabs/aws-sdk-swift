@@ -66,7 +66,7 @@ public struct FSxClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension FSxClient: FSxClientProtocol {
+extension FSxClient {
     /// Performs the `AssociateFileSystemAliases` operation on the `AWSSimbaAPIService_v20180301` service.
     ///
     /// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see [Working with DNS Aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html) and [Walkthrough 5: Using DNS aliases to access your file system](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/walkthrough05-file-system-custom-CNAME.html), including additional steps you must take to be able to access your file system using a DNS alias. The system response shows the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system.
@@ -81,8 +81,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func associateFileSystemAliases(input: AssociateFileSystemAliasesInput) async throws -> AssociateFileSystemAliasesOutput
-    {
+    public func associateFileSystemAliases(input: AssociateFileSystemAliasesInput) async throws -> AssociateFileSystemAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -142,8 +141,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `DataRepositoryTaskNotFound` : The data repository task or tasks you specified could not be found.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func cancelDataRepositoryTask(input: CancelDataRepositoryTaskInput) async throws -> CancelDataRepositoryTaskOutput
-    {
+    public func cancelDataRepositoryTask(input: CancelDataRepositoryTaskInput) async throws -> CancelDataRepositoryTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -199,8 +197,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `SourceBackupUnavailable` : The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func copyBackup(input: CopyBackupInput) async throws -> CopyBackupOutput
-    {
+    public func copyBackup(input: CopyBackupInput) async throws -> CopyBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -250,8 +247,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func copySnapshotAndUpdateVolume(input: CopySnapshotAndUpdateVolumeInput) async throws -> CopySnapshotAndUpdateVolumeOutput
-    {
+    public func copySnapshotAndUpdateVolume(input: CopySnapshotAndUpdateVolumeInput) async throws -> CopySnapshotAndUpdateVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +326,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func createBackup(input: CreateBackupInput) async throws -> CreateBackupOutput
-    {
+    public func createBackup(input: CreateBackupInput) async throws -> CreateBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +378,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func createDataRepositoryAssociation(input: CreateDataRepositoryAssociationInput) async throws -> CreateDataRepositoryAssociationOutput
-    {
+    public func createDataRepositoryAssociation(input: CreateDataRepositoryAssociationInput) async throws -> CreateDataRepositoryAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -440,8 +434,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func createDataRepositoryTask(input: CreateDataRepositoryTaskInput) async throws -> CreateDataRepositoryTaskOutput
-    {
+    public func createDataRepositoryTask(input: CreateDataRepositoryTaskInput) async throws -> CreateDataRepositoryTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -501,8 +494,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InvalidPerUnitStorageThroughput` : An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     /// - `MissingFileCacheConfiguration` : A cache configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func createFileCache(input: CreateFileCacheInput) async throws -> CreateFileCacheOutput
-    {
+    public func createFileCache(input: CreateFileCacheInput) async throws -> CreateFileCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +568,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InvalidPerUnitStorageThroughput` : An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutput
-    {
+    public func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -639,8 +630,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InvalidPerUnitStorageThroughput` : An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func createFileSystemFromBackup(input: CreateFileSystemFromBackupInput) async throws -> CreateFileSystemFromBackupOutput
-    {
+    public func createFileSystemFromBackup(input: CreateFileSystemFromBackupInput) async throws -> CreateFileSystemFromBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +687,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -751,8 +740,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func createStorageVirtualMachine(input: CreateStorageVirtualMachineInput) async throws -> CreateStorageVirtualMachineOutput
-    {
+    public func createStorageVirtualMachine(input: CreateStorageVirtualMachineInput) async throws -> CreateStorageVirtualMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -806,8 +794,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput
-    {
+    public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -861,8 +848,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `MissingVolumeConfiguration` : A volume configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
-    public func createVolumeFromBackup(input: CreateVolumeFromBackupInput) async throws -> CreateVolumeFromBackupOutput
-    {
+    public func createVolumeFromBackup(input: CreateVolumeFromBackupInput) async throws -> CreateVolumeFromBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +901,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput
-    {
+    public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -967,8 +952,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func deleteDataRepositoryAssociation(input: DeleteDataRepositoryAssociationInput) async throws -> DeleteDataRepositoryAssociationOutput
-    {
+    public func deleteDataRepositoryAssociation(input: DeleteDataRepositoryAssociationInput) async throws -> DeleteDataRepositoryAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1019,8 +1003,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func deleteFileCache(input: DeleteFileCacheInput) async throws -> DeleteFileCacheOutput
-    {
+    public func deleteFileCache(input: DeleteFileCacheInput) async throws -> DeleteFileCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1054,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutput
-    {
+    public func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1121,8 +1103,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-    {
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1172,8 +1153,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
-    public func deleteStorageVirtualMachine(input: DeleteStorageVirtualMachineInput) async throws -> DeleteStorageVirtualMachineOutput
-    {
+    public func deleteStorageVirtualMachine(input: DeleteStorageVirtualMachineInput) async throws -> DeleteStorageVirtualMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1224,8 +1204,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput
-    {
+    public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1259,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput
-    {
+    public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1331,8 +1309,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `InvalidDataRepositoryType` : You have filtered the response to a data repository type that is not supported.
-    public func describeDataRepositoryAssociations(input: DescribeDataRepositoryAssociationsInput) async throws -> DescribeDataRepositoryAssociationsOutput
-    {
+    public func describeDataRepositoryAssociations(input: DescribeDataRepositoryAssociationsInput) async throws -> DescribeDataRepositoryAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1381,8 +1358,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `DataRepositoryTaskNotFound` : The data repository task or tasks you specified could not be found.
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func describeDataRepositoryTasks(input: DescribeDataRepositoryTasksInput) async throws -> DescribeDataRepositoryTasksOutput
-    {
+    public func describeDataRepositoryTasks(input: DescribeDataRepositoryTasksInput) async throws -> DescribeDataRepositoryTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1434,8 +1410,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `FileCacheNotFound` : No caches were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func describeFileCaches(input: DescribeFileCachesInput) async throws -> DescribeFileCachesOutput
-    {
+    public func describeFileCaches(input: DescribeFileCachesInput) async throws -> DescribeFileCachesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1483,8 +1458,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func describeFileSystemAliases(input: DescribeFileSystemAliasesInput) async throws -> DescribeFileSystemAliasesOutput
-    {
+    public func describeFileSystemAliases(input: DescribeFileSystemAliasesInput) async throws -> DescribeFileSystemAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1537,8 +1511,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func describeFileSystems(input: DescribeFileSystemsInput) async throws -> DescribeFileSystemsOutput
-    {
+    public func describeFileSystems(input: DescribeFileSystemsInput) async throws -> DescribeFileSystemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1585,8 +1558,7 @@ extension FSxClient: FSxClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func describeSharedVpcConfiguration(input: DescribeSharedVpcConfigurationInput) async throws -> DescribeSharedVpcConfigurationOutput
-    {
+    public func describeSharedVpcConfiguration(input: DescribeSharedVpcConfigurationInput) async throws -> DescribeSharedVpcConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1638,8 +1610,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
-    {
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1687,8 +1658,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
-    public func describeStorageVirtualMachines(input: DescribeStorageVirtualMachinesInput) async throws -> DescribeStorageVirtualMachinesOutput
-    {
+    public func describeStorageVirtualMachines(input: DescribeStorageVirtualMachinesInput) async throws -> DescribeStorageVirtualMachinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1736,8 +1706,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput
-    {
+    public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1785,8 +1754,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func disassociateFileSystemAliases(input: DisassociateFileSystemAliasesInput) async throws -> DisassociateFileSystemAliasesOutput
-    {
+    public func disassociateFileSystemAliases(input: DisassociateFileSystemAliasesInput) async throws -> DisassociateFileSystemAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1841,8 +1809,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `NotServiceResourceError` : The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
     /// - `ResourceDoesNotSupportTagging` : The resource specified does not support tagging.
     /// - `ResourceNotFound` : The resource specified by the Amazon Resource Name (ARN) can't be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1892,8 +1859,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func releaseFileSystemNfsV3Locks(input: ReleaseFileSystemNfsV3LocksInput) async throws -> ReleaseFileSystemNfsV3LocksOutput
-    {
+    public func releaseFileSystemNfsV3Locks(input: ReleaseFileSystemNfsV3LocksInput) async throws -> ReleaseFileSystemNfsV3LocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1942,8 +1908,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func restoreVolumeFromSnapshot(input: RestoreVolumeFromSnapshotInput) async throws -> RestoreVolumeFromSnapshotOutput
-    {
+    public func restoreVolumeFromSnapshot(input: RestoreVolumeFromSnapshotInput) async throws -> RestoreVolumeFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1992,8 +1957,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func startMisconfiguredStateRecovery(input: StartMisconfiguredStateRecoveryInput) async throws -> StartMisconfiguredStateRecoveryOutput
-    {
+    public func startMisconfiguredStateRecovery(input: StartMisconfiguredStateRecoveryInput) async throws -> StartMisconfiguredStateRecoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2044,8 +2008,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `NotServiceResourceError` : The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
     /// - `ResourceDoesNotSupportTagging` : The resource specified does not support tagging.
     /// - `ResourceNotFound` : The resource specified by the Amazon Resource Name (ARN) can't be found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2095,8 +2058,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `NotServiceResourceError` : The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
     /// - `ResourceDoesNotSupportTagging` : The resource specified does not support tagging.
     /// - `ResourceNotFound` : The resource specified by the Amazon Resource Name (ARN) can't be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2146,8 +2108,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-    public func updateDataRepositoryAssociation(input: UpdateDataRepositoryAssociationInput) async throws -> UpdateDataRepositoryAssociationOutput
-    {
+    public func updateDataRepositoryAssociation(input: UpdateDataRepositoryAssociationInput) async throws -> UpdateDataRepositoryAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2200,8 +2161,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `MissingFileCacheConfiguration` : A cache configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func updateFileCache(input: UpdateFileCacheInput) async throws -> UpdateFileCacheOutput
-    {
+    public func updateFileCache(input: UpdateFileCacheInput) async throws -> UpdateFileCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2342,8 +2302,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutput
-    {
+    public func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2392,8 +2351,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    public func updateSharedVpcConfiguration(input: UpdateSharedVpcConfigurationInput) async throws -> UpdateSharedVpcConfigurationOutput
-    {
+    public func updateSharedVpcConfiguration(input: UpdateSharedVpcConfigurationInput) async throws -> UpdateSharedVpcConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2442,8 +2400,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
-    public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput
-    {
+    public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2494,8 +2451,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
-    public func updateStorageVirtualMachine(input: UpdateStorageVirtualMachineInput) async throws -> UpdateStorageVirtualMachineOutput
-    {
+    public func updateStorageVirtualMachine(input: UpdateStorageVirtualMachineInput) async throws -> UpdateStorageVirtualMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2546,8 +2502,7 @@ extension FSxClient: FSxClientProtocol {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `MissingVolumeConfiguration` : A volume configuration is required for this operation.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
-    public func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutput
-    {
+    public func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

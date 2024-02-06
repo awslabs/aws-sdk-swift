@@ -66,7 +66,7 @@ public struct KinesisAnalyticsV2ClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
+extension KinesisAnalyticsV2Client {
     /// Performs the `AddApplicationCloudWatchLoggingOption` operation on the `KinesisAnalytics_20180523` service.
     ///
     /// Adds an Amazon CloudWatch log stream to monitor application configuration errors.
@@ -84,8 +84,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func addApplicationCloudWatchLoggingOption(input: AddApplicationCloudWatchLoggingOptionInput) async throws -> AddApplicationCloudWatchLoggingOptionOutput
-    {
+    public func addApplicationCloudWatchLoggingOption(input: AddApplicationCloudWatchLoggingOptionInput) async throws -> AddApplicationCloudWatchLoggingOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func addApplicationInput(input: AddApplicationInputInput) async throws -> AddApplicationInputOutput
-    {
+    public func addApplicationInput(input: AddApplicationInputInput) async throws -> AddApplicationInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func addApplicationInputProcessingConfiguration(input: AddApplicationInputProcessingConfigurationInput) async throws -> AddApplicationInputProcessingConfigurationOutput
-    {
+    public func addApplicationInputProcessingConfiguration(input: AddApplicationInputProcessingConfigurationInput) async throws -> AddApplicationInputProcessingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func addApplicationOutput(input: AddApplicationOutputInput) async throws -> AddApplicationOutputOutput
-    {
+    public func addApplicationOutput(input: AddApplicationOutputInput) async throws -> AddApplicationOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func addApplicationReferenceDataSource(input: AddApplicationReferenceDataSourceInput) async throws -> AddApplicationReferenceDataSourceOutput
-    {
+    public func addApplicationReferenceDataSource(input: AddApplicationReferenceDataSourceInput) async throws -> AddApplicationReferenceDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func addApplicationVpcConfiguration(input: AddApplicationVpcConfigurationInput) async throws -> AddApplicationVpcConfigurationOutput
-    {
+    public func addApplicationVpcConfiguration(input: AddApplicationVpcConfigurationInput) async throws -> AddApplicationVpcConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +392,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -447,8 +440,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func createApplicationPresignedUrl(input: CreateApplicationPresignedUrlInput) async throws -> CreateApplicationPresignedUrlOutput
-    {
+    public func createApplicationPresignedUrl(input: CreateApplicationPresignedUrlInput) async throws -> CreateApplicationPresignedUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -500,8 +492,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func createApplicationSnapshot(input: CreateApplicationSnapshotInput) async throws -> CreateApplicationSnapshotOutput
-    {
+    public func createApplicationSnapshot(input: CreateApplicationSnapshotInput) async throws -> CreateApplicationSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -552,8 +543,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +594,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func deleteApplicationCloudWatchLoggingOption(input: DeleteApplicationCloudWatchLoggingOptionInput) async throws -> DeleteApplicationCloudWatchLoggingOptionOutput
-    {
+    public func deleteApplicationCloudWatchLoggingOption(input: DeleteApplicationCloudWatchLoggingOptionInput) async throws -> DeleteApplicationCloudWatchLoggingOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -655,8 +644,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func deleteApplicationInputProcessingConfiguration(input: DeleteApplicationInputProcessingConfigurationInput) async throws -> DeleteApplicationInputProcessingConfigurationOutput
-    {
+    public func deleteApplicationInputProcessingConfiguration(input: DeleteApplicationInputProcessingConfigurationInput) async throws -> DeleteApplicationInputProcessingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +694,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func deleteApplicationOutput(input: DeleteApplicationOutputInput) async throws -> DeleteApplicationOutputOutput
-    {
+    public func deleteApplicationOutput(input: DeleteApplicationOutputInput) async throws -> DeleteApplicationOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +744,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func deleteApplicationReferenceDataSource(input: DeleteApplicationReferenceDataSourceInput) async throws -> DeleteApplicationReferenceDataSourceOutput
-    {
+    public func deleteApplicationReferenceDataSource(input: DeleteApplicationReferenceDataSourceInput) async throws -> DeleteApplicationReferenceDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +795,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func deleteApplicationSnapshot(input: DeleteApplicationSnapshotInput) async throws -> DeleteApplicationSnapshotOutput
-    {
+    public func deleteApplicationSnapshot(input: DeleteApplicationSnapshotInput) async throws -> DeleteApplicationSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -860,8 +845,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func deleteApplicationVpcConfiguration(input: DeleteApplicationVpcConfigurationInput) async throws -> DeleteApplicationVpcConfigurationOutput
-    {
+    public func deleteApplicationVpcConfiguration(input: DeleteApplicationVpcConfigurationInput) async throws -> DeleteApplicationVpcConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -909,8 +893,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutput
-    {
+    public func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -958,8 +941,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func describeApplicationSnapshot(input: DescribeApplicationSnapshotInput) async throws -> DescribeApplicationSnapshotOutput
-    {
+    public func describeApplicationSnapshot(input: DescribeApplicationSnapshotInput) async throws -> DescribeApplicationSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1007,8 +989,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func describeApplicationVersion(input: DescribeApplicationVersionInput) async throws -> DescribeApplicationVersionOutput
-    {
+    public func describeApplicationVersion(input: DescribeApplicationVersionInput) async throws -> DescribeApplicationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1059,8 +1040,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `UnableToDetectSchemaException` : The data format is not valid. Kinesis Data Analytics cannot detect the schema for the given streaming source.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func discoverInputSchema(input: DiscoverInputSchemaInput) async throws -> DiscoverInputSchemaOutput
-    {
+    public func discoverInputSchema(input: DiscoverInputSchemaInput) async throws -> DiscoverInputSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1107,8 +1087,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func listApplicationSnapshots(input: ListApplicationSnapshotsInput) async throws -> ListApplicationSnapshotsOutput
-    {
+    public func listApplicationSnapshots(input: ListApplicationSnapshotsInput) async throws -> ListApplicationSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1156,8 +1135,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
-    {
+    public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1203,8 +1181,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1252,8 +1229,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1304,8 +1280,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func rollbackApplication(input: RollbackApplicationInput) async throws -> RollbackApplicationOutput
-    {
+    public func rollbackApplication(input: RollbackApplicationInput) async throws -> RollbackApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1355,8 +1330,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput
-    {
+    public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1407,8 +1381,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput
-    {
+    public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1458,8 +1431,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1509,8 +1481,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1563,8 +1534,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `LimitExceededException` : The number of allowed resources has been exceeded.
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1614,8 +1584,7 @@ extension KinesisAnalyticsV2Client: KinesisAnalyticsV2ClientProtocol {
     /// - `ResourceInUseException` : The application is not available for this operation.
     /// - `ResourceNotFoundException` : Specified application can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func updateApplicationMaintenanceConfiguration(input: UpdateApplicationMaintenanceConfigurationInput) async throws -> UpdateApplicationMaintenanceConfigurationOutput
-    {
+    public func updateApplicationMaintenanceConfiguration(input: UpdateApplicationMaintenanceConfigurationInput) async throws -> UpdateApplicationMaintenanceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

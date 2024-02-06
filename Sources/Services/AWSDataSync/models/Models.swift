@@ -3355,6 +3355,8 @@ extension DataSyncClientTypes {
 
 }
 
+public enum DataSyncClientTypes {}
+
 extension DeleteAgentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArn = "AgentArn"

@@ -2930,6 +2930,8 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+public enum SnowDeviceManagementClientTypes {}
+
 extension SnowDeviceManagementClientTypes.SoftwareInformation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case installState

@@ -66,7 +66,7 @@ public struct BedrockRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
+extension BedrockRuntimeClient {
     /// Performs the `InvokeModel` operation on the `AmazonBedrockFrontendService` service.
     ///
     /// Invokes the specified Bedrock model to run inference using the input provided in the request body. You use InvokeModel to run inference for text models, image models, and embedding models. For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide. For example requests, see Examples (after the Errors section).
@@ -87,8 +87,7 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput
-    {
+    public func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -143,8 +142,7 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutput
-    {
+    public func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

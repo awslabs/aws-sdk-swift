@@ -66,7 +66,7 @@ public struct ChimeSDKMessagingClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
+extension ChimeSDKMessagingClient {
     /// Performs the `AssociateChannelFlow` operation on the `ChimeMessagingService` service.
     ///
     /// Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the DisassociateChannelFlow API. Only administrators or channel moderators can associate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
@@ -86,8 +86,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func associateChannelFlow(input: AssociateChannelFlowInput) async throws -> AssociateChannelFlowOutput
-    {
+    public func associateChannelFlow(input: AssociateChannelFlowInput) async throws -> AssociateChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func batchCreateChannelMembership(input: BatchCreateChannelMembershipInput) async throws -> BatchCreateChannelMembershipOutput
-    {
+    public func batchCreateChannelMembership(input: BatchCreateChannelMembershipInput) async throws -> BatchCreateChannelMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -200,8 +198,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func channelFlowCallback(input: ChannelFlowCallbackInput) async throws -> ChannelFlowCallbackOutput
-    {
+    public func channelFlowCallback(input: ChannelFlowCallbackInput) async throws -> ChannelFlowCallbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -255,8 +252,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -310,8 +306,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createChannelBan(input: CreateChannelBanInput) async throws -> CreateChannelBanOutput
-    {
+    public func createChannelBan(input: CreateChannelBanInput) async throws -> CreateChannelBanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -373,8 +368,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createChannelFlow(input: CreateChannelFlowInput) async throws -> CreateChannelFlowOutput
-    {
+    public func createChannelFlow(input: CreateChannelFlowInput) async throws -> CreateChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +442,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createChannelMembership(input: CreateChannelMembershipInput) async throws -> CreateChannelMembershipOutput
-    {
+    public func createChannelMembership(input: CreateChannelMembershipInput) async throws -> CreateChannelMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -515,8 +508,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createChannelModerator(input: CreateChannelModeratorInput) async throws -> CreateChannelModeratorOutput
-    {
+    public func createChannelModerator(input: CreateChannelModeratorInput) async throws -> CreateChannelModeratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +560,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -617,8 +608,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteChannelBan(input: DeleteChannelBanInput) async throws -> DeleteChannelBanOutput
-    {
+    public func deleteChannelBan(input: DeleteChannelBanInput) async throws -> DeleteChannelBanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +657,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteChannelFlow(input: DeleteChannelFlowInput) async throws -> DeleteChannelFlowOutput
-    {
+    public func deleteChannelFlow(input: DeleteChannelFlowInput) async throws -> DeleteChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -716,8 +705,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteChannelMembership(input: DeleteChannelMembershipInput) async throws -> DeleteChannelMembershipOutput
-    {
+    public func deleteChannelMembership(input: DeleteChannelMembershipInput) async throws -> DeleteChannelMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -766,8 +754,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteChannelMessage(input: DeleteChannelMessageInput) async throws -> DeleteChannelMessageOutput
-    {
+    public func deleteChannelMessage(input: DeleteChannelMessageInput) async throws -> DeleteChannelMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -816,8 +803,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteChannelModerator(input: DeleteChannelModeratorInput) async throws -> DeleteChannelModeratorOutput
-    {
+    public func deleteChannelModerator(input: DeleteChannelModeratorInput) async throws -> DeleteChannelModeratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -865,8 +851,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteMessagingStreamingConfigurations(input: DeleteMessagingStreamingConfigurationsInput) async throws -> DeleteMessagingStreamingConfigurationsOutput
-    {
+    public func deleteMessagingStreamingConfigurations(input: DeleteMessagingStreamingConfigurationsInput) async throws -> DeleteMessagingStreamingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -913,8 +898,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
-    {
+    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +947,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannelBan(input: DescribeChannelBanInput) async throws -> DescribeChannelBanOutput
-    {
+    public func describeChannelBan(input: DescribeChannelBanInput) async throws -> DescribeChannelBanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1012,8 +995,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannelFlow(input: DescribeChannelFlowInput) async throws -> DescribeChannelFlowOutput
-    {
+    public func describeChannelFlow(input: DescribeChannelFlowInput) async throws -> DescribeChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1061,8 +1043,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannelMembership(input: DescribeChannelMembershipInput) async throws -> DescribeChannelMembershipOutput
-    {
+    public func describeChannelMembership(input: DescribeChannelMembershipInput) async throws -> DescribeChannelMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1111,8 +1092,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannelMembershipForAppInstanceUser(input: DescribeChannelMembershipForAppInstanceUserInput) async throws -> DescribeChannelMembershipForAppInstanceUserOutput
-    {
+    public func describeChannelMembershipForAppInstanceUser(input: DescribeChannelMembershipForAppInstanceUserInput) async throws -> DescribeChannelMembershipForAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1161,8 +1141,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannelModeratedByAppInstanceUser(input: DescribeChannelModeratedByAppInstanceUserInput) async throws -> DescribeChannelModeratedByAppInstanceUserOutput
-    {
+    public func describeChannelModeratedByAppInstanceUser(input: DescribeChannelModeratedByAppInstanceUserInput) async throws -> DescribeChannelModeratedByAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1191,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeChannelModerator(input: DescribeChannelModeratorInput) async throws -> DescribeChannelModeratorOutput
-    {
+    public func describeChannelModerator(input: DescribeChannelModeratorInput) async throws -> DescribeChannelModeratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1263,8 +1241,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func disassociateChannelFlow(input: DisassociateChannelFlowInput) async throws -> DisassociateChannelFlowOutput
-    {
+    public func disassociateChannelFlow(input: DisassociateChannelFlowInput) async throws -> DisassociateChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1312,8 +1289,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func getChannelMembershipPreferences(input: GetChannelMembershipPreferencesInput) async throws -> GetChannelMembershipPreferencesOutput
-    {
+    public func getChannelMembershipPreferences(input: GetChannelMembershipPreferencesInput) async throws -> GetChannelMembershipPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1362,8 +1338,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func getChannelMessage(input: GetChannelMessageInput) async throws -> GetChannelMessageOutput
-    {
+    public func getChannelMessage(input: GetChannelMessageInput) async throws -> GetChannelMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1418,8 +1393,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func getChannelMessageStatus(input: GetChannelMessageStatusInput) async throws -> GetChannelMessageStatusOutput
-    {
+    public func getChannelMessageStatus(input: GetChannelMessageStatusInput) async throws -> GetChannelMessageStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1467,8 +1441,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func getMessagingSessionEndpoint(input: GetMessagingSessionEndpointInput) async throws -> GetMessagingSessionEndpointOutput
-    {
+    public func getMessagingSessionEndpoint(input: GetMessagingSessionEndpointInput) async throws -> GetMessagingSessionEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1516,8 +1489,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func getMessagingStreamingConfigurations(input: GetMessagingStreamingConfigurationsInput) async throws -> GetMessagingStreamingConfigurationsOutput
-    {
+    public func getMessagingStreamingConfigurations(input: GetMessagingStreamingConfigurationsInput) async throws -> GetMessagingStreamingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1564,8 +1536,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelBans(input: ListChannelBansInput) async throws -> ListChannelBansOutput
-    {
+    public func listChannelBans(input: ListChannelBansInput) async throws -> ListChannelBansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1614,8 +1585,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelFlows(input: ListChannelFlowsInput) async throws -> ListChannelFlowsOutput
-    {
+    public func listChannelFlows(input: ListChannelFlowsInput) async throws -> ListChannelFlowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1663,8 +1633,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelMemberships(input: ListChannelMembershipsInput) async throws -> ListChannelMembershipsOutput
-    {
+    public func listChannelMemberships(input: ListChannelMembershipsInput) async throws -> ListChannelMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1713,8 +1682,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelMembershipsForAppInstanceUser(input: ListChannelMembershipsForAppInstanceUserInput) async throws -> ListChannelMembershipsForAppInstanceUserOutput
-    {
+    public func listChannelMembershipsForAppInstanceUser(input: ListChannelMembershipsForAppInstanceUserInput) async throws -> ListChannelMembershipsForAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1763,8 +1731,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelMessages(input: ListChannelMessagesInput) async throws -> ListChannelMessagesOutput
-    {
+    public func listChannelMessages(input: ListChannelMessagesInput) async throws -> ListChannelMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1813,8 +1780,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelModerators(input: ListChannelModeratorsInput) async throws -> ListChannelModeratorsOutput
-    {
+    public func listChannelModerators(input: ListChannelModeratorsInput) async throws -> ListChannelModeratorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1870,8 +1836,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1920,8 +1885,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelsAssociatedWithChannelFlow(input: ListChannelsAssociatedWithChannelFlowInput) async throws -> ListChannelsAssociatedWithChannelFlowOutput
-    {
+    public func listChannelsAssociatedWithChannelFlow(input: ListChannelsAssociatedWithChannelFlowInput) async throws -> ListChannelsAssociatedWithChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1969,8 +1933,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listChannelsModeratedByAppInstanceUser(input: ListChannelsModeratedByAppInstanceUserInput) async throws -> ListChannelsModeratedByAppInstanceUserOutput
-    {
+    public func listChannelsModeratedByAppInstanceUser(input: ListChannelsModeratedByAppInstanceUserInput) async throws -> ListChannelsModeratedByAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2019,8 +1982,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listSubChannels(input: ListSubChannelsInput) async throws -> ListSubChannelsOutput
-    {
+    public func listSubChannels(input: ListSubChannelsInput) async throws -> ListSubChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2069,8 +2031,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2125,8 +2086,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func putChannelExpirationSettings(input: PutChannelExpirationSettingsInput) async throws -> PutChannelExpirationSettingsOutput
-    {
+    public func putChannelExpirationSettings(input: PutChannelExpirationSettingsInput) async throws -> PutChannelExpirationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2178,8 +2138,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func putChannelMembershipPreferences(input: PutChannelMembershipPreferencesInput) async throws -> PutChannelMembershipPreferencesOutput
-    {
+    public func putChannelMembershipPreferences(input: PutChannelMembershipPreferencesInput) async throws -> PutChannelMembershipPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2232,8 +2191,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func putMessagingStreamingConfigurations(input: PutMessagingStreamingConfigurationsInput) async throws -> PutMessagingStreamingConfigurationsOutput
-    {
+    public func putMessagingStreamingConfigurations(input: PutMessagingStreamingConfigurationsInput) async throws -> PutMessagingStreamingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2284,8 +2242,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func redactChannelMessage(input: RedactChannelMessageInput) async throws -> RedactChannelMessageOutput
-    {
+    public func redactChannelMessage(input: RedactChannelMessageInput) async throws -> RedactChannelMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2337,8 +2294,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func searchChannels(input: SearchChannelsInput) async throws -> SearchChannelsOutput
-    {
+    public func searchChannels(input: SearchChannelsInput) async throws -> SearchChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2391,8 +2347,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func sendChannelMessage(input: SendChannelMessageInput) async throws -> SendChannelMessageOutput
-    {
+    public func sendChannelMessage(input: SendChannelMessageInput) async throws -> SendChannelMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2445,8 +2400,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2497,8 +2451,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2550,8 +2503,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2603,8 +2555,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateChannelFlow(input: UpdateChannelFlowInput) async throws -> UpdateChannelFlowOutput
-    {
+    public func updateChannelFlow(input: UpdateChannelFlowInput) async throws -> UpdateChannelFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2655,8 +2606,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateChannelMessage(input: UpdateChannelMessageInput) async throws -> UpdateChannelMessageOutput
-    {
+    public func updateChannelMessage(input: UpdateChannelMessageInput) async throws -> UpdateChannelMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2708,8 +2658,7 @@ extension ChimeSDKMessagingClient: ChimeSDKMessagingClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateChannelReadMarker(input: UpdateChannelReadMarkerInput) async throws -> UpdateChannelReadMarkerOutput
-    {
+    public func updateChannelReadMarker(input: UpdateChannelReadMarkerInput) async throws -> UpdateChannelReadMarkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -7884,6 +7884,8 @@ extension SFNClientTypes {
 
 }
 
+public enum SFNClientTypes {}
+
 extension SendTaskFailureInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SendTaskFailureInput(taskToken: \(Swift.String(describing: taskToken)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\")"}

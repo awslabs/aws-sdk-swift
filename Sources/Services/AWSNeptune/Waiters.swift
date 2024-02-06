@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension NeptuneClientProtocol {
+extension NeptuneClient {
 
     static func dbInstanceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
         let acceptors: [WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>.Acceptor] = [

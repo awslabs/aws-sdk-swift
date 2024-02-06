@@ -66,7 +66,7 @@ public struct EMRcontainersClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension EMRcontainersClient: EMRcontainersClientProtocol {
+extension EMRcontainersClient {
     /// Performs the `CancelJobRun` operation on the `AwsChicagoWebService` service.
     ///
     /// Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
@@ -80,8 +80,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput
-    {
+    public func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -125,8 +124,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
-    {
+    public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func createManagedEndpoint(input: CreateManagedEndpointInput) async throws -> CreateManagedEndpointOutput
-    {
+    public func createManagedEndpoint(input: CreateManagedEndpointInput) async throws -> CreateManagedEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -223,8 +220,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func createVirtualCluster(input: CreateVirtualClusterInput) async throws -> CreateVirtualClusterOutput
-    {
+    public func createVirtualCluster(input: CreateVirtualClusterInput) async throws -> CreateVirtualClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
-    {
+    public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -315,8 +310,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func deleteManagedEndpoint(input: DeleteManagedEndpointInput) async throws -> DeleteManagedEndpointOutput
-    {
+    public func deleteManagedEndpoint(input: DeleteManagedEndpointInput) async throws -> DeleteManagedEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -359,8 +353,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func deleteVirtualCluster(input: DeleteVirtualClusterInput) async throws -> DeleteVirtualClusterOutput
-    {
+    public func deleteVirtualCluster(input: DeleteVirtualClusterInput) async throws -> DeleteVirtualClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -404,8 +397,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput
-    {
+    public func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -449,8 +441,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput
-    {
+    public func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +485,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func describeManagedEndpoint(input: DescribeManagedEndpointInput) async throws -> DescribeManagedEndpointOutput
-    {
+    public func describeManagedEndpoint(input: DescribeManagedEndpointInput) async throws -> DescribeManagedEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +529,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func describeVirtualCluster(input: DescribeVirtualClusterInput) async throws -> DescribeVirtualClusterOutput
-    {
+    public func describeVirtualCluster(input: DescribeVirtualClusterInput) async throws -> DescribeVirtualClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -585,8 +574,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `RequestThrottledException` : The request throttled.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func getManagedEndpointSessionCredentials(input: GetManagedEndpointSessionCredentialsInput) async throws -> GetManagedEndpointSessionCredentialsOutput
-    {
+    public func getManagedEndpointSessionCredentials(input: GetManagedEndpointSessionCredentialsInput) async throws -> GetManagedEndpointSessionCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -633,8 +621,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
-    {
+    public func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -678,8 +665,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
-    {
+    public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -723,8 +709,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func listManagedEndpoints(input: ListManagedEndpointsInput) async throws -> ListManagedEndpointsOutput
-    {
+    public func listManagedEndpoints(input: ListManagedEndpointsInput) async throws -> ListManagedEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,8 +754,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -813,8 +797,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func listVirtualClusters(input: ListVirtualClustersInput) async throws -> ListVirtualClustersOutput
-    {
+    public func listVirtualClusters(input: ListVirtualClustersInput) async throws -> ListVirtualClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -859,8 +842,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
-    {
+    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -908,8 +890,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -956,8 +937,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

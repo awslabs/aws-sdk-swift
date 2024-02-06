@@ -737,6 +737,8 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ConnectCasesClientTypes {}
+
 extension ConnectCasesClientTypes.Contact: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactArn

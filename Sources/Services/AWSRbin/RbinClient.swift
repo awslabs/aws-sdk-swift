@@ -66,7 +66,7 @@ public struct RbinClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension RbinClient: RbinClientProtocol {
+extension RbinClient {
     /// Performs the `CreateRule` operation on the `AmazonRecycleBin` service.
     ///
     /// Creates a Recycle Bin retention rule. For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule) in the Amazon Elastic Compute Cloud User Guide.
@@ -81,8 +81,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-    {
+    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,8 +173,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func getRule(input: GetRuleInput) async throws -> GetRuleOutput
-    {
+    public func getRule(input: GetRuleInput) async throws -> GetRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -219,8 +216,7 @@ extension RbinClient: RbinClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-    {
+    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -267,8 +263,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -313,8 +308,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func lockRule(input: LockRuleInput) async throws -> LockRuleOutput
-    {
+    public func lockRule(input: LockRuleInput) async throws -> LockRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -362,8 +356,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -411,8 +404,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func unlockRule(input: UnlockRuleInput) async throws -> UnlockRuleOutput
-    {
+    public func unlockRule(input: UnlockRuleInput) async throws -> UnlockRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -456,8 +448,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -504,8 +495,7 @@ extension RbinClient: RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
-    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput
-    {
+    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

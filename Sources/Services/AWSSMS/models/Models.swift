@@ -5301,6 +5301,8 @@ extension SMSClientTypes {
 
 }
 
+public enum SMSClientTypes {}
+
 extension SMSClientTypes.SSMOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Location

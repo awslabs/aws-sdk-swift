@@ -66,7 +66,7 @@ public struct RepostspaceClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension RepostspaceClient: RepostspaceClientProtocol {
+extension RepostspaceClient {
     /// Performs the `CreateSpace` operation on the `RepostSpace` service.
     ///
     /// Creates an AWS re:Post Private private re:Post.
@@ -85,8 +85,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutput
-    {
+    public func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput
-    {
+    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deregisterAdmin(input: DeregisterAdminInput) async throws -> DeregisterAdminOutput
-    {
+    public func deregisterAdmin(input: DeregisterAdminInput) async throws -> DeregisterAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutput
-    {
+    public func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +271,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput
-    {
+    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -323,8 +318,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -370,8 +364,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func registerAdmin(input: RegisterAdminInput) async throws -> RegisterAdminOutput
-    {
+    public func registerAdmin(input: RegisterAdminInput) async throws -> RegisterAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -417,8 +410,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func sendInvites(input: SendInvitesInput) async throws -> SendInvitesOutput
-    {
+    public func sendInvites(input: SendInvitesInput) async throws -> SendInvitesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -467,8 +459,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +556,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput
-    {
+    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

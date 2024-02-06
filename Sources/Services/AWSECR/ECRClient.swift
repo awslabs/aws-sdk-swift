@@ -66,7 +66,7 @@ public struct ECRClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension ECRClient: ECRClientProtocol {
+extension ECRClient {
     /// Performs the `BatchCheckLayerAvailability` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
     ///
     /// Checks the availability of one or more image layers in a repository. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
@@ -81,8 +81,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput
-    {
+    public func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput
-    {
+    public func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnableToGetUpstreamImageException` : The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
-    public func batchGetImage(input: BatchGetImageInput) async throws -> BatchGetImageOutput
-    {
+    public func batchGetImage(input: BatchGetImageInput) async throws -> BatchGetImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func batchGetRepositoryScanningConfiguration(input: BatchGetRepositoryScanningConfigurationInput) async throws -> BatchGetRepositoryScanningConfigurationOutput
-    {
+    public func batchGetRepositoryScanningConfiguration(input: BatchGetRepositoryScanningConfigurationInput) async throws -> BatchGetRepositoryScanningConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UploadNotFoundException` : The upload could not be found, or the specified upload ID is not valid for this repository.
-    public func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput
-    {
+    public func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `UnableToDecryptSecretValueException` : The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
     /// - `UnsupportedUpstreamRegistryException` : The specified upstream registry isn't supported.
     /// - `ValidationException` : There was an exception validating this request.
-    public func createPullThroughCacheRule(input: CreatePullThroughCacheRuleInput) async throws -> CreatePullThroughCacheRuleOutput
-    {
+    public func createPullThroughCacheRule(input: CreatePullThroughCacheRuleInput) async throws -> CreatePullThroughCacheRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +388,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryAlreadyExistsException` : The specified repository already exists in the specified registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
-    {
+    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -445,8 +438,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
-    {
+    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -495,8 +487,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `PullThroughCacheRuleNotFoundException` : The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func deletePullThroughCacheRule(input: DeletePullThroughCacheRuleInput) async throws -> DeletePullThroughCacheRuleOutput
-    {
+    public func deletePullThroughCacheRule(input: DeletePullThroughCacheRuleInput) async throws -> DeletePullThroughCacheRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -545,8 +536,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RegistryPolicyNotFoundException` : The registry doesn't have an associated registry policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func deleteRegistryPolicy(input: DeleteRegistryPolicyInput) async throws -> DeleteRegistryPolicyOutput
-    {
+    public func deleteRegistryPolicy(input: DeleteRegistryPolicyInput) async throws -> DeleteRegistryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +586,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotEmptyException` : The specified repository contains images. To delete a repository that contains images, you must force the deletion with the force parameter.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
-    {
+    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +635,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination does not have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput
-    {
+    public func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +685,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func describeImageReplicationStatus(input: DescribeImageReplicationStatusInput) async throws -> DescribeImageReplicationStatusOutput
-    {
+    public func describeImageReplicationStatus(input: DescribeImageReplicationStatusInput) async throws -> DescribeImageReplicationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -749,8 +736,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `ScanNotFoundException` : The specified image scan could not be found. Ensure that image scanning is enabled on the repository and try again.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func describeImageScanFindings(input: DescribeImageScanFindingsInput) async throws -> DescribeImageScanFindingsOutput
-    {
+    public func describeImageScanFindings(input: DescribeImageScanFindingsInput) async throws -> DescribeImageScanFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -799,8 +785,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
-    {
+    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -849,8 +834,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `PullThroughCacheRuleNotFoundException` : The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func describePullThroughCacheRules(input: DescribePullThroughCacheRulesInput) async throws -> DescribePullThroughCacheRulesOutput
-    {
+    public func describePullThroughCacheRules(input: DescribePullThroughCacheRulesInput) async throws -> DescribePullThroughCacheRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +882,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput
-    {
+    public func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -947,8 +930,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput
-    {
+    public func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +977,7 @@ extension ECRClient: ECRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
-    {
+    public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1047,8 +1028,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnableToGetUpstreamLayerException` : There was an issue getting the upstream layer matching the pull through cache rule.
-    public func getDownloadUrlForLayer(input: GetDownloadUrlForLayerInput) async throws -> GetDownloadUrlForLayerOutput
-    {
+    public func getDownloadUrlForLayer(input: GetDownloadUrlForLayerInput) async throws -> GetDownloadUrlForLayerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1098,8 +1078,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
-    {
+    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1149,8 +1128,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func getLifecyclePolicyPreview(input: GetLifecyclePolicyPreviewInput) async throws -> GetLifecyclePolicyPreviewOutput
-    {
+    public func getLifecyclePolicyPreview(input: GetLifecyclePolicyPreviewInput) async throws -> GetLifecyclePolicyPreviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1199,8 +1177,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RegistryPolicyNotFoundException` : The registry doesn't have an associated registry policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func getRegistryPolicy(input: GetRegistryPolicyInput) async throws -> GetRegistryPolicyOutput
-    {
+    public func getRegistryPolicy(input: GetRegistryPolicyInput) async throws -> GetRegistryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1248,8 +1225,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func getRegistryScanningConfiguration(input: GetRegistryScanningConfigurationInput) async throws -> GetRegistryScanningConfigurationOutput
-    {
+    public func getRegistryScanningConfiguration(input: GetRegistryScanningConfigurationInput) async throws -> GetRegistryScanningConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1298,8 +1274,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination does not have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput
-    {
+    public func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1348,8 +1323,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `KmsException` : The operation failed due to a KMS exception.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput
-    {
+    public func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1397,8 +1371,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func listImages(input: ListImagesInput) async throws -> ListImagesOutput
-    {
+    public func listImages(input: ListImagesInput) async throws -> ListImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1446,8 +1419,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1502,8 +1474,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `ReferencedImagesNotFoundException` : The manifest list is referencing an image that does not exist.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func putImage(input: PutImageInput) async throws -> PutImageOutput
-    {
+    public func putImage(input: PutImageInput) async throws -> PutImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1552,8 +1523,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func putImageScanningConfiguration(input: PutImageScanningConfigurationInput) async throws -> PutImageScanningConfigurationOutput
-    {
+    public func putImageScanningConfiguration(input: PutImageScanningConfigurationInput) async throws -> PutImageScanningConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1601,8 +1571,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func putImageTagMutability(input: PutImageTagMutabilityInput) async throws -> PutImageTagMutabilityOutput
-    {
+    public func putImageTagMutability(input: PutImageTagMutabilityInput) async throws -> PutImageTagMutabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1651,8 +1620,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutput
-    {
+    public func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1700,8 +1668,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func putRegistryPolicy(input: PutRegistryPolicyInput) async throws -> PutRegistryPolicyOutput
-    {
+    public func putRegistryPolicy(input: PutRegistryPolicyInput) async throws -> PutRegistryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1749,8 +1716,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func putRegistryScanningConfiguration(input: PutRegistryScanningConfigurationInput) async throws -> PutRegistryScanningConfigurationOutput
-    {
+    public func putRegistryScanningConfiguration(input: PutRegistryScanningConfigurationInput) async throws -> PutRegistryScanningConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1798,8 +1764,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func putReplicationConfiguration(input: PutReplicationConfigurationInput) async throws -> PutReplicationConfigurationOutput
-    {
+    public func putReplicationConfiguration(input: PutReplicationConfigurationInput) async throws -> PutReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1847,8 +1812,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput
-    {
+    public func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1900,8 +1864,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedImageTypeException` : The image is of a type that cannot be scanned.
     /// - `ValidationException` : There was an exception validating this request.
-    public func startImageScan(input: StartImageScanInput) async throws -> StartImageScanOutput
-    {
+    public func startImageScan(input: StartImageScanInput) async throws -> StartImageScanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1952,8 +1915,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func startLifecyclePolicyPreview(input: StartLifecyclePolicyPreviewInput) async throws -> StartLifecyclePolicyPreviewOutput
-    {
+    public func startLifecyclePolicyPreview(input: StartLifecyclePolicyPreviewInput) async throws -> StartLifecyclePolicyPreviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2003,8 +1965,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2054,8 +2015,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2107,8 +2067,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `UnableToAccessSecretException` : The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
     /// - `UnableToDecryptSecretValueException` : The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
     /// - `ValidationException` : There was an exception validating this request.
-    public func updatePullThroughCacheRule(input: UpdatePullThroughCacheRuleInput) async throws -> UpdatePullThroughCacheRuleOutput
-    {
+    public func updatePullThroughCacheRule(input: UpdatePullThroughCacheRuleInput) async throws -> UpdatePullThroughCacheRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2160,8 +2119,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UploadNotFoundException` : The upload could not be found, or the specified upload ID is not valid for this repository.
-    public func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput
-    {
+    public func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2210,8 +2168,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `PullThroughCacheRuleNotFoundException` : The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
-    public func validatePullThroughCacheRule(input: ValidatePullThroughCacheRuleInput) async throws -> ValidatePullThroughCacheRuleOutput
-    {
+    public func validatePullThroughCacheRule(input: ValidatePullThroughCacheRuleInput) async throws -> ValidatePullThroughCacheRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

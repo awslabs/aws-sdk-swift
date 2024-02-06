@@ -66,7 +66,7 @@ public struct RekognitionClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension RekognitionClient: RekognitionClientProtocol {
+extension RekognitionClient {
     /// Performs the `AssociateFaces` operation on the `RekognitionService` service.
     ///
     /// Associates one or more faces with an existing UserID. Takes an array of FaceIds. Each FaceId that are present in the FaceIds list is associated with the provided UserID. The maximum number of total FaceIds per UserID is 100. The UserMatchThreshold parameter specifies the minimum user match confidence required for the face to be associated with a UserID that has at least one FaceID already associated. This ensures that the FaceIds are associated with the right UserID. The value ranges from 0-100 and default value is 75. If successful, an array of AssociatedFace objects containing the associated FaceIds is returned. If a given face is already associated with the given UserID, it will be ignored and will not be returned in the response. If a given face is already associated to a different UserID, isn't found in the collection, doesn’t meet the UserMatchThreshold, or there are already 100 faces associated with the UserID, it will be returned as part of an array of UnsuccessfulFaceAssociations. The UserStatus reflects the status of an operation which updates a UserID representation with a list of given faces. The UserStatus can be:
@@ -93,8 +93,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func associateFaces(input: AssociateFacesInput) async throws -> AssociateFacesOutput
-    {
+    public func associateFaces(input: AssociateFacesInput) async throws -> AssociateFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -148,8 +147,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Rekognition is unable to access the S3 object specified in the request.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func compareFaces(input: CompareFacesInput) async throws -> CompareFacesOutput
-    {
+    public func compareFaces(input: CompareFacesInput) async throws -> CompareFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +201,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func copyProjectVersion(input: CopyProjectVersionInput) async throws -> CopyProjectVersionOutput
-    {
+    public func copyProjectVersion(input: CopyProjectVersionInput) async throws -> CopyProjectVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -256,8 +253,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceAlreadyExistsException` : A resource with the specified ID already exists.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutput
-    {
+    public func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -311,8 +307,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceAlreadyExistsException` : A resource with the specified ID already exists.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -362,8 +357,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidParameterException` : Input parameter violated a constraint. Validate your parameter before calling the API operation again.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createFaceLivenessSession(input: CreateFaceLivenessSessionInput) async throws -> CreateFaceLivenessSessionOutput
-    {
+    public func createFaceLivenessSession(input: CreateFaceLivenessSessionInput) async throws -> CreateFaceLivenessSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -415,8 +409,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -470,8 +463,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createProjectVersion(input: CreateProjectVersionInput) async throws -> CreateProjectVersionOutput
-    {
+    public func createProjectVersion(input: CreateProjectVersionInput) async throws -> CreateProjectVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -531,8 +523,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createStreamProcessor(input: CreateStreamProcessorInput) async throws -> CreateStreamProcessorOutput
-    {
+    public func createStreamProcessor(input: CreateStreamProcessorInput) async throws -> CreateStreamProcessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +577,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -639,8 +629,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutput
-    {
+    public func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -693,8 +682,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -745,8 +733,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteFaces(input: DeleteFacesInput) async throws -> DeleteFacesOutput
-    {
+    public func deleteFaces(input: DeleteFacesInput) async throws -> DeleteFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -798,8 +785,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -851,8 +837,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteProjectPolicy(input: DeleteProjectPolicyInput) async throws -> DeleteProjectPolicyOutput
-    {
+    public func deleteProjectPolicy(input: DeleteProjectPolicyInput) async throws -> DeleteProjectPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -904,8 +889,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteProjectVersion(input: DeleteProjectVersionInput) async throws -> DeleteProjectVersionOutput
-    {
+    public func deleteProjectVersion(input: DeleteProjectVersionInput) async throws -> DeleteProjectVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +941,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteStreamProcessor(input: DeleteStreamProcessorInput) async throws -> DeleteStreamProcessorOutput
-    {
+    public func deleteStreamProcessor(input: DeleteStreamProcessorInput) async throws -> DeleteStreamProcessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +994,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,8 +1046,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func describeCollection(input: DescribeCollectionInput) async throws -> DescribeCollectionOutput
-    {
+    public func describeCollection(input: DescribeCollectionInput) async throws -> DescribeCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1116,8 +1097,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1169,8 +1149,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func describeProjectVersions(input: DescribeProjectVersionsInput) async throws -> DescribeProjectVersionsOutput
-    {
+    public func describeProjectVersions(input: DescribeProjectVersionsInput) async throws -> DescribeProjectVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1200,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidParameterException` : Input parameter violated a constraint. Validate your parameter before calling the API operation again.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func describeProjects(input: DescribeProjectsInput) async throws -> DescribeProjectsOutput
-    {
+    public func describeProjects(input: DescribeProjectsInput) async throws -> DescribeProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1273,8 +1251,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func describeStreamProcessor(input: DescribeStreamProcessorInput) async throws -> DescribeStreamProcessorOutput
-    {
+    public func describeStreamProcessor(input: DescribeStreamProcessorInput) async throws -> DescribeStreamProcessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1333,8 +1310,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     ///
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func detectCustomLabels(input: DetectCustomLabelsInput) async throws -> DetectCustomLabelsOutput
-    {
+    public func detectCustomLabels(input: DetectCustomLabelsInput) async throws -> DetectCustomLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1387,8 +1363,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Rekognition is unable to access the S3 object specified in the request.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func detectFaces(input: DetectFacesInput) async throws -> DetectFacesOutput
-    {
+    public func detectFaces(input: DetectFacesInput) async throws -> DetectFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1473,8 +1448,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Rekognition is unable to access the S3 object specified in the request.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func detectLabels(input: DetectLabelsInput) async throws -> DetectLabelsOutput
-    {
+    public func detectLabels(input: DetectLabelsInput) async throws -> DetectLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1533,8 +1507,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     ///
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func detectModerationLabels(input: DetectModerationLabelsInput) async throws -> DetectModerationLabelsOutput
-    {
+    public func detectModerationLabels(input: DetectModerationLabelsInput) async throws -> DetectModerationLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1578,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Rekognition is unable to access the S3 object specified in the request.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func detectProtectiveEquipment(input: DetectProtectiveEquipmentInput) async throws -> DetectProtectiveEquipmentOutput
-    {
+    public func detectProtectiveEquipment(input: DetectProtectiveEquipmentInput) async throws -> DetectProtectiveEquipmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1659,8 +1631,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Rekognition is unable to access the S3 object specified in the request.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func detectText(input: DetectTextInput) async throws -> DetectTextOutput
-    {
+    public func detectText(input: DetectTextInput) async throws -> DetectTextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1713,8 +1684,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func disassociateFaces(input: DisassociateFacesInput) async throws -> DisassociateFacesOutput
-    {
+    public func disassociateFaces(input: DisassociateFacesInput) async throws -> DisassociateFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1770,8 +1740,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     ///
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func distributeDatasetEntries(input: DistributeDatasetEntriesInput) async throws -> DistributeDatasetEntriesOutput
-    {
+    public func distributeDatasetEntries(input: DistributeDatasetEntriesInput) async throws -> DistributeDatasetEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1822,8 +1791,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getCelebrityInfo(input: GetCelebrityInfoInput) async throws -> GetCelebrityInfoOutput
-    {
+    public func getCelebrityInfo(input: GetCelebrityInfoInput) async throws -> GetCelebrityInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1875,8 +1843,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getCelebrityRecognition(input: GetCelebrityRecognitionInput) async throws -> GetCelebrityRecognitionOutput
-    {
+    public func getCelebrityRecognition(input: GetCelebrityRecognitionInput) async throws -> GetCelebrityRecognitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1928,8 +1895,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getContentModeration(input: GetContentModerationInput) async throws -> GetContentModerationOutput
-    {
+    public func getContentModeration(input: GetContentModerationInput) async throws -> GetContentModerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1981,8 +1947,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getFaceDetection(input: GetFaceDetectionInput) async throws -> GetFaceDetectionOutput
-    {
+    public func getFaceDetection(input: GetFaceDetectionInput) async throws -> GetFaceDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2033,8 +1998,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `SessionNotFoundException` : Occurs when a given sessionId is not found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getFaceLivenessSessionResults(input: GetFaceLivenessSessionResultsInput) async throws -> GetFaceLivenessSessionResultsOutput
-    {
+    public func getFaceLivenessSessionResults(input: GetFaceLivenessSessionResultsInput) async throws -> GetFaceLivenessSessionResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2086,8 +2050,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getFaceSearch(input: GetFaceSearchInput) async throws -> GetFaceSearchOutput
-    {
+    public func getFaceSearch(input: GetFaceSearchInput) async throws -> GetFaceSearchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2156,8 +2119,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getLabelDetection(input: GetLabelDetectionInput) async throws -> GetLabelDetectionOutput
-    {
+    public func getLabelDetection(input: GetLabelDetectionInput) async throws -> GetLabelDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2208,8 +2170,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getMediaAnalysisJob(input: GetMediaAnalysisJobInput) async throws -> GetMediaAnalysisJobOutput
-    {
+    public func getMediaAnalysisJob(input: GetMediaAnalysisJobInput) async throws -> GetMediaAnalysisJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2261,8 +2222,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getPersonTracking(input: GetPersonTrackingInput) async throws -> GetPersonTrackingOutput
-    {
+    public func getPersonTracking(input: GetPersonTrackingInput) async throws -> GetPersonTrackingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2314,8 +2274,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getSegmentDetection(input: GetSegmentDetectionInput) async throws -> GetSegmentDetectionOutput
-    {
+    public func getSegmentDetection(input: GetSegmentDetectionInput) async throws -> GetSegmentDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2367,8 +2326,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func getTextDetection(input: GetTextDetectionInput) async throws -> GetTextDetectionOutput
-    {
+    public func getTextDetection(input: GetTextDetectionInput) async throws -> GetTextDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2449,8 +2407,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func indexFaces(input: IndexFacesInput) async throws -> IndexFacesOutput
-    {
+    public func indexFaces(input: IndexFacesInput) async throws -> IndexFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2502,8 +2459,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutput
-    {
+    public func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2560,8 +2516,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     ///
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listDatasetEntries(input: ListDatasetEntriesInput) async throws -> ListDatasetEntriesOutput
-    {
+    public func listDatasetEntries(input: ListDatasetEntriesInput) async throws -> ListDatasetEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2618,8 +2573,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     ///
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listDatasetLabels(input: ListDatasetLabelsInput) async throws -> ListDatasetLabelsOutput
-    {
+    public func listDatasetLabels(input: ListDatasetLabelsInput) async throws -> ListDatasetLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2671,8 +2625,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listFaces(input: ListFacesInput) async throws -> ListFacesOutput
-    {
+    public func listFaces(input: ListFacesInput) async throws -> ListFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2723,8 +2676,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidParameterException` : Input parameter violated a constraint. Validate your parameter before calling the API operation again.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listMediaAnalysisJobs(input: ListMediaAnalysisJobsInput) async throws -> ListMediaAnalysisJobsOutput
-    {
+    public func listMediaAnalysisJobs(input: ListMediaAnalysisJobsInput) async throws -> ListMediaAnalysisJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2776,8 +2728,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listProjectPolicies(input: ListProjectPoliciesInput) async throws -> ListProjectPoliciesOutput
-    {
+    public func listProjectPolicies(input: ListProjectPoliciesInput) async throws -> ListProjectPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2828,8 +2779,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidParameterException` : Input parameter violated a constraint. Validate your parameter before calling the API operation again.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listStreamProcessors(input: ListStreamProcessorsInput) async throws -> ListStreamProcessorsOutput
-    {
+    public func listStreamProcessors(input: ListStreamProcessorsInput) async throws -> ListStreamProcessorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2880,8 +2830,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2933,8 +2882,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2990,8 +2938,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func putProjectPolicy(input: PutProjectPolicyInput) async throws -> PutProjectPolicyOutput
-    {
+    public func putProjectPolicy(input: PutProjectPolicyInput) async throws -> PutProjectPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3044,8 +2991,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Rekognition is unable to access the S3 object specified in the request.
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func recognizeCelebrities(input: RecognizeCelebritiesInput) async throws -> RecognizeCelebritiesOutput
-    {
+    public func recognizeCelebrities(input: RecognizeCelebritiesInput) async throws -> RecognizeCelebritiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3096,8 +3042,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func searchFaces(input: SearchFacesInput) async throws -> SearchFacesOutput
-    {
+    public func searchFaces(input: SearchFacesInput) async throws -> SearchFacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3151,8 +3096,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func searchFacesByImage(input: SearchFacesByImageInput) async throws -> SearchFacesByImageOutput
-    {
+    public func searchFacesByImage(input: SearchFacesByImageInput) async throws -> SearchFacesByImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3203,8 +3147,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput
-    {
+    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3258,8 +3201,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func searchUsersByImage(input: SearchUsersByImageInput) async throws -> SearchUsersByImageOutput
-    {
+    public func searchUsersByImage(input: SearchUsersByImageInput) async throws -> SearchUsersByImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3313,8 +3255,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startCelebrityRecognition(input: StartCelebrityRecognitionInput) async throws -> StartCelebrityRecognitionOutput
-    {
+    public func startCelebrityRecognition(input: StartCelebrityRecognitionInput) async throws -> StartCelebrityRecognitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3368,8 +3309,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startContentModeration(input: StartContentModerationInput) async throws -> StartContentModerationOutput
-    {
+    public func startContentModeration(input: StartContentModerationInput) async throws -> StartContentModerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3423,8 +3363,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startFaceDetection(input: StartFaceDetectionInput) async throws -> StartFaceDetectionOutput
-    {
+    public func startFaceDetection(input: StartFaceDetectionInput) async throws -> StartFaceDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3479,8 +3418,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startFaceSearch(input: StartFaceSearchInput) async throws -> StartFaceSearchOutput
-    {
+    public func startFaceSearch(input: StartFaceSearchInput) async throws -> StartFaceSearchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3534,8 +3472,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startLabelDetection(input: StartLabelDetectionInput) async throws -> StartLabelDetectionOutput
-    {
+    public func startLabelDetection(input: StartLabelDetectionInput) async throws -> StartLabelDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3594,8 +3531,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     ///
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func startMediaAnalysisJob(input: StartMediaAnalysisJobInput) async throws -> StartMediaAnalysisJobOutput
-    {
+    public func startMediaAnalysisJob(input: StartMediaAnalysisJobInput) async throws -> StartMediaAnalysisJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3650,8 +3586,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startPersonTracking(input: StartPersonTrackingInput) async throws -> StartPersonTrackingOutput
-    {
+    public func startPersonTracking(input: StartPersonTrackingInput) async throws -> StartPersonTrackingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3704,8 +3639,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func startProjectVersion(input: StartProjectVersionInput) async throws -> StartProjectVersionOutput
-    {
+    public func startProjectVersion(input: StartProjectVersionInput) async throws -> StartProjectVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3759,8 +3693,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startSegmentDetection(input: StartSegmentDetectionInput) async throws -> StartSegmentDetectionOutput
-    {
+    public func startSegmentDetection(input: StartSegmentDetectionInput) async throws -> StartSegmentDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3812,8 +3745,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func startStreamProcessor(input: StartStreamProcessorInput) async throws -> StartStreamProcessorOutput
-    {
+    public func startStreamProcessor(input: StartStreamProcessorInput) async throws -> StartStreamProcessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3867,8 +3799,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-    public func startTextDetection(input: StartTextDetectionInput) async throws -> StartTextDetectionOutput
-    {
+    public func startTextDetection(input: StartTextDetectionInput) async throws -> StartTextDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3920,8 +3851,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func stopProjectVersion(input: StopProjectVersionInput) async throws -> StopProjectVersionOutput
-    {
+    public func stopProjectVersion(input: StopProjectVersionInput) async throws -> StopProjectVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3973,8 +3903,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func stopStreamProcessor(input: StopStreamProcessorInput) async throws -> StopStreamProcessorOutput
-    {
+    public func stopStreamProcessor(input: StopStreamProcessorInput) async throws -> StopStreamProcessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4026,8 +3955,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4078,8 +4006,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4132,8 +4059,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func updateDatasetEntries(input: UpdateDatasetEntriesInput) async throws -> UpdateDatasetEntriesOutput
-    {
+    public func updateDatasetEntries(input: UpdateDatasetEntriesInput) async throws -> UpdateDatasetEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4185,8 +4111,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
-    public func updateStreamProcessor(input: UpdateStreamProcessorInput) async throws -> UpdateStreamProcessorOutput
-    {
+    public func updateStreamProcessor(input: UpdateStreamProcessorInput) async throws -> UpdateStreamProcessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

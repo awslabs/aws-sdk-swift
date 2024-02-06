@@ -66,7 +66,7 @@ public struct MobileClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension MobileClient: MobileClientProtocol {
+extension MobileClient {
     /// Performs the `CreateProject` operation on the `AWSMobileService` service.
     ///
     /// Creates an AWS Mobile Hub project.
@@ -85,8 +85,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func describeBundle(input: DescribeBundleInput) async throws -> DescribeBundleOutput
-    {
+    public func describeBundle(input: DescribeBundleInput) async throws -> DescribeBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
-    {
+    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func exportBundle(input: ExportBundleInput) async throws -> ExportBundleOutput
-    {
+    public func exportBundle(input: ExportBundleInput) async throws -> ExportBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func exportProject(input: ExportProjectInput) async throws -> ExportProjectOutput
-    {
+    public func exportProject(input: ExportProjectInput) async throws -> ExportProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func listBundles(input: ListBundlesInput) async throws -> ListBundlesOutput
-    {
+    public func listBundles(input: ListBundlesInput) async throws -> ListBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +468,7 @@ extension MobileClient: MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

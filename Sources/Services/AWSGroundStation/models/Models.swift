@@ -5286,6 +5286,8 @@ enum GetSatelliteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum GroundStationClientTypes {}
+
 extension GroundStationClientTypes.GroundStationData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groundStationId

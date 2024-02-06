@@ -66,7 +66,7 @@ public struct DrsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension DrsClient: DrsClientProtocol {
+extension DrsClient {
     /// Performs the `AssociateSourceNetworkStack` operation on the `ElasticDisasterRecoveryService` service.
     ///
     /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
@@ -85,8 +85,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func associateSourceNetworkStack(input: AssociateSourceNetworkStackInput) async throws -> AssociateSourceNetworkStackOutput
-    {
+    public func associateSourceNetworkStack(input: AssociateSourceNetworkStackInput) async throws -> AssociateSourceNetworkStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutput
-    {
+    public func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput
-    {
+    public func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -239,8 +236,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput
-    {
+    public func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func createSourceNetwork(input: CreateSourceNetworkInput) async throws -> CreateSourceNetworkOutput
-    {
+    public func createSourceNetwork(input: CreateSourceNetworkInput) async throws -> CreateSourceNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-    {
+    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -391,8 +385,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func deleteLaunchAction(input: DeleteLaunchActionInput) async throws -> DeleteLaunchActionOutput
-    {
+    public func deleteLaunchAction(input: DeleteLaunchActionInput) async throws -> DeleteLaunchActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput
-    {
+    public func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutput
-    {
+    public func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput
-    {
+    public func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +581,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func deleteSourceNetwork(input: DeleteSourceNetworkInput) async throws -> DeleteSourceNetworkOutput
-    {
+    public func deleteSourceNetwork(input: DeleteSourceNetworkInput) async throws -> DeleteSourceNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput
-    {
+    public func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -690,8 +678,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput
-    {
+    public func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -739,8 +726,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput
-    {
+    public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -789,8 +775,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput
-    {
+    public func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +823,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutput
-    {
+    public func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -888,8 +872,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeRecoverySnapshots(input: DescribeRecoverySnapshotsInput) async throws -> DescribeRecoverySnapshotsOutput
-    {
+    public func describeRecoverySnapshots(input: DescribeRecoverySnapshotsInput) async throws -> DescribeRecoverySnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -938,8 +921,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput
-    {
+    public func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -987,8 +969,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeSourceNetworks(input: DescribeSourceNetworksInput) async throws -> DescribeSourceNetworksOutput
-    {
+    public func describeSourceNetworks(input: DescribeSourceNetworksInput) async throws -> DescribeSourceNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1017,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput
-    {
+    public func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1087,8 +1067,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func disconnectRecoveryInstance(input: DisconnectRecoveryInstanceInput) async throws -> DisconnectRecoveryInstanceOutput
-    {
+    public func disconnectRecoveryInstance(input: DisconnectRecoveryInstanceInput) async throws -> DisconnectRecoveryInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1137,8 +1116,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func disconnectSourceServer(input: DisconnectSourceServerInput) async throws -> DisconnectSourceServerOutput
-    {
+    public func disconnectSourceServer(input: DisconnectSourceServerInput) async throws -> DisconnectSourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1166,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func exportSourceNetworkCfnTemplate(input: ExportSourceNetworkCfnTemplateInput) async throws -> ExportSourceNetworkCfnTemplateOutput
-    {
+    public func exportSourceNetworkCfnTemplate(input: ExportSourceNetworkCfnTemplateInput) async throws -> ExportSourceNetworkCfnTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1237,8 +1214,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func getFailbackReplicationConfiguration(input: GetFailbackReplicationConfigurationInput) async throws -> GetFailbackReplicationConfigurationOutput
-    {
+    public func getFailbackReplicationConfiguration(input: GetFailbackReplicationConfigurationInput) async throws -> GetFailbackReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1286,8 +1262,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput
-    {
+    public func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1311,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput
-    {
+    public func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1385,8 +1359,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput
-    {
+    public func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1432,8 +1405,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutput
-    {
+    public func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1482,8 +1454,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func listLaunchActions(input: ListLaunchActionsInput) async throws -> ListLaunchActionsOutput
-    {
+    public func listLaunchActions(input: ListLaunchActionsInput) async throws -> ListLaunchActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1532,8 +1503,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutput
-    {
+    public func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1580,8 +1550,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1628,8 +1597,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func putLaunchAction(input: PutLaunchActionInput) async throws -> PutLaunchActionOutput
-    {
+    public func putLaunchAction(input: PutLaunchActionInput) async throws -> PutLaunchActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1679,8 +1647,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput
-    {
+    public func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1731,8 +1698,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutput
-    {
+    public func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1782,8 +1748,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func startFailbackLaunch(input: StartFailbackLaunchInput) async throws -> StartFailbackLaunchOutput
-    {
+    public func startFailbackLaunch(input: StartFailbackLaunchInput) async throws -> StartFailbackLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1832,8 +1797,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func startRecovery(input: StartRecoveryInput) async throws -> StartRecoveryOutput
-    {
+    public func startRecovery(input: StartRecoveryInput) async throws -> StartRecoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1882,8 +1846,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
-    {
+    public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1933,8 +1896,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func startSourceNetworkRecovery(input: StartSourceNetworkRecoveryInput) async throws -> StartSourceNetworkRecoveryOutput
-    {
+    public func startSourceNetworkRecovery(input: StartSourceNetworkRecoveryInput) async throws -> StartSourceNetworkRecoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1983,8 +1945,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func startSourceNetworkReplication(input: StartSourceNetworkReplicationInput) async throws -> StartSourceNetworkReplicationOutput
-    {
+    public func startSourceNetworkReplication(input: StartSourceNetworkReplicationInput) async throws -> StartSourceNetworkReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2032,8 +1993,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func stopFailback(input: StopFailbackInput) async throws -> StopFailbackOutput
-    {
+    public func stopFailback(input: StopFailbackInput) async throws -> StopFailbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2082,8 +2042,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
-    {
+    public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2133,8 +2092,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func stopSourceNetworkReplication(input: StopSourceNetworkReplicationInput) async throws -> StopSourceNetworkReplicationOutput
-    {
+    public func stopSourceNetworkReplication(input: StopSourceNetworkReplicationInput) async throws -> StopSourceNetworkReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2183,8 +2141,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2233,8 +2190,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func terminateRecoveryInstances(input: TerminateRecoveryInstancesInput) async throws -> TerminateRecoveryInstancesOutput
-    {
+    public func terminateRecoveryInstances(input: TerminateRecoveryInstancesInput) async throws -> TerminateRecoveryInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2283,8 +2239,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2331,8 +2286,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ResourceNotFoundException` : The resource for this operation was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
-    public func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutput
-    {
+    public func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2382,8 +2336,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput
-    {
+    public func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2433,8 +2386,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput
-    {
+    public func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2485,8 +2437,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput
-    {
+    public func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2536,8 +2487,7 @@ extension DrsClient: DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
-    public func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutput
-    {
+    public func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

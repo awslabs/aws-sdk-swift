@@ -66,7 +66,7 @@ public struct B2biClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension B2biClient: B2biClientProtocol {
+extension B2biClient {
     /// Performs the `CreateCapability` operation on the `B2BI` service.
     ///
     /// Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
@@ -85,8 +85,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func createCapability(input: CreateCapabilityInput) async throws -> CreateCapabilityOutput
-    {
+    public func createCapability(input: CreateCapabilityInput) async throws -> CreateCapabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func createPartnership(input: CreatePartnershipInput) async throws -> CreatePartnershipOutput
-    {
+    public func createPartnership(input: CreatePartnershipInput) async throws -> CreatePartnershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
-    {
+    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -247,8 +244,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func createTransformer(input: CreateTransformerInput) async throws -> CreateTransformerOutput
-    {
+    public func createTransformer(input: CreateTransformerInput) async throws -> CreateTransformerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -300,8 +296,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func deleteCapability(input: DeleteCapabilityInput) async throws -> DeleteCapabilityOutput
-    {
+    public func deleteCapability(input: DeleteCapabilityInput) async throws -> DeleteCapabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func deletePartnership(input: DeletePartnershipInput) async throws -> DeletePartnershipOutput
-    {
+    public func deletePartnership(input: DeletePartnershipInput) async throws -> DeletePartnershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -404,8 +398,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
-    {
+    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -456,8 +449,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func deleteTransformer(input: DeleteTransformerInput) async throws -> DeleteTransformerOutput
-    {
+    public func deleteTransformer(input: DeleteTransformerInput) async throws -> DeleteTransformerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -507,8 +499,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func getCapability(input: GetCapabilityInput) async throws -> GetCapabilityOutput
-    {
+    public func getCapability(input: GetCapabilityInput) async throws -> GetCapabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -558,8 +549,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func getPartnership(input: GetPartnershipInput) async throws -> GetPartnershipOutput
-    {
+    public func getPartnership(input: GetPartnershipInput) async throws -> GetPartnershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +599,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
-    {
+    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -660,8 +649,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func getTransformer(input: GetTransformerInput) async throws -> GetTransformerOutput
-    {
+    public func getTransformer(input: GetTransformerInput) async throws -> GetTransformerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +699,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func getTransformerJob(input: GetTransformerJobInput) async throws -> GetTransformerJobOutput
-    {
+    public func getTransformerJob(input: GetTransformerJobInput) async throws -> GetTransformerJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,8 +741,7 @@ extension B2biClient: B2biClientProtocol {
     /// - Parameter ListCapabilitiesInput : [no documentation found]
     ///
     /// - Returns: `ListCapabilitiesOutput` : [no documentation found]
-    public func listCapabilities(input: ListCapabilitiesInput) async throws -> ListCapabilitiesOutput
-    {
+    public func listCapabilities(input: ListCapabilitiesInput) async throws -> ListCapabilitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -806,8 +792,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func listPartnerships(input: ListPartnershipsInput) async throws -> ListPartnershipsOutput
-    {
+    public func listPartnerships(input: ListPartnershipsInput) async throws -> ListPartnershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -849,8 +834,7 @@ extension B2biClient: B2biClientProtocol {
     /// - Parameter ListProfilesInput : [no documentation found]
     ///
     /// - Returns: `ListProfilesOutput` : [no documentation found]
-    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput
-    {
+    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +882,7 @@ extension B2biClient: B2biClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -940,8 +923,7 @@ extension B2biClient: B2biClientProtocol {
     /// - Parameter ListTransformersInput : [no documentation found]
     ///
     /// - Returns: `ListTransformersOutput` : [no documentation found]
-    public func listTransformers(input: ListTransformersInput) async throws -> ListTransformersOutput
-    {
+    public func listTransformers(input: ListTransformersInput) async throws -> ListTransformersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -992,8 +974,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func startTransformerJob(input: StartTransformerJobInput) async throws -> StartTransformerJobOutput
-    {
+    public func startTransformerJob(input: StartTransformerJobInput) async throws -> StartTransformerJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1042,8 +1023,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1093,8 +1073,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func testMapping(input: TestMappingInput) async throws -> TestMappingOutput
-    {
+    public func testMapping(input: TestMappingInput) async throws -> TestMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1144,8 +1123,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func testParsing(input: TestParsingInput) async throws -> TestParsingOutput
-    {
+    public func testParsing(input: TestParsingInput) async throws -> TestParsingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1192,8 +1170,7 @@ extension B2biClient: B2biClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1246,8 +1223,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func updateCapability(input: UpdateCapabilityInput) async throws -> UpdateCapabilityOutput
-    {
+    public func updateCapability(input: UpdateCapabilityInput) async throws -> UpdateCapabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1299,8 +1275,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func updatePartnership(input: UpdatePartnershipInput) async throws -> UpdatePartnershipOutput
-    {
+    public func updatePartnership(input: UpdatePartnershipInput) async throws -> UpdatePartnershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1352,8 +1327,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
-    {
+    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1405,8 +1379,7 @@ extension B2biClient: B2biClientProtocol {
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
-    public func updateTransformer(input: UpdateTransformerInput) async throws -> UpdateTransformerOutput
-    {
+    public func updateTransformer(input: UpdateTransformerInput) async throws -> UpdateTransformerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

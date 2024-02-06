@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension KinesisClientProtocol {
+extension KinesisClient {
 
     static func streamExistsWaiterConfig() throws -> WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput> {
         let acceptors: [WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput>.Acceptor] = [

@@ -66,7 +66,7 @@ public struct AmplifyUIBuilderClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
+extension AmplifyUIBuilderClient {
     /// Performs the `CreateComponent` operation on the `AmplifyUIBuilder` service.
     ///
     /// Creates a new component for an Amplify app.
@@ -82,8 +82,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
-    public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
-    {
+    public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
-    public func createForm(input: CreateFormInput) async throws -> CreateFormOutput
-    {
+    public func createForm(input: CreateFormInput) async throws -> CreateFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
-    public func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput
-    {
+    public func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
-    {
+    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    public func deleteForm(input: DeleteFormInput) async throws -> DeleteFormOutput
-    {
+    public func deleteForm(input: DeleteFormInput) async throws -> DeleteFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -324,8 +319,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    public func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput
-    {
+    public func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +361,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func exchangeCodeForToken(input: ExchangeCodeForTokenInput) async throws -> ExchangeCodeForTokenOutput
-    {
+    public func exchangeCodeForToken(input: ExchangeCodeForTokenInput) async throws -> ExchangeCodeForTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func exportComponents(input: ExportComponentsInput) async throws -> ExportComponentsOutput
-    {
+    public func exportComponents(input: ExportComponentsInput) async throws -> ExportComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +451,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func exportForms(input: ExportFormsInput) async throws -> ExportFormsOutput
-    {
+    public func exportForms(input: ExportFormsInput) async throws -> ExportFormsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -504,8 +495,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func exportThemes(input: ExportThemesInput) async throws -> ExportThemesOutput
-    {
+    public func exportThemes(input: ExportThemesInput) async throws -> ExportThemesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -551,8 +541,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getCodegenJob(input: GetCodegenJobInput) async throws -> GetCodegenJobOutput
-    {
+    public func getCodegenJob(input: GetCodegenJobInput) async throws -> GetCodegenJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +585,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
-    {
+    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +629,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    public func getForm(input: GetFormInput) async throws -> GetFormOutput
-    {
+    public func getForm(input: GetFormInput) async throws -> GetFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +672,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `UnauthorizedException` : You don't have permission to perform this operation.
-    public func getMetadata(input: GetMetadataInput) async throws -> GetMetadataOutput
-    {
+    public func getMetadata(input: GetMetadataInput) async throws -> GetMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -730,8 +716,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
-    public func getTheme(input: GetThemeInput) async throws -> GetThemeOutput
-    {
+    public func getTheme(input: GetThemeInput) async throws -> GetThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +760,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listCodegenJobs(input: ListCodegenJobsInput) async throws -> ListCodegenJobsOutput
-    {
+    public func listCodegenJobs(input: ListCodegenJobsInput) async throws -> ListCodegenJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +804,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    {
+    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -865,8 +848,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func listForms(input: ListFormsInput) async throws -> ListFormsOutput
-    {
+    public func listForms(input: ListFormsInput) async throws -> ListFormsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -910,8 +892,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func listThemes(input: ListThemesInput) async throws -> ListThemesOutput
-    {
+    public func listThemes(input: ListThemesInput) async throws -> ListThemesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -955,8 +936,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `UnauthorizedException` : You don't have permission to perform this operation.
-    public func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutput
-    {
+    public func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1001,8 +981,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
-    public func refreshToken(input: RefreshTokenInput) async throws -> RefreshTokenOutput
-    {
+    public func refreshToken(input: RefreshTokenInput) async throws -> RefreshTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1049,8 +1028,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startCodegenJob(input: StartCodegenJobInput) async throws -> StartCodegenJobOutput
-    {
+    public func startCodegenJob(input: StartCodegenJobInput) async throws -> StartCodegenJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1077,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
-    {
+    public func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1149,8 +1126,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func updateForm(input: UpdateFormInput) async throws -> UpdateFormOutput
-    {
+    public func updateForm(input: UpdateFormInput) async throws -> UpdateFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1199,8 +1175,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput
-    {
+    public func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

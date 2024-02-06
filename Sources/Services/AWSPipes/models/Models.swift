@@ -5233,6 +5233,8 @@ extension PipesClientTypes {
 
 }
 
+public enum PipesClientTypes {}
+
 extension PipesClientTypes.PlacementConstraint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case expression

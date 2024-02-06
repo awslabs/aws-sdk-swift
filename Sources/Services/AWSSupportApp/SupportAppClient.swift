@@ -66,7 +66,7 @@ public struct SupportAppClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension SupportAppClient: SupportAppClientProtocol {
+extension SupportAppClient {
     /// Performs the `CreateSlackChannelConfiguration` operation on the `SupportApp` service.
     ///
     /// Creates a Slack channel configuration for your Amazon Web Services account.
@@ -102,8 +102,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ServiceQuotaExceededException` : Your Service Quotas request exceeds the quota for the service. For example, your Service Quotas request to Amazon Web Services Support App might exceed the maximum number of workspaces or channels per account, or the maximum number of accounts per Slack channel.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-    public func createSlackChannelConfiguration(input: CreateSlackChannelConfigurationInput) async throws -> CreateSlackChannelConfigurationOutput
-    {
+    public func createSlackChannelConfiguration(input: CreateSlackChannelConfigurationInput) async throws -> CreateSlackChannelConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -150,8 +149,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
-    public func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutput
-    {
+    public func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -209,8 +207,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-    public func deleteSlackChannelConfiguration(input: DeleteSlackChannelConfigurationInput) async throws -> DeleteSlackChannelConfigurationOutput
-    {
+    public func deleteSlackChannelConfiguration(input: DeleteSlackChannelConfigurationInput) async throws -> DeleteSlackChannelConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +268,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-    public func deleteSlackWorkspaceConfiguration(input: DeleteSlackWorkspaceConfigurationInput) async throws -> DeleteSlackWorkspaceConfigurationOutput
-    {
+    public func deleteSlackWorkspaceConfiguration(input: DeleteSlackWorkspaceConfigurationInput) async throws -> DeleteSlackWorkspaceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -317,8 +313,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
-    public func getAccountAlias(input: GetAccountAliasInput) async throws -> GetAccountAliasOutput
-    {
+    public func getAccountAlias(input: GetAccountAliasInput) async throws -> GetAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -361,8 +356,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
-    public func listSlackChannelConfigurations(input: ListSlackChannelConfigurationsInput) async throws -> ListSlackChannelConfigurationsOutput
-    {
+    public func listSlackChannelConfigurations(input: ListSlackChannelConfigurationsInput) async throws -> ListSlackChannelConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -408,8 +402,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
-    public func listSlackWorkspaceConfigurations(input: ListSlackWorkspaceConfigurationsInput) async throws -> ListSlackWorkspaceConfigurationsOutput
-    {
+    public func listSlackWorkspaceConfigurations(input: ListSlackWorkspaceConfigurationsInput) async throws -> ListSlackWorkspaceConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -456,8 +449,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-    public func putAccountAlias(input: PutAccountAliasInput) async throws -> PutAccountAliasOutput
-    {
+    public func putAccountAlias(input: PutAccountAliasInput) async throws -> PutAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -529,8 +521,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-    public func registerSlackWorkspaceForOrganization(input: RegisterSlackWorkspaceForOrganizationInput) async throws -> RegisterSlackWorkspaceForOrganizationOutput
-    {
+    public func registerSlackWorkspaceForOrganization(input: RegisterSlackWorkspaceForOrganizationInput) async throws -> RegisterSlackWorkspaceForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +582,7 @@ extension SupportAppClient: SupportAppClientProtocol {
     /// - `InternalServerException` : We can’t process your request right now because of a server issue. Try again later.
     /// - `ResourceNotFoundException` : The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     /// - `ValidationException` : Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-    public func updateSlackChannelConfiguration(input: UpdateSlackChannelConfigurationInput) async throws -> UpdateSlackChannelConfigurationOutput
-    {
+    public func updateSlackChannelConfiguration(input: UpdateSlackChannelConfigurationInput) async throws -> UpdateSlackChannelConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

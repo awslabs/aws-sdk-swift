@@ -66,7 +66,7 @@ public struct VerifiedPermissionsClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
+extension VerifiedPermissionsClient {
     /// Performs the `BatchIsAuthorized` operation on the `VerifiedPermissions` service.
     ///
     /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2. Authorization of bob to view photo1 and photo2, or bob and alice to view photo1, are valid batches. The request is evaluated against all policies in the specified policy store that match the entities that you declare. The result of the decisions is a series of Allow or Deny responses, along with the IDs of the policies that produced each decision. The entities of a BatchIsAuthorized API request can contain up to 100 principals and up to 100 resources. The requests of a BatchIsAuthorized API request can contain up to 30 requests. The BatchIsAuthorized operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:IsAuthorized in their IAM policies.
@@ -103,8 +103,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func batchIsAuthorized(input: BatchIsAuthorizedInput) async throws -> BatchIsAuthorizedOutput
-    {
+    public func batchIsAuthorized(input: BatchIsAuthorizedInput) async throws -> BatchIsAuthorizedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +175,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
-    public func createIdentitySource(input: CreateIdentitySourceInput) async throws -> CreateIdentitySourceOutput
-    {
+    public func createIdentitySource(input: CreateIdentitySourceInput) async throws -> CreateIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -257,8 +255,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
-    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
-    {
+    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +327,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
-    public func createPolicyStore(input: CreatePolicyStoreInput) async throws -> CreatePolicyStoreOutput
-    {
+    public func createPolicyStore(input: CreatePolicyStoreInput) async throws -> CreatePolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -404,8 +400,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
-    public func createPolicyTemplate(input: CreatePolicyTemplateInput) async throws -> CreatePolicyTemplateOutput
-    {
+    public func createPolicyTemplate(input: CreatePolicyTemplateInput) async throws -> CreatePolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -477,8 +472,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func deleteIdentitySource(input: DeleteIdentitySourceInput) async throws -> DeleteIdentitySourceOutput
-    {
+    public func deleteIdentitySource(input: DeleteIdentitySourceInput) async throws -> DeleteIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -549,8 +543,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -619,8 +612,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    public func deletePolicyStore(input: DeletePolicyStoreInput) async throws -> DeletePolicyStoreOutput
-    {
+    public func deletePolicyStore(input: DeletePolicyStoreInput) async throws -> DeletePolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +683,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func deletePolicyTemplate(input: DeletePolicyTemplateInput) async throws -> DeletePolicyTemplateOutput
-    {
+    public func deletePolicyTemplate(input: DeletePolicyTemplateInput) async throws -> DeletePolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +753,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func getIdentitySource(input: GetIdentitySourceInput) async throws -> GetIdentitySourceOutput
-    {
+    public func getIdentitySource(input: GetIdentitySourceInput) async throws -> GetIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -833,8 +823,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -904,8 +893,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func getPolicyStore(input: GetPolicyStoreInput) async throws -> GetPolicyStoreOutput
-    {
+    public func getPolicyStore(input: GetPolicyStoreInput) async throws -> GetPolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -975,8 +963,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func getPolicyTemplate(input: GetPolicyTemplateInput) async throws -> GetPolicyTemplateOutput
-    {
+    public func getPolicyTemplate(input: GetPolicyTemplateInput) async throws -> GetPolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1046,8 +1033,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput
-    {
+    public func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1117,8 +1103,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func isAuthorized(input: IsAuthorizedInput) async throws -> IsAuthorizedOutput
-    {
+    public func isAuthorized(input: IsAuthorizedInput) async throws -> IsAuthorizedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1173,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func isAuthorizedWithToken(input: IsAuthorizedWithTokenInput) async throws -> IsAuthorizedWithTokenOutput
-    {
+    public func isAuthorizedWithToken(input: IsAuthorizedWithTokenInput) async throws -> IsAuthorizedWithTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1259,8 +1243,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func listIdentitySources(input: ListIdentitySourcesInput) async throws -> ListIdentitySourcesOutput
-    {
+    public func listIdentitySources(input: ListIdentitySourcesInput) async throws -> ListIdentitySourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1330,8 +1313,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
-    {
+    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1400,8 +1382,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
-    public func listPolicyStores(input: ListPolicyStoresInput) async throws -> ListPolicyStoresOutput
-    {
+    public func listPolicyStores(input: ListPolicyStoresInput) async throws -> ListPolicyStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1471,8 +1452,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     ///
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func listPolicyTemplates(input: ListPolicyTemplatesInput) async throws -> ListPolicyTemplatesOutput
-    {
+    public func listPolicyTemplates(input: ListPolicyTemplatesInput) async throws -> ListPolicyTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1544,8 +1524,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
-    public func putSchema(input: PutSchemaInput) async throws -> PutSchemaOutput
-    {
+    public func putSchema(input: PutSchemaInput) async throws -> PutSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1616,8 +1595,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func updateIdentitySource(input: UpdateIdentitySourceInput) async throws -> UpdateIdentitySourceOutput
-    {
+    public func updateIdentitySource(input: UpdateIdentitySourceInput) async throws -> UpdateIdentitySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1716,8 +1694,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
     /// - `ServiceQuotaExceededException` : The request failed because it would cause a service quota to be exceeded.
-    public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput
-    {
+    public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1788,8 +1765,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func updatePolicyStore(input: UpdatePolicyStoreInput) async throws -> UpdatePolicyStoreOutput
-    {
+    public func updatePolicyStore(input: UpdatePolicyStoreInput) async throws -> UpdatePolicyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1860,8 +1836,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
     /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
     /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
-    public func updatePolicyTemplate(input: UpdatePolicyTemplateInput) async throws -> UpdatePolicyTemplateOutput
-    {
+    public func updatePolicyTemplate(input: UpdatePolicyTemplateInput) async throws -> UpdatePolicyTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

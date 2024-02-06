@@ -457,6 +457,8 @@ extension ComprehendMedicalClientTypes {
 
 }
 
+public enum ComprehendMedicalClientTypes {}
+
 extension DescribeEntitiesDetectionV2JobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"

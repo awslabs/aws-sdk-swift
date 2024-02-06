@@ -66,7 +66,7 @@ public struct AppflowClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension AppflowClient: AppflowClientProtocol {
+extension AppflowClient {
     /// Performs the `CancelFlowExecutions` operation on the `SandstoneConfigurationServiceLambda` service.
     ///
     /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't cancel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the status for each run becomes CancelStarted. When the cancellation completes, the status becomes Canceled. When you cancel a run, you still incur charges for any data that the run already processed before the cancellation. If the run had already written some data to the flow destination, then that data remains in the destination. If you configured the flow to use a batch API (such as the Salesforce Bulk API 2.0), then the run will finish reading or writing its entire batch of data after the cancellation. For these operations, the data processing charges for Amazon AppFlow apply. For the pricing information, see [Amazon AppFlow pricing](http://aws.amazon.com/appflow/pricing/).
@@ -83,8 +83,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func cancelFlowExecutions(input: CancelFlowExecutionsInput) async throws -> CancelFlowExecutionsOutput
-    {
+    public func cancelFlowExecutions(input: CancelFlowExecutionsInput) async throws -> CancelFlowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createConnectorProfile(input: CreateConnectorProfileInput) async throws -> CreateConnectorProfileOutput
-    {
+    public func createConnectorProfile(input: CreateConnectorProfileInput) async throws -> CreateConnectorProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutput
-    {
+    public func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    public func deleteConnectorProfile(input: DeleteConnectorProfileInput) async throws -> DeleteConnectorProfileOutput
-    {
+    public func deleteConnectorProfile(input: DeleteConnectorProfileInput) async throws -> DeleteConnectorProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    public func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutput
-    {
+    public func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput
-    {
+    public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func describeConnectorEntity(input: DescribeConnectorEntityInput) async throws -> DescribeConnectorEntityOutput
-    {
+    public func describeConnectorEntity(input: DescribeConnectorEntityInput) async throws -> DescribeConnectorEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -429,8 +422,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func describeConnectorProfiles(input: DescribeConnectorProfilesInput) async throws -> DescribeConnectorProfilesOutput
-    {
+    public func describeConnectorProfiles(input: DescribeConnectorProfilesInput) async throws -> DescribeConnectorProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +468,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func describeConnectors(input: DescribeConnectorsInput) async throws -> DescribeConnectorsOutput
-    {
+    public func describeConnectors(input: DescribeConnectorsInput) async throws -> DescribeConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -523,8 +514,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    public func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput
-    {
+    public func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -571,8 +561,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func describeFlowExecutionRecords(input: DescribeFlowExecutionRecordsInput) async throws -> DescribeFlowExecutionRecordsOutput
-    {
+    public func describeFlowExecutionRecords(input: DescribeFlowExecutionRecordsInput) async throws -> DescribeFlowExecutionRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -621,8 +610,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listConnectorEntities(input: ListConnectorEntitiesInput) async throws -> ListConnectorEntitiesOutput
-    {
+    public func listConnectorEntities(input: ListConnectorEntitiesInput) async throws -> ListConnectorEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -668,8 +656,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
-    {
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +702,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput
-    {
+    public func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -763,8 +749,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -814,8 +799,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func registerConnector(input: RegisterConnectorInput) async throws -> RegisterConnectorOutput
-    {
+    public func registerConnector(input: RegisterConnectorInput) async throws -> RegisterConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +848,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func resetConnectorMetadataCache(input: ResetConnectorMetadataCacheInput) async throws -> ResetConnectorMetadataCacheOutput
-    {
+    public func resetConnectorMetadataCache(input: ResetConnectorMetadataCacheInput) async throws -> ResetConnectorMetadataCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -913,8 +896,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
-    public func startFlow(input: StartFlowInput) async throws -> StartFlowOutput
-    {
+    public func startFlow(input: StartFlowInput) async throws -> StartFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +945,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `UnsupportedOperationException` : The requested operation is not supported for the current flow.
-    public func stopFlow(input: StopFlowInput) async throws -> StopFlowOutput
-    {
+    public func stopFlow(input: StopFlowInput) async throws -> StopFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +992,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1059,8 +1039,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    public func unregisterConnector(input: UnregisterConnectorInput) async throws -> UnregisterConnectorOutput
-    {
+    public func unregisterConnector(input: UnregisterConnectorInput) async throws -> UnregisterConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1107,8 +1086,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1155,8 +1133,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateConnectorProfile(input: UpdateConnectorProfileInput) async throws -> UpdateConnectorProfileOutput
-    {
+    public func updateConnectorProfile(input: UpdateConnectorProfileInput) async throws -> UpdateConnectorProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,8 +1191,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateConnectorRegistration(input: UpdateConnectorRegistrationInput) async throws -> UpdateConnectorRegistrationOutput
-    {
+    public func updateConnectorRegistration(input: UpdateConnectorRegistrationInput) async throws -> UpdateConnectorRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1268,8 +1244,7 @@ extension AppflowClient: AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutput
-    {
+    public func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct RolesAnywhereClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension RolesAnywhereClient: RolesAnywhereClientProtocol {
+extension RolesAnywhereClient {
     /// Performs the `CreateProfile` operation on the `RolesAnywhere` service.
     ///
     /// Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:CreateProfile.
@@ -80,8 +80,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
-    {
+    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func createTrustAnchor(input: CreateTrustAnchorInput) async throws -> CreateTrustAnchorOutput
-    {
+    public func createTrustAnchor(input: CreateTrustAnchorInput) async throws -> CreateTrustAnchorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteCrl(input: DeleteCrlInput) async throws -> DeleteCrlOutput
-    {
+    public func deleteCrl(input: DeleteCrlInput) async throws -> DeleteCrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -218,8 +215,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
-    {
+    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -262,8 +258,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteTrustAnchor(input: DeleteTrustAnchorInput) async throws -> DeleteTrustAnchorOutput
-    {
+    public func deleteTrustAnchor(input: DeleteTrustAnchorInput) async throws -> DeleteTrustAnchorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -306,8 +301,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func disableCrl(input: DisableCrlInput) async throws -> DisableCrlOutput
-    {
+    public func disableCrl(input: DisableCrlInput) async throws -> DisableCrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -350,8 +344,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func disableProfile(input: DisableProfileInput) async throws -> DisableProfileOutput
-    {
+    public func disableProfile(input: DisableProfileInput) async throws -> DisableProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +387,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func disableTrustAnchor(input: DisableTrustAnchorInput) async throws -> DisableTrustAnchorOutput
-    {
+    public func disableTrustAnchor(input: DisableTrustAnchorInput) async throws -> DisableTrustAnchorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -438,8 +430,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func enableCrl(input: EnableCrlInput) async throws -> EnableCrlOutput
-    {
+    public func enableCrl(input: EnableCrlInput) async throws -> EnableCrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -482,8 +473,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func enableProfile(input: EnableProfileInput) async throws -> EnableProfileOutput
-    {
+    public func enableProfile(input: EnableProfileInput) async throws -> EnableProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -526,8 +516,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func enableTrustAnchor(input: EnableTrustAnchorInput) async throws -> EnableTrustAnchorOutput
-    {
+    public func enableTrustAnchor(input: EnableTrustAnchorInput) async throws -> EnableTrustAnchorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -569,8 +558,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func getCrl(input: GetCrlInput) async throws -> GetCrlOutput
-    {
+    public func getCrl(input: GetCrlInput) async throws -> GetCrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +601,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
-    {
+    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -657,8 +644,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func getSubject(input: GetSubjectInput) async throws -> GetSubjectOutput
-    {
+    public func getSubject(input: GetSubjectInput) async throws -> GetSubjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -702,8 +688,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func getTrustAnchor(input: GetTrustAnchorInput) async throws -> GetTrustAnchorOutput
-    {
+    public func getTrustAnchor(input: GetTrustAnchorInput) async throws -> GetTrustAnchorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -746,8 +731,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func importCrl(input: ImportCrlInput) async throws -> ImportCrlOutput
-    {
+    public func importCrl(input: ImportCrlInput) async throws -> ImportCrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -793,8 +777,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func listCrls(input: ListCrlsInput) async throws -> ListCrlsOutput
-    {
+    public func listCrls(input: ListCrlsInput) async throws -> ListCrlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +821,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput
-    {
+    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -883,8 +865,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func listSubjects(input: ListSubjectsInput) async throws -> ListSubjectsOutput
-    {
+    public func listSubjects(input: ListSubjectsInput) async throws -> ListSubjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -929,8 +910,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -974,8 +954,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : Validation exception error.
-    public func listTrustAnchors(input: ListTrustAnchorsInput) async throws -> ListTrustAnchorsOutput
-    {
+    public func listTrustAnchors(input: ListTrustAnchorsInput) async throws -> ListTrustAnchorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1020,8 +999,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func putNotificationSettings(input: PutNotificationSettingsInput) async throws -> PutNotificationSettingsOutput
-    {
+    public func putNotificationSettings(input: PutNotificationSettingsInput) async throws -> PutNotificationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1068,8 +1046,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func resetNotificationSettings(input: ResetNotificationSettingsInput) async throws -> ResetNotificationSettingsOutput
-    {
+    public func resetNotificationSettings(input: ResetNotificationSettingsInput) async throws -> ResetNotificationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1117,8 +1094,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `TooManyTagsException` : Too many tags.
     /// - `ValidationException` : Validation exception error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1165,8 +1141,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1213,8 +1188,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func updateCrl(input: UpdateCrlInput) async throws -> UpdateCrlOutput
-    {
+    public func updateCrl(input: UpdateCrlInput) async throws -> UpdateCrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1261,8 +1235,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
-    {
+    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1309,8 +1282,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : Validation exception error.
-    public func updateTrustAnchor(input: UpdateTrustAnchorInput) async throws -> UpdateTrustAnchorOutput
-    {
+    public func updateTrustAnchor(input: UpdateTrustAnchorInput) async throws -> UpdateTrustAnchorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

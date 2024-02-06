@@ -66,7 +66,7 @@ public struct PinpointSMSVoiceV2ClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
+extension PinpointSMSVoiceV2Client {
     /// Performs the `AssociateOriginationIdentity` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's configuration, an error is returned.
@@ -85,8 +85,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func associateOriginationIdentity(input: AssociateOriginationIdentityInput) async throws -> AssociateOriginationIdentityOutput
-    {
+    public func associateOriginationIdentity(input: AssociateOriginationIdentityInput) async throws -> AssociateOriginationIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
-    {
+    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createEventDestination(input: CreateEventDestinationInput) async throws -> CreateEventDestinationOutput
-    {
+    public func createEventDestination(input: CreateEventDestinationInput) async throws -> CreateEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -245,8 +242,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createOptOutList(input: CreateOptOutListInput) async throws -> CreateOptOutListOutput
-    {
+    public func createOptOutList(input: CreateOptOutListInput) async throws -> CreateOptOutListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -299,8 +295,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createPool(input: CreatePoolInput) async throws -> CreatePoolOutput
-    {
+    public func createPool(input: CreatePoolInput) async throws -> CreatePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createRegistration(input: CreateRegistrationInput) async throws -> CreateRegistrationOutput
-    {
+    public func createRegistration(input: CreateRegistrationInput) async throws -> CreateRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -406,8 +400,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createRegistrationAssociation(input: CreateRegistrationAssociationInput) async throws -> CreateRegistrationAssociationOutput
-    {
+    public func createRegistrationAssociation(input: CreateRegistrationAssociationInput) async throws -> CreateRegistrationAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +451,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createRegistrationAttachment(input: CreateRegistrationAttachmentInput) async throws -> CreateRegistrationAttachmentOutput
-    {
+    public func createRegistrationAttachment(input: CreateRegistrationAttachmentInput) async throws -> CreateRegistrationAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -512,8 +504,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createRegistrationVersion(input: CreateRegistrationVersionInput) async throws -> CreateRegistrationVersionOutput
-    {
+    public func createRegistrationVersion(input: CreateRegistrationVersionInput) async throws -> CreateRegistrationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -564,8 +555,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func createVerifiedDestinationNumber(input: CreateVerifiedDestinationNumberInput) async throws -> CreateVerifiedDestinationNumberOutput
-    {
+    public func createVerifiedDestinationNumber(input: CreateVerifiedDestinationNumberInput) async throws -> CreateVerifiedDestinationNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +606,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
-    {
+    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +656,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteDefaultMessageType(input: DeleteDefaultMessageTypeInput) async throws -> DeleteDefaultMessageTypeOutput
-    {
+    public func deleteDefaultMessageType(input: DeleteDefaultMessageTypeInput) async throws -> DeleteDefaultMessageTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +706,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteDefaultSenderId(input: DeleteDefaultSenderIdInput) async throws -> DeleteDefaultSenderIdOutput
-    {
+    public func deleteDefaultSenderId(input: DeleteDefaultSenderIdInput) async throws -> DeleteDefaultSenderIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,8 +756,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteEventDestination(input: DeleteEventDestinationInput) async throws -> DeleteEventDestinationOutput
-    {
+    public func deleteEventDestination(input: DeleteEventDestinationInput) async throws -> DeleteEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +807,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteKeyword(input: DeleteKeywordInput) async throws -> DeleteKeywordOutput
-    {
+    public func deleteKeyword(input: DeleteKeywordInput) async throws -> DeleteKeywordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +858,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteOptOutList(input: DeleteOptOutListInput) async throws -> DeleteOptOutListOutput
-    {
+    public func deleteOptOutList(input: DeleteOptOutListInput) async throws -> DeleteOptOutListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -925,8 +909,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteOptedOutNumber(input: DeleteOptedOutNumberInput) async throws -> DeleteOptedOutNumberOutput
-    {
+    public func deleteOptedOutNumber(input: DeleteOptedOutNumberInput) async throws -> DeleteOptedOutNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +960,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deletePool(input: DeletePoolInput) async throws -> DeletePoolOutput
-    {
+    public func deletePool(input: DeletePoolInput) async throws -> DeletePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,8 +1011,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteRegistration(input: DeleteRegistrationInput) async throws -> DeleteRegistrationOutput
-    {
+    public func deleteRegistration(input: DeleteRegistrationInput) async throws -> DeleteRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1081,8 +1062,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteRegistrationAttachment(input: DeleteRegistrationAttachmentInput) async throws -> DeleteRegistrationAttachmentOutput
-    {
+    public func deleteRegistrationAttachment(input: DeleteRegistrationAttachmentInput) async throws -> DeleteRegistrationAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1133,8 +1113,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteRegistrationFieldValue(input: DeleteRegistrationFieldValueInput) async throws -> DeleteRegistrationFieldValueOutput
-    {
+    public func deleteRegistrationFieldValue(input: DeleteRegistrationFieldValueInput) async throws -> DeleteRegistrationFieldValueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1183,8 +1162,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteTextMessageSpendLimitOverride(input: DeleteTextMessageSpendLimitOverrideInput) async throws -> DeleteTextMessageSpendLimitOverrideOutput
-    {
+    public func deleteTextMessageSpendLimitOverride(input: DeleteTextMessageSpendLimitOverrideInput) async throws -> DeleteTextMessageSpendLimitOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1235,8 +1213,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteVerifiedDestinationNumber(input: DeleteVerifiedDestinationNumberInput) async throws -> DeleteVerifiedDestinationNumberOutput
-    {
+    public func deleteVerifiedDestinationNumber(input: DeleteVerifiedDestinationNumberInput) async throws -> DeleteVerifiedDestinationNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1285,8 +1262,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func deleteVoiceMessageSpendLimitOverride(input: DeleteVoiceMessageSpendLimitOverrideInput) async throws -> DeleteVoiceMessageSpendLimitOverrideOutput
-    {
+    public func deleteVoiceMessageSpendLimitOverride(input: DeleteVoiceMessageSpendLimitOverrideInput) async throws -> DeleteVoiceMessageSpendLimitOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1335,8 +1311,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1385,8 +1360,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
-    {
+    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1436,8 +1410,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeConfigurationSets(input: DescribeConfigurationSetsInput) async throws -> DescribeConfigurationSetsOutput
-    {
+    public func describeConfigurationSets(input: DescribeConfigurationSetsInput) async throws -> DescribeConfigurationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1487,8 +1460,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeKeywords(input: DescribeKeywordsInput) async throws -> DescribeKeywordsOutput
-    {
+    public func describeKeywords(input: DescribeKeywordsInput) async throws -> DescribeKeywordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1538,8 +1510,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeOptOutLists(input: DescribeOptOutListsInput) async throws -> DescribeOptOutListsOutput
-    {
+    public func describeOptOutLists(input: DescribeOptOutListsInput) async throws -> DescribeOptOutListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1560,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeOptedOutNumbers(input: DescribeOptedOutNumbersInput) async throws -> DescribeOptedOutNumbersOutput
-    {
+    public func describeOptedOutNumbers(input: DescribeOptedOutNumbersInput) async throws -> DescribeOptedOutNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1640,8 +1610,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describePhoneNumbers(input: DescribePhoneNumbersInput) async throws -> DescribePhoneNumbersOutput
-    {
+    public func describePhoneNumbers(input: DescribePhoneNumbersInput) async throws -> DescribePhoneNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1691,8 +1660,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describePools(input: DescribePoolsInput) async throws -> DescribePoolsOutput
-    {
+    public func describePools(input: DescribePoolsInput) async throws -> DescribePoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1742,8 +1710,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrationAttachments(input: DescribeRegistrationAttachmentsInput) async throws -> DescribeRegistrationAttachmentsOutput
-    {
+    public func describeRegistrationAttachments(input: DescribeRegistrationAttachmentsInput) async throws -> DescribeRegistrationAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1792,8 +1759,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrationFieldDefinitions(input: DescribeRegistrationFieldDefinitionsInput) async throws -> DescribeRegistrationFieldDefinitionsOutput
-    {
+    public func describeRegistrationFieldDefinitions(input: DescribeRegistrationFieldDefinitionsInput) async throws -> DescribeRegistrationFieldDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1843,8 +1809,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrationFieldValues(input: DescribeRegistrationFieldValuesInput) async throws -> DescribeRegistrationFieldValuesOutput
-    {
+    public func describeRegistrationFieldValues(input: DescribeRegistrationFieldValuesInput) async throws -> DescribeRegistrationFieldValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1893,8 +1858,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrationSectionDefinitions(input: DescribeRegistrationSectionDefinitionsInput) async throws -> DescribeRegistrationSectionDefinitionsOutput
-    {
+    public func describeRegistrationSectionDefinitions(input: DescribeRegistrationSectionDefinitionsInput) async throws -> DescribeRegistrationSectionDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1943,8 +1907,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrationTypeDefinitions(input: DescribeRegistrationTypeDefinitionsInput) async throws -> DescribeRegistrationTypeDefinitionsOutput
-    {
+    public func describeRegistrationTypeDefinitions(input: DescribeRegistrationTypeDefinitionsInput) async throws -> DescribeRegistrationTypeDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1994,8 +1957,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrationVersions(input: DescribeRegistrationVersionsInput) async throws -> DescribeRegistrationVersionsOutput
-    {
+    public func describeRegistrationVersions(input: DescribeRegistrationVersionsInput) async throws -> DescribeRegistrationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2045,8 +2007,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeRegistrations(input: DescribeRegistrationsInput) async throws -> DescribeRegistrationsOutput
-    {
+    public func describeRegistrations(input: DescribeRegistrationsInput) async throws -> DescribeRegistrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2096,8 +2057,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeSenderIds(input: DescribeSenderIdsInput) async throws -> DescribeSenderIdsOutput
-    {
+    public func describeSenderIds(input: DescribeSenderIdsInput) async throws -> DescribeSenderIdsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2146,8 +2106,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeSpendLimits(input: DescribeSpendLimitsInput) async throws -> DescribeSpendLimitsOutput
-    {
+    public func describeSpendLimits(input: DescribeSpendLimitsInput) async throws -> DescribeSpendLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2197,8 +2156,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func describeVerifiedDestinationNumbers(input: DescribeVerifiedDestinationNumbersInput) async throws -> DescribeVerifiedDestinationNumbersOutput
-    {
+    public func describeVerifiedDestinationNumbers(input: DescribeVerifiedDestinationNumbersInput) async throws -> DescribeVerifiedDestinationNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2249,8 +2207,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func disassociateOriginationIdentity(input: DisassociateOriginationIdentityInput) async throws -> DisassociateOriginationIdentityOutput
-    {
+    public func disassociateOriginationIdentity(input: DisassociateOriginationIdentityInput) async throws -> DisassociateOriginationIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2302,8 +2259,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func discardRegistrationVersion(input: DiscardRegistrationVersionInput) async throws -> DiscardRegistrationVersionOutput
-    {
+    public func discardRegistrationVersion(input: DiscardRegistrationVersionInput) async throws -> DiscardRegistrationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2353,8 +2309,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func listPoolOriginationIdentities(input: ListPoolOriginationIdentitiesInput) async throws -> ListPoolOriginationIdentitiesOutput
-    {
+    public func listPoolOriginationIdentities(input: ListPoolOriginationIdentitiesInput) async throws -> ListPoolOriginationIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2404,8 +2359,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func listRegistrationAssociations(input: ListRegistrationAssociationsInput) async throws -> ListRegistrationAssociationsOutput
-    {
+    public func listRegistrationAssociations(input: ListRegistrationAssociationsInput) async throws -> ListRegistrationAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2455,8 +2409,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2508,8 +2461,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func putKeyword(input: PutKeywordInput) async throws -> PutKeywordOutput
-    {
+    public func putKeyword(input: PutKeywordInput) async throws -> PutKeywordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2559,8 +2511,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func putOptedOutNumber(input: PutOptedOutNumberInput) async throws -> PutOptedOutNumberOutput
-    {
+    public func putOptedOutNumber(input: PutOptedOutNumberInput) async throws -> PutOptedOutNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2611,8 +2562,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func putRegistrationFieldValue(input: PutRegistrationFieldValueInput) async throws -> PutRegistrationFieldValueOutput
-    {
+    public func putRegistrationFieldValue(input: PutRegistrationFieldValueInput) async throws -> PutRegistrationFieldValueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2663,8 +2613,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput
-    {
+    public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2715,8 +2664,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func releaseSenderId(input: ReleaseSenderIdInput) async throws -> ReleaseSenderIdOutput
-    {
+    public func releaseSenderId(input: ReleaseSenderIdInput) async throws -> ReleaseSenderIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2768,8 +2716,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func requestPhoneNumber(input: RequestPhoneNumberInput) async throws -> RequestPhoneNumberOutput
-    {
+    public func requestPhoneNumber(input: RequestPhoneNumberInput) async throws -> RequestPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2821,8 +2768,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func requestSenderId(input: RequestSenderIdInput) async throws -> RequestSenderIdOutput
-    {
+    public func requestSenderId(input: RequestSenderIdInput) async throws -> RequestSenderIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2875,8 +2821,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func sendDestinationNumberVerificationCode(input: SendDestinationNumberVerificationCodeInput) async throws -> SendDestinationNumberVerificationCodeOutput
-    {
+    public func sendDestinationNumberVerificationCode(input: SendDestinationNumberVerificationCodeInput) async throws -> SendDestinationNumberVerificationCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2928,8 +2873,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func sendTextMessage(input: SendTextMessageInput) async throws -> SendTextMessageOutput
-    {
+    public func sendTextMessage(input: SendTextMessageInput) async throws -> SendTextMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2981,8 +2925,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput
-    {
+    public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3032,8 +2975,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setDefaultMessageType(input: SetDefaultMessageTypeInput) async throws -> SetDefaultMessageTypeOutput
-    {
+    public func setDefaultMessageType(input: SetDefaultMessageTypeInput) async throws -> SetDefaultMessageTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3083,8 +3025,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setDefaultSenderId(input: SetDefaultSenderIdInput) async throws -> SetDefaultSenderIdOutput
-    {
+    public func setDefaultSenderId(input: SetDefaultSenderIdInput) async throws -> SetDefaultSenderIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3133,8 +3074,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setTextMessageSpendLimitOverride(input: SetTextMessageSpendLimitOverrideInput) async throws -> SetTextMessageSpendLimitOverrideOutput
-    {
+    public func setTextMessageSpendLimitOverride(input: SetTextMessageSpendLimitOverrideInput) async throws -> SetTextMessageSpendLimitOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3183,8 +3123,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func setVoiceMessageSpendLimitOverride(input: SetVoiceMessageSpendLimitOverrideInput) async throws -> SetVoiceMessageSpendLimitOverrideOutput
-    {
+    public func setVoiceMessageSpendLimitOverride(input: SetVoiceMessageSpendLimitOverrideInput) async throws -> SetVoiceMessageSpendLimitOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3235,8 +3174,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func submitRegistrationVersion(input: SubmitRegistrationVersionInput) async throws -> SubmitRegistrationVersionOutput
-    {
+    public func submitRegistrationVersion(input: SubmitRegistrationVersionInput) async throws -> SubmitRegistrationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3287,8 +3225,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3338,8 +3275,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3390,8 +3326,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updateEventDestination(input: UpdateEventDestinationInput) async throws -> UpdateEventDestinationOutput
-    {
+    public func updateEventDestination(input: UpdateEventDestinationInput) async throws -> UpdateEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3442,8 +3377,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
-    {
+    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3494,8 +3428,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updatePool(input: UpdatePoolInput) async throws -> UpdatePoolOutput
-    {
+    public func updatePool(input: UpdatePoolInput) async throws -> UpdatePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3545,8 +3478,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func updateSenderId(input: UpdateSenderIdInput) async throws -> UpdateSenderIdOutput
-    {
+    public func updateSenderId(input: UpdateSenderIdInput) async throws -> UpdateSenderIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3597,8 +3529,7 @@ extension PinpointSMSVoiceV2Client: PinpointSMSVoiceV2ClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource couldn't be found.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
-    public func verifyDestinationNumber(input: VerifyDestinationNumberInput) async throws -> VerifyDestinationNumberOutput
-    {
+    public func verifyDestinationNumber(input: VerifyDestinationNumberInput) async throws -> VerifyDestinationNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

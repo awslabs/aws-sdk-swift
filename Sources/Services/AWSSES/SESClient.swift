@@ -62,7 +62,7 @@ public struct SESClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SESClient: SESClientProtocol {
+extension SESClient {
     /// Performs the `CloneReceiptRuleSet` operation on the `SimpleEmailService` service.
     ///
     /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
@@ -77,8 +77,7 @@ extension SESClient: SESClientProtocol {
     /// - `AlreadyExistsException` : Indicates that a resource could not be created because of a naming conflict.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func cloneReceiptRuleSet(input: CloneReceiptRuleSetInput) async throws -> CloneReceiptRuleSetOutput
-    {
+    public func cloneReceiptRuleSet(input: CloneReceiptRuleSetInput) async throws -> CloneReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -125,8 +124,7 @@ extension SESClient: SESClientProtocol {
     /// - `ConfigurationSetAlreadyExistsException` : Indicates that the configuration set could not be created because of a naming conflict.
     /// - `InvalidConfigurationSetException` : Indicates that the configuration set is invalid. See the error message for details.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
-    {
+    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension SESClient: SESClientProtocol {
     /// - `InvalidFirehoseDestinationException` : Indicates that the Amazon Kinesis Firehose destination is invalid. See the error message for details.
     /// - `InvalidSNSDestinationException` : Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-    public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
-    {
+    public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// * When the tracking domain you specified is not a valid domain or subdomain.
     /// - `TrackingOptionsAlreadyExistsException` : Indicates that the configuration set you specified already contains a TrackingOptions object.
-    public func createConfigurationSetTrackingOptions(input: CreateConfigurationSetTrackingOptionsInput) async throws -> CreateConfigurationSetTrackingOptionsOutput
-    {
+    public func createConfigurationSetTrackingOptions(input: CreateConfigurationSetTrackingOptionsInput) async throws -> CreateConfigurationSetTrackingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension SESClient: SESClientProtocol {
     /// - `CustomVerificationEmailTemplateAlreadyExistsException` : Indicates that a custom verification email template with the name you specified already exists.
     /// - `FromEmailAddressNotVerifiedException` : Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-    public func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput
-    {
+    public func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -324,8 +319,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : Indicates that a resource could not be created because of a naming conflict.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-    public func createReceiptFilter(input: CreateReceiptFilterInput) async throws -> CreateReceiptFilterOutput
-    {
+    public func createReceiptFilter(input: CreateReceiptFilterInput) async throws -> CreateReceiptFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension SESClient: SESClientProtocol {
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func createReceiptRule(input: CreateReceiptRuleInput) async throws -> CreateReceiptRuleOutput
-    {
+    public func createReceiptRule(input: CreateReceiptRuleInput) async throws -> CreateReceiptRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -423,8 +416,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : Indicates that a resource could not be created because of a naming conflict.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-    public func createReceiptRuleSet(input: CreateReceiptRuleSetInput) async throws -> CreateReceiptRuleSetOutput
-    {
+    public func createReceiptRuleSet(input: CreateReceiptRuleSetInput) async throws -> CreateReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -471,8 +463,7 @@ extension SESClient: SESClientProtocol {
     /// - `AlreadyExistsException` : Indicates that a resource could not be created because of a naming conflict.
     /// - `InvalidTemplateException` : Indicates that the template that you specified could not be rendered. This issue may occur when a template refers to a partial that does not exist.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
-    {
+    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
-    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
-    {
+    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -564,8 +554,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     /// - `EventDestinationDoesNotExistException` : Indicates that the event destination does not exist.
-    public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
-    {
+    public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -611,8 +600,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     /// - `TrackingOptionsDoesNotExistException` : Indicates that the TrackingOptions object you specified does not exist.
-    public func deleteConfigurationSetTrackingOptions(input: DeleteConfigurationSetTrackingOptionsInput) async throws -> DeleteConfigurationSetTrackingOptionsOutput
-    {
+    public func deleteConfigurationSetTrackingOptions(input: DeleteConfigurationSetTrackingOptionsInput) async throws -> DeleteConfigurationSetTrackingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +640,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DeleteCustomVerificationEmailTemplateInput : Represents a request to delete an existing custom verification email template.
     ///
     /// - Returns: `DeleteCustomVerificationEmailTemplateOutput` : [no documentation found]
-    public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput
-    {
+    public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -693,8 +680,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DeleteIdentityInput : Represents a request to delete one of your Amazon SES identities (an email address or domain).
     ///
     /// - Returns: `DeleteIdentityOutput` : An empty element returned on a successful request.
-    public func deleteIdentity(input: DeleteIdentityInput) async throws -> DeleteIdentityOutput
-    {
+    public func deleteIdentity(input: DeleteIdentityInput) async throws -> DeleteIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +720,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DeleteIdentityPolicyInput : Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     ///
     /// - Returns: `DeleteIdentityPolicyOutput` : An empty element returned on a successful request.
-    public func deleteIdentityPolicy(input: DeleteIdentityPolicyInput) async throws -> DeleteIdentityPolicyOutput
-    {
+    public func deleteIdentityPolicy(input: DeleteIdentityPolicyInput) async throws -> DeleteIdentityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +760,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DeleteReceiptFilterInput : Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `DeleteReceiptFilterOutput` : An empty element returned on a successful request.
-    public func deleteReceiptFilter(input: DeleteReceiptFilterInput) async throws -> DeleteReceiptFilterOutput
-    {
+    public func deleteReceiptFilter(input: DeleteReceiptFilterInput) async throws -> DeleteReceiptFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +805,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func deleteReceiptRule(input: DeleteReceiptRuleInput) async throws -> DeleteReceiptRuleOutput
-    {
+    public func deleteReceiptRule(input: DeleteReceiptRuleInput) async throws -> DeleteReceiptRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -867,8 +850,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CannotDeleteException` : Indicates that the delete operation could not be completed.
-    public func deleteReceiptRuleSet(input: DeleteReceiptRuleSetInput) async throws -> DeleteReceiptRuleSetOutput
-    {
+    public func deleteReceiptRuleSet(input: DeleteReceiptRuleSetInput) async throws -> DeleteReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -908,8 +890,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DeleteTemplateInput : Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
     ///
     /// - Returns: `DeleteTemplateOutput` : [no documentation found]
-    public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput
-    {
+    public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -949,8 +930,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DeleteVerifiedEmailAddressInput : Represents a request to delete an email address from the list of email addresses you have attempted to verify under your Amazon Web Services account.
     ///
     /// - Returns: `DeleteVerifiedEmailAddressOutput` : [no documentation found]
-    public func deleteVerifiedEmailAddress(input: DeleteVerifiedEmailAddressInput) async throws -> DeleteVerifiedEmailAddressOutput
-    {
+    public func deleteVerifiedEmailAddress(input: DeleteVerifiedEmailAddressInput) async throws -> DeleteVerifiedEmailAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -990,8 +970,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter DescribeActiveReceiptRuleSetInput : Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `DescribeActiveReceiptRuleSetOutput` : Represents the metadata and receipt rules for the receipt rule set that is currently active.
-    public func describeActiveReceiptRuleSet(input: DescribeActiveReceiptRuleSetInput) async throws -> DescribeActiveReceiptRuleSetOutput
-    {
+    public func describeActiveReceiptRuleSet(input: DescribeActiveReceiptRuleSetInput) async throws -> DescribeActiveReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1015,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
-    public func describeConfigurationSet(input: DescribeConfigurationSetInput) async throws -> DescribeConfigurationSetOutput
-    {
+    public func describeConfigurationSet(input: DescribeConfigurationSetInput) async throws -> DescribeConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1083,8 +1061,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func describeReceiptRule(input: DescribeReceiptRuleInput) async throws -> DescribeReceiptRuleOutput
-    {
+    public func describeReceiptRule(input: DescribeReceiptRuleInput) async throws -> DescribeReceiptRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1106,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func describeReceiptRuleSet(input: DescribeReceiptRuleSetInput) async throws -> DescribeReceiptRuleSetOutput
-    {
+    public func describeReceiptRuleSet(input: DescribeReceiptRuleSetInput) async throws -> DescribeReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1170,8 +1146,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetAccountSendingEnabledInput : [no documentation found]
     ///
     /// - Returns: `GetAccountSendingEnabledOutput` : Represents a request to return the email sending status for your Amazon SES account in the current Amazon Web Services Region.
-    public func getAccountSendingEnabled(input: GetAccountSendingEnabledInput) async throws -> GetAccountSendingEnabledOutput
-    {
+    public func getAccountSendingEnabled(input: GetAccountSendingEnabledInput) async throws -> GetAccountSendingEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1216,8 +1191,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CustomVerificationEmailTemplateDoesNotExistException` : Indicates that a custom verification email template with the name you specified does not exist.
-    public func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput
-    {
+    public func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1266,8 +1240,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetIdentityDkimAttributesInput : Represents a request for the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this request also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. For more information about Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
     /// - Returns: `GetIdentityDkimAttributesOutput` : Represents the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this response also contains the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published.
-    public func getIdentityDkimAttributes(input: GetIdentityDkimAttributesInput) async throws -> GetIdentityDkimAttributesOutput
-    {
+    public func getIdentityDkimAttributes(input: GetIdentityDkimAttributesInput) async throws -> GetIdentityDkimAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1280,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetIdentityMailFromDomainAttributesInput : Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
     ///
     /// - Returns: `GetIdentityMailFromDomainAttributesOutput` : Represents the custom MAIL FROM attributes for a list of identities.
-    public func getIdentityMailFromDomainAttributes(input: GetIdentityMailFromDomainAttributesInput) async throws -> GetIdentityMailFromDomainAttributesOutput
-    {
+    public func getIdentityMailFromDomainAttributes(input: GetIdentityMailFromDomainAttributesInput) async throws -> GetIdentityMailFromDomainAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1348,8 +1320,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetIdentityNotificationAttributesInput : Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
     /// - Returns: `GetIdentityNotificationAttributesOutput` : Represents the notification attributes for a list of identities.
-    public func getIdentityNotificationAttributes(input: GetIdentityNotificationAttributesInput) async throws -> GetIdentityNotificationAttributesOutput
-    {
+    public func getIdentityNotificationAttributes(input: GetIdentityNotificationAttributesInput) async throws -> GetIdentityNotificationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1389,8 +1360,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetIdentityPoliciesInput : Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     ///
     /// - Returns: `GetIdentityPoliciesOutput` : Represents the requested sending authorization policies.
-    public func getIdentityPolicies(input: GetIdentityPoliciesInput) async throws -> GetIdentityPoliciesOutput
-    {
+    public func getIdentityPolicies(input: GetIdentityPoliciesInput) async throws -> GetIdentityPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1430,8 +1400,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetIdentityVerificationAttributesInput : Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html).
     ///
     /// - Returns: `GetIdentityVerificationAttributesOutput` : The Amazon SES verification status of a list of identities. For domain identities, this response also contains the verification token.
-    public func getIdentityVerificationAttributes(input: GetIdentityVerificationAttributesInput) async throws -> GetIdentityVerificationAttributesOutput
-    {
+    public func getIdentityVerificationAttributes(input: GetIdentityVerificationAttributesInput) async throws -> GetIdentityVerificationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1471,8 +1440,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetSendQuotaInput : [no documentation found]
     ///
     /// - Returns: `GetSendQuotaOutput` : Represents your Amazon SES daily sending quota, maximum send rate, and the number of emails you have sent in the last 24 hours.
-    public func getSendQuota(input: GetSendQuotaInput) async throws -> GetSendQuotaOutput
-    {
+    public func getSendQuota(input: GetSendQuotaInput) async throws -> GetSendQuotaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1512,8 +1480,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter GetSendStatisticsInput : [no documentation found]
     ///
     /// - Returns: `GetSendStatisticsOutput` : Represents a list of data points. This list contains aggregated data from the previous two weeks of your sending activity with Amazon SES.
-    public func getSendStatistics(input: GetSendStatisticsInput) async throws -> GetSendStatisticsOutput
-    {
+    public func getSendStatistics(input: GetSendStatisticsInput) async throws -> GetSendStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1558,8 +1525,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
-    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
-    {
+    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1599,8 +1565,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListConfigurationSetsInput : Represents a request to list the configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     ///
     /// - Returns: `ListConfigurationSetsOutput` : A list of configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
-    {
+    public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1640,8 +1605,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListCustomVerificationEmailTemplatesInput : Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
     ///
     /// - Returns: `ListCustomVerificationEmailTemplatesOutput` : A paginated list of custom verification email templates.
-    public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput
-    {
+    public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1681,8 +1645,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListIdentitiesInput : Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
     ///
     /// - Returns: `ListIdentitiesOutput` : A list of all identities that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
-    public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput
-    {
+    public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1722,8 +1685,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListIdentityPoliciesInput : Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     ///
     /// - Returns: `ListIdentityPoliciesOutput` : A list of names of sending authorization policies that apply to an identity.
-    public func listIdentityPolicies(input: ListIdentityPoliciesInput) async throws -> ListIdentityPoliciesOutput
-    {
+    public func listIdentityPolicies(input: ListIdentityPoliciesInput) async throws -> ListIdentityPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1763,8 +1725,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListReceiptFiltersInput : Represents a request to list the IP address filters that exist under your Amazon Web Services account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `ListReceiptFiltersOutput` : A list of IP address filters that exist under your Amazon Web Services account.
-    public func listReceiptFilters(input: ListReceiptFiltersInput) async throws -> ListReceiptFiltersOutput
-    {
+    public func listReceiptFilters(input: ListReceiptFiltersInput) async throws -> ListReceiptFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1804,8 +1765,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListReceiptRuleSetsInput : Represents a request to list the receipt rule sets that exist under your Amazon Web Services account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `ListReceiptRuleSetsOutput` : A list of receipt rule sets that exist under your Amazon Web Services account.
-    public func listReceiptRuleSets(input: ListReceiptRuleSetsInput) async throws -> ListReceiptRuleSetsOutput
-    {
+    public func listReceiptRuleSets(input: ListReceiptRuleSetsInput) async throws -> ListReceiptRuleSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1845,8 +1805,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListTemplatesInput : [no documentation found]
     ///
     /// - Returns: `ListTemplatesOutput` : [no documentation found]
-    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    {
+    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1886,8 +1845,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter ListVerifiedEmailAddressesInput : [no documentation found]
     ///
     /// - Returns: `ListVerifiedEmailAddressesOutput` : A list of email addresses that you have verified with Amazon SES under your Amazon Web Services account.
-    public func listVerifiedEmailAddresses(input: ListVerifiedEmailAddressesInput) async throws -> ListVerifiedEmailAddressesOutput
-    {
+    public func listVerifiedEmailAddresses(input: ListVerifiedEmailAddressesInput) async throws -> ListVerifiedEmailAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1933,8 +1891,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     /// - `InvalidDeliveryOptionsException` : Indicates that provided delivery option is invalid.
-    public func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput
-    {
+    public func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1979,8 +1936,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPolicyException` : Indicates that the provided policy is invalid. Check the error stack for more information about what caused the error.
-    public func putIdentityPolicy(input: PutIdentityPolicyInput) async throws -> PutIdentityPolicyOutput
-    {
+    public func putIdentityPolicy(input: PutIdentityPolicyInput) async throws -> PutIdentityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2026,8 +1982,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func reorderReceiptRuleSet(input: ReorderReceiptRuleSetInput) async throws -> ReorderReceiptRuleSetOutput
-    {
+    public func reorderReceiptRuleSet(input: ReorderReceiptRuleSetInput) async throws -> ReorderReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2072,8 +2027,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
-    public func sendBounce(input: SendBounceInput) async throws -> SendBounceOutput
-    {
+    public func sendBounce(input: SendBounceInput) async throws -> SendBounceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2137,8 +2091,7 @@ extension SESClient: SESClientProtocol {
     /// - `MailFromDomainNotVerifiedException` : Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
-    public func sendBulkTemplatedEmail(input: SendBulkTemplatedEmailInput) async throws -> SendBulkTemplatedEmailOutput
-    {
+    public func sendBulkTemplatedEmail(input: SendBulkTemplatedEmailInput) async throws -> SendBulkTemplatedEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2187,8 +2140,7 @@ extension SESClient: SESClientProtocol {
     /// - `FromEmailAddressNotVerifiedException` : Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     /// - `ProductionAccessNotGrantedException` : Indicates that the account has not been granted production access.
-    public func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput
-    {
+    public func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2250,8 +2202,7 @@ extension SESClient: SESClientProtocol {
     /// - `ConfigurationSetSendingPausedException` : Indicates that email sending is disabled for the configuration set. You can enable or disable email sending for a configuration set using [UpdateConfigurationSetSendingEnabled].
     /// - `MailFromDomainNotVerifiedException` : Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
-    public func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput
-    {
+    public func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2332,8 +2283,7 @@ extension SESClient: SESClientProtocol {
     /// - `ConfigurationSetSendingPausedException` : Indicates that email sending is disabled for the configuration set. You can enable or disable email sending for a configuration set using [UpdateConfigurationSetSendingEnabled].
     /// - `MailFromDomainNotVerifiedException` : Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
-    public func sendRawEmail(input: SendRawEmailInput) async throws -> SendRawEmailOutput
-    {
+    public func sendRawEmail(input: SendRawEmailInput) async throws -> SendRawEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2398,8 +2348,7 @@ extension SESClient: SESClientProtocol {
     /// - `MailFromDomainNotVerifiedException` : Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
-    public func sendTemplatedEmail(input: SendTemplatedEmailInput) async throws -> SendTemplatedEmailOutput
-    {
+    public func sendTemplatedEmail(input: SendTemplatedEmailInput) async throws -> SendTemplatedEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2444,8 +2393,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func setActiveReceiptRuleSet(input: SetActiveReceiptRuleSetInput) async throws -> SetActiveReceiptRuleSetOutput
-    {
+    public func setActiveReceiptRuleSet(input: SetActiveReceiptRuleSetInput) async throws -> SetActiveReceiptRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2485,8 +2433,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter SetIdentityDkimEnabledInput : Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
     /// - Returns: `SetIdentityDkimEnabledOutput` : An empty element returned on a successful request.
-    public func setIdentityDkimEnabled(input: SetIdentityDkimEnabledInput) async throws -> SetIdentityDkimEnabledOutput
-    {
+    public func setIdentityDkimEnabled(input: SetIdentityDkimEnabledInput) async throws -> SetIdentityDkimEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2526,8 +2473,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter SetIdentityFeedbackForwardingEnabledInput : Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-email.html).
     ///
     /// - Returns: `SetIdentityFeedbackForwardingEnabledOutput` : An empty element returned on a successful request.
-    public func setIdentityFeedbackForwardingEnabled(input: SetIdentityFeedbackForwardingEnabledInput) async throws -> SetIdentityFeedbackForwardingEnabledOutput
-    {
+    public func setIdentityFeedbackForwardingEnabled(input: SetIdentityFeedbackForwardingEnabledInput) async throws -> SetIdentityFeedbackForwardingEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2567,8 +2513,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter SetIdentityHeadersInNotificationsEnabledInput : Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
     ///
     /// - Returns: `SetIdentityHeadersInNotificationsEnabledOutput` : An empty element returned on a successful request.
-    public func setIdentityHeadersInNotificationsEnabled(input: SetIdentityHeadersInNotificationsEnabledInput) async throws -> SetIdentityHeadersInNotificationsEnabledOutput
-    {
+    public func setIdentityHeadersInNotificationsEnabled(input: SetIdentityHeadersInNotificationsEnabledInput) async throws -> SetIdentityHeadersInNotificationsEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2608,8 +2553,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter SetIdentityMailFromDomainInput : Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
     ///
     /// - Returns: `SetIdentityMailFromDomainOutput` : An empty element returned on a successful request.
-    public func setIdentityMailFromDomain(input: SetIdentityMailFromDomainInput) async throws -> SetIdentityMailFromDomainOutput
-    {
+    public func setIdentityMailFromDomain(input: SetIdentityMailFromDomainInput) async throws -> SetIdentityMailFromDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2649,8 +2593,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter SetIdentityNotificationTopicInput : Represents a request to specify the Amazon SNS topic to which Amazon SES publishes bounce, complaint, or delivery notifications for emails sent with that identity as the source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
     ///
     /// - Returns: `SetIdentityNotificationTopicOutput` : An empty element returned on a successful request.
-    public func setIdentityNotificationTopic(input: SetIdentityNotificationTopicInput) async throws -> SetIdentityNotificationTopicOutput
-    {
+    public func setIdentityNotificationTopic(input: SetIdentityNotificationTopicInput) async throws -> SetIdentityNotificationTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2696,8 +2639,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func setReceiptRulePosition(input: SetReceiptRulePositionInput) async throws -> SetReceiptRulePositionOutput
-    {
+    public func setReceiptRulePosition(input: SetReceiptRulePositionInput) async throws -> SetReceiptRulePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2744,8 +2686,7 @@ extension SESClient: SESClientProtocol {
     /// - `InvalidRenderingParameterException` : Indicates that one or more of the replacement values you provided is invalid. This error may occur when the TemplateData object contains invalid JSON.
     /// - `MissingRenderingAttributeException` : Indicates that one or more of the replacement values for the specified template was not specified. Ensure that the TemplateData object contains references to all of the replacement tags in the specified template.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
-    public func testRenderTemplate(input: TestRenderTemplateInput) async throws -> TestRenderTemplateOutput
-    {
+    public func testRenderTemplate(input: TestRenderTemplateInput) async throws -> TestRenderTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2785,8 +2726,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter UpdateAccountSendingEnabledInput : Represents a request to enable or disable the email sending capabilities for your entire Amazon SES account.
     ///
     /// - Returns: `UpdateAccountSendingEnabledOutput` : [no documentation found]
-    public func updateAccountSendingEnabled(input: UpdateAccountSendingEnabledInput) async throws -> UpdateAccountSendingEnabledOutput
-    {
+    public func updateAccountSendingEnabled(input: UpdateAccountSendingEnabledInput) async throws -> UpdateAccountSendingEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2835,8 +2775,7 @@ extension SESClient: SESClientProtocol {
     /// - `InvalidCloudWatchDestinationException` : Indicates that the Amazon CloudWatch destination is invalid. See the error message for details.
     /// - `InvalidFirehoseDestinationException` : Indicates that the Amazon Kinesis Firehose destination is invalid. See the error message for details.
     /// - `InvalidSNSDestinationException` : Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
-    public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput
-    {
+    public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2881,8 +2820,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
-    public func updateConfigurationSetReputationMetricsEnabled(input: UpdateConfigurationSetReputationMetricsEnabledInput) async throws -> UpdateConfigurationSetReputationMetricsEnabledOutput
-    {
+    public func updateConfigurationSetReputationMetricsEnabled(input: UpdateConfigurationSetReputationMetricsEnabledInput) async throws -> UpdateConfigurationSetReputationMetricsEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2927,8 +2865,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
-    public func updateConfigurationSetSendingEnabled(input: UpdateConfigurationSetSendingEnabledInput) async throws -> UpdateConfigurationSetSendingEnabledOutput
-    {
+    public func updateConfigurationSetSendingEnabled(input: UpdateConfigurationSetSendingEnabledInput) async throws -> UpdateConfigurationSetSendingEnabledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2979,8 +2916,7 @@ extension SESClient: SESClientProtocol {
     ///
     /// * When the tracking domain you specified is not a valid domain or subdomain.
     /// - `TrackingOptionsDoesNotExistException` : Indicates that the TrackingOptions object you specified does not exist.
-    public func updateConfigurationSetTrackingOptions(input: UpdateConfigurationSetTrackingOptionsInput) async throws -> UpdateConfigurationSetTrackingOptionsOutput
-    {
+    public func updateConfigurationSetTrackingOptions(input: UpdateConfigurationSetTrackingOptionsInput) async throws -> UpdateConfigurationSetTrackingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3027,8 +2963,7 @@ extension SESClient: SESClientProtocol {
     /// - `CustomVerificationEmailInvalidContentException` : Indicates that custom verification email template provided content is invalid.
     /// - `CustomVerificationEmailTemplateDoesNotExistException` : Indicates that a custom verification email template with the name you specified does not exist.
     /// - `FromEmailAddressNotVerifiedException` : Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
-    public func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput
-    {
+    public func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3078,8 +3013,7 @@ extension SESClient: SESClientProtocol {
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
-    public func updateReceiptRule(input: UpdateReceiptRuleInput) async throws -> UpdateReceiptRuleOutput
-    {
+    public func updateReceiptRule(input: UpdateReceiptRuleInput) async throws -> UpdateReceiptRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3125,8 +3059,7 @@ extension SESClient: SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidTemplateException` : Indicates that the template that you specified could not be rendered. This issue may occur when a template refers to a partial that does not exist.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
-    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
-    {
+    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3175,8 +3108,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter VerifyDomainDkimInput : Represents a request to generate the CNAME records needed to set up Easy DKIM with Amazon SES. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
     /// - Returns: `VerifyDomainDkimOutput` : Returns CNAME records that you must publish to the DNS server of your domain to set up Easy DKIM with Amazon SES.
-    public func verifyDomainDkim(input: VerifyDomainDkimInput) async throws -> VerifyDomainDkimOutput
-    {
+    public func verifyDomainDkim(input: VerifyDomainDkimInput) async throws -> VerifyDomainDkimOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3216,8 +3148,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter VerifyDomainIdentityInput : Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure).
     ///
     /// - Returns: `VerifyDomainIdentityOutput` : Returns a TXT record that you must publish to the DNS server of your domain to complete domain verification with Amazon SES.
-    public func verifyDomainIdentity(input: VerifyDomainIdentityInput) async throws -> VerifyDomainIdentityOutput
-    {
+    public func verifyDomainIdentity(input: VerifyDomainIdentityInput) async throws -> VerifyDomainIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3257,8 +3188,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter VerifyEmailAddressInput : Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
     ///
     /// - Returns: `VerifyEmailAddressOutput` : [no documentation found]
-    public func verifyEmailAddress(input: VerifyEmailAddressInput) async throws -> VerifyEmailAddressOutput
-    {
+    public func verifyEmailAddress(input: VerifyEmailAddressInput) async throws -> VerifyEmailAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3298,8 +3228,7 @@ extension SESClient: SESClientProtocol {
     /// - Parameter VerifyEmailIdentityInput : Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
     ///
     /// - Returns: `VerifyEmailIdentityOutput` : An empty element returned on a successful request.
-    public func verifyEmailIdentity(input: VerifyEmailIdentityInput) async throws -> VerifyEmailIdentityOutput
-    {
+    public func verifyEmailIdentity(input: VerifyEmailIdentityInput) async throws -> VerifyEmailIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

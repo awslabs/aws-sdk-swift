@@ -66,7 +66,7 @@ public struct ComprehendMedicalClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
+extension ComprehendMedicalClient {
     /// Performs the `DescribeEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
     ///
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
@@ -82,8 +82,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func describeEntitiesDetectionV2Job(input: DescribeEntitiesDetectionV2JobInput) async throws -> DescribeEntitiesDetectionV2JobOutput
-    {
+    public func describeEntitiesDetectionV2Job(input: DescribeEntitiesDetectionV2JobInput) async throws -> DescribeEntitiesDetectionV2JobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func describeICD10CMInferenceJob(input: DescribeICD10CMInferenceJobInput) async throws -> DescribeICD10CMInferenceJobOutput
-    {
+    public func describeICD10CMInferenceJob(input: DescribeICD10CMInferenceJobInput) async throws -> DescribeICD10CMInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func describePHIDetectionJob(input: DescribePHIDetectionJobInput) async throws -> DescribePHIDetectionJobOutput
-    {
+    public func describePHIDetectionJob(input: DescribePHIDetectionJobInput) async throws -> DescribePHIDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func describeRxNormInferenceJob(input: DescribeRxNormInferenceJobInput) async throws -> DescribeRxNormInferenceJobOutput
-    {
+    public func describeRxNormInferenceJob(input: DescribeRxNormInferenceJobInput) async throws -> DescribeRxNormInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func describeSNOMEDCTInferenceJob(input: DescribeSNOMEDCTInferenceJobInput) async throws -> DescribeSNOMEDCTInferenceJobOutput
-    {
+    public func describeSNOMEDCTInferenceJob(input: DescribeSNOMEDCTInferenceJobInput) async throws -> DescribeSNOMEDCTInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +330,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput
-    {
+    public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -387,8 +381,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func detectEntitiesV2(input: DetectEntitiesV2Input) async throws -> DetectEntitiesV2Output
-    {
+    public func detectEntitiesV2(input: DetectEntitiesV2Input) async throws -> DetectEntitiesV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -439,8 +432,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func detectPHI(input: DetectPHIInput) async throws -> DetectPHIOutput
-    {
+    public func detectPHI(input: DetectPHIInput) async throws -> DetectPHIOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func inferICD10CM(input: InferICD10CMInput) async throws -> InferICD10CMOutput
-    {
+    public func inferICD10CM(input: InferICD10CMInput) async throws -> InferICD10CMOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -543,8 +534,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func inferRxNorm(input: InferRxNormInput) async throws -> InferRxNormOutput
-    {
+    public func inferRxNorm(input: InferRxNormInput) async throws -> InferRxNormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -595,8 +585,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func inferSNOMEDCT(input: InferSNOMEDCTInput) async throws -> InferSNOMEDCTOutput
-    {
+    public func inferSNOMEDCT(input: InferSNOMEDCTInput) async throws -> InferSNOMEDCTOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -645,8 +634,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-    public func listEntitiesDetectionV2Jobs(input: ListEntitiesDetectionV2JobsInput) async throws -> ListEntitiesDetectionV2JobsOutput
-    {
+    public func listEntitiesDetectionV2Jobs(input: ListEntitiesDetectionV2JobsInput) async throws -> ListEntitiesDetectionV2JobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -695,8 +683,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-    public func listICD10CMInferenceJobs(input: ListICD10CMInferenceJobsInput) async throws -> ListICD10CMInferenceJobsOutput
-    {
+    public func listICD10CMInferenceJobs(input: ListICD10CMInferenceJobsInput) async throws -> ListICD10CMInferenceJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -745,8 +732,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-    public func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutput
-    {
+    public func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +781,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-    public func listRxNormInferenceJobs(input: ListRxNormInferenceJobsInput) async throws -> ListRxNormInferenceJobsOutput
-    {
+    public func listRxNormInferenceJobs(input: ListRxNormInferenceJobsInput) async throws -> ListRxNormInferenceJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -845,8 +830,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
-    public func listSNOMEDCTInferenceJobs(input: ListSNOMEDCTInferenceJobsInput) async throws -> ListSNOMEDCTInferenceJobsOutput
-    {
+    public func listSNOMEDCTInferenceJobs(input: ListSNOMEDCTInferenceJobsInput) async throws -> ListSNOMEDCTInferenceJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -895,8 +879,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func startEntitiesDetectionV2Job(input: StartEntitiesDetectionV2JobInput) async throws -> StartEntitiesDetectionV2JobOutput
-    {
+    public func startEntitiesDetectionV2Job(input: StartEntitiesDetectionV2JobInput) async throws -> StartEntitiesDetectionV2JobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -946,8 +929,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func startICD10CMInferenceJob(input: StartICD10CMInferenceJobInput) async throws -> StartICD10CMInferenceJobOutput
-    {
+    public func startICD10CMInferenceJob(input: StartICD10CMInferenceJobInput) async throws -> StartICD10CMInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -997,8 +979,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func startPHIDetectionJob(input: StartPHIDetectionJobInput) async throws -> StartPHIDetectionJobOutput
-    {
+    public func startPHIDetectionJob(input: StartPHIDetectionJobInput) async throws -> StartPHIDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1048,8 +1029,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func startRxNormInferenceJob(input: StartRxNormInferenceJobInput) async throws -> StartRxNormInferenceJobOutput
-    {
+    public func startRxNormInferenceJob(input: StartRxNormInferenceJobInput) async throws -> StartRxNormInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1079,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func startSNOMEDCTInferenceJob(input: StartSNOMEDCTInferenceJobInput) async throws -> StartSNOMEDCTInferenceJobOutput
-    {
+    public func startSNOMEDCTInferenceJob(input: StartSNOMEDCTInferenceJobInput) async throws -> StartSNOMEDCTInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1149,8 +1128,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
-    public func stopEntitiesDetectionV2Job(input: StopEntitiesDetectionV2JobInput) async throws -> StopEntitiesDetectionV2JobOutput
-    {
+    public func stopEntitiesDetectionV2Job(input: StopEntitiesDetectionV2JobInput) async throws -> StopEntitiesDetectionV2JobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1198,8 +1176,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
-    public func stopICD10CMInferenceJob(input: StopICD10CMInferenceJobInput) async throws -> StopICD10CMInferenceJobOutput
-    {
+    public func stopICD10CMInferenceJob(input: StopICD10CMInferenceJobInput) async throws -> StopICD10CMInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1247,8 +1224,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
-    public func stopPHIDetectionJob(input: StopPHIDetectionJobInput) async throws -> StopPHIDetectionJobOutput
-    {
+    public func stopPHIDetectionJob(input: StopPHIDetectionJobInput) async throws -> StopPHIDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1296,8 +1272,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
-    public func stopRxNormInferenceJob(input: StopRxNormInferenceJobInput) async throws -> StopRxNormInferenceJobOutput
-    {
+    public func stopRxNormInferenceJob(input: StopRxNormInferenceJobInput) async throws -> StopRxNormInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1346,8 +1321,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
-    public func stopSNOMEDCTInferenceJob(input: StopSNOMEDCTInferenceJobInput) async throws -> StopSNOMEDCTInferenceJobOutput
-    {
+    public func stopSNOMEDCTInferenceJob(input: StopSNOMEDCTInferenceJobInput) async throws -> StopSNOMEDCTInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

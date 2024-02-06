@@ -66,7 +66,7 @@ public struct TrustedAdvisorClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
+extension TrustedAdvisorClient {
     /// Performs the `GetOrganizationRecommendation` operation on the `TrustedAdvisor` service.
     ///
     /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
@@ -83,8 +83,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func getOrganizationRecommendation(input: GetOrganizationRecommendationInput) async throws -> GetOrganizationRecommendationOutput
-    {
+    public func getOrganizationRecommendation(input: GetOrganizationRecommendationInput) async throws -> GetOrganizationRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func getRecommendation(input: GetRecommendationInput) async throws -> GetRecommendationOutput
-    {
+    public func getRecommendation(input: GetRecommendationInput) async throws -> GetRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `InternalServerException` : Exception to notify that an unexpected internal error occurred during processing of the request
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func listChecks(input: ListChecksInput) async throws -> ListChecksOutput
-    {
+    public func listChecks(input: ListChecksInput) async throws -> ListChecksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func listOrganizationRecommendationAccounts(input: ListOrganizationRecommendationAccountsInput) async throws -> ListOrganizationRecommendationAccountsOutput
-    {
+    public func listOrganizationRecommendationAccounts(input: ListOrganizationRecommendationAccountsInput) async throws -> ListOrganizationRecommendationAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -272,8 +268,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func listOrganizationRecommendationResources(input: ListOrganizationRecommendationResourcesInput) async throws -> ListOrganizationRecommendationResourcesOutput
-    {
+    public func listOrganizationRecommendationResources(input: ListOrganizationRecommendationResourcesInput) async throws -> ListOrganizationRecommendationResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +314,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `InternalServerException` : Exception to notify that an unexpected internal error occurred during processing of the request
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func listOrganizationRecommendations(input: ListOrganizationRecommendationsInput) async throws -> ListOrganizationRecommendationsOutput
-    {
+    public func listOrganizationRecommendations(input: ListOrganizationRecommendationsInput) async throws -> ListOrganizationRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +361,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func listRecommendationResources(input: ListRecommendationResourcesInput) async throws -> ListRecommendationResourcesOutput
-    {
+    public func listRecommendationResources(input: ListRecommendationResourcesInput) async throws -> ListRecommendationResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `InternalServerException` : Exception to notify that an unexpected internal error occurred during processing of the request
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
-    {
+    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +455,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func updateOrganizationRecommendationLifecycle(input: UpdateOrganizationRecommendationLifecycleInput) async throws -> UpdateOrganizationRecommendationLifecycleOutput
-    {
+    public func updateOrganizationRecommendationLifecycle(input: UpdateOrganizationRecommendationLifecycleInput) async throws -> UpdateOrganizationRecommendationLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +505,7 @@ extension TrustedAdvisorClient: TrustedAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Exception that the requested resource has not been found
     /// - `ThrottlingException` : Exception to notify that requests are being throttled
     /// - `ValidationException` : Exception that the request failed to satisfy service constraints
-    public func updateRecommendationLifecycle(input: UpdateRecommendationLifecycleInput) async throws -> UpdateRecommendationLifecycleOutput
-    {
+    public func updateRecommendationLifecycle(input: UpdateRecommendationLifecycleInput) async throws -> UpdateRecommendationLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct BudgetsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension BudgetsClient: BudgetsClientProtocol {
+extension BudgetsClient {
     /// Performs the `CreateBudget` operation on the `AWSBudgetServiceGateway` service.
     ///
     /// Creates a budget and, if included, notifications and subscribers. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples) section.
@@ -84,8 +84,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput
-    {
+    public func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutput
-    {
+    public func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func createNotification(input: CreateNotificationInput) async throws -> CreateNotificationOutput
-    {
+    public func createNotification(input: CreateNotificationInput) async throws -> CreateNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput
-    {
+    public func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -294,8 +290,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func deleteBudget(input: DeleteBudgetInput) async throws -> DeleteBudgetOutput
-    {
+    public func deleteBudget(input: DeleteBudgetInput) async throws -> DeleteBudgetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -346,8 +341,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func deleteBudgetAction(input: DeleteBudgetActionInput) async throws -> DeleteBudgetActionOutput
-    {
+    public func deleteBudgetAction(input: DeleteBudgetActionInput) async throws -> DeleteBudgetActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func deleteNotification(input: DeleteNotificationInput) async throws -> DeleteNotificationOutput
-    {
+    public func deleteNotification(input: DeleteNotificationInput) async throws -> DeleteNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput
-    {
+    public func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -499,8 +491,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudget(input: DescribeBudgetInput) async throws -> DescribeBudgetOutput
-    {
+    public func describeBudget(input: DescribeBudgetInput) async throws -> DescribeBudgetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -550,8 +541,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgetAction(input: DescribeBudgetActionInput) async throws -> DescribeBudgetActionOutput
-    {
+    public func describeBudgetAction(input: DescribeBudgetActionInput) async throws -> DescribeBudgetActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +592,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgetActionHistories(input: DescribeBudgetActionHistoriesInput) async throws -> DescribeBudgetActionHistoriesOutput
-    {
+    public func describeBudgetActionHistories(input: DescribeBudgetActionHistoriesInput) async throws -> DescribeBudgetActionHistoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -653,8 +642,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgetActionsForAccount(input: DescribeBudgetActionsForAccountInput) async throws -> DescribeBudgetActionsForAccountOutput
-    {
+    public func describeBudgetActionsForAccount(input: DescribeBudgetActionsForAccountInput) async throws -> DescribeBudgetActionsForAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -705,8 +693,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgetActionsForBudget(input: DescribeBudgetActionsForBudgetInput) async throws -> DescribeBudgetActionsForBudgetOutput
-    {
+    public func describeBudgetActionsForBudget(input: DescribeBudgetActionsForBudgetInput) async throws -> DescribeBudgetActionsForBudgetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -758,8 +745,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgetNotificationsForAccount(input: DescribeBudgetNotificationsForAccountInput) async throws -> DescribeBudgetNotificationsForAccountOutput
-    {
+    public func describeBudgetNotificationsForAccount(input: DescribeBudgetNotificationsForAccountInput) async throws -> DescribeBudgetNotificationsForAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -811,8 +797,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgetPerformanceHistory(input: DescribeBudgetPerformanceHistoryInput) async throws -> DescribeBudgetPerformanceHistoryOutput
-    {
+    public func describeBudgetPerformanceHistory(input: DescribeBudgetPerformanceHistoryInput) async throws -> DescribeBudgetPerformanceHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +849,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeBudgets(input: DescribeBudgetsInput) async throws -> DescribeBudgetsOutput
-    {
+    public func describeBudgets(input: DescribeBudgetsInput) async throws -> DescribeBudgetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -917,8 +901,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeNotificationsForBudget(input: DescribeNotificationsForBudgetInput) async throws -> DescribeNotificationsForBudgetOutput
-    {
+    public func describeNotificationsForBudget(input: DescribeNotificationsForBudgetInput) async throws -> DescribeNotificationsForBudgetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -970,8 +953,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func describeSubscribersForNotification(input: DescribeSubscribersForNotificationInput) async throws -> DescribeSubscribersForNotificationOutput
-    {
+    public func describeSubscribersForNotification(input: DescribeSubscribersForNotificationInput) async throws -> DescribeSubscribersForNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1022,8 +1004,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func executeBudgetAction(input: ExecuteBudgetActionInput) async throws -> ExecuteBudgetActionOutput
-    {
+    public func executeBudgetAction(input: ExecuteBudgetActionInput) async throws -> ExecuteBudgetActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1073,8 +1054,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutput
-    {
+    public func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1125,8 +1105,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func updateBudgetAction(input: UpdateBudgetActionInput) async throws -> UpdateBudgetActionOutput
-    {
+    public func updateBudgetAction(input: UpdateBudgetActionInput) async throws -> UpdateBudgetActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1177,8 +1156,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func updateNotification(input: UpdateNotificationInput) async throws -> UpdateNotificationOutput
-    {
+    public func updateNotification(input: UpdateNotificationInput) async throws -> UpdateNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1229,8 +1207,7 @@ extension BudgetsClient: BudgetsClientProtocol {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-    public func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput
-    {
+    public func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

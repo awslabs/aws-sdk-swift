@@ -66,7 +66,7 @@ public struct EC2InstanceConnectClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
+extension EC2InstanceConnectClient {
     /// Performs the `SendSSHPublicKey` operation on the `AWSEC2InstanceConnectService` service.
     ///
     /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see [Connect to your Linux instance using EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html) in the Amazon EC2 User Guide.
@@ -85,8 +85,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
     /// - `InvalidArgsException` : One of the parameters is not valid.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-    public func sendSSHPublicKey(input: SendSSHPublicKeyInput) async throws -> SendSSHPublicKeyOutput
-    {
+    public func sendSSHPublicKey(input: SendSSHPublicKeyInput) async throws -> SendSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -142,8 +141,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
     /// - `SerialConsoleSessionUnavailableException` : Unable to start a serial console session. Please try again.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-    public func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutput
-    {
+    public func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

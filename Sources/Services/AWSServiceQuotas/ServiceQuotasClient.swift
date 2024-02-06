@@ -66,7 +66,7 @@ public struct ServiceQuotasClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension ServiceQuotasClient: ServiceQuotasClientProtocol {
+extension ServiceQuotasClient {
     /// Performs the `AssociateServiceQuotaTemplate` operation on the `ServiceQuotasV20190624` service.
     ///
     /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
@@ -86,8 +86,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func associateServiceQuotaTemplate(input: AssociateServiceQuotaTemplateInput) async throws -> AssociateServiceQuotaTemplateOutput
-    {
+    public func associateServiceQuotaTemplate(input: AssociateServiceQuotaTemplateInput) async throws -> AssociateServiceQuotaTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -141,8 +140,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func deleteServiceQuotaIncreaseRequestFromTemplate(input: DeleteServiceQuotaIncreaseRequestFromTemplateInput) async throws -> DeleteServiceQuotaIncreaseRequestFromTemplateOutput
-    {
+    public func deleteServiceQuotaIncreaseRequestFromTemplate(input: DeleteServiceQuotaIncreaseRequestFromTemplateInput) async throws -> DeleteServiceQuotaIncreaseRequestFromTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -195,8 +193,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceQuotaTemplateNotInUseException` : The quota request template is not associated with your organization.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func disassociateServiceQuotaTemplate(input: DisassociateServiceQuotaTemplateInput) async throws -> DisassociateServiceQuotaTemplateOutput
-    {
+    public func disassociateServiceQuotaTemplate(input: DisassociateServiceQuotaTemplateInput) async throws -> DisassociateServiceQuotaTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -246,8 +243,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func getAWSDefaultServiceQuota(input: GetAWSDefaultServiceQuotaInput) async throws -> GetAWSDefaultServiceQuotaOutput
-    {
+    public func getAWSDefaultServiceQuota(input: GetAWSDefaultServiceQuotaInput) async throws -> GetAWSDefaultServiceQuotaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -300,8 +296,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceQuotaTemplateNotInUseException` : The quota request template is not associated with your organization.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func getAssociationForServiceQuotaTemplate(input: GetAssociationForServiceQuotaTemplateInput) async throws -> GetAssociationForServiceQuotaTemplateOutput
-    {
+    public func getAssociationForServiceQuotaTemplate(input: GetAssociationForServiceQuotaTemplateInput) async throws -> GetAssociationForServiceQuotaTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -351,8 +346,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func getRequestedServiceQuotaChange(input: GetRequestedServiceQuotaChangeInput) async throws -> GetRequestedServiceQuotaChangeOutput
-    {
+    public func getRequestedServiceQuotaChange(input: GetRequestedServiceQuotaChangeInput) async throws -> GetRequestedServiceQuotaChangeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -402,8 +396,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func getServiceQuota(input: GetServiceQuotaInput) async throws -> GetServiceQuotaOutput
-    {
+    public func getServiceQuota(input: GetServiceQuotaInput) async throws -> GetServiceQuotaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -457,8 +450,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func getServiceQuotaIncreaseRequestFromTemplate(input: GetServiceQuotaIncreaseRequestFromTemplateInput) async throws -> GetServiceQuotaIncreaseRequestFromTemplateOutput
-    {
+    public func getServiceQuotaIncreaseRequestFromTemplate(input: GetServiceQuotaIncreaseRequestFromTemplateInput) async throws -> GetServiceQuotaIncreaseRequestFromTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listAWSDefaultServiceQuotas(input: ListAWSDefaultServiceQuotasInput) async throws -> ListAWSDefaultServiceQuotasOutput
-    {
+    public func listAWSDefaultServiceQuotas(input: ListAWSDefaultServiceQuotasInput) async throws -> ListAWSDefaultServiceQuotasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -561,8 +552,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listRequestedServiceQuotaChangeHistory(input: ListRequestedServiceQuotaChangeHistoryInput) async throws -> ListRequestedServiceQuotaChangeHistoryOutput
-    {
+    public func listRequestedServiceQuotaChangeHistory(input: ListRequestedServiceQuotaChangeHistoryInput) async throws -> ListRequestedServiceQuotaChangeHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +603,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listRequestedServiceQuotaChangeHistoryByQuota(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) async throws -> ListRequestedServiceQuotaChangeHistoryByQuotaOutput
-    {
+    public func listRequestedServiceQuotaChangeHistoryByQuota(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) async throws -> ListRequestedServiceQuotaChangeHistoryByQuotaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +656,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listServiceQuotaIncreaseRequestsInTemplate(input: ListServiceQuotaIncreaseRequestsInTemplateInput) async throws -> ListServiceQuotaIncreaseRequestsInTemplateOutput
-    {
+    public func listServiceQuotaIncreaseRequestsInTemplate(input: ListServiceQuotaIncreaseRequestsInTemplateInput) async throws -> ListServiceQuotaIncreaseRequestsInTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +707,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listServiceQuotas(input: ListServiceQuotasInput) async throws -> ListServiceQuotasOutput
-    {
+    public func listServiceQuotas(input: ListServiceQuotasInput) async throws -> ListServiceQuotasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +757,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `InvalidPaginationTokenException` : Invalid input was provided.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput
-    {
+    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +807,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -877,8 +862,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ServiceException` : Something went wrong.
     /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this Amazon Web Services Region.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func putServiceQuotaIncreaseRequestIntoTemplate(input: PutServiceQuotaIncreaseRequestIntoTemplateInput) async throws -> PutServiceQuotaIncreaseRequestIntoTemplateOutput
-    {
+    public func putServiceQuotaIncreaseRequestIntoTemplate(input: PutServiceQuotaIncreaseRequestIntoTemplateInput) async throws -> PutServiceQuotaIncreaseRequestIntoTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -932,8 +916,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func requestServiceQuotaIncrease(input: RequestServiceQuotaIncreaseInput) async throws -> RequestServiceQuotaIncreaseOutput
-    {
+    public func requestServiceQuotaIncrease(input: RequestServiceQuotaIncreaseInput) async throws -> RequestServiceQuotaIncreaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -985,8 +968,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `TagPolicyViolationException` : The specified tag is a reserved word and cannot be used.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     /// - `TooManyTagsException` : You've exceeded the number of tags allowed for a resource. For more information, see [Tag restrictions](https://docs.aws.amazon.com/servicequotas/latest/userguide/sq-tagging.html#sq-tagging-restrictions) in the Service Quotas User Guide.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1018,7 @@ extension ServiceQuotasClient: ServiceQuotasClientProtocol {
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

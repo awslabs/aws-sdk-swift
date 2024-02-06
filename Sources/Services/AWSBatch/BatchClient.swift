@@ -66,7 +66,7 @@ public struct BatchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension BatchClient: BatchClientProtocol {
+extension BatchClient {
     /// Performs the `CancelJob` operation on the `AWSBatchV20160810` service.
     ///
     /// Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED or PENDING are canceled. A job inRUNNABLE remains in RUNNABLE until it reaches the head of the job queue. Then the job status is updated to FAILED. A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed. Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the [TerminateJob] operation.
@@ -80,8 +80,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -149,8 +148,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func createComputeEnvironment(input: CreateComputeEnvironmentInput) async throws -> CreateComputeEnvironmentOutput
-    {
+    public func createComputeEnvironment(input: CreateComputeEnvironmentInput) async throws -> CreateComputeEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -196,8 +194,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func createJobQueue(input: CreateJobQueueInput) async throws -> CreateJobQueueOutput
-    {
+    public func createJobQueue(input: CreateJobQueueInput) async throws -> CreateJobQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func createSchedulingPolicy(input: CreateSchedulingPolicyInput) async throws -> CreateSchedulingPolicyOutput
-    {
+    public func createSchedulingPolicy(input: CreateSchedulingPolicyInput) async throws -> CreateSchedulingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -290,8 +286,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func deleteComputeEnvironment(input: DeleteComputeEnvironmentInput) async throws -> DeleteComputeEnvironmentOutput
-    {
+    public func deleteComputeEnvironment(input: DeleteComputeEnvironmentInput) async throws -> DeleteComputeEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -337,8 +332,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func deleteJobQueue(input: DeleteJobQueueInput) async throws -> DeleteJobQueueOutput
-    {
+    public func deleteJobQueue(input: DeleteJobQueueInput) async throws -> DeleteJobQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func deleteSchedulingPolicy(input: DeleteSchedulingPolicyInput) async throws -> DeleteSchedulingPolicyOutput
-    {
+    public func deleteSchedulingPolicy(input: DeleteSchedulingPolicyInput) async throws -> DeleteSchedulingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -431,8 +424,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func deregisterJobDefinition(input: DeregisterJobDefinitionInput) async throws -> DeregisterJobDefinitionOutput
-    {
+    public func deregisterJobDefinition(input: DeregisterJobDefinitionInput) async throws -> DeregisterJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -478,8 +470,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func describeComputeEnvironments(input: DescribeComputeEnvironmentsInput) async throws -> DescribeComputeEnvironmentsOutput
-    {
+    public func describeComputeEnvironments(input: DescribeComputeEnvironmentsInput) async throws -> DescribeComputeEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -525,8 +516,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func describeJobDefinitions(input: DescribeJobDefinitionsInput) async throws -> DescribeJobDefinitionsOutput
-    {
+    public func describeJobDefinitions(input: DescribeJobDefinitionsInput) async throws -> DescribeJobDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +562,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func describeJobQueues(input: DescribeJobQueuesInput) async throws -> DescribeJobQueuesOutput
-    {
+    public func describeJobQueues(input: DescribeJobQueuesInput) async throws -> DescribeJobQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -619,8 +608,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput
-    {
+    public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +654,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func describeSchedulingPolicies(input: DescribeSchedulingPoliciesInput) async throws -> DescribeSchedulingPoliciesOutput
-    {
+    public func describeSchedulingPolicies(input: DescribeSchedulingPoliciesInput) async throws -> DescribeSchedulingPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -722,8 +709,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,8 +755,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func listSchedulingPolicies(input: ListSchedulingPoliciesInput) async throws -> ListSchedulingPoliciesOutput
-    {
+    public func listSchedulingPolicies(input: ListSchedulingPoliciesInput) async throws -> ListSchedulingPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -816,8 +801,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -860,8 +844,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func registerJobDefinition(input: RegisterJobDefinitionInput) async throws -> RegisterJobDefinitionOutput
-    {
+    public func registerJobDefinition(input: RegisterJobDefinitionInput) async throws -> RegisterJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +890,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func submitJob(input: SubmitJobInput) async throws -> SubmitJobOutput
-    {
+    public func submitJob(input: SubmitJobInput) async throws -> SubmitJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +936,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1001,8 +982,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func terminateJob(input: TerminateJobInput) async throws -> TerminateJobOutput
-    {
+    public func terminateJob(input: TerminateJobInput) async throws -> TerminateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1048,8 +1028,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1093,8 +1072,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func updateComputeEnvironment(input: UpdateComputeEnvironmentInput) async throws -> UpdateComputeEnvironmentOutput
-    {
+    public func updateComputeEnvironment(input: UpdateComputeEnvironmentInput) async throws -> UpdateComputeEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1118,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func updateJobQueue(input: UpdateJobQueueInput) async throws -> UpdateJobQueueOutput
-    {
+    public func updateJobQueue(input: UpdateJobQueueInput) async throws -> UpdateJobQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1187,8 +1164,7 @@ extension BatchClient: BatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    public func updateSchedulingPolicy(input: UpdateSchedulingPolicyInput) async throws -> UpdateSchedulingPolicyOutput
-    {
+    public func updateSchedulingPolicy(input: UpdateSchedulingPolicyInput) async throws -> UpdateSchedulingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

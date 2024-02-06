@@ -66,7 +66,7 @@ public struct DetectiveClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension DetectiveClient: DetectiveClientProtocol {
+extension DetectiveClient {
     /// Performs the `AcceptInvitation` operation on the `AmazonDetective` service.
     ///
     /// Accepts an invitation for the member account to contribute data to a behavior graph. This operation can only be called by an invited member account. The request provides the ARN of behavior graph. The member account status in the graph must be INVITED.
@@ -83,8 +83,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
-    {
+    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func batchGetGraphMemberDatasources(input: BatchGetGraphMemberDatasourcesInput) async throws -> BatchGetGraphMemberDatasourcesOutput
-    {
+    public func batchGetGraphMemberDatasources(input: BatchGetGraphMemberDatasourcesInput) async throws -> BatchGetGraphMemberDatasourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func batchGetMembershipDatasources(input: BatchGetMembershipDatasourcesInput) async throws -> BatchGetMembershipDatasourcesOutput
-    {
+    public func batchGetMembershipDatasources(input: BatchGetMembershipDatasourcesInput) async throws -> BatchGetMembershipDatasourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
-    public func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutput
-    {
+    public func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -296,8 +292,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     /// - `ValidationException` : The request parameters are invalid.
-    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput
-    {
+    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutput
-    {
+    public func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -395,8 +389,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput
-    {
+    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-    {
+    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +485,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
-    {
+    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +531,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func disassociateMembership(input: DisassociateMembershipInput) async throws -> DisassociateMembershipOutput
-    {
+    public func disassociateMembership(input: DisassociateMembershipInput) async throws -> DisassociateMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -589,8 +579,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
-    {
+    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -639,8 +628,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func getInvestigation(input: GetInvestigationInput) async throws -> GetInvestigationOutput
-    {
+    public func getInvestigation(input: GetInvestigationInput) async throws -> GetInvestigationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -688,8 +676,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput
-    {
+    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -737,8 +724,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listDatasourcePackages(input: ListDatasourcePackagesInput) async throws -> ListDatasourcePackagesOutput
-    {
+    public func listDatasourcePackages(input: ListDatasourcePackagesInput) async throws -> ListDatasourcePackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -785,8 +771,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutput
-    {
+    public func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -835,8 +820,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listIndicators(input: ListIndicatorsInput) async throws -> ListIndicatorsOutput
-    {
+    public func listIndicators(input: ListIndicatorsInput) async throws -> ListIndicatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -885,8 +869,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listInvestigations(input: ListInvestigationsInput) async throws -> ListInvestigationsOutput
-    {
+    public func listInvestigations(input: ListInvestigationsInput) async throws -> ListInvestigationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -933,8 +916,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-    {
+    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -982,8 +964,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1012,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
-    {
+    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1060,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1127,8 +1106,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutput
-    {
+    public func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1177,8 +1155,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func startInvestigation(input: StartInvestigationInput) async throws -> StartInvestigationOutput
-    {
+    public func startInvestigation(input: StartInvestigationInput) async throws -> StartInvestigationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1238,8 +1215,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     /// - `ValidationException` : The request parameters are invalid.
-    public func startMonitoringMember(input: StartMonitoringMemberInput) async throws -> StartMonitoringMemberOutput
-    {
+    public func startMonitoringMember(input: StartMonitoringMemberInput) async throws -> StartMonitoringMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1287,8 +1263,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1311,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1390,8 +1364,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     /// - `ValidationException` : The request parameters are invalid.
-    public func updateDatasourcePackages(input: UpdateDatasourcePackagesInput) async throws -> UpdateDatasourcePackagesOutput
-    {
+    public func updateDatasourcePackages(input: UpdateDatasourcePackagesInput) async throws -> UpdateDatasourcePackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1440,8 +1413,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func updateInvestigationState(input: UpdateInvestigationStateInput) async throws -> UpdateInvestigationStateOutput
-    {
+    public func updateInvestigationState(input: UpdateInvestigationStateInput) async throws -> UpdateInvestigationStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1489,8 +1461,7 @@ extension DetectiveClient: DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-    {
+    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

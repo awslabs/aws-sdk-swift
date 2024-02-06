@@ -5413,6 +5413,8 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
+public enum SageMakerGeospatialClientTypes {}
+
 extension SearchRasterDataCollectionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SearchRasterDataCollectionInput(arn: \(Swift.String(describing: arn)), rasterDataCollectionQuery: \(Swift.String(describing: rasterDataCollectionQuery)), nextToken: \"CONTENT_REDACTED\")"}

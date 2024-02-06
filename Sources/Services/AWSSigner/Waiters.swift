@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension SignerClientProtocol {
+extension SignerClient {
 
     static func successfulSigningJobWaiterConfig() throws -> WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutput> {
         let acceptors: [WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutput>.Acceptor] = [

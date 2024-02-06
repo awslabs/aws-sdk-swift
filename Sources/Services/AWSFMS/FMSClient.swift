@@ -66,7 +66,7 @@ public struct FMSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension FMSClient: FMSClientProtocol {
+extension FMSClient {
     /// Performs the `AssociateAdminAccount` operation on the `AWSFMS_20180101` service.
     ///
     /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/organizations/latest/userguide/fms-administrators.html) in the Firewall Manager Developer Guide.
@@ -83,8 +83,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateAdminAccount(input: AssociateAdminAccountInput) async throws -> AssociateAdminAccountOutput
-    {
+    public func associateAdminAccount(input: AssociateAdminAccountInput) async throws -> AssociateAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateThirdPartyFirewall(input: AssociateThirdPartyFirewallInput) async throws -> AssociateThirdPartyFirewallOutput
-    {
+    public func associateThirdPartyFirewall(input: AssociateThirdPartyFirewallInput) async throws -> AssociateThirdPartyFirewallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func batchAssociateResource(input: BatchAssociateResourceInput) async throws -> BatchAssociateResourceOutput
-    {
+    public func batchAssociateResource(input: BatchAssociateResourceInput) async throws -> BatchAssociateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func batchDisassociateResource(input: BatchDisassociateResourceInput) async throws -> BatchDisassociateResourceOutput
-    {
+    public func batchDisassociateResource(input: BatchDisassociateResourceInput) async throws -> BatchDisassociateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteAppsList(input: DeleteAppsListInput) async throws -> DeleteAppsListOutput
-    {
+    public func deleteAppsList(input: DeleteAppsListInput) async throws -> DeleteAppsListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteNotificationChannel(input: DeleteNotificationChannelInput) async throws -> DeleteNotificationChannelOutput
-    {
+    public func deleteNotificationChannel(input: DeleteNotificationChannelInput) async throws -> DeleteNotificationChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +377,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteProtocolsList(input: DeleteProtocolsListInput) async throws -> DeleteProtocolsListOutput
-    {
+    public func deleteProtocolsList(input: DeleteProtocolsListInput) async throws -> DeleteProtocolsListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -482,8 +474,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutput
-    {
+    public func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -531,8 +522,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateAdminAccount(input: DisassociateAdminAccountInput) async throws -> DisassociateAdminAccountOutput
-    {
+    public func disassociateAdminAccount(input: DisassociateAdminAccountInput) async throws -> DisassociateAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -581,8 +571,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateThirdPartyFirewall(input: DisassociateThirdPartyFirewallInput) async throws -> DisassociateThirdPartyFirewallOutput
-    {
+    public func disassociateThirdPartyFirewall(input: DisassociateThirdPartyFirewallInput) async throws -> DisassociateThirdPartyFirewallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getAdminAccount(input: GetAdminAccountInput) async throws -> GetAdminAccountOutput
-    {
+    public func getAdminAccount(input: GetAdminAccountInput) async throws -> GetAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -681,8 +669,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getAdminScope(input: GetAdminScopeInput) async throws -> GetAdminScopeOutput
-    {
+    public func getAdminScope(input: GetAdminScopeInput) async throws -> GetAdminScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -730,8 +717,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getAppsList(input: GetAppsListInput) async throws -> GetAppsListOutput
-    {
+    public func getAppsList(input: GetAppsListInput) async throws -> GetAppsListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -788,8 +774,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getComplianceDetail(input: GetComplianceDetailInput) async throws -> GetComplianceDetailOutput
-    {
+    public func getComplianceDetail(input: GetComplianceDetailInput) async throws -> GetComplianceDetailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -837,8 +822,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getNotificationChannel(input: GetNotificationChannelInput) async throws -> GetNotificationChannelOutput
-    {
+    public func getNotificationChannel(input: GetNotificationChannelInput) async throws -> GetNotificationChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -887,8 +871,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `InvalidTypeException` : The value of the Type parameter is invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +919,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getProtectionStatus(input: GetProtectionStatusInput) async throws -> GetProtectionStatusOutput
-    {
+    public func getProtectionStatus(input: GetProtectionStatusInput) async throws -> GetProtectionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -985,8 +967,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getProtocolsList(input: GetProtocolsListInput) async throws -> GetProtocolsListOutput
-    {
+    public func getProtocolsList(input: GetProtocolsListInput) async throws -> GetProtocolsListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1035,8 +1016,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutput
-    {
+    public func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1085,8 +1065,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getThirdPartyFirewallAssociationStatus(input: GetThirdPartyFirewallAssociationStatusInput) async throws -> GetThirdPartyFirewallAssociationStatusOutput
-    {
+    public func getThirdPartyFirewallAssociationStatus(input: GetThirdPartyFirewallAssociationStatusInput) async throws -> GetThirdPartyFirewallAssociationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1134,8 +1113,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getViolationDetails(input: GetViolationDetailsInput) async throws -> GetViolationDetailsOutput
-    {
+    public func getViolationDetails(input: GetViolationDetailsInput) async throws -> GetViolationDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1184,8 +1162,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listAdminAccountsForOrganization(input: ListAdminAccountsForOrganizationInput) async throws -> ListAdminAccountsForOrganizationOutput
-    {
+    public func listAdminAccountsForOrganization(input: ListAdminAccountsForOrganizationInput) async throws -> ListAdminAccountsForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1233,8 +1210,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listAdminsManagingAccount(input: ListAdminsManagingAccountInput) async throws -> ListAdminsManagingAccountOutput
-    {
+    public func listAdminsManagingAccount(input: ListAdminsManagingAccountInput) async throws -> ListAdminsManagingAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1283,8 +1259,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listAppsLists(input: ListAppsListsInput) async throws -> ListAppsListsOutput
-    {
+    public func listAppsLists(input: ListAppsListsInput) async throws -> ListAppsListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1331,8 +1306,7 @@ extension FMSClient: FMSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listComplianceStatus(input: ListComplianceStatusInput) async throws -> ListComplianceStatusOutput
-    {
+    public func listComplianceStatus(input: ListComplianceStatusInput) async throws -> ListComplianceStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1380,8 +1354,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
-    public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
-    {
+    public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1428,8 +1401,7 @@ extension FMSClient: FMSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutput
-    {
+    public func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1478,8 +1450,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
-    {
+    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1527,8 +1498,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProtocolsLists(input: ListProtocolsListsInput) async throws -> ListProtocolsListsOutput
-    {
+    public func listProtocolsLists(input: ListProtocolsListsInput) async throws -> ListProtocolsListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1577,8 +1547,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listResourceSetResources(input: ListResourceSetResourcesInput) async throws -> ListResourceSetResourcesOutput
-    {
+    public func listResourceSetResources(input: ListResourceSetResourcesInput) async throws -> ListResourceSetResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1626,8 +1595,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
-    public func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutput
-    {
+    public func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1676,8 +1644,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1726,8 +1693,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listThirdPartyFirewallFirewallPolicies(input: ListThirdPartyFirewallFirewallPoliciesInput) async throws -> ListThirdPartyFirewallFirewallPoliciesOutput
-    {
+    public func listThirdPartyFirewallFirewallPolicies(input: ListThirdPartyFirewallFirewallPoliciesInput) async throws -> ListThirdPartyFirewallFirewallPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1776,8 +1742,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
-    public func putAdminAccount(input: PutAdminAccountInput) async throws -> PutAdminAccountOutput
-    {
+    public func putAdminAccount(input: PutAdminAccountInput) async throws -> PutAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1827,8 +1792,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func putAppsList(input: PutAppsListInput) async throws -> PutAppsListOutput
-    {
+    public func putAppsList(input: PutAppsListInput) async throws -> PutAppsListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1876,8 +1840,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func putNotificationChannel(input: PutNotificationChannelInput) async throws -> PutNotificationChannelOutput
-    {
+    public func putNotificationChannel(input: PutNotificationChannelInput) async throws -> PutNotificationChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1942,8 +1905,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidTypeException` : The value of the Type parameter is invalid.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput
-    {
+    public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1993,8 +1955,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func putProtocolsList(input: PutProtocolsListInput) async throws -> PutProtocolsListOutput
-    {
+    public func putProtocolsList(input: PutProtocolsListInput) async throws -> PutProtocolsListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2043,8 +2004,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
-    public func putResourceSet(input: PutResourceSetInput) async throws -> PutResourceSetOutput
-    {
+    public func putResourceSet(input: PutResourceSetInput) async throws -> PutResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2094,8 +2054,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2144,8 +2103,7 @@ extension FMSClient: FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

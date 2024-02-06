@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension S3ClientProtocol {
+extension S3Client {
 
     static func bucketExistsWaiterConfig() throws -> WaiterConfiguration<HeadBucketInput, HeadBucketOutput> {
         let acceptors: [WaiterConfiguration<HeadBucketInput, HeadBucketOutput>.Acceptor] = [

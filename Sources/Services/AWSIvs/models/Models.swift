@@ -2870,6 +2870,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IvsClientTypes {}
+
 extension ListChannelsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterByName

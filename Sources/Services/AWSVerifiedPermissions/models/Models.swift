@@ -6949,3 +6949,5 @@ extension VerifiedPermissionsClientTypes {
         }
     }
 }
+
+public enum VerifiedPermissionsClientTypes {}

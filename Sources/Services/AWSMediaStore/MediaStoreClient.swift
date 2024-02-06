@@ -66,7 +66,7 @@ public struct MediaStoreClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension MediaStoreClient: MediaStoreClientProtocol {
+extension MediaStoreClient {
     /// Performs the `CreateContainer` operation on the `MediaStore_20170901` service.
     ///
     /// Creates a storage container to hold objects. A container is similar to a bucket in the Amazon S3 service.
@@ -81,8 +81,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `LimitExceededException` : A service limit has been exceeded.
-    public func createContainer(input: CreateContainerInput) async throws -> CreateContainerOutput
-    {
+    public func createContainer(input: CreateContainerInput) async throws -> CreateContainerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func deleteContainer(input: DeleteContainerInput) async throws -> DeleteContainerOutput
-    {
+    public func deleteContainer(input: DeleteContainerInput) async throws -> DeleteContainerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `PolicyNotFoundException` : The policy that you specified in the request does not exist.
-    public func deleteContainerPolicy(input: DeleteContainerPolicyInput) async throws -> DeleteContainerPolicyOutput
-    {
+    public func deleteContainerPolicy(input: DeleteContainerPolicyInput) async throws -> DeleteContainerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `CorsPolicyNotFoundException` : The CORS policy that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func deleteCorsPolicy(input: DeleteCorsPolicyInput) async throws -> DeleteCorsPolicyOutput
-    {
+    public func deleteCorsPolicy(input: DeleteCorsPolicyInput) async throws -> DeleteCorsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -280,8 +276,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `PolicyNotFoundException` : The policy that you specified in the request does not exist.
-    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
-    {
+    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `PolicyNotFoundException` : The policy that you specified in the request does not exist.
-    public func deleteMetricPolicy(input: DeleteMetricPolicyInput) async throws -> DeleteMetricPolicyOutput
-    {
+    public func deleteMetricPolicy(input: DeleteMetricPolicyInput) async throws -> DeleteMetricPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// __Possible Exceptions:__
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func describeContainer(input: DescribeContainerInput) async throws -> DescribeContainerOutput
-    {
+    public func describeContainer(input: DescribeContainerInput) async throws -> DescribeContainerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `PolicyNotFoundException` : The policy that you specified in the request does not exist.
-    public func getContainerPolicy(input: GetContainerPolicyInput) async throws -> GetContainerPolicyOutput
-    {
+    public func getContainerPolicy(input: GetContainerPolicyInput) async throws -> GetContainerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -478,8 +470,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `CorsPolicyNotFoundException` : The CORS policy that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func getCorsPolicy(input: GetCorsPolicyInput) async throws -> GetCorsPolicyOutput
-    {
+    public func getCorsPolicy(input: GetCorsPolicyInput) async throws -> GetCorsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `PolicyNotFoundException` : The policy that you specified in the request does not exist.
-    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
-    {
+    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -578,8 +568,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `PolicyNotFoundException` : The policy that you specified in the request does not exist.
-    public func getMetricPolicy(input: GetMetricPolicyInput) async throws -> GetMetricPolicyOutput
-    {
+    public func getMetricPolicy(input: GetMetricPolicyInput) async throws -> GetMetricPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -625,8 +614,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func listContainers(input: ListContainersInput) async throws -> ListContainersOutput
-    {
+    public func listContainers(input: ListContainersInput) async throws -> ListContainersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -723,8 +710,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func putContainerPolicy(input: PutContainerPolicyInput) async throws -> PutContainerPolicyOutput
-    {
+    public func putContainerPolicy(input: PutContainerPolicyInput) async throws -> PutContainerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +758,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func putCorsPolicy(input: PutCorsPolicyInput) async throws -> PutCorsPolicyOutput
-    {
+    public func putCorsPolicy(input: PutCorsPolicyInput) async throws -> PutCorsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +806,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutput
-    {
+    public func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -870,8 +854,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func putMetricPolicy(input: PutMetricPolicyInput) async throws -> PutMetricPolicyOutput
-    {
+    public func putMetricPolicy(input: PutMetricPolicyInput) async throws -> PutMetricPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -919,8 +902,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func startAccessLogging(input: StartAccessLoggingInput) async throws -> StartAccessLoggingOutput
-    {
+    public func startAccessLogging(input: StartAccessLoggingInput) async throws -> StartAccessLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -968,8 +950,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func stopAccessLogging(input: StopAccessLoggingInput) async throws -> StopAccessLoggingOutput
-    {
+    public func stopAccessLogging(input: StopAccessLoggingInput) async throws -> StopAccessLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1017,8 +998,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1066,8 +1046,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
     /// - `ContainerInUseException` : The container that you specified in the request already exists or is being updated.
     /// - `ContainerNotFoundException` : The container that you specified in the request does not exist.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct PaymentCryptographyDataClientLogHandlerFactory: ClientRuntime.SDKL
     }
 }
 
-extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
+extension PaymentCryptographyDataClient {
     /// Performs the `DecryptData` operation on the `PaymentCryptographyDataPlane` service.
     ///
     /// Decrypts ciphertext data to plaintext using symmetric, asymmetric, or DUKPT data encryption key. For more information, see [Decrypt data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/decrypt-data.html) in the Amazon Web Services Payment Cryptography User Guide. You can use an encryption key generated within Amazon Web Services Payment Cryptography, or you can import your own encryption key by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). For this operation, the key must have KeyModesOfUse set to Decrypt. In asymmetric decryption, Amazon Web Services Payment Cryptography decrypts the ciphertext using the private component of the asymmetric encryption key pair. For data encryption outside of Amazon Web Services Payment Cryptography, you can export the public component of the asymmetric key pair by calling [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html). For symmetric and DUKPT decryption, Amazon Web Services Payment Cryptography supports TDES and AES algorithms. For asymmetric decryption, Amazon Web Services Payment Cryptography supports RSA. When you use DUKPT, for TDES algorithm, the ciphertext data length must be a multiple of 16 bytes. For AES algorithm, the ciphertext data length must be a multiple of 32 bytes. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
@@ -89,8 +89,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func decryptData(input: DecryptDataInput) async throws -> DecryptDataOutput
-    {
+    public func decryptData(input: DecryptDataInput) async throws -> DecryptDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -147,8 +146,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func encryptData(input: EncryptDataInput) async throws -> EncryptDataOutput
-    {
+    public func encryptData(input: EncryptDataInput) async throws -> EncryptDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -201,8 +199,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func generateCardValidationData(input: GenerateCardValidationDataInput) async throws -> GenerateCardValidationDataOutput
-    {
+    public func generateCardValidationData(input: GenerateCardValidationDataInput) async throws -> GenerateCardValidationDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -253,8 +250,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutput
-    {
+    public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -309,8 +305,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func generatePinData(input: GeneratePinDataInput) async throws -> GeneratePinDataOutput
-    {
+    public func generatePinData(input: GeneratePinDataInput) async throws -> GeneratePinDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +362,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func reEncryptData(input: ReEncryptDataInput) async throws -> ReEncryptDataOutput
-    {
+    public func reEncryptData(input: ReEncryptDataInput) async throws -> ReEncryptDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -421,8 +415,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func translatePinData(input: TranslatePinDataInput) async throws -> TranslatePinDataOutput
-    {
+    public func translatePinData(input: TranslatePinDataInput) async throws -> TranslatePinDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +469,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    public func verifyAuthRequestCryptogram(input: VerifyAuthRequestCryptogramInput) async throws -> VerifyAuthRequestCryptogramOutput
-    {
+    public func verifyAuthRequestCryptogram(input: VerifyAuthRequestCryptogramInput) async throws -> VerifyAuthRequestCryptogramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -533,8 +525,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    public func verifyCardValidationData(input: VerifyCardValidationDataInput) async throws -> VerifyCardValidationDataOutput
-    {
+    public func verifyCardValidationData(input: VerifyCardValidationDataInput) async throws -> VerifyCardValidationDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +577,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutput
-    {
+    public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +631,7 @@ extension PaymentCryptographyDataClient: PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    public func verifyPinData(input: VerifyPinDataInput) async throws -> VerifyPinDataOutput
-    {
+    public func verifyPinData(input: VerifyPinDataInput) async throws -> VerifyPinDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

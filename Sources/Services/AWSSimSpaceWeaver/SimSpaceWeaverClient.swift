@@ -66,7 +66,7 @@ public struct SimSpaceWeaverClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
+extension SimSpaceWeaverClient {
     /// Performs the `CreateSnapshot` operation on the `SimSpaceWeaver` service.
     ///
     /// Creates a snapshot of the specified simulation. A snapshot is a file that contains simulation state data at a specific time. The state data saved in a snapshot includes entity data from the State Fabric, the simulation configuration specified in the schema, and the clock tick number. You can use the snapshot to initialize a new simulation. For more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html) in the SimSpace Weaver User Guide. You specify a Destination when you create a snapshot. The Destination is the name of an Amazon S3 bucket and an optional ObjectKeyPrefix. The ObjectKeyPrefix is usually the name of a folder in the bucket. SimSpace Weaver creates a snapshot folder inside the Destination and places the snapshot file there. The snapshot file is an Amazon S3 object. It has an object key with the form:  object-key-prefix/snapshot/simulation-name-YYMMdd-HHmm-ss.zip, where:
@@ -95,8 +95,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -145,8 +144,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    {
+    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteSimulation(input: DeleteSimulationInput) async throws -> DeleteSimulationOutput
-    {
+    public func deleteSimulation(input: DeleteSimulationInput) async throws -> DeleteSimulationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
-    {
+    public func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,8 +283,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func describeSimulation(input: DescribeSimulationInput) async throws -> DescribeSimulationOutput
-    {
+    public func describeSimulation(input: DescribeSimulationInput) async throws -> DescribeSimulationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput
-    {
+    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,8 +374,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `AccessDeniedException` :
     /// - `InternalServerException` :
     /// - `ValidationException` :
-    public func listSimulations(input: ListSimulationsInput) async throws -> ListSimulationsOutput
-    {
+    public func listSimulations(input: ListSimulationsInput) async throws -> ListSimulationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -472,8 +464,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func startApp(input: StartAppInput) async throws -> StartAppOutput
-    {
+    public func startApp(input: StartAppInput) async throws -> StartAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -523,8 +514,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func startClock(input: StartClockInput) async throws -> StartClockOutput
-    {
+    public func startClock(input: StartClockInput) async throws -> StartClockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func startSimulation(input: StartSimulationInput) async throws -> StartSimulationOutput
-    {
+    public func startSimulation(input: StartSimulationInput) async throws -> StartSimulationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +613,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func stopApp(input: StopAppInput) async throws -> StopAppOutput
-    {
+    public func stopApp(input: StopAppInput) async throws -> StopAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func stopClock(input: StopClockInput) async throws -> StopClockOutput
-    {
+    public func stopClock(input: StopClockInput) async throws -> StopClockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -724,8 +711,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func stopSimulation(input: StopSimulationInput) async throws -> StopSimulationOutput
-    {
+    public func stopSimulation(input: StopSimulationInput) async throws -> StopSimulationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +758,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `TooManyTagsException` :
     /// - `ValidationException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +804,7 @@ extension SimSpaceWeaverClient: SimSpaceWeaverClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

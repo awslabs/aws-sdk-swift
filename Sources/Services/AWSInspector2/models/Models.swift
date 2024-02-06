@@ -10681,6 +10681,8 @@ extension Inspector2ClientTypes {
     }
 }
 
+public enum Inspector2ClientTypes {}
+
 extension Inspector2ClientTypes.InspectorScoreDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adjustedCvss

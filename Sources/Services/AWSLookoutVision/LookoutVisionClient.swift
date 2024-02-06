@@ -66,7 +66,7 @@ public struct LookoutVisionClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension LookoutVisionClient: LookoutVisionClientProtocol {
+extension LookoutVisionClient {
     /// Performs the `CreateDataset` operation on the `LookoutVisionService` service.
     ///
     /// Creates a new dataset in an Amazon Lookout for Vision project. CreateDataset can create a training or a test dataset from a valid dataset source (DatasetSource). If you want a single dataset project, specify train for the value of DatasetType. To have a project with separate training and test datasets, call CreateDataset twice. On the first call, specify train for the value of DatasetType. On the second call, specify test for the value of DatasetType. This operation requires permissions to perform the lookoutvision:CreateDataset operation.
@@ -85,8 +85,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded the allowed limit. For more information, see Limits in Amazon Lookout for Vision in the Amazon Lookout for Vision Developer Guide.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded the allowed limit. For more information, see Limits in Amazon Lookout for Vision in the Amazon Lookout for Vision Developer Guide.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    {
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded the allowed limit. For more information, see Limits in Amazon Lookout for Vision in the Amazon Lookout for Vision Developer Guide.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -253,8 +250,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -303,8 +299,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    {
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -353,8 +348,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -403,8 +397,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +444,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput
-    {
+    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -498,8 +490,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func describeModelPackagingJob(input: DescribeModelPackagingJobInput) async throws -> DescribeModelPackagingJobOutput
-    {
+    public func describeModelPackagingJob(input: DescribeModelPackagingJobInput) async throws -> DescribeModelPackagingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -546,8 +537,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
-    {
+    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -594,8 +584,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func detectAnomalies(input: DetectAnomaliesInput) async throws -> DetectAnomaliesOutput
-    {
+    public func detectAnomalies(input: DetectAnomaliesInput) async throws -> DetectAnomaliesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +635,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func listDatasetEntries(input: ListDatasetEntriesInput) async throws -> ListDatasetEntriesOutput
-    {
+    public func listDatasetEntries(input: ListDatasetEntriesInput) async throws -> ListDatasetEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -694,8 +682,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func listModelPackagingJobs(input: ListModelPackagingJobsInput) async throws -> ListModelPackagingJobsOutput
-    {
+    public func listModelPackagingJobs(input: ListModelPackagingJobsInput) async throws -> ListModelPackagingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -743,8 +730,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput
-    {
+    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -792,8 +778,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +826,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -890,8 +874,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded the allowed limit. For more information, see Limits in Amazon Lookout for Vision in the Amazon Lookout for Vision Developer Guide.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func startModel(input: StartModelInput) async throws -> StartModelOutput
-    {
+    public func startModel(input: StartModelInput) async throws -> StartModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -961,8 +944,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded the allowed limit. For more information, see Limits in Amazon Lookout for Vision in the Amazon Lookout for Vision Developer Guide.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func startModelPackagingJob(input: StartModelPackagingJobInput) async throws -> StartModelPackagingJobOutput
-    {
+    public func startModelPackagingJob(input: StartModelPackagingJobInput) async throws -> StartModelPackagingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1014,8 +996,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func stopModel(input: StopModelInput) async throws -> StopModelOutput
-    {
+    public func stopModel(input: StopModelInput) async throws -> StopModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1046,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota was exceeded the allowed limit. For more information, see Limits in Amazon Lookout for Vision in the Amazon Lookout for Vision Developer Guide.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1116,8 +1096,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1165,8 +1144,7 @@ extension LookoutVisionClient: LookoutVisionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : Amazon Lookout for Vision is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
-    public func updateDatasetEntries(input: UpdateDatasetEntriesInput) async throws -> UpdateDatasetEntriesOutput
-    {
+    public func updateDatasetEntries(input: UpdateDatasetEntriesInput) async throws -> UpdateDatasetEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

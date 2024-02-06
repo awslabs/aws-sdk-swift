@@ -66,7 +66,7 @@ public struct ServiceDiscoveryClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
+extension ServiceDiscoveryClient {
     /// Performs the `CreateHttpNamespace` operation on the `Route53AutoNaming_v20170314` service.
     ///
     /// Creates an HTTP namespace. Service instances registered using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
@@ -83,8 +83,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `NamespaceAlreadyExists` : The namespace that you're trying to create already exists.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    public func createHttpNamespace(input: CreateHttpNamespaceInput) async throws -> CreateHttpNamespaceOutput
-    {
+    public func createHttpNamespace(input: CreateHttpNamespaceInput) async throws -> CreateHttpNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `NamespaceAlreadyExists` : The namespace that you're trying to create already exists.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    public func createPrivateDnsNamespace(input: CreatePrivateDnsNamespaceInput) async throws -> CreatePrivateDnsNamespaceOutput
-    {
+    public func createPrivateDnsNamespace(input: CreatePrivateDnsNamespaceInput) async throws -> CreatePrivateDnsNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `NamespaceAlreadyExists` : The namespace that you're trying to create already exists.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    public func createPublicDnsNamespace(input: CreatePublicDnsNamespaceInput) async throws -> CreatePublicDnsNamespaceOutput
-    {
+    public func createPublicDnsNamespace(input: CreatePublicDnsNamespaceInput) async throws -> CreatePublicDnsNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -259,8 +256,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `ServiceAlreadyExists` : The service can't be created because a service with the same name already exists.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
-    {
+    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -310,8 +306,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
-    {
+    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -359,8 +354,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
-    {
+    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +404,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutput
-    {
+    public func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -460,8 +453,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func discoverInstances(input: DiscoverInstancesInput) async throws -> DiscoverInstancesOutput
-    {
+    public func discoverInstances(input: DiscoverInstancesInput) async throws -> DiscoverInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -510,8 +502,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func discoverInstancesRevision(input: DiscoverInstancesRevisionInput) async throws -> DiscoverInstancesRevisionOutput
-    {
+    public func discoverInstancesRevision(input: DiscoverInstancesRevisionInput) async throws -> DiscoverInstancesRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -559,8 +550,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InstanceNotFound` : No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput
-    {
+    public func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -608,8 +598,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InstanceNotFound` : No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func getInstancesHealthStatus(input: GetInstancesHealthStatusInput) async throws -> GetInstancesHealthStatusOutput
-    {
+    public func getInstancesHealthStatus(input: GetInstancesHealthStatusInput) async throws -> GetInstancesHealthStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -656,8 +645,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
-    public func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput
-    {
+    public func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,8 +692,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `OperationNotFound` : No operation exists with the specified ID.
-    public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput
-    {
+    public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -752,8 +739,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func getService(input: GetServiceInput) async throws -> GetServiceOutput
-    {
+    public func getService(input: GetServiceInput) async throws -> GetServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -800,8 +786,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
-    {
+    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -847,8 +832,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-    public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput
-    {
+    public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -894,8 +878,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
-    {
+    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -941,8 +924,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput
-    {
+    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -989,8 +971,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceNotFoundException` : The operation can't be completed because the resource was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1058,8 +1039,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutput
-    {
+    public func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1088,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceNotFoundException` : The operation can't be completed because the resource was not found.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1156,8 +1135,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceNotFoundException` : The operation can't be completed because the resource was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1206,8 +1184,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    public func updateHttpNamespace(input: UpdateHttpNamespaceInput) async throws -> UpdateHttpNamespaceOutput
-    {
+    public func updateHttpNamespace(input: UpdateHttpNamespaceInput) async throws -> UpdateHttpNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1257,8 +1234,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InstanceNotFound` : No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func updateInstanceCustomHealthStatus(input: UpdateInstanceCustomHealthStatusInput) async throws -> UpdateInstanceCustomHealthStatusOutput
-    {
+    public func updateInstanceCustomHealthStatus(input: UpdateInstanceCustomHealthStatusInput) async throws -> UpdateInstanceCustomHealthStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1283,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    public func updatePrivateDnsNamespace(input: UpdatePrivateDnsNamespaceInput) async throws -> UpdatePrivateDnsNamespaceOutput
-    {
+    public func updatePrivateDnsNamespace(input: UpdatePrivateDnsNamespaceInput) async throws -> UpdatePrivateDnsNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1358,8 +1333,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    public func updatePublicDnsNamespace(input: UpdatePublicDnsNamespaceInput) async throws -> UpdatePublicDnsNamespaceOutput
-    {
+    public func updatePublicDnsNamespace(input: UpdatePublicDnsNamespaceInput) async throws -> UpdatePublicDnsNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1422,8 +1396,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
     /// - `DuplicateRequest` : The operation is already in progress.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
-    {
+    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

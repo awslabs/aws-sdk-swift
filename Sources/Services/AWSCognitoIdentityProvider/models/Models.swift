@@ -5440,6 +5440,8 @@ extension CodeMismatchExceptionBody: Swift.Decodable {
     }
 }
 
+public enum CognitoIdentityProviderClientTypes {}
+
 extension CognitoIdentityProviderClientTypes.CompromisedCredentialsActionsType: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventAction = "EventAction"

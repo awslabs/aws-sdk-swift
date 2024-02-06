@@ -6600,6 +6600,8 @@ extension NimbleClientTypes {
 
 }
 
+public enum NimbleClientTypes {}
+
 extension PutLaunchProfileMembersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identityStoreId

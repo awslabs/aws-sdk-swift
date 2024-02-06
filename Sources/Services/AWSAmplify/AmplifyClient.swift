@@ -66,7 +66,7 @@ public struct AmplifyClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension AmplifyClient: AmplifyClientProtocol {
+extension AmplifyClient {
     /// Performs the `CreateApp` operation on the `Amplify` service.
     ///
     /// Creates a new Amplify app.
@@ -83,8 +83,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput
-    {
+    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func createBackendEnvironment(input: CreateBackendEnvironmentInput) async throws -> CreateBackendEnvironmentOutput
-    {
+    public func createBackendEnvironment(input: CreateBackendEnvironmentInput) async throws -> CreateBackendEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutput
-    {
+    public func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func createDomainAssociation(input: CreateDomainAssociationInput) async throws -> CreateDomainAssociationOutput
-    {
+    public func createDomainAssociation(input: CreateDomainAssociationInput) async throws -> CreateDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +330,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput
-    {
+    public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -385,8 +379,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    {
+    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func deleteBackendEnvironment(input: DeleteBackendEnvironmentInput) async throws -> DeleteBackendEnvironmentOutput
-    {
+    public func deleteBackendEnvironment(input: DeleteBackendEnvironmentInput) async throws -> DeleteBackendEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func deleteBranch(input: DeleteBranchInput) async throws -> DeleteBranchOutput
-    {
+    public func deleteBranch(input: DeleteBranchInput) async throws -> DeleteBranchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -526,8 +517,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func deleteDomainAssociation(input: DeleteDomainAssociationInput) async throws -> DeleteDomainAssociationOutput
-    {
+    public func deleteDomainAssociation(input: DeleteDomainAssociationInput) async throws -> DeleteDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-    {
+    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +609,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
-    {
+    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +654,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func generateAccessLogs(input: GenerateAccessLogsInput) async throws -> GenerateAccessLogsOutput
-    {
+    public func generateAccessLogs(input: GenerateAccessLogsInput) async throws -> GenerateAccessLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +702,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getApp(input: GetAppInput) async throws -> GetAppOutput
-    {
+    public func getApp(input: GetAppInput) async throws -> GetAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +748,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getArtifactUrl(input: GetArtifactUrlInput) async throws -> GetArtifactUrlOutput
-    {
+    public func getArtifactUrl(input: GetArtifactUrlInput) async throws -> GetArtifactUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -808,8 +793,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getBackendEnvironment(input: GetBackendEnvironmentInput) async throws -> GetBackendEnvironmentOutput
-    {
+    public func getBackendEnvironment(input: GetBackendEnvironmentInput) async throws -> GetBackendEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -854,8 +838,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getBranch(input: GetBranchInput) async throws -> GetBranchOutput
-    {
+    public func getBranch(input: GetBranchInput) async throws -> GetBranchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -900,8 +883,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getDomainAssociation(input: GetDomainAssociationInput) async throws -> GetDomainAssociationOutput
-    {
+    public func getDomainAssociation(input: GetDomainAssociationInput) async throws -> GetDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -947,8 +929,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutput
-    {
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -994,8 +975,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func getWebhook(input: GetWebhookInput) async throws -> GetWebhookOutput
-    {
+    public func getWebhook(input: GetWebhookInput) async throws -> GetWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1039,8 +1019,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput
-    {
+    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1086,8 +1065,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
-    {
+    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1132,8 +1110,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listBackendEnvironments(input: ListBackendEnvironmentsInput) async throws -> ListBackendEnvironmentsOutput
-    {
+    public func listBackendEnvironments(input: ListBackendEnvironmentsInput) async throws -> ListBackendEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1178,8 +1155,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutput
-    {
+    public func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1224,8 +1200,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listDomainAssociations(input: ListDomainAssociationsInput) async throws -> ListDomainAssociationsOutput
-    {
+    public func listDomainAssociations(input: ListDomainAssociationsInput) async throws -> ListDomainAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1271,8 +1246,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1317,8 +1291,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1363,8 +1336,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput
-    {
+    public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1411,8 +1383,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput
-    {
+    public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1461,8 +1432,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func startJob(input: StartJobInput) async throws -> StartJobOutput
-    {
+    public func startJob(input: StartJobInput) async throws -> StartJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1511,8 +1481,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func stopJob(input: StopJobInput) async throws -> StopJobOutput
-    {
+    public func stopJob(input: StopJobInput) async throws -> StopJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1556,8 +1525,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1604,8 +1572,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `BadRequestException` : A request contains unexpected data.
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1651,8 +1618,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
-    {
+    public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1701,8 +1667,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func updateBranch(input: UpdateBranchInput) async throws -> UpdateBranchOutput
-    {
+    public func updateBranch(input: UpdateBranchInput) async throws -> UpdateBranchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1751,8 +1716,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func updateDomainAssociation(input: UpdateDomainAssociationInput) async throws -> UpdateDomainAssociationOutput
-    {
+    public func updateDomainAssociation(input: UpdateDomainAssociationInput) async throws -> UpdateDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1801,8 +1765,7 @@ extension AmplifyClient: AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
-    public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput
-    {
+    public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

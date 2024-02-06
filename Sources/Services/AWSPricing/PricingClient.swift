@@ -66,7 +66,7 @@ public struct PricingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension PricingClient: PricingClientProtocol {
+extension PricingClient {
     /// Performs the `DescribeServices` operation on the `AWSPriceListService` service.
     ///
     /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
@@ -83,8 +83,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput
-    {
+    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutput
-    {
+    public func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutput
-    {
+    public func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func getProducts(input: GetProductsInput) async throws -> GetProductsOutput
-    {
+    public func getProducts(input: GetProductsInput) async throws -> GetProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,8 +283,7 @@ extension PricingClient: PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    public func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutput
-    {
+    public func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

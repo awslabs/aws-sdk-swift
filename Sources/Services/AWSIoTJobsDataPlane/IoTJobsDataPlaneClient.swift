@@ -66,7 +66,7 @@ public struct IoTJobsDataPlaneClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
+extension IoTJobsDataPlaneClient {
     /// Performs the `DescribeJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
     /// Gets details of a job execution.
@@ -84,8 +84,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `TerminalStateException` : The job is in a terminal state.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput
-    {
+    public func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutput
-    {
+    public func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutput
-    {
+    public func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateJobExecution(input: UpdateJobExecutionInput) async throws -> UpdateJobExecutionOutput
-    {
+    public func updateJobExecution(input: UpdateJobExecutionInput) async throws -> UpdateJobExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

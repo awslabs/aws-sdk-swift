@@ -66,7 +66,7 @@ public struct AuditManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension AuditManagerClient: AuditManagerClientProtocol {
+extension AuditManagerClient {
     /// Performs the `AssociateAssessmentReportEvidenceFolder` operation on the `BedrockAssessmentManagerLambda` service.
     ///
     /// Associates an evidence folder to an assessment report in an Audit Manager assessment.
@@ -82,8 +82,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func associateAssessmentReportEvidenceFolder(input: AssociateAssessmentReportEvidenceFolderInput) async throws -> AssociateAssessmentReportEvidenceFolderOutput
-    {
+    public func associateAssessmentReportEvidenceFolder(input: AssociateAssessmentReportEvidenceFolderInput) async throws -> AssociateAssessmentReportEvidenceFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func batchAssociateAssessmentReportEvidence(input: BatchAssociateAssessmentReportEvidenceInput) async throws -> BatchAssociateAssessmentReportEvidenceOutput
-    {
+    public func batchAssociateAssessmentReportEvidence(input: BatchAssociateAssessmentReportEvidenceInput) async throws -> BatchAssociateAssessmentReportEvidenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func batchCreateDelegationByAssessment(input: BatchCreateDelegationByAssessmentInput) async throws -> BatchCreateDelegationByAssessmentOutput
-    {
+    public func batchCreateDelegationByAssessment(input: BatchCreateDelegationByAssessmentInput) async throws -> BatchCreateDelegationByAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func batchDeleteDelegationByAssessment(input: BatchDeleteDelegationByAssessmentInput) async throws -> BatchDeleteDelegationByAssessmentOutput
-    {
+    public func batchDeleteDelegationByAssessment(input: BatchDeleteDelegationByAssessmentInput) async throws -> BatchDeleteDelegationByAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func batchDisassociateAssessmentReportEvidence(input: BatchDisassociateAssessmentReportEvidenceInput) async throws -> BatchDisassociateAssessmentReportEvidenceOutput
-    {
+    public func batchDisassociateAssessmentReportEvidence(input: BatchDisassociateAssessmentReportEvidenceInput) async throws -> BatchDisassociateAssessmentReportEvidenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -339,8 +334,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func batchImportEvidenceToAssessmentControl(input: BatchImportEvidenceToAssessmentControlInput) async throws -> BatchImportEvidenceToAssessmentControlOutput
-    {
+    public func batchImportEvidenceToAssessmentControl(input: BatchImportEvidenceToAssessmentControlInput) async throws -> BatchImportEvidenceToAssessmentControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -389,8 +383,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createAssessment(input: CreateAssessmentInput) async throws -> CreateAssessmentOutput
-    {
+    public func createAssessment(input: CreateAssessmentInput) async throws -> CreateAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -439,8 +432,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createAssessmentFramework(input: CreateAssessmentFrameworkInput) async throws -> CreateAssessmentFrameworkOutput
-    {
+    public func createAssessmentFramework(input: CreateAssessmentFrameworkInput) async throws -> CreateAssessmentFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +480,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createAssessmentReport(input: CreateAssessmentReportInput) async throws -> CreateAssessmentReportOutput
-    {
+    public func createAssessmentReport(input: CreateAssessmentReportInput) async throws -> CreateAssessmentReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +529,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createControl(input: CreateControlInput) async throws -> CreateControlOutput
-    {
+    public func createControl(input: CreateControlInput) async throws -> CreateControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +577,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAssessment(input: DeleteAssessmentInput) async throws -> DeleteAssessmentOutput
-    {
+    public func deleteAssessment(input: DeleteAssessmentInput) async throws -> DeleteAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -633,8 +622,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAssessmentFramework(input: DeleteAssessmentFrameworkInput) async throws -> DeleteAssessmentFrameworkOutput
-    {
+    public func deleteAssessmentFramework(input: DeleteAssessmentFrameworkInput) async throws -> DeleteAssessmentFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -679,8 +667,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAssessmentFrameworkShare(input: DeleteAssessmentFrameworkShareInput) async throws -> DeleteAssessmentFrameworkShareOutput
-    {
+    public func deleteAssessmentFrameworkShare(input: DeleteAssessmentFrameworkShareInput) async throws -> DeleteAssessmentFrameworkShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -733,8 +720,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAssessmentReport(input: DeleteAssessmentReportInput) async throws -> DeleteAssessmentReportOutput
-    {
+    public func deleteAssessmentReport(input: DeleteAssessmentReportInput) async throws -> DeleteAssessmentReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -779,8 +765,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteControl(input: DeleteControlInput) async throws -> DeleteControlOutput
-    {
+    public func deleteControl(input: DeleteControlInput) async throws -> DeleteControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -825,8 +810,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deregisterAccount(input: DeregisterAccountInput) async throws -> DeregisterAccountOutput
-    {
+    public func deregisterAccount(input: DeregisterAccountInput) async throws -> DeregisterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -884,8 +868,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deregisterOrganizationAdminAccount(input: DeregisterOrganizationAdminAccountInput) async throws -> DeregisterOrganizationAdminAccountOutput
-    {
+    public func deregisterOrganizationAdminAccount(input: DeregisterOrganizationAdminAccountInput) async throws -> DeregisterOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -933,8 +916,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func disassociateAssessmentReportEvidenceFolder(input: DisassociateAssessmentReportEvidenceFolderInput) async throws -> DisassociateAssessmentReportEvidenceFolderOutput
-    {
+    public func disassociateAssessmentReportEvidenceFolder(input: DisassociateAssessmentReportEvidenceFolderInput) async throws -> DisassociateAssessmentReportEvidenceFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +961,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
-    public func getAccountStatus(input: GetAccountStatusInput) async throws -> GetAccountStatusOutput
-    {
+    public func getAccountStatus(input: GetAccountStatusInput) async throws -> GetAccountStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1025,8 +1006,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput
-    {
+    public func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1051,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAssessmentFramework(input: GetAssessmentFrameworkInput) async throws -> GetAssessmentFrameworkOutput
-    {
+    public func getAssessmentFramework(input: GetAssessmentFrameworkInput) async throws -> GetAssessmentFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1117,8 +1096,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAssessmentReportUrl(input: GetAssessmentReportUrlInput) async throws -> GetAssessmentReportUrlOutput
-    {
+    public func getAssessmentReportUrl(input: GetAssessmentReportUrlInput) async throws -> GetAssessmentReportUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1163,8 +1141,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getChangeLogs(input: GetChangeLogsInput) async throws -> GetChangeLogsOutput
-    {
+    public func getChangeLogs(input: GetChangeLogsInput) async throws -> GetChangeLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1210,8 +1187,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getControl(input: GetControlInput) async throws -> GetControlOutput
-    {
+    public func getControl(input: GetControlInput) async throws -> GetControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1255,8 +1231,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getDelegations(input: GetDelegationsInput) async throws -> GetDelegationsOutput
-    {
+    public func getDelegations(input: GetDelegationsInput) async throws -> GetDelegationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1302,8 +1277,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getEvidence(input: GetEvidenceInput) async throws -> GetEvidenceOutput
-    {
+    public func getEvidence(input: GetEvidenceInput) async throws -> GetEvidenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1348,8 +1322,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getEvidenceByEvidenceFolder(input: GetEvidenceByEvidenceFolderInput) async throws -> GetEvidenceByEvidenceFolderOutput
-    {
+    public func getEvidenceByEvidenceFolder(input: GetEvidenceByEvidenceFolderInput) async throws -> GetEvidenceByEvidenceFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1404,8 +1377,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getEvidenceFileUploadUrl(input: GetEvidenceFileUploadUrlInput) async throws -> GetEvidenceFileUploadUrlOutput
-    {
+    public func getEvidenceFileUploadUrl(input: GetEvidenceFileUploadUrlInput) async throws -> GetEvidenceFileUploadUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1451,8 +1423,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getEvidenceFolder(input: GetEvidenceFolderInput) async throws -> GetEvidenceFolderOutput
-    {
+    public func getEvidenceFolder(input: GetEvidenceFolderInput) async throws -> GetEvidenceFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1497,8 +1468,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getEvidenceFoldersByAssessment(input: GetEvidenceFoldersByAssessmentInput) async throws -> GetEvidenceFoldersByAssessmentOutput
-    {
+    public func getEvidenceFoldersByAssessment(input: GetEvidenceFoldersByAssessmentInput) async throws -> GetEvidenceFoldersByAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1544,8 +1514,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getEvidenceFoldersByAssessmentControl(input: GetEvidenceFoldersByAssessmentControlInput) async throws -> GetEvidenceFoldersByAssessmentControlOutput
-    {
+    public func getEvidenceFoldersByAssessmentControl(input: GetEvidenceFoldersByAssessmentControlInput) async throws -> GetEvidenceFoldersByAssessmentControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1558,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
-    public func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput
-    {
+    public func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1635,8 +1603,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getInsightsByAssessment(input: GetInsightsByAssessmentInput) async throws -> GetInsightsByAssessmentOutput
-    {
+    public func getInsightsByAssessment(input: GetInsightsByAssessmentInput) async throws -> GetInsightsByAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1681,8 +1648,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getOrganizationAdminAccount(input: GetOrganizationAdminAccountInput) async throws -> GetOrganizationAdminAccountOutput
-    {
+    public func getOrganizationAdminAccount(input: GetOrganizationAdminAccountInput) async throws -> GetOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1726,8 +1692,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getServicesInScope(input: GetServicesInScopeInput) async throws -> GetServicesInScopeOutput
-    {
+    public func getServicesInScope(input: GetServicesInScopeInput) async throws -> GetServicesInScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1770,8 +1735,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
-    public func getSettings(input: GetSettingsInput) async throws -> GetSettingsOutput
-    {
+    public func getSettings(input: GetSettingsInput) async throws -> GetSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1816,8 +1780,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssessmentControlInsightsByControlDomain(input: ListAssessmentControlInsightsByControlDomainInput) async throws -> ListAssessmentControlInsightsByControlDomainOutput
-    {
+    public func listAssessmentControlInsightsByControlDomain(input: ListAssessmentControlInsightsByControlDomainInput) async throws -> ListAssessmentControlInsightsByControlDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1862,8 +1825,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssessmentFrameworkShareRequests(input: ListAssessmentFrameworkShareRequestsInput) async throws -> ListAssessmentFrameworkShareRequestsOutput
-    {
+    public func listAssessmentFrameworkShareRequests(input: ListAssessmentFrameworkShareRequestsInput) async throws -> ListAssessmentFrameworkShareRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1908,8 +1870,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssessmentFrameworks(input: ListAssessmentFrameworksInput) async throws -> ListAssessmentFrameworksOutput
-    {
+    public func listAssessmentFrameworks(input: ListAssessmentFrameworksInput) async throws -> ListAssessmentFrameworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1954,8 +1915,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssessmentReports(input: ListAssessmentReportsInput) async throws -> ListAssessmentReportsOutput
-    {
+    public func listAssessmentReports(input: ListAssessmentReportsInput) async throws -> ListAssessmentReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2000,8 +1960,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssessments(input: ListAssessmentsInput) async throws -> ListAssessmentsOutput
-    {
+    public func listAssessments(input: ListAssessmentsInput) async throws -> ListAssessmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2047,8 +2006,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listControlDomainInsights(input: ListControlDomainInsightsInput) async throws -> ListControlDomainInsightsOutput
-    {
+    public func listControlDomainInsights(input: ListControlDomainInsightsInput) async throws -> ListControlDomainInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2094,8 +2052,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listControlDomainInsightsByAssessment(input: ListControlDomainInsightsByAssessmentInput) async throws -> ListControlDomainInsightsByAssessmentOutput
-    {
+    public func listControlDomainInsightsByAssessment(input: ListControlDomainInsightsByAssessmentInput) async throws -> ListControlDomainInsightsByAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2141,8 +2098,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listControlInsightsByControlDomain(input: ListControlInsightsByControlDomainInput) async throws -> ListControlInsightsByControlDomainOutput
-    {
+    public func listControlInsightsByControlDomain(input: ListControlInsightsByControlDomainInput) async throws -> ListControlInsightsByControlDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2187,8 +2143,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listControls(input: ListControlsInput) async throws -> ListControlsOutput
-    {
+    public func listControls(input: ListControlsInput) async throws -> ListControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2233,8 +2188,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listKeywordsForDataSource(input: ListKeywordsForDataSourceInput) async throws -> ListKeywordsForDataSourceOutput
-    {
+    public func listKeywordsForDataSource(input: ListKeywordsForDataSourceInput) async throws -> ListKeywordsForDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2279,8 +2233,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput
-    {
+    public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2325,8 +2278,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2324,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutput
-    {
+    public func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2421,8 +2372,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput) async throws -> RegisterOrganizationAdminAccountOutput
-    {
+    public func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput) async throws -> RegisterOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2481,8 +2431,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func startAssessmentFrameworkShare(input: StartAssessmentFrameworkShareInput) async throws -> StartAssessmentFrameworkShareOutput
-    {
+    public func startAssessmentFrameworkShare(input: StartAssessmentFrameworkShareInput) async throws -> StartAssessmentFrameworkShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2529,8 +2478,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2577,8 +2525,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2624,8 +2571,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAssessment(input: UpdateAssessmentInput) async throws -> UpdateAssessmentOutput
-    {
+    public func updateAssessment(input: UpdateAssessmentInput) async throws -> UpdateAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2673,8 +2619,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAssessmentControl(input: UpdateAssessmentControlInput) async throws -> UpdateAssessmentControlOutput
-    {
+    public func updateAssessmentControl(input: UpdateAssessmentControlInput) async throws -> UpdateAssessmentControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2722,8 +2667,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAssessmentControlSetStatus(input: UpdateAssessmentControlSetStatusInput) async throws -> UpdateAssessmentControlSetStatusOutput
-    {
+    public func updateAssessmentControlSetStatus(input: UpdateAssessmentControlSetStatusInput) async throws -> UpdateAssessmentControlSetStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2771,8 +2715,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAssessmentFramework(input: UpdateAssessmentFrameworkInput) async throws -> UpdateAssessmentFrameworkOutput
-    {
+    public func updateAssessmentFramework(input: UpdateAssessmentFrameworkInput) async throws -> UpdateAssessmentFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2821,8 +2764,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAssessmentFrameworkShare(input: UpdateAssessmentFrameworkShareInput) async throws -> UpdateAssessmentFrameworkShareOutput
-    {
+    public func updateAssessmentFrameworkShare(input: UpdateAssessmentFrameworkShareInput) async throws -> UpdateAssessmentFrameworkShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2871,8 +2813,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAssessmentStatus(input: UpdateAssessmentStatusInput) async throws -> UpdateAssessmentStatusOutput
-    {
+    public func updateAssessmentStatus(input: UpdateAssessmentStatusInput) async throws -> UpdateAssessmentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2920,8 +2861,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateControl(input: UpdateControlInput) async throws -> UpdateControlOutput
-    {
+    public func updateControl(input: UpdateControlInput) async throws -> UpdateControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2968,8 +2908,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput
-    {
+    public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3017,8 +2956,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func validateAssessmentReportIntegrity(input: ValidateAssessmentReportIntegrityInput) async throws -> ValidateAssessmentReportIntegrityOutput
-    {
+    public func validateAssessmentReportIntegrity(input: ValidateAssessmentReportIntegrityInput) async throws -> ValidateAssessmentReportIntegrityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

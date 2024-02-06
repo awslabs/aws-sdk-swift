@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension RDSClientProtocol {
+extension RDSClient {
 
     static func dbClusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput> {
         let acceptors: [WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>.Acceptor] = [

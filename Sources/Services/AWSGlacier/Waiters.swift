@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension GlacierClientProtocol {
+extension GlacierClient {
 
     static func vaultExistsWaiterConfig() throws -> WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput> {
         let acceptors: [WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput>.Acceptor] = [

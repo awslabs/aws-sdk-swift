@@ -9563,6 +9563,8 @@ enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
+public enum DocDBClientTypes {}
+
 extension DocDBClientTypes.Endpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
