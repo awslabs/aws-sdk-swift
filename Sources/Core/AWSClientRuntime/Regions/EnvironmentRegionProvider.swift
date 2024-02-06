@@ -14,7 +14,7 @@ public struct EnvironmentRegionProvider: RegionProvider {
         self.env = env
     }
 
-    public func resolveRegion() async throws -> String? {
+    public func getRegion() async throws -> String? {
         return env.environmentVariable(key: AWS_ENVIRON_REGION)
     }
 }

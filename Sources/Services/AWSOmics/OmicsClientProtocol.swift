@@ -917,7 +917,11 @@ public protocol OmicsClientProtocol {
     func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutput
     /// Performs the `ListMultipartReadSetUploads` operation on the `Omics` service.
     ///
+<<<<<<< HEAD
     /// Lists all multipart read set uploads and their statuses.
+=======
+    /// Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.
+>>>>>>> temp-main
     ///
     /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
     ///

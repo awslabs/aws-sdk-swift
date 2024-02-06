@@ -4193,6 +4193,7 @@ public protocol IoTClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource with the same name already exists.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
@@ -4209,6 +4210,7 @@ public protocol IoTClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource with the same name already exists.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
@@ -4224,6 +4226,7 @@ public protocol IoTClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource with the same name already exists.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.

@@ -1363,7 +1363,7 @@ extension IoTFleetWiseClientTypes {
     public struct ConditionBasedCollectionScheme: Swift.Equatable {
         /// Specifies the version of the conditional expression language.
         public var conditionLanguageVersion: Swift.Int?
-        /// The logical expression used to recognize what data to collect. For example, $variable.Vehicle.OutsideAirTemperature >= 105.0.
+        /// The logical expression used to recognize what data to collect. For example, $variable.`Vehicle.OutsideAirTemperature` >= 105.0.
         /// This member is required.
         public var expression: Swift.String?
         /// The minimum duration of time between two triggering events to collect data, in milliseconds. If a signal changes often, you might want to collect data at a slower rate.
@@ -7792,16 +7792,20 @@ public struct ListSignalCatalogNodesInput: Swift.Equatable {
     public var name: Swift.String?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
+    /// The type of node in the signal catalog.
+    public var signalNodeType: IoTFleetWiseClientTypes.SignalNodeType?
 
     public init(
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        signalNodeType: IoTFleetWiseClientTypes.SignalNodeType? = nil
     )
     {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
+        self.signalNodeType = signalNodeType
     }
 }
 
@@ -10447,7 +10451,10 @@ extension IoTFleetWiseClientTypes {
 extension IoTFleetWiseClientTypes {
     public enum SignalDecoderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canSignal
+<<<<<<< HEAD
         case customerDecodedSignal
+=======
+>>>>>>> temp-main
         case messageSignal
         case obdSignal
         case sdkUnknown(Swift.String)
@@ -10455,7 +10462,10 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [SignalDecoderType] {
             return [
                 .canSignal,
+<<<<<<< HEAD
                 .customerDecodedSignal,
+=======
+>>>>>>> temp-main
                 .messageSignal,
                 .obdSignal,
                 .sdkUnknown("")
@@ -10468,7 +10478,10 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canSignal: return "CAN_SIGNAL"
+<<<<<<< HEAD
             case .customerDecodedSignal: return "CUSTOMER_DECODED_SIGNAL"
+=======
+>>>>>>> temp-main
             case .messageSignal: return "MESSAGE_SIGNAL"
             case .obdSignal: return "OBD_SIGNAL"
             case let .sdkUnknown(s): return s
@@ -10536,6 +10549,50 @@ extension IoTFleetWiseClientTypes {
         }
     }
 
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum SignalNodeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case actuator
+        case attribute
+        case branch
+        case customProperty
+        case customStruct
+        case sensor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignalNodeType] {
+            return [
+                .actuator,
+                .attribute,
+                .branch,
+                .customProperty,
+                .customStruct,
+                .sensor,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .actuator: return "ACTUATOR"
+            case .attribute: return "ATTRIBUTE"
+            case .branch: return "BRANCH"
+            case .customProperty: return "CUSTOM_PROPERTY"
+            case .customStruct: return "CUSTOM_STRUCT"
+            case .sensor: return "SENSOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SignalNodeType(rawValue: rawValue) ?? SignalNodeType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTFleetWiseClientTypes {
@@ -13155,6 +13212,7 @@ extension IoTFleetWiseClientTypes {
 extension IoTFleetWiseClientTypes.VehicleSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case attributes
         case creationTime
         case decoderManifestArn
         case lastModificationTime
@@ -13166,6 +13224,12 @@ extension IoTFleetWiseClientTypes.VehicleSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, attributesMap0) in attributes {
+                try attributesContainer.encode(attributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
@@ -13198,6 +13262,17 @@ extension IoTFleetWiseClientTypes.VehicleSummary: Swift.Codable {
         creationTime = creationTimeDecoded
         let lastModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationTime)
         lastModificationTime = lastModificationTimeDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributevalue0) in attributesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    attributesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
     }
 }
 
@@ -13207,6 +13282,8 @@ extension IoTFleetWiseClientTypes {
         /// The Amazon Resource Name (ARN) of the vehicle.
         /// This member is required.
         public var arn: Swift.String?
+        /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"
+        public var attributes: [Swift.String:Swift.String]?
         /// The time the vehicle was created in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -13225,6 +13302,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            attributes: [Swift.String:Swift.String]? = nil,
             creationTime: ClientRuntime.Date? = nil,
             decoderManifestArn: Swift.String? = nil,
             lastModificationTime: ClientRuntime.Date? = nil,
@@ -13233,6 +13311,7 @@ extension IoTFleetWiseClientTypes {
         )
         {
             self.arn = arn
+            self.attributes = attributes
             self.creationTime = creationTime
             self.decoderManifestArn = decoderManifestArn
             self.lastModificationTime = lastModificationTime

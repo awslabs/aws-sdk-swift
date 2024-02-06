@@ -283,6 +283,27 @@ public protocol MediaConnectClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeFlowSourceMetadata` operation on the `MediaConnect` service.
+    ///
+    /// Displays details of the flow's source stream. The response contains information about the contents of the stream and its programs.
+    ///
+    /// - Parameter DescribeFlowSourceMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFlowSourceMetadataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    func describeFlowSourceMetadata(input: DescribeFlowSourceMetadataInput) async throws -> DescribeFlowSourceMetadataOutput
+>>>>>>> temp-main
     /// Performs the `DescribeGateway` operation on the `MediaConnect` service.
     ///
     /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.

@@ -210,7 +210,7 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
                       .build()
         try context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<TestStreamOpInput, TestStreamOpOutput>(id: "testStreamOp")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestStreamOpInput, TestStreamOpOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestStreamOpInput, TestStreamOpOutput>(TestStreamOpInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestStreamOpInput, TestStreamOpOutput>())
         let endpointParams = EndpointParams()
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestStreamOpOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

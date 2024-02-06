@@ -39,7 +39,7 @@ class AWSQueryOperationStackTest {
                       .withRegion(value: config.region)
                       .build()
         var operation = ClientRuntime.OperationStack<NoInputAndOutputInput, NoInputAndOutputOutput>(id: "noInputAndOutput")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(NoInputAndOutputInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
         let endpointParams = EndpointParams()
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NoInputAndOutputOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

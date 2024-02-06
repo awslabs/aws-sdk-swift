@@ -4805,6 +4805,7 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case serviceManagedEgressIpAddresses = "ServiceManagedEgressIpAddresses"
         case sftpConfig = "SftpConfig"
         case tags = "Tags"
         case url = "Url"
@@ -4826,6 +4827,12 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         }
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
+        }
+        if let serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses {
+            var serviceManagedEgressIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceManagedEgressIpAddresses)
+            for servicemanagedegressipaddress0 in serviceManagedEgressIpAddresses {
+                try serviceManagedEgressIpAddressesContainer.encode(servicemanagedegressipaddress0)
+            }
         }
         if let sftpConfig = self.sftpConfig {
             try encodeContainer.encode(sftpConfig, forKey: .sftpConfig)
@@ -4868,6 +4875,17 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         tags = tagsDecoded0
         let sftpConfigDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpConnectorConfig.self, forKey: .sftpConfig)
         sftpConfig = sftpConfigDecoded
+        let serviceManagedEgressIpAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .serviceManagedEgressIpAddresses)
+        var serviceManagedEgressIpAddressesDecoded0:[Swift.String]? = nil
+        if let serviceManagedEgressIpAddressesContainer = serviceManagedEgressIpAddressesContainer {
+            serviceManagedEgressIpAddressesDecoded0 = [Swift.String]()
+            for string0 in serviceManagedEgressIpAddressesContainer {
+                if let string0 = string0 {
+                    serviceManagedEgressIpAddressesDecoded0?.append(string0)
+                }
+            }
+        }
+        serviceManagedEgressIpAddresses = serviceManagedEgressIpAddressesDecoded0
     }
 }
 
@@ -4885,6 +4903,8 @@ extension TransferClientTypes {
         public var connectorId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
+        /// The list of egress IP addresses of this connector. These IP addresses are assigned automatically when you create the connector.
+        public var serviceManagedEgressIpAddresses: [Swift.String]?
         /// A structure that contains the parameters for an SFTP connector object.
         public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
         /// Key-value pairs that can be used to group and search for connectors.
@@ -4898,6 +4918,7 @@ extension TransferClientTypes {
             as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
             connectorId: Swift.String? = nil,
             loggingRole: Swift.String? = nil,
+            serviceManagedEgressIpAddresses: [Swift.String]? = nil,
             sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             url: Swift.String? = nil
@@ -4908,6 +4929,7 @@ extension TransferClientTypes {
             self.as2Config = as2Config
             self.connectorId = connectorId
             self.loggingRole = loggingRole
+            self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
             self.sftpConfig = sftpConfig
             self.tags = tags
             self.url = url
@@ -5386,6 +5408,7 @@ extension TransferClientTypes {
 extension TransferClientTypes.DescribedServer: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case as2ServiceManagedEgressIpAddresses = "As2ServiceManagedEgressIpAddresses"
         case certificate = "Certificate"
         case domain = "Domain"
         case endpointDetails = "EndpointDetails"
@@ -5412,6 +5435,12 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddresses {
+            var as2ServiceManagedEgressIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .as2ServiceManagedEgressIpAddresses)
+            for servicemanagedegressipaddress0 in as2ServiceManagedEgressIpAddresses {
+                try as2ServiceManagedEgressIpAddressesContainer.encode(servicemanagedegressipaddress0)
+            }
         }
         if let certificate = self.certificate {
             try encodeContainer.encode(certificate, forKey: .certificate)
@@ -5555,6 +5584,20 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
         structuredLogDestinations = structuredLogDestinationsDecoded0
         let s3StorageOptionsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.S3StorageOptions.self, forKey: .s3StorageOptions)
         s3StorageOptions = s3StorageOptionsDecoded
+<<<<<<< HEAD
+=======
+        let as2ServiceManagedEgressIpAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .as2ServiceManagedEgressIpAddresses)
+        var as2ServiceManagedEgressIpAddressesDecoded0:[Swift.String]? = nil
+        if let as2ServiceManagedEgressIpAddressesContainer = as2ServiceManagedEgressIpAddressesContainer {
+            as2ServiceManagedEgressIpAddressesDecoded0 = [Swift.String]()
+            for string0 in as2ServiceManagedEgressIpAddressesContainer {
+                if let string0 = string0 {
+                    as2ServiceManagedEgressIpAddressesDecoded0?.append(string0)
+                }
+            }
+        }
+        as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddressesDecoded0
+>>>>>>> temp-main
     }
 }
 
@@ -5564,6 +5607,8 @@ extension TransferClientTypes {
         /// Specifies the unique Amazon Resource Name (ARN) of the server.
         /// This member is required.
         public var arn: Swift.String?
+        /// The list of egress IP addresses of this server. These IP addresses are only relevant for servers that use the AS2 protocol. They are used for sending asynchronous MDNs. These IP addresses are assigned automatically when you create an AS2 server. Additionally, if you update an existing server and add the AS2 protocol, static IP addresses are assigned as well.
+        public var as2ServiceManagedEgressIpAddresses: [Swift.String]?
         /// Specifies the ARN of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         public var certificate: Swift.String?
         /// Specifies the domain of the storage system that is used for file transfers.
@@ -5636,6 +5681,7 @@ extension TransferClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            as2ServiceManagedEgressIpAddresses: [Swift.String]? = nil,
             certificate: Swift.String? = nil,
             domain: TransferClientTypes.Domain? = nil,
             endpointDetails: TransferClientTypes.EndpointDetails? = nil,
@@ -5659,6 +5705,7 @@ extension TransferClientTypes {
         )
         {
             self.arn = arn
+            self.as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddresses
             self.certificate = certificate
             self.domain = domain
             self.endpointDetails = endpointDetails
@@ -6756,7 +6803,7 @@ extension TransferClientTypes.IdentityProviderDetails: Swift.Codable {
 extension TransferClientTypes {
     /// Returns information related to the type of user authentication that is in use for a file transfer protocol-enabled server's users. A server can have only one method of authentication.
     public struct IdentityProviderDetails: Swift.Equatable {
-        /// The identifier of the Directory Service directory that you want to stop sharing.
+        /// The identifier of the Directory Service directory that you want to use as your identity provider.
         public var directoryId: Swift.String?
         /// The ARN for a Lambda function to use for the Identity provider.
         public var function: Swift.String?

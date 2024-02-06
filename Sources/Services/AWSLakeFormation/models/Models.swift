@@ -1647,7 +1647,11 @@ extension CreateLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URL
 public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Equatable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
+<<<<<<< HEAD
     /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to to access data managed by Lake Formation.
+=======
+    /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
+>>>>>>> temp-main
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
     /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
@@ -5311,6 +5315,8 @@ extension GetTemporaryGlueTableCredentialsInput: Swift.Encodable {
         case auditContext = "AuditContext"
         case durationSeconds = "DurationSeconds"
         case permissions = "Permissions"
+        case querySessionContext = "QuerySessionContext"
+        case s3Path = "S3Path"
         case supportedPermissionTypes = "SupportedPermissionTypes"
         case tableArn = "TableArn"
     }
@@ -5328,6 +5334,12 @@ extension GetTemporaryGlueTableCredentialsInput: Swift.Encodable {
             for permission0 in permissions {
                 try permissionsContainer.encode(permission0.rawValue)
             }
+        }
+        if let querySessionContext = self.querySessionContext {
+            try encodeContainer.encode(querySessionContext, forKey: .querySessionContext)
+        }
+        if let s3Path = self.s3Path {
+            try encodeContainer.encode(s3Path, forKey: .s3Path)
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
@@ -5354,6 +5366,10 @@ public struct GetTemporaryGlueTableCredentialsInput: Swift.Equatable {
     public var durationSeconds: Swift.Int?
     /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
     public var permissions: [LakeFormationClientTypes.Permission]?
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    public var querySessionContext: LakeFormationClientTypes.QuerySessionContext?
+    /// The Amazon S3 path for the table.
+    public var s3Path: Swift.String?
     /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
     public var supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]?
     /// The ARN identifying a table in the Data Catalog for the temporary credentials request.
@@ -5364,6 +5380,8 @@ public struct GetTemporaryGlueTableCredentialsInput: Swift.Equatable {
         auditContext: LakeFormationClientTypes.AuditContext? = nil,
         durationSeconds: Swift.Int? = nil,
         permissions: [LakeFormationClientTypes.Permission]? = nil,
+        querySessionContext: LakeFormationClientTypes.QuerySessionContext? = nil,
+        s3Path: Swift.String? = nil,
         supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]? = nil,
         tableArn: Swift.String? = nil
     )
@@ -5371,6 +5389,8 @@ public struct GetTemporaryGlueTableCredentialsInput: Swift.Equatable {
         self.auditContext = auditContext
         self.durationSeconds = durationSeconds
         self.permissions = permissions
+        self.querySessionContext = querySessionContext
+        self.s3Path = s3Path
         self.supportedPermissionTypes = supportedPermissionTypes
         self.tableArn = tableArn
     }
@@ -5382,6 +5402,8 @@ struct GetTemporaryGlueTableCredentialsInputBody: Swift.Equatable {
     let durationSeconds: Swift.Int?
     let auditContext: LakeFormationClientTypes.AuditContext?
     let supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]?
+    let s3Path: Swift.String?
+    let querySessionContext: LakeFormationClientTypes.QuerySessionContext?
 }
 
 extension GetTemporaryGlueTableCredentialsInputBody: Swift.Decodable {
@@ -5389,6 +5411,8 @@ extension GetTemporaryGlueTableCredentialsInputBody: Swift.Decodable {
         case auditContext = "AuditContext"
         case durationSeconds = "DurationSeconds"
         case permissions = "Permissions"
+        case querySessionContext = "QuerySessionContext"
+        case s3Path = "S3Path"
         case supportedPermissionTypes = "SupportedPermissionTypes"
         case tableArn = "TableArn"
     }
@@ -5423,9 +5447,103 @@ extension GetTemporaryGlueTableCredentialsInputBody: Swift.Decodable {
             }
         }
         supportedPermissionTypes = supportedPermissionTypesDecoded0
+        let s3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Path)
+        s3Path = s3PathDecoded
+        let querySessionContextDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.QuerySessionContext.self, forKey: .querySessionContext)
+        querySessionContext = querySessionContextDecoded
     }
 }
 
+extension GetTemporaryGlueTableCredentialsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTemporaryGlueTableCredentialsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accessKeyId = output.accessKeyId
+            self.expiration = output.expiration
+            self.secretAccessKey = output.secretAccessKey
+            self.sessionToken = output.sessionToken
+            self.vendedS3Path = output.vendedS3Path
+        } else {
+            self.accessKeyId = nil
+            self.expiration = nil
+            self.secretAccessKey = nil
+            self.sessionToken = nil
+            self.vendedS3Path = nil
+        }
+    }
+}
+
+public struct GetTemporaryGlueTableCredentialsOutput: Swift.Equatable {
+    /// The access key ID for the temporary credentials.
+    public var accessKeyId: Swift.String?
+    /// The date and time when the temporary credentials expire.
+    public var expiration: ClientRuntime.Date?
+    /// The secret key for the temporary credentials.
+    public var secretAccessKey: Swift.String?
+    /// The session token for the temporary credentials.
+    public var sessionToken: Swift.String?
+    /// The Amazon S3 path for the temporary credentials.
+    public var vendedS3Path: [Swift.String]?
+
+    public init(
+        accessKeyId: Swift.String? = nil,
+        expiration: ClientRuntime.Date? = nil,
+        secretAccessKey: Swift.String? = nil,
+        sessionToken: Swift.String? = nil,
+        vendedS3Path: [Swift.String]? = nil
+    )
+    {
+        self.accessKeyId = accessKeyId
+        self.expiration = expiration
+        self.secretAccessKey = secretAccessKey
+        self.sessionToken = sessionToken
+        self.vendedS3Path = vendedS3Path
+    }
+}
+
+struct GetTemporaryGlueTableCredentialsOutputBody: Swift.Equatable {
+    let accessKeyId: Swift.String?
+    let secretAccessKey: Swift.String?
+    let sessionToken: Swift.String?
+    let expiration: ClientRuntime.Date?
+    let vendedS3Path: [Swift.String]?
+}
+
+extension GetTemporaryGlueTableCredentialsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessKeyId = "AccessKeyId"
+        case expiration = "Expiration"
+        case secretAccessKey = "SecretAccessKey"
+        case sessionToken = "SessionToken"
+        case vendedS3Path = "VendedS3Path"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessKeyId)
+        accessKeyId = accessKeyIdDecoded
+        let secretAccessKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretAccessKey)
+        secretAccessKey = secretAccessKeyDecoded
+        let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
+        sessionToken = sessionTokenDecoded
+        let expirationDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expiration)
+        expiration = expirationDecoded
+        let vendedS3PathContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vendedS3Path)
+        var vendedS3PathDecoded0:[Swift.String]? = nil
+        if let vendedS3PathContainer = vendedS3PathContainer {
+            vendedS3PathDecoded0 = [Swift.String]()
+            for string0 in vendedS3PathContainer {
+                if let string0 = string0 {
+                    vendedS3PathDecoded0?.append(string0)
+                }
+            }
+        }
+        vendedS3Path = vendedS3PathDecoded0
+    }
+}
+
+<<<<<<< HEAD
 extension GetTemporaryGlueTableCredentialsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5496,6 +5614,8 @@ extension GetTemporaryGlueTableCredentialsOutputBody: Swift.Decodable {
     }
 }
 
+=======
+>>>>>>> temp-main
 enum GetTemporaryGlueTableCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8409,6 +8529,93 @@ extension LakeFormationClientTypes {
             self.queryAsOfTime = queryAsOfTime
             self.queryParameters = queryParameters
             self.transactionId = transactionId
+        }
+    }
+
+}
+
+extension LakeFormationClientTypes.QuerySessionContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalContext = "AdditionalContext"
+        case clusterId = "ClusterId"
+        case queryAuthorizationId = "QueryAuthorizationId"
+        case queryId = "QueryId"
+        case queryStartTime = "QueryStartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalContext = additionalContext {
+            var additionalContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalContext)
+            for (dictKey0, additionalContextMap0) in additionalContext {
+                try additionalContextContainer.encode(additionalContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let clusterId = self.clusterId {
+            try encodeContainer.encode(clusterId, forKey: .clusterId)
+        }
+        if let queryAuthorizationId = self.queryAuthorizationId {
+            try encodeContainer.encode(queryAuthorizationId, forKey: .queryAuthorizationId)
+        }
+        if let queryId = self.queryId {
+            try encodeContainer.encode(queryId, forKey: .queryId)
+        }
+        if let queryStartTime = self.queryStartTime {
+            try encodeContainer.encodeTimestamp(queryStartTime, format: .epochSeconds, forKey: .queryStartTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let queryStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .queryStartTime)
+        queryStartTime = queryStartTimeDecoded
+        let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
+        clusterId = clusterIdDecoded
+        let queryAuthorizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryAuthorizationId)
+        queryAuthorizationId = queryAuthorizationIdDecoded
+        let additionalContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalContext)
+        var additionalContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalContextContainer = additionalContextContainer {
+            additionalContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, contextvalue0) in additionalContextContainer {
+                if let contextvalue0 = contextvalue0 {
+                    additionalContextDecoded0?[key0] = contextvalue0
+                }
+            }
+        }
+        additionalContext = additionalContextDecoded0
+    }
+}
+
+extension LakeFormationClientTypes {
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    public struct QuerySessionContext: Swift.Equatable {
+        /// An opaque string-string map passed by the query engine.
+        public var additionalContext: [Swift.String:Swift.String]?
+        /// An identifier string for the consumer cluster.
+        public var clusterId: Swift.String?
+        /// A cryptographically generated query identifier generated by Glue or Lake Formation.
+        public var queryAuthorizationId: Swift.String?
+        /// A unique identifier generated by the query engine for the query.
+        public var queryId: Swift.String?
+        /// A timestamp provided by the query engine for when the query started.
+        public var queryStartTime: ClientRuntime.Date?
+
+        public init(
+            additionalContext: [Swift.String:Swift.String]? = nil,
+            clusterId: Swift.String? = nil,
+            queryAuthorizationId: Swift.String? = nil,
+            queryId: Swift.String? = nil,
+            queryStartTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.additionalContext = additionalContext
+            self.clusterId = clusterId
+            self.queryAuthorizationId = queryAuthorizationId
+            self.queryId = queryId
+            self.queryStartTime = queryStartTime
         }
     }
 

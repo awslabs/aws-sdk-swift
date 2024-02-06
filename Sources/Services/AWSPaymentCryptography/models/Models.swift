@@ -719,6 +719,71 @@ extension PaymentCryptographyClientTypes {
 
 }
 
+<<<<<<< HEAD
+=======
+extension PaymentCryptographyClientTypes.ExportKeyCryptogram: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
+        case wrappingKeyCertificate = "WrappingKeyCertificate"
+        case wrappingSpec = "WrappingSpec"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateAuthorityPublicKeyIdentifier = self.certificateAuthorityPublicKeyIdentifier {
+            try encodeContainer.encode(certificateAuthorityPublicKeyIdentifier, forKey: .certificateAuthorityPublicKeyIdentifier)
+        }
+        if let wrappingKeyCertificate = self.wrappingKeyCertificate {
+            try encodeContainer.encode(wrappingKeyCertificate, forKey: .wrappingKeyCertificate)
+        }
+        if let wrappingSpec = self.wrappingSpec {
+            try encodeContainer.encode(wrappingSpec.rawValue, forKey: .wrappingSpec)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateAuthorityPublicKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateAuthorityPublicKeyIdentifier)
+        certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifierDecoded
+        let wrappingKeyCertificateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .wrappingKeyCertificate)
+        wrappingKeyCertificate = wrappingKeyCertificateDecoded
+        let wrappingSpecDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.WrappingKeySpec.self, forKey: .wrappingSpec)
+        wrappingSpec = wrappingSpecDecoded
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportKeyCryptogram: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExportKeyCryptogram(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), wrappingSpec: \(Swift.String(describing: wrappingSpec)), wrappingKeyCertificate: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyClientTypes {
+    /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method.
+    public struct ExportKeyCryptogram: Swift.Equatable {
+        /// The KeyARN of the certificate chain that signs the wrapping key certificate during RSA wrap and unwrap key export.
+        /// This member is required.
+        public var certificateAuthorityPublicKeyIdentifier: Swift.String?
+        /// The wrapping key certificate in PEM format (base64 encoded). Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
+        /// This member is required.
+        public var wrappingKeyCertificate: Swift.String?
+        /// The wrapping spec for the key under export.
+        public var wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec?
+
+        public init(
+            certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
+            wrappingKeyCertificate: Swift.String? = nil,
+            wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec? = nil
+        )
+        {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.wrappingKeyCertificate = wrappingKeyCertificate
+            self.wrappingSpec = wrappingSpec
+        }
+    }
+
+}
+
+>>>>>>> temp-main
 extension ExportKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportAttributes = "ExportAttributes"
@@ -794,6 +859,7 @@ extension ExportKeyInputBody: Swift.Decodable {
 
 extension PaymentCryptographyClientTypes.ExportKeyMaterial: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keycryptogram = "KeyCryptogram"
         case tr31keyblock = "Tr31KeyBlock"
         case tr34keyblock = "Tr34KeyBlock"
         case sdkUnknown
@@ -802,6 +868,8 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .keycryptogram(keycryptogram):
+                try container.encode(keycryptogram, forKey: .keycryptogram)
             case let .tr31keyblock(tr31keyblock):
                 try container.encode(tr31keyblock, forKey: .tr31keyblock)
             case let .tr34keyblock(tr34keyblock):
@@ -823,17 +891,28 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial: Swift.Codable {
             self = .tr34keyblock(tr34keyblock)
             return
         }
+        let keycryptogramDecoded = try values.decodeIfPresent(PaymentCryptographyClientTypes.ExportKeyCryptogram.self, forKey: .keycryptogram)
+        if let keycryptogram = keycryptogramDecoded {
+            self = .keycryptogram(keycryptogram)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
 
 extension PaymentCryptographyClientTypes {
+<<<<<<< HEAD
     /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
+=======
+    /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
+>>>>>>> temp-main
     public enum ExportKeyMaterial: Swift.Equatable {
         /// Parameter information for key material export using symmetric TR-31 key exchange method.
         case tr31keyblock(PaymentCryptographyClientTypes.ExportTr31KeyBlock)
         /// Parameter information for key material export using the asymmetric TR-34 key exchange method.
         case tr34keyblock(PaymentCryptographyClientTypes.ExportTr34KeyBlock)
+        /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method
+        case keycryptogram(PaymentCryptographyClientTypes.ExportKeyCryptogram)
         case sdkUnknown(Swift.String)
     }
 
@@ -852,7 +931,11 @@ extension ExportKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ExportKeyOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock.
+=======
+    /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock. or a RSA WrappedKeyCryptogram.
+>>>>>>> temp-main
     public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 
     public init(
@@ -1419,10 +1502,17 @@ extension GetParametersForImportInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetParametersForImportInput: Swift.Equatable {
+<<<<<<< HEAD
     /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
     /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048, RSA_3072, RSA_4096 are the only allowed algorithms for TR-34 WrappedKeyBlock import.
+=======
+    /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
+    /// This member is required.
+    public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
+    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048, RSA_3072, RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import.
+>>>>>>> temp-main
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
@@ -1488,7 +1578,11 @@ public struct GetParametersForImportOutput: Swift.Equatable {
     /// The validity period of the import token.
     /// This member is required.
     public var parametersValidUntilTimestamp: ClientRuntime.Date?
+<<<<<<< HEAD
     /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock.
+=======
+    /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock or RSA WrappedKeyCryptogram.
+>>>>>>> temp-main
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
     /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
@@ -1655,6 +1749,8 @@ struct GetPublicKeyCertificateOutputBody: Swift.Equatable {
 }
 
 extension GetPublicKeyCertificateOutputBody: Swift.Decodable {
+<<<<<<< HEAD
+=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyCertificate = "KeyCertificate"
         case keyCertificateChain = "KeyCertificateChain"
@@ -1683,6 +1779,103 @@ enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension PaymentCryptographyClientTypes.ImportKeyCryptogram: Swift.Codable {
+>>>>>>> temp-main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportable = "Exportable"
+        case importToken = "ImportToken"
+        case keyAttributes = "KeyAttributes"
+        case wrappedKeyCryptogram = "WrappedKeyCryptogram"
+        case wrappingSpec = "WrappingSpec"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportable = self.exportable {
+            try encodeContainer.encode(exportable, forKey: .exportable)
+        }
+        if let importToken = self.importToken {
+            try encodeContainer.encode(importToken, forKey: .importToken)
+        }
+        if let keyAttributes = self.keyAttributes {
+            try encodeContainer.encode(keyAttributes, forKey: .keyAttributes)
+        }
+        if let wrappedKeyCryptogram = self.wrappedKeyCryptogram {
+            try encodeContainer.encode(wrappedKeyCryptogram, forKey: .wrappedKeyCryptogram)
+        }
+        if let wrappingSpec = self.wrappingSpec {
+            try encodeContainer.encode(wrappingSpec.rawValue, forKey: .wrappingSpec)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyAttributesDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyAttributes.self, forKey: .keyAttributes)
+        keyAttributes = keyAttributesDecoded
+        let exportableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exportable)
+        exportable = exportableDecoded
+        let wrappedKeyCryptogramDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .wrappedKeyCryptogram)
+        wrappedKeyCryptogram = wrappedKeyCryptogramDecoded
+        let importTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importToken)
+        importToken = importTokenDecoded
+        let wrappingSpecDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.WrappingKeySpec.self, forKey: .wrappingSpec)
+        wrappingSpec = wrappingSpecDecoded
+    }
+}
+
+<<<<<<< HEAD
+enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+=======
+extension PaymentCryptographyClientTypes {
+    /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
+    public struct ImportKeyCryptogram: Swift.Equatable {
+        /// Specifies whether the key is exportable from the service.
+        /// This member is required.
+        public var exportable: Swift.Bool?
+        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// This member is required.
+        public var importToken: Swift.String?
+        /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
+        /// This member is required.
+        public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
+        /// The RSA wrapped key cryptogram under import.
+        /// This member is required.
+        public var wrappedKeyCryptogram: Swift.String?
+        /// The wrapping spec for the wrapped key cryptogram.
+        public var wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec?
+
+        public init(
+            exportable: Swift.Bool? = nil,
+            importToken: Swift.String? = nil,
+            keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
+            wrappedKeyCryptogram: Swift.String? = nil,
+            wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec? = nil
+        )
+        {
+            self.exportable = exportable
+            self.importToken = importToken
+            self.keyAttributes = keyAttributes
+            self.wrappedKeyCryptogram = wrappedKeyCryptogram
+            self.wrappingSpec = wrappingSpec
+        }
+    }
+
+>>>>>>> temp-main
 }
 
 extension ImportKeyInput: Swift.Encodable {
@@ -1783,6 +1976,7 @@ extension ImportKeyInputBody: Swift.Decodable {
 
 extension PaymentCryptographyClientTypes.ImportKeyMaterial: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keycryptogram = "KeyCryptogram"
         case rootcertificatepublickey = "RootCertificatePublicKey"
         case tr31keyblock = "Tr31KeyBlock"
         case tr34keyblock = "Tr34KeyBlock"
@@ -1793,6 +1987,8 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .keycryptogram(keycryptogram):
+                try container.encode(keycryptogram, forKey: .keycryptogram)
             case let .rootcertificatepublickey(rootcertificatepublickey):
                 try container.encode(rootcertificatepublickey, forKey: .rootcertificatepublickey)
             case let .tr31keyblock(tr31keyblock):
@@ -1828,12 +2024,21 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial: Swift.Codable {
             self = .tr34keyblock(tr34keyblock)
             return
         }
+        let keycryptogramDecoded = try values.decodeIfPresent(PaymentCryptographyClientTypes.ImportKeyCryptogram.self, forKey: .keycryptogram)
+        if let keycryptogram = keycryptogramDecoded {
+            self = .keycryptogram(keycryptogram)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
 
 extension PaymentCryptographyClientTypes {
+<<<<<<< HEAD
     /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
+=======
+    /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
+>>>>>>> temp-main
     public enum ImportKeyMaterial: Swift.Equatable {
         /// Parameter information for root public key certificate import.
         case rootcertificatepublickey(PaymentCryptographyClientTypes.RootCertificatePublicKey)
@@ -1843,6 +2048,8 @@ extension PaymentCryptographyClientTypes {
         case tr31keyblock(PaymentCryptographyClientTypes.ImportTr31KeyBlock)
         /// Parameter information for key material import using the asymmetric TR-34 key exchange method.
         case tr34keyblock(PaymentCryptographyClientTypes.ImportTr34KeyBlock)
+        /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
+        case keycryptogram(PaymentCryptographyClientTypes.ImportKeyCryptogram)
         case sdkUnknown(Swift.String)
     }
 
@@ -2459,6 +2666,7 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
     public enum KeyMaterialType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case keyCryptogram
         case rootPublicKeyCertificate
         case tr31KeyBlock
         case tr34KeyBlock
@@ -2467,6 +2675,7 @@ extension PaymentCryptographyClientTypes {
 
         public static var allCases: [KeyMaterialType] {
             return [
+                .keyCryptogram,
                 .rootPublicKeyCertificate,
                 .tr31KeyBlock,
                 .tr34KeyBlock,
@@ -2480,6 +2689,7 @@ extension PaymentCryptographyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .keyCryptogram: return "KEY_CRYPTOGRAM"
             case .rootPublicKeyCertificate: return "ROOT_PUBLIC_KEY_CERTIFICATE"
             case .tr31KeyBlock: return "TR31_KEY_BLOCK"
             case .tr34KeyBlock: return "TR34_KEY_BLOCK"
@@ -2789,6 +2999,7 @@ extension PaymentCryptographyClientTypes {
         case tr31K1KeyBlockProtectionKey
         case tr31K2Tr34AsymmetricKey
         case tr31K3AsymmetricKeyForKeyAgreement
+        case tr31M1Iso97971MacKey
         case tr31M3Iso97973MacKey
         case tr31M6Iso97975CmacKey
         case tr31M7HmacKey
@@ -2815,6 +3026,7 @@ extension PaymentCryptographyClientTypes {
                 .tr31K1KeyBlockProtectionKey,
                 .tr31K2Tr34AsymmetricKey,
                 .tr31K3AsymmetricKeyForKeyAgreement,
+                .tr31M1Iso97971MacKey,
                 .tr31M3Iso97973MacKey,
                 .tr31M6Iso97975CmacKey,
                 .tr31M7HmacKey,
@@ -2846,6 +3058,7 @@ extension PaymentCryptographyClientTypes {
             case .tr31K1KeyBlockProtectionKey: return "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
             case .tr31K2Tr34AsymmetricKey: return "TR31_K2_TR34_ASYMMETRIC_KEY"
             case .tr31K3AsymmetricKeyForKeyAgreement: return "TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT"
+            case .tr31M1Iso97971MacKey: return "TR31_M1_ISO_9797_1_MAC_KEY"
             case .tr31M3Iso97973MacKey: return "TR31_M3_ISO_9797_3_MAC_KEY"
             case .tr31M6Iso97975CmacKey: return "TR31_M6_ISO_9797_5_CMAC_KEY"
             case .tr31M7HmacKey: return "TR31_M7_HMAC_KEY"
@@ -4515,6 +4728,38 @@ extension PaymentCryptographyClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = WrappedKeyMaterialFormat(rawValue: rawValue) ?? WrappedKeyMaterialFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+    public enum WrappingKeySpec: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case rsaOaepSha256
+        case rsaOaepSha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WrappingKeySpec] {
+            return [
+                .rsaOaepSha256,
+                .rsaOaepSha512,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .rsaOaepSha256: return "RSA_OAEP_SHA_256"
+            case .rsaOaepSha512: return "RSA_OAEP_SHA_512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WrappingKeySpec(rawValue: rawValue) ?? WrappingKeySpec.sdkUnknown(rawValue)
         }
     }
 }

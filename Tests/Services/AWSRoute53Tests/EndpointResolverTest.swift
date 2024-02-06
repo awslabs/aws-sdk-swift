@@ -661,8 +661,64 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with region set and fips disabled and dualstack disabled
+    /// For region eu-isoe-west-1 with FIPS disabled and DualStack disabled
     func testResolve28() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-isoe-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "route53",
+                        "signingRegion": "eu-isoe-west-1"
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://route53.cloud.adc-e.uk", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isof-south-1 with FIPS disabled and DualStack disabled
+    func testResolve29() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isof-south-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "route53",
+                        "signingRegion": "us-isof-south-1"
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://route53.csp.hci.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with region set and fips disabled and dualstack disabled
+    func testResolve30() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -683,7 +739,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region not set and fips disabled and dualstack disabled
-    func testResolve29() throws {
+    func testResolve31() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             useDualStack: false,
@@ -703,7 +759,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips enabled and dualstack disabled
-    func testResolve30() throws {
+    func testResolve32() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -723,7 +779,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve31() throws {
+    func testResolve33() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -743,7 +799,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Missing region
-    func testResolve32() throws {
+    func testResolve34() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()

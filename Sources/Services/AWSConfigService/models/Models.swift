@@ -3017,7 +3017,11 @@ extension ConfigClientTypes {
         ///
         /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
         ///
+<<<<<<< HEAD
         /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
+=======
+        /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
+>>>>>>> temp-main
         ///
         ///
         /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
@@ -20734,7 +20738,11 @@ extension ConfigClientTypes {
     ///
     /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
     ///
+<<<<<<< HEAD
     /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
+=======
+    /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
+>>>>>>> temp-main
     ///
     ///
     /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
@@ -20818,7 +20826,11 @@ extension ConfigClientTypes {
         ///
         /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
         ///
+<<<<<<< HEAD
         /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
+=======
+        /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
+>>>>>>> temp-main
         ///
         ///
         /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous.
@@ -21121,7 +21133,7 @@ extension ConfigClientTypes {
         public var parameters: [Swift.String:ConfigClientTypes.RemediationParameterValue]?
         /// The type of a resource.
         public var resourceType: Swift.String?
-        /// Maximum time in seconds that Config runs auto-remediation. If you do not select a number, the default is 60 seconds. For example, if you specify RetryAttemptSeconds as 50 seconds and MaximumAutomaticAttempts as 5, Config will run auto-remediations 5 times within 50 seconds before throwing an exception.
+        /// Time window to determine whether or not to add a remediation exception to prevent infinite remediation attempts. If MaximumAutomaticAttempts remediation attempts have been made under RetryAttemptSeconds, a remediation exception will be added to the resource. If you do not select a number, the default is 60 seconds. For example, if you specify RetryAttemptSeconds as 50 seconds and MaximumAutomaticAttempts as 5, Config will run auto-remediations 5 times within 50 seconds before adding a remediation exception to the resource.
         public var retryAttemptSeconds: Swift.Int?
         /// Target ID is the name of the SSM document.
         /// This member is required.
@@ -22473,6 +22485,10 @@ extension ConfigClientTypes {
         case apprunnervpcconnector
         case appstreamapplication
         case appstreamdirectoryconfig
+<<<<<<< HEAD
+=======
+        case appstreamfleet
+>>>>>>> temp-main
         case appstreamstack
         case appsyncgraphqlapi
         case application
@@ -22512,6 +22528,9 @@ extension ConfigClientTypes {
         case codedeploydeploymentgroup
         case codeguruprofilerprofilinggroup
         case codegurureviewerrepositoryassociation
+        case cognitouserpool
+        case cognitouserpoolclient
+        case cognitouserpoolgroup
         case conformancepackcompliance
         case connectinstance
         case connectphonenumber
@@ -22552,6 +22571,8 @@ extension ConfigClientTypes {
         case ec2ipam
         case ec2ipampool
         case ec2ipamscope
+        case ec2networkinsightsaccessscope
+        case ec2networkinsightsanalysis
         case ec2networkinsightspath
         case ec2prefixlist
         case ec2spotfleet
@@ -22610,8 +22631,10 @@ extension ConfigClientTypes {
         case glueclassifier
         case gluejob
         case gluemltransform
+        case grafanaworkspace
         case greengrassv2componentversion
         case groundstationconfig
+        case groundstationdataflowendpointgroup
         case groundstationmissionprofile
         case group
         case guarddutydetector
@@ -22630,6 +22653,7 @@ extension ConfigClientTypes {
         case imagebuildercontainerrecipe
         case imagebuilderdistributionconfiguration
         case imagebuilderimagepipeline
+        case imagebuilderimagerecipe
         case imagebuilderinfrastructureconfiguration
         case inspectorv2filter
         case instance
@@ -22667,6 +22691,10 @@ extension ConfigClientTypes {
         case iotwirelessfuotatask
         case iotwirelessmulticastgroup
         case iotwirelessserviceprofile
+<<<<<<< HEAD
+=======
+        case kmsalias
+>>>>>>> temp-main
         case kafkaconnectconnector
         case kendraindex
         case key
@@ -22691,6 +22719,10 @@ extension ConfigClientTypes {
         case logsdestination
         case lookoutmetricsalert
         case lookoutvisionproject
+<<<<<<< HEAD
+=======
+        case m2environment
+>>>>>>> temp-main
         case mskbatchscramsecret
         case mskcluster
         case mskconfiguration
@@ -22739,9 +22771,14 @@ extension ConfigClientTypes {
         case protection
         case qldbledger
         case queue
+        case quicksightdatasource
+        case quicksighttemplate
+        case quicksighttheme
         case rdsglobalcluster
+        case rdsoptiongroup
         case rumappmonitor
         case ratebasedrule
+        case redshiftendpointaccess
         case redshifteventsubscription
         case redshiftscheduledaction
         case regexpatternsetv2
@@ -22770,6 +22807,7 @@ extension ConfigClientTypes {
         case route53recoveryreadinessrecoverygroup
         case route53recoveryreadinessresourceset
         case route53resolverfirewalldomainlist
+        case route53resolverfirewallrulegroup
         case route53resolverfirewallrulegroupassociation
         case route53resolverresolverendpoint
         case route53resolverresolverqueryloggingconfig
@@ -22788,6 +22826,7 @@ extension ConfigClientTypes {
         case sesreceiptfilter
         case sesreceiptruleset
         case sestemplate
+        case ssmdocument
         case sagemakerappimageconfig
         case sagemakercoderepository
         case sagemakerdomain
@@ -22866,6 +22905,10 @@ extension ConfigClientTypes {
                 .apprunnervpcconnector,
                 .appstreamapplication,
                 .appstreamdirectoryconfig,
+<<<<<<< HEAD
+=======
+                .appstreamfleet,
+>>>>>>> temp-main
                 .appstreamstack,
                 .appsyncgraphqlapi,
                 .application,
@@ -22905,6 +22948,9 @@ extension ConfigClientTypes {
                 .codedeploydeploymentgroup,
                 .codeguruprofilerprofilinggroup,
                 .codegurureviewerrepositoryassociation,
+                .cognitouserpool,
+                .cognitouserpoolclient,
+                .cognitouserpoolgroup,
                 .conformancepackcompliance,
                 .connectinstance,
                 .connectphonenumber,
@@ -22945,6 +22991,8 @@ extension ConfigClientTypes {
                 .ec2ipam,
                 .ec2ipampool,
                 .ec2ipamscope,
+                .ec2networkinsightsaccessscope,
+                .ec2networkinsightsanalysis,
                 .ec2networkinsightspath,
                 .ec2prefixlist,
                 .ec2spotfleet,
@@ -23003,8 +23051,10 @@ extension ConfigClientTypes {
                 .glueclassifier,
                 .gluejob,
                 .gluemltransform,
+                .grafanaworkspace,
                 .greengrassv2componentversion,
                 .groundstationconfig,
+                .groundstationdataflowendpointgroup,
                 .groundstationmissionprofile,
                 .group,
                 .guarddutydetector,
@@ -23023,6 +23073,7 @@ extension ConfigClientTypes {
                 .imagebuildercontainerrecipe,
                 .imagebuilderdistributionconfiguration,
                 .imagebuilderimagepipeline,
+                .imagebuilderimagerecipe,
                 .imagebuilderinfrastructureconfiguration,
                 .inspectorv2filter,
                 .instance,
@@ -23060,6 +23111,10 @@ extension ConfigClientTypes {
                 .iotwirelessfuotatask,
                 .iotwirelessmulticastgroup,
                 .iotwirelessserviceprofile,
+<<<<<<< HEAD
+=======
+                .kmsalias,
+>>>>>>> temp-main
                 .kafkaconnectconnector,
                 .kendraindex,
                 .key,
@@ -23084,6 +23139,10 @@ extension ConfigClientTypes {
                 .logsdestination,
                 .lookoutmetricsalert,
                 .lookoutvisionproject,
+<<<<<<< HEAD
+=======
+                .m2environment,
+>>>>>>> temp-main
                 .mskbatchscramsecret,
                 .mskcluster,
                 .mskconfiguration,
@@ -23132,9 +23191,14 @@ extension ConfigClientTypes {
                 .protection,
                 .qldbledger,
                 .queue,
+                .quicksightdatasource,
+                .quicksighttemplate,
+                .quicksighttheme,
                 .rdsglobalcluster,
+                .rdsoptiongroup,
                 .rumappmonitor,
                 .ratebasedrule,
+                .redshiftendpointaccess,
                 .redshifteventsubscription,
                 .redshiftscheduledaction,
                 .regexpatternsetv2,
@@ -23163,6 +23227,7 @@ extension ConfigClientTypes {
                 .route53recoveryreadinessrecoverygroup,
                 .route53recoveryreadinessresourceset,
                 .route53resolverfirewalldomainlist,
+                .route53resolverfirewallrulegroup,
                 .route53resolverfirewallrulegroupassociation,
                 .route53resolverresolverendpoint,
                 .route53resolverresolverqueryloggingconfig,
@@ -23181,6 +23246,7 @@ extension ConfigClientTypes {
                 .sesreceiptfilter,
                 .sesreceiptruleset,
                 .sestemplate,
+                .ssmdocument,
                 .sagemakerappimageconfig,
                 .sagemakercoderepository,
                 .sagemakerdomain,
@@ -23264,6 +23330,10 @@ extension ConfigClientTypes {
             case .apprunnervpcconnector: return "AWS::AppRunner::VpcConnector"
             case .appstreamapplication: return "AWS::AppStream::Application"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
+<<<<<<< HEAD
+=======
+            case .appstreamfleet: return "AWS::AppStream::Fleet"
+>>>>>>> temp-main
             case .appstreamstack: return "AWS::AppStream::Stack"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
@@ -23303,6 +23373,9 @@ extension ConfigClientTypes {
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
             case .codeguruprofilerprofilinggroup: return "AWS::CodeGuruProfiler::ProfilingGroup"
             case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
+            case .cognitouserpool: return "AWS::Cognito::UserPool"
+            case .cognitouserpoolclient: return "AWS::Cognito::UserPoolClient"
+            case .cognitouserpoolgroup: return "AWS::Cognito::UserPoolGroup"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
             case .connectinstance: return "AWS::Connect::Instance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
@@ -23343,6 +23416,8 @@ extension ConfigClientTypes {
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2ipampool: return "AWS::EC2::IPAMPool"
             case .ec2ipamscope: return "AWS::EC2::IPAMScope"
+            case .ec2networkinsightsaccessscope: return "AWS::EC2::NetworkInsightsAccessScope"
+            case .ec2networkinsightsanalysis: return "AWS::EC2::NetworkInsightsAnalysis"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
             case .ec2prefixlist: return "AWS::EC2::PrefixList"
             case .ec2spotfleet: return "AWS::EC2::SpotFleet"
@@ -23401,8 +23476,10 @@ extension ConfigClientTypes {
             case .glueclassifier: return "AWS::Glue::Classifier"
             case .gluejob: return "AWS::Glue::Job"
             case .gluemltransform: return "AWS::Glue::MLTransform"
+            case .grafanaworkspace: return "AWS::Grafana::Workspace"
             case .greengrassv2componentversion: return "AWS::GreengrassV2::ComponentVersion"
             case .groundstationconfig: return "AWS::GroundStation::Config"
+            case .groundstationdataflowendpointgroup: return "AWS::GroundStation::DataflowEndpointGroup"
             case .groundstationmissionprofile: return "AWS::GroundStation::MissionProfile"
             case .group: return "AWS::IAM::Group"
             case .guarddutydetector: return "AWS::GuardDuty::Detector"
@@ -23421,6 +23498,7 @@ extension ConfigClientTypes {
             case .imagebuildercontainerrecipe: return "AWS::ImageBuilder::ContainerRecipe"
             case .imagebuilderdistributionconfiguration: return "AWS::ImageBuilder::DistributionConfiguration"
             case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
+            case .imagebuilderimagerecipe: return "AWS::ImageBuilder::ImageRecipe"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
             case .inspectorv2filter: return "AWS::InspectorV2::Filter"
             case .instance: return "AWS::EC2::Instance"
@@ -23458,6 +23536,10 @@ extension ConfigClientTypes {
             case .iotwirelessfuotatask: return "AWS::IoTWireless::FuotaTask"
             case .iotwirelessmulticastgroup: return "AWS::IoTWireless::MulticastGroup"
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
+<<<<<<< HEAD
+=======
+            case .kmsalias: return "AWS::KMS::Alias"
+>>>>>>> temp-main
             case .kafkaconnectconnector: return "AWS::KafkaConnect::Connector"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
@@ -23482,6 +23564,10 @@ extension ConfigClientTypes {
             case .logsdestination: return "AWS::Logs::Destination"
             case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
             case .lookoutvisionproject: return "AWS::LookoutVision::Project"
+<<<<<<< HEAD
+=======
+            case .m2environment: return "AWS::M2::Environment"
+>>>>>>> temp-main
             case .mskbatchscramsecret: return "AWS::MSK::BatchScramSecret"
             case .mskcluster: return "AWS::MSK::Cluster"
             case .mskconfiguration: return "AWS::MSK::Configuration"
@@ -23530,9 +23616,14 @@ extension ConfigClientTypes {
             case .protection: return "AWS::Shield::Protection"
             case .qldbledger: return "AWS::QLDB::Ledger"
             case .queue: return "AWS::SQS::Queue"
+            case .quicksightdatasource: return "AWS::QuickSight::DataSource"
+            case .quicksighttemplate: return "AWS::QuickSight::Template"
+            case .quicksighttheme: return "AWS::QuickSight::Theme"
             case .rdsglobalcluster: return "AWS::RDS::GlobalCluster"
+            case .rdsoptiongroup: return "AWS::RDS::OptionGroup"
             case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
+            case .redshiftendpointaccess: return "AWS::Redshift::EndpointAccess"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
             case .redshiftscheduledaction: return "AWS::Redshift::ScheduledAction"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
@@ -23561,6 +23652,7 @@ extension ConfigClientTypes {
             case .route53recoveryreadinessrecoverygroup: return "AWS::Route53RecoveryReadiness::RecoveryGroup"
             case .route53recoveryreadinessresourceset: return "AWS::Route53RecoveryReadiness::ResourceSet"
             case .route53resolverfirewalldomainlist: return "AWS::Route53Resolver::FirewallDomainList"
+            case .route53resolverfirewallrulegroup: return "AWS::Route53Resolver::FirewallRuleGroup"
             case .route53resolverfirewallrulegroupassociation: return "AWS::Route53Resolver::FirewallRuleGroupAssociation"
             case .route53resolverresolverendpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .route53resolverresolverqueryloggingconfig: return "AWS::Route53Resolver::ResolverQueryLoggingConfig"
@@ -23579,6 +23671,7 @@ extension ConfigClientTypes {
             case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
             case .sesreceiptruleset: return "AWS::SES::ReceiptRuleSet"
             case .sestemplate: return "AWS::SES::Template"
+            case .ssmdocument: return "AWS::SSM::Document"
             case .sagemakerappimageconfig: return "AWS::SageMaker::AppImageConfig"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
             case .sagemakerdomain: return "AWS::SageMaker::Domain"

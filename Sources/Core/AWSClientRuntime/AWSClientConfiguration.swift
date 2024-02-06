@@ -191,7 +191,7 @@ extension AWSClientConfiguration {
         if let region = region {
             resolvedRegion = region
         } else {
-            resolvedRegion = await resolvedRegionResolver.resolveRegion()
+            resolvedRegion = await resolvedRegionResolver.getRegion()
         }
         let resolvedCredentialsProvider: any AWSClientRuntime.CredentialsProviding
         if let credentialsProvider = credentialsProvider {
@@ -210,10 +210,20 @@ extension AWSClientConfiguration {
             profileName: nil,
             fileBasedConfig: fileBasedConfig
         )
+        var resolvedAuthSchemes: [ClientRuntime.AuthScheme] = []
+        if let authSchemes = authSchemes {
+            resolvedAuthSchemes = authSchemes
+        } else {
+            resolvedAuthSchemes.append(SigV4AuthScheme())
+            // These AWS services use SigV4A auth scheme.
+            if ["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceSpecific?.serviceName) {
+                resolvedAuthSchemes.append(SigV4AAuthScheme())
+            }
+        }
         let resolvedAppID = AppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
-            authSchemes,
+            resolvedAuthSchemes,
             endpoint,
             serviceSpecific,
             resolvedRegion,
@@ -259,10 +269,20 @@ extension AWSClientConfiguration {
             profileName: nil,
             fileBasedConfig: fileBasedConfig
         )
+        var resolvedAuthSchemes: [ClientRuntime.AuthScheme] = []
+        if let authSchemes = authSchemes {
+            resolvedAuthSchemes = authSchemes
+        } else {
+            resolvedAuthSchemes.append(SigV4AuthScheme())
+            // These AWS services use SigV4A auth scheme.
+            if ["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceSpecific?.serviceName) {
+                resolvedAuthSchemes.append(SigV4AAuthScheme())
+            }
+        }
         let resolvedAppID = AppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
-            authSchemes,
+            resolvedAuthSchemes,
             endpoint,
             serviceSpecific,
             region,

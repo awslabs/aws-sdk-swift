@@ -23,9 +23,12 @@ public class NeptuneGraphClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
+<<<<<<< HEAD
         var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
         modeledAuthSchemes.append(SigV4AuthScheme())
         config.authSchemes = config.authSchemes ?? modeledAuthSchemes
+=======
+>>>>>>> temp-main
         self.config = config
     }
 
@@ -45,6 +48,7 @@ extension NeptuneGraphClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
+<<<<<<< HEAD
         public typealias AWSAuthSchemeResolver = NeptuneGraphAuthSchemeResolver
 
         public var serviceName: String { "Neptune Graph" }
@@ -55,6 +59,15 @@ extension NeptuneGraphClient {
         public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: NeptuneGraphAuthSchemeResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.authSchemeResolver = authSchemeResolver ?? DefaultNeptuneGraphAuthSchemeResolver()
+=======
+
+        public var serviceName: String { "Neptune Graph" }
+        public var clientName: String { "NeptuneGraphClient" }
+        public var endpointResolver: EndpointResolver
+
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+>>>>>>> temp-main
         }
     }
 }
@@ -100,11 +113,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -115,9 +132,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CancelImportTaskOutput, CancelImportTaskOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelImportTaskOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CancelImportTaskOutput, CancelImportTaskOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelImportTaskOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelImportTaskOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(CancelImportTaskOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -151,11 +174,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -166,12 +193,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGraphOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateGraphOutput, CreateGraphOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGraphInput, CreateGraphOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGraphInput, CreateGraphOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGraphOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateGraphOutput, CreateGraphOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGraphOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGraphOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGraphOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGraphOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -206,11 +241,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -221,12 +260,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGraphSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateGraphSnapshotOutput, CreateGraphSnapshotOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGraphSnapshotInput, CreateGraphSnapshotOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGraphSnapshotInput, CreateGraphSnapshotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGraphSnapshotOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateGraphSnapshotOutput, CreateGraphSnapshotOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGraphSnapshotOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGraphSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGraphSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGraphSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -260,11 +307,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -275,12 +326,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGraphUsingImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateGraphUsingImportTaskOutput, CreateGraphUsingImportTaskOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGraphUsingImportTaskInput, CreateGraphUsingImportTaskOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGraphUsingImportTaskInput, CreateGraphUsingImportTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGraphUsingImportTaskOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateGraphUsingImportTaskOutput, CreateGraphUsingImportTaskOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGraphUsingImportTaskOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGraphUsingImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGraphUsingImportTaskOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGraphUsingImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -315,11 +374,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -330,12 +393,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePrivateGraphEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreatePrivateGraphEndpointOutput, CreatePrivateGraphEndpointOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePrivateGraphEndpointInput, CreatePrivateGraphEndpointOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePrivateGraphEndpointInput, CreatePrivateGraphEndpointOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePrivateGraphEndpointOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreatePrivateGraphEndpointOutput, CreatePrivateGraphEndpointOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePrivateGraphEndpointOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePrivateGraphEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePrivateGraphEndpointOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePrivateGraphEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -369,11 +440,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -384,10 +459,17 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGraphOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteGraphOutput, DeleteGraphOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteGraphInput, DeleteGraphOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGraphOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteGraphOutput, DeleteGraphOutputError>())
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteGraphInput, DeleteGraphOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGraphOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGraphOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGraphOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGraphOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGraphOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -421,11 +503,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -436,9 +522,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGraphSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteGraphSnapshotOutput, DeleteGraphSnapshotOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGraphSnapshotOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteGraphSnapshotOutput, DeleteGraphSnapshotOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGraphSnapshotOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGraphSnapshotOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGraphSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGraphSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGraphSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -472,11 +564,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -487,9 +583,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePrivateGraphEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeletePrivateGraphEndpointOutput, DeletePrivateGraphEndpointOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePrivateGraphEndpointOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePrivateGraphEndpointOutput, DeletePrivateGraphEndpointOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePrivateGraphEndpointOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePrivateGraphEndpointOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePrivateGraphEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePrivateGraphEndpointOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePrivateGraphEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -522,11 +624,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -537,9 +643,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGraphOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetGraphOutput, GetGraphOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetGraphOutput, GetGraphOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGraphOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGraphOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGraphOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGraphOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -572,11 +684,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -587,9 +703,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGraphSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetGraphSnapshotOutput, GetGraphSnapshotOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphSnapshotOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetGraphSnapshotOutput, GetGraphSnapshotOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphSnapshotOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGraphSnapshotOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGraphSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGraphSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGraphSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -622,11 +744,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -637,9 +763,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetImportTaskOutput, GetImportTaskOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImportTaskOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetImportTaskOutput, GetImportTaskOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImportTaskOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImportTaskOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetImportTaskOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -672,11 +804,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -687,9 +823,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPrivateGraphEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetPrivateGraphEndpointOutput, GetPrivateGraphEndpointOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPrivateGraphEndpointOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetPrivateGraphEndpointOutput, GetPrivateGraphEndpointOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPrivateGraphEndpointOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPrivateGraphEndpointOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPrivateGraphEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPrivateGraphEndpointOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPrivateGraphEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -722,11 +864,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -737,10 +883,17 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGraphSnapshotsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListGraphSnapshotsOutput, ListGraphSnapshotsOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGraphSnapshotsInput, ListGraphSnapshotsOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGraphSnapshotsOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListGraphSnapshotsOutput, ListGraphSnapshotsOutputError>())
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGraphSnapshotsInput, ListGraphSnapshotsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGraphSnapshotsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGraphSnapshotsOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGraphSnapshotsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGraphSnapshotsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGraphSnapshotsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -772,11 +925,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -787,10 +944,17 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGraphsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListGraphsOutput, ListGraphsOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGraphsInput, ListGraphsOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGraphsOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListGraphsOutput, ListGraphsOutputError>())
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGraphsInput, ListGraphsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGraphsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGraphsOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGraphsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGraphsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGraphsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -823,11 +987,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -838,10 +1006,17 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportTasksOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListImportTasksOutput, ListImportTasksOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListImportTasksInput, ListImportTasksOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportTasksOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListImportTasksOutput, ListImportTasksOutputError>())
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListImportTasksInput, ListImportTasksOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportTasksOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportTasksOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportTasksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListImportTasksOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportTasksOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -874,11 +1049,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -889,10 +1068,17 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPrivateGraphEndpointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPrivateGraphEndpointsOutput, ListPrivateGraphEndpointsOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPrivateGraphEndpointsInput, ListPrivateGraphEndpointsOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPrivateGraphEndpointsOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPrivateGraphEndpointsOutput, ListPrivateGraphEndpointsOutputError>())
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPrivateGraphEndpointsInput, ListPrivateGraphEndpointsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPrivateGraphEndpointsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPrivateGraphEndpointsOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPrivateGraphEndpointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPrivateGraphEndpointsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPrivateGraphEndpointsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -925,11 +1111,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -940,9 +1130,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+=======
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -976,11 +1172,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -991,12 +1191,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetGraphOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ResetGraphOutput, ResetGraphOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetGraphInput, ResetGraphOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResetGraphInput, ResetGraphOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetGraphOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ResetGraphOutput, ResetGraphOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetGraphOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetGraphOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetGraphOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetGraphOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1031,11 +1239,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -1046,12 +1258,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreGraphFromSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RestoreGraphFromSnapshotOutput, RestoreGraphFromSnapshotOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreGraphFromSnapshotInput, RestoreGraphFromSnapshotOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RestoreGraphFromSnapshotInput, RestoreGraphFromSnapshotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreGraphFromSnapshotOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RestoreGraphFromSnapshotOutput, RestoreGraphFromSnapshotOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreGraphFromSnapshotOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreGraphFromSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestoreGraphFromSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreGraphFromSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1084,11 +1304,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -1099,12 +1323,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput, TagResourceOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput, TagResourceOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1137,11 +1369,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -1152,10 +1388,17 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1189,11 +1432,15 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+<<<<<<< HEAD
                       .withAuthSchemes(value: config.authSchemes!)
                       .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
+=======
+                      .withCredentialsProvider(value: config.credentialsProvider)
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "neptune-graph")
                       .withSigningRegion(value: config.signingRegion)
@@ -1204,12 +1451,20 @@ extension NeptuneGraphClient: NeptuneGraphClientProtocol {
         let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGraphOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+<<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateGraphOutput, UpdateGraphOutputError>())
+=======
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGraphInput, UpdateGraphOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateGraphInput, UpdateGraphOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGraphOutput>(options: config.retryStrategyOptions))
+<<<<<<< HEAD
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateGraphOutput, UpdateGraphOutputError>())
+=======
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGraphOutput>(config: sigv4Config))
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGraphOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGraphOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGraphOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

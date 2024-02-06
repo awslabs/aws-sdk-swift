@@ -17,10 +17,11 @@ extension AccessDeniedException {
     }
 }
 
-/// You do not have sufficient access to perform this action.
+/// You don't have sufficient access permissions to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -55,6 +56,176 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension KeyspacesClientTypes.AutoScalingPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case targetTrackingScalingPolicyConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let targetTrackingScalingPolicyConfiguration = self.targetTrackingScalingPolicyConfiguration {
+            try encodeContainer.encode(targetTrackingScalingPolicyConfiguration, forKey: .targetTrackingScalingPolicyConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetTrackingScalingPolicyConfigurationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration.self, forKey: .targetTrackingScalingPolicyConfiguration)
+        targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfigurationDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You define the target value as a percentage between 20 and 90.
+    public struct AutoScalingPolicy: Swift.Equatable {
+        /// Auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down when it falls below the target. A double between 20 and 90.
+        public var targetTrackingScalingPolicyConfiguration: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration?
+
+        public init(
+            targetTrackingScalingPolicyConfiguration: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration? = nil
+        )
+        {
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
+        }
+    }
+
+}
+
+extension KeyspacesClientTypes.AutoScalingSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingDisabled
+        case maximumUnits
+        case minimumUnits
+        case scalingPolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if autoScalingDisabled != false {
+            try encodeContainer.encode(autoScalingDisabled, forKey: .autoScalingDisabled)
+        }
+        if let maximumUnits = self.maximumUnits {
+            try encodeContainer.encode(maximumUnits, forKey: .maximumUnits)
+        }
+        if let minimumUnits = self.minimumUnits {
+            try encodeContainer.encode(minimumUnits, forKey: .minimumUnits)
+        }
+        if let scalingPolicy = self.scalingPolicy {
+            try encodeContainer.encode(scalingPolicy, forKey: .scalingPolicy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoScalingDisabled) ?? false
+        autoScalingDisabled = autoScalingDisabledDecoded
+        let minimumUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumUnits)
+        minimumUnits = minimumUnitsDecoded
+        let maximumUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumUnits)
+        maximumUnits = maximumUnitsDecoded
+        let scalingPolicyDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingPolicy.self, forKey: .scalingPolicy)
+        scalingPolicy = scalingPolicyDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The optional auto scaling settings for a table with provisioned throughput capacity. To turn on auto scaling for a table in throughputMode:PROVISIONED, you must specify the following parameters. Configure the minimum and maximum units for write and read capacity. The auto scaling policy ensures that capacity never goes below the minimum or above the maximum range.
+    ///
+    /// * minimumUnits: The minimum level of throughput the table should always be ready to support. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
+    ///
+    /// * maximumUnits: The maximum level of throughput the table should always be ready to support. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
+    ///
+    /// * scalingPolicy: Amazon Keyspaces supports the target tracking scaling policy. The auto scaling target is the provisioned read and write capacity of the table.
+    ///
+    /// * targetTrackingScalingPolicyConfiguration: To define the target tracking policy, you must define the target value.
+    ///
+    /// * targetValue: The target utilization rate of the table. Amazon Keyspaces auto scaling ensures that the ratio of consumed capacity to provisioned capacity stays at or near this value. You define targetValue as a percentage. A double between 20 and 90. (Required)
+    ///
+    /// * disableScaleIn: A boolean that specifies if scale-in is disabled or enabled for the table. This parameter is disabled by default. To turn on scale-in, set the boolean value to FALSE. This means that capacity for a table can be automatically scaled down on your behalf. (Optional)
+    ///
+    /// * scaleInCooldown: A cooldown period in seconds between scaling activities that lets the table stabilize before another scale in activity starts. If no value is provided, the default is 0. (Optional)
+    ///
+    /// * scaleOutCooldown: A cooldown period in seconds between scaling activities that lets the table stabilize before another scale out activity starts. If no value is provided, the default is 0. (Optional)
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
+    public struct AutoScalingSettings: Swift.Equatable {
+        /// This optional parameter enables auto scaling for the table if set to false.
+        public var autoScalingDisabled: Swift.Bool
+        /// Manage costs by specifying the maximum amount of throughput to provision. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
+        public var maximumUnits: Swift.Int?
+        /// The minimum level of throughput the table should always be ready to support. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
+        public var minimumUnits: Swift.Int?
+        /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You define the target value as a percentage between 20 and 90.
+        public var scalingPolicy: KeyspacesClientTypes.AutoScalingPolicy?
+
+        public init(
+            autoScalingDisabled: Swift.Bool = false,
+            maximumUnits: Swift.Int? = nil,
+            minimumUnits: Swift.Int? = nil,
+            scalingPolicy: KeyspacesClientTypes.AutoScalingPolicy? = nil
+        )
+        {
+            self.autoScalingDisabled = autoScalingDisabled
+            self.maximumUnits = maximumUnits
+            self.minimumUnits = minimumUnits
+            self.scalingPolicy = scalingPolicy
+        }
+    }
+
+}
+
+extension KeyspacesClientTypes.AutoScalingSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case readCapacityAutoScaling
+        case writeCapacityAutoScaling
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let readCapacityAutoScaling = self.readCapacityAutoScaling {
+            try encodeContainer.encode(readCapacityAutoScaling, forKey: .readCapacityAutoScaling)
+        }
+        if let writeCapacityAutoScaling = self.writeCapacityAutoScaling {
+            try encodeContainer.encode(writeCapacityAutoScaling, forKey: .writeCapacityAutoScaling)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let writeCapacityAutoScalingDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSettings.self, forKey: .writeCapacityAutoScaling)
+        writeCapacityAutoScaling = writeCapacityAutoScalingDecoded
+        let readCapacityAutoScalingDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSettings.self, forKey: .readCapacityAutoScaling)
+        readCapacityAutoScaling = readCapacityAutoScalingDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The optional auto scaling settings for read and write capacity of a table in provisioned capacity mode.
+    public struct AutoScalingSpecification: Swift.Equatable {
+        /// The auto scaling settings for the table's read capacity.
+        public var readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
+        /// The auto scaling settings for the table's write capacity.
+        public var writeCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
+
+        public init(
+            readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings? = nil,
+            writeCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings? = nil
+        )
+        {
+            self.readCapacityAutoScaling = readCapacityAutoScaling
+            self.writeCapacityAutoScaling = writeCapacityAutoScaling
+        }
+    }
+
 }
 
 extension KeyspacesClientTypes.CapacitySpecification: Swift.Codable {
@@ -417,10 +588,11 @@ extension ConflictException {
     }
 }
 
-/// Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+/// Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -603,6 +775,7 @@ enum CreateKeyspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingSpecification
         case capacitySpecification
         case clientSideTimestamps
         case comment
@@ -610,6 +783,7 @@ extension CreateTableInput: Swift.Encodable {
         case encryptionSpecification
         case keyspaceName
         case pointInTimeRecovery
+        case replicaSpecifications
         case schemaDefinition
         case tableName
         case tags
@@ -618,6 +792,9 @@ extension CreateTableInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingSpecification = self.autoScalingSpecification {
+            try encodeContainer.encode(autoScalingSpecification, forKey: .autoScalingSpecification)
+        }
         if let capacitySpecification = self.capacitySpecification {
             try encodeContainer.encode(capacitySpecification, forKey: .capacitySpecification)
         }
@@ -638,6 +815,12 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let pointInTimeRecovery = self.pointInTimeRecovery {
             try encodeContainer.encode(pointInTimeRecovery, forKey: .pointInTimeRecovery)
+        }
+        if let replicaSpecifications = replicaSpecifications {
+            var replicaSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaSpecifications)
+            for replicaspecification0 in replicaSpecifications {
+                try replicaSpecificationsContainer.encode(replicaspecification0)
+            }
         }
         if let schemaDefinition = self.schemaDefinition {
             try encodeContainer.encode(schemaDefinition, forKey: .schemaDefinition)
@@ -664,6 +847,8 @@ extension CreateTableInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateTableInput: Swift.Equatable {
+    /// The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
+    public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Specifies the read/write throughput capacity mode for the table. The options are:
     ///
     /// * throughputMode:PAY_PER_REQUEST and
@@ -705,6 +890,14 @@ public struct CreateTableInput: Swift.Equatable {
     ///
     /// If it's not specified, the default is status=DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public var pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery?
+    /// The optional Amazon Web Services Region specific settings of a multi-Region table. These settings overwrite the general settings of the table for the specified Region. For a multi-Region table in provisioned capacity mode, you can configure the table's read capacity differently for each Region's replica. The write capacity, however, remains synchronized between all replicas to ensure that there's enough capacity to replicate writes across all Regions. To define the read capacity for a table replica in a specific Region, you can do so by configuring the following parameters.
+    ///
+    /// * region: The Region where these settings are applied. (Required)
+    ///
+    /// * readCapacityUnits: The provisioned read capacity units. (Optional)
+    ///
+    /// * readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
+    public var replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]?
     /// The schemaDefinition consists of the following parameters. For each column to be created:
     ///
     /// * name - The name of the column.
@@ -745,6 +938,7 @@ public struct CreateTableInput: Swift.Equatable {
     public var ttl: KeyspacesClientTypes.TimeToLive?
 
     public init(
+        autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
         capacitySpecification: KeyspacesClientTypes.CapacitySpecification? = nil,
         clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         comment: KeyspacesClientTypes.Comment? = nil,
@@ -752,12 +946,14 @@ public struct CreateTableInput: Swift.Equatable {
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
         keyspaceName: Swift.String? = nil,
         pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery? = nil,
+        replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]? = nil,
         schemaDefinition: KeyspacesClientTypes.SchemaDefinition? = nil,
         tableName: Swift.String? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil,
         ttl: KeyspacesClientTypes.TimeToLive? = nil
     )
     {
+        self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
         self.clientSideTimestamps = clientSideTimestamps
         self.comment = comment
@@ -765,6 +961,7 @@ public struct CreateTableInput: Swift.Equatable {
         self.encryptionSpecification = encryptionSpecification
         self.keyspaceName = keyspaceName
         self.pointInTimeRecovery = pointInTimeRecovery
+        self.replicaSpecifications = replicaSpecifications
         self.schemaDefinition = schemaDefinition
         self.tableName = tableName
         self.tags = tags
@@ -784,10 +981,13 @@ struct CreateTableInputBody: Swift.Equatable {
     let defaultTimeToLive: Swift.Int?
     let tags: [KeyspacesClientTypes.Tag]?
     let clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
+    let autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
+    let replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingSpecification
         case capacitySpecification
         case clientSideTimestamps
         case comment
@@ -795,6 +995,7 @@ extension CreateTableInputBody: Swift.Decodable {
         case encryptionSpecification
         case keyspaceName
         case pointInTimeRecovery
+        case replicaSpecifications
         case schemaDefinition
         case tableName
         case tags
@@ -834,6 +1035,60 @@ extension CreateTableInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientSideTimestampsDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestamps.self, forKey: .clientSideTimestamps)
         clientSideTimestamps = clientSideTimestampsDecoded
+        let autoScalingSpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSpecification.self, forKey: .autoScalingSpecification)
+        autoScalingSpecification = autoScalingSpecificationDecoded
+        let replicaSpecificationsContainer = try containerValues.decodeIfPresent([KeyspacesClientTypes.ReplicaSpecification?].self, forKey: .replicaSpecifications)
+        var replicaSpecificationsDecoded0:[KeyspacesClientTypes.ReplicaSpecification]? = nil
+        if let replicaSpecificationsContainer = replicaSpecificationsContainer {
+            replicaSpecificationsDecoded0 = [KeyspacesClientTypes.ReplicaSpecification]()
+            for structure0 in replicaSpecificationsContainer {
+                if let structure0 = structure0 {
+                    replicaSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicaSpecifications = replicaSpecificationsDecoded0
+    }
+}
+
+extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourceArn = output.resourceArn
+        } else {
+            self.resourceArn = nil
+        }
+    }
+}
+
+public struct CreateTableOutput: Swift.Equatable {
+    /// The unique identifier of the table in the format of an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct CreateTableOutputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension CreateTableOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
     }
 }
 
@@ -1292,6 +1547,177 @@ enum GetKeyspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetTableAutoScalingSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyspaceName
+        case tableName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyspaceName = self.keyspaceName {
+            try encodeContainer.encode(keyspaceName, forKey: .keyspaceName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension GetTableAutoScalingSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetTableAutoScalingSettingsInput: Swift.Equatable {
+    /// The name of the keyspace.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        keyspaceName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.keyspaceName = keyspaceName
+        self.tableName = tableName
+    }
+}
+
+struct GetTableAutoScalingSettingsInputBody: Swift.Equatable {
+    let keyspaceName: Swift.String?
+    let tableName: Swift.String?
+}
+
+extension GetTableAutoScalingSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyspaceName
+        case tableName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyspaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyspaceName)
+        keyspaceName = keyspaceNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+    }
+}
+
+extension GetTableAutoScalingSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTableAutoScalingSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.autoScalingSpecification = output.autoScalingSpecification
+            self.keyspaceName = output.keyspaceName
+            self.replicaSpecifications = output.replicaSpecifications
+            self.resourceArn = output.resourceArn
+            self.tableName = output.tableName
+        } else {
+            self.autoScalingSpecification = nil
+            self.keyspaceName = nil
+            self.replicaSpecifications = nil
+            self.resourceArn = nil
+            self.tableName = nil
+        }
+    }
+}
+
+public struct GetTableAutoScalingSettingsOutput: Swift.Equatable {
+    /// The auto scaling settings of the table.
+    public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
+    /// The name of the keyspace.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The Amazon Web Services Region specific settings of a multi-Region table. Returns the settings for all Regions the table is replicated in.
+    public var replicaSpecifications: [KeyspacesClientTypes.ReplicaAutoScalingSpecification]?
+    /// The Amazon Resource Name (ARN) of the table.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
+        keyspaceName: Swift.String? = nil,
+        replicaSpecifications: [KeyspacesClientTypes.ReplicaAutoScalingSpecification]? = nil,
+        resourceArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.autoScalingSpecification = autoScalingSpecification
+        self.keyspaceName = keyspaceName
+        self.replicaSpecifications = replicaSpecifications
+        self.resourceArn = resourceArn
+        self.tableName = tableName
+    }
+}
+
+struct GetTableAutoScalingSettingsOutputBody: Swift.Equatable {
+    let keyspaceName: Swift.String?
+    let tableName: Swift.String?
+    let resourceArn: Swift.String?
+    let autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
+    let replicaSpecifications: [KeyspacesClientTypes.ReplicaAutoScalingSpecification]?
+}
+
+extension GetTableAutoScalingSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingSpecification
+        case keyspaceName
+        case replicaSpecifications
+        case resourceArn
+        case tableName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyspaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyspaceName)
+        keyspaceName = keyspaceNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let autoScalingSpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSpecification.self, forKey: .autoScalingSpecification)
+        autoScalingSpecification = autoScalingSpecificationDecoded
+        let replicaSpecificationsContainer = try containerValues.decodeIfPresent([KeyspacesClientTypes.ReplicaAutoScalingSpecification?].self, forKey: .replicaSpecifications)
+        var replicaSpecificationsDecoded0:[KeyspacesClientTypes.ReplicaAutoScalingSpecification]? = nil
+        if let replicaSpecificationsContainer = replicaSpecificationsContainer {
+            replicaSpecificationsDecoded0 = [KeyspacesClientTypes.ReplicaAutoScalingSpecification]()
+            for structure0 in replicaSpecificationsContainer {
+                if let structure0 = structure0 {
+                    replicaSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicaSpecifications = replicaSpecificationsDecoded0
+    }
+}
+
+enum GetTableAutoScalingSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> temp-main
 extension GetTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
@@ -1366,6 +1792,7 @@ extension GetTableOutput: ClientRuntime.HttpResponseBinding {
             self.encryptionSpecification = output.encryptionSpecification
             self.keyspaceName = output.keyspaceName
             self.pointInTimeRecovery = output.pointInTimeRecovery
+            self.replicaSpecifications = output.replicaSpecifications
             self.resourceArn = output.resourceArn
             self.schemaDefinition = output.schemaDefinition
             self.status = output.status
@@ -1380,6 +1807,7 @@ extension GetTableOutput: ClientRuntime.HttpResponseBinding {
             self.encryptionSpecification = nil
             self.keyspaceName = nil
             self.pointInTimeRecovery = nil
+            self.replicaSpecifications = nil
             self.resourceArn = nil
             self.schemaDefinition = nil
             self.status = nil
@@ -1411,6 +1839,8 @@ public struct GetTableOutput: Swift.Equatable {
     public var keyspaceName: Swift.String?
     /// The point-in-time recovery status of the specified table.
     public var pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecoverySummary?
+    /// Returns the Amazon Web Services Region specific settings of all Regions a multi-Region table is replicated in.
+    public var replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecificationSummary]?
     /// The Amazon Resource Name (ARN) of the specified table.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1433,6 +1863,7 @@ public struct GetTableOutput: Swift.Equatable {
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
         keyspaceName: Swift.String? = nil,
         pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecoverySummary? = nil,
+        replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecificationSummary]? = nil,
         resourceArn: Swift.String? = nil,
         schemaDefinition: KeyspacesClientTypes.SchemaDefinition? = nil,
         status: KeyspacesClientTypes.TableStatus? = nil,
@@ -1448,6 +1879,7 @@ public struct GetTableOutput: Swift.Equatable {
         self.encryptionSpecification = encryptionSpecification
         self.keyspaceName = keyspaceName
         self.pointInTimeRecovery = pointInTimeRecovery
+        self.replicaSpecifications = replicaSpecifications
         self.resourceArn = resourceArn
         self.schemaDefinition = schemaDefinition
         self.status = status
@@ -1470,6 +1902,7 @@ struct GetTableOutputBody: Swift.Equatable {
     let defaultTimeToLive: Swift.Int?
     let comment: KeyspacesClientTypes.Comment?
     let clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
+    let replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecificationSummary]?
 }
 
 extension GetTableOutputBody: Swift.Decodable {
@@ -1482,6 +1915,7 @@ extension GetTableOutputBody: Swift.Decodable {
         case encryptionSpecification
         case keyspaceName
         case pointInTimeRecovery
+        case replicaSpecifications
         case resourceArn
         case schemaDefinition
         case status
@@ -1517,6 +1951,32 @@ extension GetTableOutputBody: Swift.Decodable {
         comment = commentDecoded
         let clientSideTimestampsDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestamps.self, forKey: .clientSideTimestamps)
         clientSideTimestamps = clientSideTimestampsDecoded
+        let replicaSpecificationsContainer = try containerValues.decodeIfPresent([KeyspacesClientTypes.ReplicaSpecificationSummary?].self, forKey: .replicaSpecifications)
+        var replicaSpecificationsDecoded0:[KeyspacesClientTypes.ReplicaSpecificationSummary]? = nil
+        if let replicaSpecificationsContainer = replicaSpecificationsContainer {
+            replicaSpecificationsDecoded0 = [KeyspacesClientTypes.ReplicaSpecificationSummary]()
+            for structure0 in replicaSpecificationsContainer {
+                if let structure0 = structure0 {
+                    replicaSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicaSpecifications = replicaSpecificationsDecoded0
+    }
+}
+
+enum GetTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1554,6 +2014,7 @@ extension InternalServerException {
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2250,6 +2711,175 @@ extension KeyspacesClientTypes {
 
 }
 
+extension KeyspacesClientTypes.ReplicaAutoScalingSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingSpecification
+        case region
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingSpecification = self.autoScalingSpecification {
+            try encodeContainer.encode(autoScalingSpecification, forKey: .autoScalingSpecification)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let autoScalingSpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSpecification.self, forKey: .autoScalingSpecification)
+        autoScalingSpecification = autoScalingSpecificationDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The auto scaling settings of a multi-Region table in the specified Amazon Web Services Region.
+    public struct ReplicaAutoScalingSpecification: Swift.Equatable {
+        /// The auto scaling settings for a multi-Region table in the specified Amazon Web Services Region.
+        public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
+        /// The Amazon Web Services Region.
+        public var region: Swift.String?
+
+        public init(
+            autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.autoScalingSpecification = autoScalingSpecification
+            self.region = region
+        }
+    }
+
+}
+
+extension KeyspacesClientTypes.ReplicaSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case readCapacityAutoScaling
+        case readCapacityUnits
+        case region
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let readCapacityAutoScaling = self.readCapacityAutoScaling {
+            try encodeContainer.encode(readCapacityAutoScaling, forKey: .readCapacityAutoScaling)
+        }
+        if let readCapacityUnits = self.readCapacityUnits {
+            try encodeContainer.encode(readCapacityUnits, forKey: .readCapacityUnits)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits)
+        readCapacityUnits = readCapacityUnitsDecoded
+        let readCapacityAutoScalingDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSettings.self, forKey: .readCapacityAutoScaling)
+        readCapacityAutoScaling = readCapacityAutoScalingDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The Amazon Web Services Region specific settings of a multi-Region table. For a multi-Region table, you can configure the table's read capacity differently per Amazon Web Services Region. You can do this by configuring the following parameters.
+    ///
+    /// * region: The Region where these settings are applied. (Required)
+    ///
+    /// * readCapacityUnits: The provisioned read capacity units. (Optional)
+    ///
+    /// * readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
+    public struct ReplicaSpecification: Swift.Equatable {
+        /// The read capacity auto scaling settings for the multi-Region table in the specified Amazon Web Services Region.
+        public var readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
+        /// The provisioned read capacity units for the multi-Region table in the specified Amazon Web Services Region.
+        public var readCapacityUnits: Swift.Int?
+        /// The Amazon Web Services Region.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings? = nil,
+            readCapacityUnits: Swift.Int? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.readCapacityAutoScaling = readCapacityAutoScaling
+            self.readCapacityUnits = readCapacityUnits
+            self.region = region
+        }
+    }
+
+}
+
+extension KeyspacesClientTypes.ReplicaSpecificationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacitySpecification
+        case region
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacitySpecification = self.capacitySpecification {
+            try encodeContainer.encode(capacitySpecification, forKey: .capacitySpecification)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.TableStatus.self, forKey: .status)
+        status = statusDecoded
+        let capacitySpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.CapacitySpecificationSummary.self, forKey: .capacitySpecification)
+        capacitySpecification = capacitySpecificationDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The Region-specific settings of a multi-Region table in the specified Amazon Web Services Region. If the multi-Region table is using provisioned capacity and has optional auto scaling policies configured, note that the Region specific summary returns both read and write capacity settings. But only Region specific read capacity settings can be configured for a multi-Region table. In a multi-Region table, your write capacity units will be synced across all Amazon Web Services Regions to ensure that there is enough capacity to replicate write events across Regions.
+    public struct ReplicaSpecificationSummary: Swift.Equatable {
+        /// The read/write throughput capacity mode for a table. The options are:
+        ///
+        /// * throughputMode:PAY_PER_REQUEST and
+        ///
+        /// * throughputMode:PROVISIONED.
+        ///
+        ///
+        /// For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
+        public var capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary?
+        /// The Amazon Web Services Region.
+        public var region: Swift.String?
+        /// The status of the multi-Region table in the specified Amazon Web Services Region.
+        public var status: KeyspacesClientTypes.TableStatus?
+
+        public init(
+            capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary? = nil,
+            region: Swift.String? = nil,
+            status: KeyspacesClientTypes.TableStatus? = nil
+        )
+        {
+            self.capacitySpecification = capacitySpecification
+            self.region = region
+            self.status = status
+        }
+    }
+
+}
+
 extension KeyspacesClientTypes.ReplicationSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case regionList
@@ -2333,6 +2963,7 @@ extension ResourceNotFoundException {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Description of the error.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier in the format of Amazon Resource Name (ARN), for the resource not found.
         public internal(set) var resourceArn: Swift.String? = nil
@@ -2379,9 +3010,11 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension RestoreTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingSpecification
         case capacitySpecificationOverride
         case encryptionSpecificationOverride
         case pointInTimeRecoveryOverride
+        case replicaSpecifications
         case restoreTimestamp
         case sourceKeyspaceName
         case sourceTableName
@@ -2392,6 +3025,9 @@ extension RestoreTableInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingSpecification = self.autoScalingSpecification {
+            try encodeContainer.encode(autoScalingSpecification, forKey: .autoScalingSpecification)
+        }
         if let capacitySpecificationOverride = self.capacitySpecificationOverride {
             try encodeContainer.encode(capacitySpecificationOverride, forKey: .capacitySpecificationOverride)
         }
@@ -2400,6 +3036,12 @@ extension RestoreTableInput: Swift.Encodable {
         }
         if let pointInTimeRecoveryOverride = self.pointInTimeRecoveryOverride {
             try encodeContainer.encode(pointInTimeRecoveryOverride, forKey: .pointInTimeRecoveryOverride)
+        }
+        if let replicaSpecifications = replicaSpecifications {
+            var replicaSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaSpecifications)
+            for replicaspecification0 in replicaSpecifications {
+                try replicaSpecificationsContainer.encode(replicaspecification0)
+            }
         }
         if let restoreTimestamp = self.restoreTimestamp {
             try encodeContainer.encodeTimestamp(restoreTimestamp, format: .epochSeconds, forKey: .restoreTimestamp)
@@ -2432,6 +3074,8 @@ extension RestoreTableInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreTableInput: Swift.Equatable {
+    /// The optional auto scaling settings for the restored table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
+    public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Specifies the read/write throughput capacity mode for the target table. The options are:
     ///
     /// * throughputMode:PAY_PER_REQUEST
@@ -2459,6 +3103,8 @@ public struct RestoreTableInput: Swift.Equatable {
     ///
     /// If it's not specified, the default is status=DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public var pointInTimeRecoveryOverride: KeyspacesClientTypes.PointInTimeRecovery?
+    /// The optional Region specific settings of a multi-Regional table.
+    public var replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]?
     /// The restore timestamp in ISO 8601 format.
     public var restoreTimestamp: ClientRuntime.Date?
     /// The keyspace name of the source table.
@@ -2477,9 +3123,11 @@ public struct RestoreTableInput: Swift.Equatable {
     public var targetTableName: Swift.String?
 
     public init(
+        autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
         capacitySpecificationOverride: KeyspacesClientTypes.CapacitySpecification? = nil,
         encryptionSpecificationOverride: KeyspacesClientTypes.EncryptionSpecification? = nil,
         pointInTimeRecoveryOverride: KeyspacesClientTypes.PointInTimeRecovery? = nil,
+        replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]? = nil,
         restoreTimestamp: ClientRuntime.Date? = nil,
         sourceKeyspaceName: Swift.String? = nil,
         sourceTableName: Swift.String? = nil,
@@ -2488,9 +3136,11 @@ public struct RestoreTableInput: Swift.Equatable {
         targetTableName: Swift.String? = nil
     )
     {
+        self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecificationOverride = capacitySpecificationOverride
         self.encryptionSpecificationOverride = encryptionSpecificationOverride
         self.pointInTimeRecoveryOverride = pointInTimeRecoveryOverride
+        self.replicaSpecifications = replicaSpecifications
         self.restoreTimestamp = restoreTimestamp
         self.sourceKeyspaceName = sourceKeyspaceName
         self.sourceTableName = sourceTableName
@@ -2510,13 +3160,17 @@ struct RestoreTableInputBody: Swift.Equatable {
     let encryptionSpecificationOverride: KeyspacesClientTypes.EncryptionSpecification?
     let pointInTimeRecoveryOverride: KeyspacesClientTypes.PointInTimeRecovery?
     let tagsOverride: [KeyspacesClientTypes.Tag]?
+    let autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
+    let replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]?
 }
 
 extension RestoreTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingSpecification
         case capacitySpecificationOverride
         case encryptionSpecificationOverride
         case pointInTimeRecoveryOverride
+        case replicaSpecifications
         case restoreTimestamp
         case sourceKeyspaceName
         case sourceTableName
@@ -2554,6 +3208,60 @@ extension RestoreTableInputBody: Swift.Decodable {
             }
         }
         tagsOverride = tagsOverrideDecoded0
+        let autoScalingSpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSpecification.self, forKey: .autoScalingSpecification)
+        autoScalingSpecification = autoScalingSpecificationDecoded
+        let replicaSpecificationsContainer = try containerValues.decodeIfPresent([KeyspacesClientTypes.ReplicaSpecification?].self, forKey: .replicaSpecifications)
+        var replicaSpecificationsDecoded0:[KeyspacesClientTypes.ReplicaSpecification]? = nil
+        if let replicaSpecificationsContainer = replicaSpecificationsContainer {
+            replicaSpecificationsDecoded0 = [KeyspacesClientTypes.ReplicaSpecification]()
+            for structure0 in replicaSpecificationsContainer {
+                if let structure0 = structure0 {
+                    replicaSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicaSpecifications = replicaSpecificationsDecoded0
+    }
+}
+
+extension RestoreTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.restoredTableARN = output.restoredTableARN
+        } else {
+            self.restoredTableARN = nil
+        }
+    }
+}
+
+public struct RestoreTableOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the restored table.
+    /// This member is required.
+    public var restoredTableARN: Swift.String?
+
+    public init(
+        restoredTableARN: Swift.String? = nil
+    )
+    {
+        self.restoredTableARN = restoredTableARN
+    }
+}
+
+struct RestoreTableOutputBody: Swift.Equatable {
+    let restoredTableARN: Swift.String?
+}
+
+extension RestoreTableOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoredTableARN
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoredTableARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoredTableARN)
+        restoredTableARN = restoredTableARNDecoded
     }
 }
 
@@ -2780,6 +3488,7 @@ extension ServiceQuotaExceededException {
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3134,6 +3843,75 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case disableScaleIn
+        case scaleInCooldown
+        case scaleOutCooldown
+        case targetValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if disableScaleIn != false {
+            try encodeContainer.encode(disableScaleIn, forKey: .disableScaleIn)
+        }
+        if scaleInCooldown != 0 {
+            try encodeContainer.encode(scaleInCooldown, forKey: .scaleInCooldown)
+        }
+        if scaleOutCooldown != 0 {
+            try encodeContainer.encode(scaleOutCooldown, forKey: .scaleOutCooldown)
+        }
+        if targetValue != 0.0 {
+            try encodeContainer.encode(targetValue, forKey: .targetValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let disableScaleInDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableScaleIn) ?? false
+        disableScaleIn = disableScaleInDecoded
+        let scaleInCooldownDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scaleInCooldown) ?? 0
+        scaleInCooldown = scaleInCooldownDecoded
+        let scaleOutCooldownDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scaleOutCooldown) ?? 0
+        scaleOutCooldown = scaleOutCooldownDecoded
+        let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue) ?? 0.0
+        targetValue = targetValueDecoded
+    }
+}
+
+extension KeyspacesClientTypes {
+    /// The auto scaling policy that scales a table based on the ratio of consumed to provisioned capacity.
+    public struct TargetTrackingScalingPolicyConfiguration: Swift.Equatable {
+        /// Specifies if scale-in is enabled. When auto scaling automatically decreases capacity for a table, the table scales in. When scaling policies are set, they can't scale in the table lower than its minimum capacity.
+        public var disableScaleIn: Swift.Bool
+        /// Specifies a scale-in cool down period. A cooldown period in seconds between scaling activities that lets the table stabilize before another scaling activity starts.
+        public var scaleInCooldown: Swift.Int
+        /// Specifies a scale out cool down period. A cooldown period in seconds between scaling activities that lets the table stabilize before another scaling activity starts.
+        public var scaleOutCooldown: Swift.Int
+        /// Specifies the target value for the target tracking auto scaling policy. Amazon Keyspaces auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down when it falls below the target. This ensures that the ratio of consumed capacity to provisioned capacity stays at or near this value. You define targetValue as a percentage. A double between 20 and 90.
+        /// This member is required.
+        public var targetValue: Swift.Double
+
+        public init(
+            disableScaleIn: Swift.Bool = false,
+            scaleInCooldown: Swift.Int = 0,
+            scaleOutCooldown: Swift.Int = 0,
+            targetValue: Swift.Double = 0.0
+        )
+        {
+            self.disableScaleIn = disableScaleIn
+            self.scaleInCooldown = scaleInCooldown
+            self.scaleOutCooldown = scaleOutCooldown
+            self.targetValue = targetValue
+        }
+    }
+
+}
+
+>>>>>>> temp-main
 extension KeyspacesClientTypes {
     public enum ThroughputMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case payPerRequest
@@ -3333,12 +4111,14 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addColumns
+        case autoScalingSpecification
         case capacitySpecification
         case clientSideTimestamps
         case defaultTimeToLive
         case encryptionSpecification
         case keyspaceName
         case pointInTimeRecovery
+        case replicaSpecifications
         case tableName
         case ttl
     }
@@ -3350,6 +4130,9 @@ extension UpdateTableInput: Swift.Encodable {
             for columndefinition0 in addColumns {
                 try addColumnsContainer.encode(columndefinition0)
             }
+        }
+        if let autoScalingSpecification = self.autoScalingSpecification {
+            try encodeContainer.encode(autoScalingSpecification, forKey: .autoScalingSpecification)
         }
         if let capacitySpecification = self.capacitySpecification {
             try encodeContainer.encode(capacitySpecification, forKey: .capacitySpecification)
@@ -3368,6 +4151,12 @@ extension UpdateTableInput: Swift.Encodable {
         }
         if let pointInTimeRecovery = self.pointInTimeRecovery {
             try encodeContainer.encode(pointInTimeRecovery, forKey: .pointInTimeRecovery)
+        }
+        if let replicaSpecifications = replicaSpecifications {
+            var replicaSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaSpecifications)
+            for replicaspecification0 in replicaSpecifications {
+                try replicaSpecificationsContainer.encode(replicaspecification0)
+            }
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -3391,6 +4180,8 @@ public struct UpdateTableInput: Swift.Equatable {
     ///
     /// * type - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types) in the Amazon Keyspaces Developer Guide.
     public var addColumns: [KeyspacesClientTypes.ColumnDefinition]?
+    /// The optional auto scaling settings to update for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. If auto scaling is already enabled for the table, you can use UpdateTable to update the minimum and maximum values or the auto scaling policy settings independently. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
+    public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Modifies the read/write throughput capacity mode for the table. The options are:
     ///
     /// * throughputMode:PAY_PER_REQUEST and
@@ -3430,6 +4221,8 @@ public struct UpdateTableInput: Swift.Equatable {
     ///
     /// If it's not specified, the default is status=DISABLED. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
     public var pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery?
+    /// The Region specific settings of a multi-Regional table.
+    public var replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]?
     /// The name of the table.
     /// This member is required.
     public var tableName: Swift.String?
@@ -3445,23 +4238,27 @@ public struct UpdateTableInput: Swift.Equatable {
 
     public init(
         addColumns: [KeyspacesClientTypes.ColumnDefinition]? = nil,
+        autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
         capacitySpecification: KeyspacesClientTypes.CapacitySpecification? = nil,
         clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         defaultTimeToLive: Swift.Int? = nil,
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
         keyspaceName: Swift.String? = nil,
         pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery? = nil,
+        replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]? = nil,
         tableName: Swift.String? = nil,
         ttl: KeyspacesClientTypes.TimeToLive? = nil
     )
     {
         self.addColumns = addColumns
+        self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
         self.clientSideTimestamps = clientSideTimestamps
         self.defaultTimeToLive = defaultTimeToLive
         self.encryptionSpecification = encryptionSpecification
         self.keyspaceName = keyspaceName
         self.pointInTimeRecovery = pointInTimeRecovery
+        self.replicaSpecifications = replicaSpecifications
         self.tableName = tableName
         self.ttl = ttl
     }
@@ -3477,17 +4274,21 @@ struct UpdateTableInputBody: Swift.Equatable {
     let ttl: KeyspacesClientTypes.TimeToLive?
     let defaultTimeToLive: Swift.Int?
     let clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
+    let autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
+    let replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]?
 }
 
 extension UpdateTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addColumns
+        case autoScalingSpecification
         case capacitySpecification
         case clientSideTimestamps
         case defaultTimeToLive
         case encryptionSpecification
         case keyspaceName
         case pointInTimeRecovery
+        case replicaSpecifications
         case tableName
         case ttl
     }
@@ -3521,6 +4322,60 @@ extension UpdateTableInputBody: Swift.Decodable {
         defaultTimeToLive = defaultTimeToLiveDecoded
         let clientSideTimestampsDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.ClientSideTimestamps.self, forKey: .clientSideTimestamps)
         clientSideTimestamps = clientSideTimestampsDecoded
+        let autoScalingSpecificationDecoded = try containerValues.decodeIfPresent(KeyspacesClientTypes.AutoScalingSpecification.self, forKey: .autoScalingSpecification)
+        autoScalingSpecification = autoScalingSpecificationDecoded
+        let replicaSpecificationsContainer = try containerValues.decodeIfPresent([KeyspacesClientTypes.ReplicaSpecification?].self, forKey: .replicaSpecifications)
+        var replicaSpecificationsDecoded0:[KeyspacesClientTypes.ReplicaSpecification]? = nil
+        if let replicaSpecificationsContainer = replicaSpecificationsContainer {
+            replicaSpecificationsDecoded0 = [KeyspacesClientTypes.ReplicaSpecification]()
+            for structure0 in replicaSpecificationsContainer {
+                if let structure0 = structure0 {
+                    replicaSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicaSpecifications = replicaSpecificationsDecoded0
+    }
+}
+
+extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourceArn = output.resourceArn
+        } else {
+            self.resourceArn = nil
+        }
+    }
+}
+
+public struct UpdateTableOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the modified table.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct UpdateTableOutputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension UpdateTableOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
     }
 }
 
@@ -3600,6 +4455,7 @@ extension ValidationException {
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
 

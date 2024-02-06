@@ -568,7 +568,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager-fips.us-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -588,7 +588,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager.us-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -688,7 +688,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -788,7 +788,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -808,7 +808,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager.us-gov-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://secretsmanager.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

@@ -5580,7 +5580,14 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
     public var enableGlobalWriteForwarding: Swift.Bool?
-    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see [Using the Data API for Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. RDS Data API is supported with the following DB clusters:
+    ///
+    /// * Aurora PostgreSQL Serverless v2 and provisioned
+    ///
+    /// * Aurora PostgreSQL and Aurora MySQL Serverless v1
+    ///
+    ///
+    /// For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -12324,7 +12331,7 @@ extension RDSClientTypes {
         public var globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus?
         /// The ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
-        /// Indicates whether the HTTP endpoint for an Aurora Serverless v1 DB cluster is enabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see [Using the Data API for Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide.
+        /// Indicates whether the HTTP endpoint is enabled for an Aurora DB cluster. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide.
         public var httpEndpointEnabled: Swift.Bool?
         /// Indicates whether the mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
@@ -33106,6 +33113,117 @@ enum DescribeValidDBInstanceModificationsOutputError: ClientRuntime.HttpResponse
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DisableHttpEndpointInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+        try container.encode("DisableHttpEndpoint", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DisableHttpEndpointInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DisableHttpEndpointInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the DB cluster.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DisableHttpEndpointInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension DisableHttpEndpointInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension DisableHttpEndpointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisableHttpEndpointOutputBody = try responseDecoder.decode(responseBody: data)
+            self.httpEndpointEnabled = output.httpEndpointEnabled
+            self.resourceArn = output.resourceArn
+        } else {
+            self.httpEndpointEnabled = nil
+            self.resourceArn = nil
+        }
+    }
+}
+
+public struct DisableHttpEndpointOutput: Swift.Equatable {
+    /// Indicates whether the HTTP endpoint is enabled or disabled for the DB cluster.
+    public var httpEndpointEnabled: Swift.Bool?
+    /// The ARN of the DB cluster.
+    public var resourceArn: Swift.String?
+
+    public init(
+        httpEndpointEnabled: Swift.Bool? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.httpEndpointEnabled = httpEndpointEnabled
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DisableHttpEndpointOutputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let httpEndpointEnabled: Swift.Bool?
+}
+
+extension DisableHttpEndpointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case httpEndpointEnabled = "HttpEndpointEnabled"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DisableHttpEndpointResult"))
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let httpEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .httpEndpointEnabled)
+        httpEndpointEnabled = httpEndpointEnabledDecoded
+    }
+}
+
+enum DisableHttpEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+>>>>>>> temp-main
 extension RDSClientTypes.DocLink: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case text = "Text"
@@ -33657,6 +33775,114 @@ extension Ec2ImagePropertiesNotSupportedFaultBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension EnableHttpEndpointInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+        try container.encode("EnableHttpEndpoint", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension EnableHttpEndpointInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct EnableHttpEndpointInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the DB cluster.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct EnableHttpEndpointInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension EnableHttpEndpointInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension EnableHttpEndpointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableHttpEndpointOutputBody = try responseDecoder.decode(responseBody: data)
+            self.httpEndpointEnabled = output.httpEndpointEnabled
+            self.resourceArn = output.resourceArn
+        } else {
+            self.httpEndpointEnabled = nil
+            self.resourceArn = nil
+        }
+    }
+}
+
+public struct EnableHttpEndpointOutput: Swift.Equatable {
+    /// Indicates whether the HTTP endpoint is enabled or disabled for the DB cluster.
+    public var httpEndpointEnabled: Swift.Bool?
+    /// The ARN of the DB cluster.
+    public var resourceArn: Swift.String?
+
+    public init(
+        httpEndpointEnabled: Swift.Bool? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.httpEndpointEnabled = httpEndpointEnabled
+        self.resourceArn = resourceArn
+    }
+}
+
+struct EnableHttpEndpointOutputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let httpEndpointEnabled: Swift.Bool?
+}
+
+extension EnableHttpEndpointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case httpEndpointEnabled = "HttpEndpointEnabled"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("EnableHttpEndpointResult"))
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let httpEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .httpEndpointEnabled)
+        httpEndpointEnabled = httpEndpointEnabledDecoded
+    }
+}
+
+enum EnableHttpEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -37792,6 +38018,60 @@ extension InvalidOptionGroupStateFaultBody: Swift.Decodable {
     }
 }
 
+extension InvalidResourceStateFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidResourceStateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The operation can't be performed because another operation is in progress.
+public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidResourceStateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidResourceStateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidRestoreFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -40166,7 +40446,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var domainIAMRoleName: Swift.String?
     /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
     public var enableGlobalWriteForwarding: Swift.Bool?
-    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see [Using the Data API for Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     public var enableIAMDatabaseAuthentication: Swift.Bool?

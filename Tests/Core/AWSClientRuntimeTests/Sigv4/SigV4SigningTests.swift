@@ -32,7 +32,7 @@ class Sigv4SigningTests: XCTestCase {
             .withPort(443)
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
-            .withQueryItem(URLQueryItem(name: "%E1%88%B4", value: "bar"))
+            .withQueryItem(SDKURLQueryItem(name: "%E1%88%B4", value: "bar"))
 
         guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
                                                             credentialsProvider: MyCustomCredentialsProvider(),
@@ -77,7 +77,7 @@ class Sigv4SigningTests: XCTestCase {
         
         let signingConfig = try! await context.makeEventStreamSigningConfig(date: epoch.withoutFractionalSeconds())
 
-        let prevSignature = try! "last message sts".data(using: .utf8)!.sha256().encodeToHexString()
+        let prevSignature = try! "last message sts".data(using: .utf8)!.computeSHA256().encodeToHexString()
 
         let messagePayload = try! encoder.encode(message: message)
 
