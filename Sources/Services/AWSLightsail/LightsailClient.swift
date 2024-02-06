@@ -66,7 +66,7 @@ public struct LightsailClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension LightsailClient: LightsailClientProtocol {
+extension LightsailClient {
     /// Performs the `AllocateStaticIp` operation on the `Lightsail_20161128` service.
     ///
     /// Allocates a static IP address.
@@ -85,8 +85,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func allocateStaticIp(input: AllocateStaticIpInput) async throws -> AllocateStaticIpOutput
-    {
+    public func allocateStaticIp(input: AllocateStaticIpInput) async throws -> AllocateStaticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func attachCertificateToDistribution(input: AttachCertificateToDistributionInput) async throws -> AttachCertificateToDistributionOutput
-    {
+    public func attachCertificateToDistribution(input: AttachCertificateToDistributionInput) async throws -> AttachCertificateToDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func attachDisk(input: AttachDiskInput) async throws -> AttachDiskOutput
-    {
+    public func attachDisk(input: AttachDiskInput) async throws -> AttachDiskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func attachInstancesToLoadBalancer(input: AttachInstancesToLoadBalancerInput) async throws -> AttachInstancesToLoadBalancerOutput
-    {
+    public func attachInstancesToLoadBalancer(input: AttachInstancesToLoadBalancerInput) async throws -> AttachInstancesToLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -296,8 +292,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func attachLoadBalancerTlsCertificate(input: AttachLoadBalancerTlsCertificateInput) async throws -> AttachLoadBalancerTlsCertificateOutput
-    {
+    public func attachLoadBalancerTlsCertificate(input: AttachLoadBalancerTlsCertificateInput) async throws -> AttachLoadBalancerTlsCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -349,8 +344,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func attachStaticIp(input: AttachStaticIpInput) async throws -> AttachStaticIpOutput
-    {
+    public func attachStaticIp(input: AttachStaticIpInput) async throws -> AttachStaticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -402,8 +396,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func closeInstancePublicPorts(input: CloseInstancePublicPortsInput) async throws -> CloseInstancePublicPortsOutput
-    {
+    public func closeInstancePublicPorts(input: CloseInstancePublicPortsInput) async throws -> CloseInstancePublicPortsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -455,8 +448,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
-    {
+    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -505,8 +497,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
-    {
+    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -556,8 +547,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createBucketAccessKey(input: CreateBucketAccessKeyInput) async throws -> CreateBucketAccessKeyOutput
-    {
+    public func createBucketAccessKey(input: CreateBucketAccessKeyInput) async throws -> CreateBucketAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -607,8 +597,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createCertificate(input: CreateCertificateInput) async throws -> CreateCertificateOutput
-    {
+    public func createCertificate(input: CreateCertificateInput) async throws -> CreateCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -660,8 +649,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createCloudFormationStack(input: CreateCloudFormationStackInput) async throws -> CreateCloudFormationStackOutput
-    {
+    public func createCloudFormationStack(input: CreateCloudFormationStackInput) async throws -> CreateCloudFormationStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -712,8 +700,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createContactMethod(input: CreateContactMethodInput) async throws -> CreateContactMethodOutput
-    {
+    public func createContactMethod(input: CreateContactMethodInput) async throws -> CreateContactMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -763,8 +750,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createContainerService(input: CreateContainerServiceInput) async throws -> CreateContainerServiceOutput
-    {
+    public func createContainerService(input: CreateContainerServiceInput) async throws -> CreateContainerServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -814,8 +800,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createContainerServiceDeployment(input: CreateContainerServiceDeploymentInput) async throws -> CreateContainerServiceDeploymentOutput
-    {
+    public func createContainerServiceDeployment(input: CreateContainerServiceDeploymentInput) async throws -> CreateContainerServiceDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -865,8 +850,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createContainerServiceRegistryLogin(input: CreateContainerServiceRegistryLoginInput) async throws -> CreateContainerServiceRegistryLoginOutput
-    {
+    public func createContainerServiceRegistryLogin(input: CreateContainerServiceRegistryLoginInput) async throws -> CreateContainerServiceRegistryLoginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +902,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createDisk(input: CreateDiskInput) async throws -> CreateDiskOutput
-    {
+    public func createDisk(input: CreateDiskInput) async throws -> CreateDiskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -971,8 +954,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createDiskFromSnapshot(input: CreateDiskFromSnapshotInput) async throws -> CreateDiskFromSnapshotOutput
-    {
+    public func createDiskFromSnapshot(input: CreateDiskFromSnapshotInput) async throws -> CreateDiskFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1024,8 +1006,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createDiskSnapshot(input: CreateDiskSnapshotInput) async throws -> CreateDiskSnapshotOutput
-    {
+    public func createDiskSnapshot(input: CreateDiskSnapshotInput) async throws -> CreateDiskSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1076,8 +1057,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput
-    {
+    public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1109,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    {
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1182,8 +1161,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createDomainEntry(input: CreateDomainEntryInput) async throws -> CreateDomainEntryOutput
-    {
+    public func createDomainEntry(input: CreateDomainEntryInput) async throws -> CreateDomainEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1233,8 +1211,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createGUISessionAccessDetails(input: CreateGUISessionAccessDetailsInput) async throws -> CreateGUISessionAccessDetailsOutput
-    {
+    public func createGUISessionAccessDetails(input: CreateGUISessionAccessDetailsInput) async throws -> CreateGUISessionAccessDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1286,8 +1263,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createInstanceSnapshot(input: CreateInstanceSnapshotInput) async throws -> CreateInstanceSnapshotOutput
-    {
+    public func createInstanceSnapshot(input: CreateInstanceSnapshotInput) async throws -> CreateInstanceSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1339,8 +1315,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createInstances(input: CreateInstancesInput) async throws -> CreateInstancesOutput
-    {
+    public func createInstances(input: CreateInstancesInput) async throws -> CreateInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1392,8 +1367,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createInstancesFromSnapshot(input: CreateInstancesFromSnapshotInput) async throws -> CreateInstancesFromSnapshotOutput
-    {
+    public func createInstancesFromSnapshot(input: CreateInstancesFromSnapshotInput) async throws -> CreateInstancesFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1445,8 +1419,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput
-    {
+    public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1471,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput
-    {
+    public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1551,8 +1523,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createLoadBalancerTlsCertificate(input: CreateLoadBalancerTlsCertificateInput) async throws -> CreateLoadBalancerTlsCertificateOutput
-    {
+    public func createLoadBalancerTlsCertificate(input: CreateLoadBalancerTlsCertificateInput) async throws -> CreateLoadBalancerTlsCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1604,8 +1575,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createRelationalDatabase(input: CreateRelationalDatabaseInput) async throws -> CreateRelationalDatabaseOutput
-    {
+    public func createRelationalDatabase(input: CreateRelationalDatabaseInput) async throws -> CreateRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1627,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createRelationalDatabaseFromSnapshot(input: CreateRelationalDatabaseFromSnapshotInput) async throws -> CreateRelationalDatabaseFromSnapshotOutput
-    {
+    public func createRelationalDatabaseFromSnapshot(input: CreateRelationalDatabaseFromSnapshotInput) async throws -> CreateRelationalDatabaseFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1679,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func createRelationalDatabaseSnapshot(input: CreateRelationalDatabaseSnapshotInput) async throws -> CreateRelationalDatabaseSnapshotOutput
-    {
+    public func createRelationalDatabaseSnapshot(input: CreateRelationalDatabaseSnapshotInput) async throws -> CreateRelationalDatabaseSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1762,8 +1730,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteAlarm(input: DeleteAlarmInput) async throws -> DeleteAlarmOutput
-    {
+    public func deleteAlarm(input: DeleteAlarmInput) async throws -> DeleteAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1814,8 +1781,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteAutoSnapshot(input: DeleteAutoSnapshotInput) async throws -> DeleteAutoSnapshotOutput
-    {
+    public func deleteAutoSnapshot(input: DeleteAutoSnapshotInput) async throws -> DeleteAutoSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1865,8 +1831,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
-    {
+    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1916,8 +1881,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteBucketAccessKey(input: DeleteBucketAccessKeyInput) async throws -> DeleteBucketAccessKeyOutput
-    {
+    public func deleteBucketAccessKey(input: DeleteBucketAccessKeyInput) async throws -> DeleteBucketAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1967,8 +1931,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
-    {
+    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2019,8 +1982,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteContactMethod(input: DeleteContactMethodInput) async throws -> DeleteContactMethodOutput
-    {
+    public func deleteContactMethod(input: DeleteContactMethodInput) async throws -> DeleteContactMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2070,8 +2032,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteContainerImage(input: DeleteContainerImageInput) async throws -> DeleteContainerImageOutput
-    {
+    public func deleteContainerImage(input: DeleteContainerImageInput) async throws -> DeleteContainerImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2121,8 +2082,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteContainerService(input: DeleteContainerServiceInput) async throws -> DeleteContainerServiceOutput
-    {
+    public func deleteContainerService(input: DeleteContainerServiceInput) async throws -> DeleteContainerServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2174,8 +2134,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteDisk(input: DeleteDiskInput) async throws -> DeleteDiskOutput
-    {
+    public func deleteDisk(input: DeleteDiskInput) async throws -> DeleteDiskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2227,8 +2186,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteDiskSnapshot(input: DeleteDiskSnapshotInput) async throws -> DeleteDiskSnapshotOutput
-    {
+    public func deleteDiskSnapshot(input: DeleteDiskSnapshotInput) async throws -> DeleteDiskSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2279,8 +2237,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput
-    {
+    public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2332,8 +2289,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2385,8 +2341,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteDomainEntry(input: DeleteDomainEntryInput) async throws -> DeleteDomainEntryOutput
-    {
+    public func deleteDomainEntry(input: DeleteDomainEntryInput) async throws -> DeleteDomainEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2438,8 +2393,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput
-    {
+    public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2491,8 +2445,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteInstanceSnapshot(input: DeleteInstanceSnapshotInput) async throws -> DeleteInstanceSnapshotOutput
-    {
+    public func deleteInstanceSnapshot(input: DeleteInstanceSnapshotInput) async throws -> DeleteInstanceSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2544,8 +2497,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput
-    {
+    public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2597,8 +2549,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteKnownHostKeys(input: DeleteKnownHostKeysInput) async throws -> DeleteKnownHostKeysOutput
-    {
+    public func deleteKnownHostKeys(input: DeleteKnownHostKeysInput) async throws -> DeleteKnownHostKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2650,8 +2601,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput
-    {
+    public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2703,8 +2653,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteLoadBalancerTlsCertificate(input: DeleteLoadBalancerTlsCertificateInput) async throws -> DeleteLoadBalancerTlsCertificateOutput
-    {
+    public func deleteLoadBalancerTlsCertificate(input: DeleteLoadBalancerTlsCertificateInput) async throws -> DeleteLoadBalancerTlsCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2756,8 +2705,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteRelationalDatabase(input: DeleteRelationalDatabaseInput) async throws -> DeleteRelationalDatabaseOutput
-    {
+    public func deleteRelationalDatabase(input: DeleteRelationalDatabaseInput) async throws -> DeleteRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2809,8 +2757,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func deleteRelationalDatabaseSnapshot(input: DeleteRelationalDatabaseSnapshotInput) async throws -> DeleteRelationalDatabaseSnapshotOutput
-    {
+    public func deleteRelationalDatabaseSnapshot(input: DeleteRelationalDatabaseSnapshotInput) async throws -> DeleteRelationalDatabaseSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2861,8 +2808,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func detachCertificateFromDistribution(input: DetachCertificateFromDistributionInput) async throws -> DetachCertificateFromDistributionOutput
-    {
+    public func detachCertificateFromDistribution(input: DetachCertificateFromDistributionInput) async throws -> DetachCertificateFromDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2914,8 +2860,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func detachDisk(input: DetachDiskInput) async throws -> DetachDiskOutput
-    {
+    public func detachDisk(input: DetachDiskInput) async throws -> DetachDiskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2967,8 +2912,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func detachInstancesFromLoadBalancer(input: DetachInstancesFromLoadBalancerInput) async throws -> DetachInstancesFromLoadBalancerOutput
-    {
+    public func detachInstancesFromLoadBalancer(input: DetachInstancesFromLoadBalancerInput) async throws -> DetachInstancesFromLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3020,8 +2964,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func detachStaticIp(input: DetachStaticIpInput) async throws -> DetachStaticIpOutput
-    {
+    public func detachStaticIp(input: DetachStaticIpInput) async throws -> DetachStaticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3072,8 +3015,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func disableAddOn(input: DisableAddOnInput) async throws -> DisableAddOnOutput
-    {
+    public func disableAddOn(input: DisableAddOnInput) async throws -> DisableAddOnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3125,8 +3067,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func downloadDefaultKeyPair(input: DownloadDefaultKeyPairInput) async throws -> DownloadDefaultKeyPairOutput
-    {
+    public func downloadDefaultKeyPair(input: DownloadDefaultKeyPairInput) async throws -> DownloadDefaultKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3177,8 +3118,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func enableAddOn(input: EnableAddOnInput) async throws -> EnableAddOnOutput
-    {
+    public func enableAddOn(input: EnableAddOnInput) async throws -> EnableAddOnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3230,8 +3170,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput
-    {
+    public func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3283,8 +3222,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getActiveNames(input: GetActiveNamesInput) async throws -> GetActiveNamesOutput
-    {
+    public func getActiveNames(input: GetActiveNamesInput) async throws -> GetActiveNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3335,8 +3273,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getAlarms(input: GetAlarmsInput) async throws -> GetAlarmsOutput
-    {
+    public func getAlarms(input: GetAlarmsInput) async throws -> GetAlarmsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3387,8 +3324,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getAutoSnapshots(input: GetAutoSnapshotsInput) async throws -> GetAutoSnapshotsOutput
-    {
+    public func getAutoSnapshots(input: GetAutoSnapshotsInput) async throws -> GetAutoSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3440,8 +3376,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getBlueprints(input: GetBlueprintsInput) async throws -> GetBlueprintsOutput
-    {
+    public func getBlueprints(input: GetBlueprintsInput) async throws -> GetBlueprintsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3491,8 +3426,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getBucketAccessKeys(input: GetBucketAccessKeysInput) async throws -> GetBucketAccessKeysOutput
-    {
+    public func getBucketAccessKeys(input: GetBucketAccessKeysInput) async throws -> GetBucketAccessKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3541,8 +3475,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getBucketBundles(input: GetBucketBundlesInput) async throws -> GetBucketBundlesOutput
-    {
+    public func getBucketBundles(input: GetBucketBundlesInput) async throws -> GetBucketBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3592,8 +3525,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getBucketMetricData(input: GetBucketMetricDataInput) async throws -> GetBucketMetricDataOutput
-    {
+    public func getBucketMetricData(input: GetBucketMetricDataInput) async throws -> GetBucketMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3643,8 +3575,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getBuckets(input: GetBucketsInput) async throws -> GetBucketsOutput
-    {
+    public func getBuckets(input: GetBucketsInput) async throws -> GetBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3696,8 +3627,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getBundles(input: GetBundlesInput) async throws -> GetBundlesOutput
-    {
+    public func getBundles(input: GetBundlesInput) async throws -> GetBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3747,8 +3677,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getCertificates(input: GetCertificatesInput) async throws -> GetCertificatesOutput
-    {
+    public func getCertificates(input: GetCertificatesInput) async throws -> GetCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3800,8 +3729,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getCloudFormationStackRecords(input: GetCloudFormationStackRecordsInput) async throws -> GetCloudFormationStackRecordsOutput
-    {
+    public func getCloudFormationStackRecords(input: GetCloudFormationStackRecordsInput) async throws -> GetCloudFormationStackRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3852,8 +3780,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContactMethods(input: GetContactMethodsInput) async throws -> GetContactMethodsOutput
-    {
+    public func getContactMethods(input: GetContactMethodsInput) async throws -> GetContactMethodsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3901,8 +3828,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerAPIMetadata(input: GetContainerAPIMetadataInput) async throws -> GetContainerAPIMetadataOutput
-    {
+    public func getContainerAPIMetadata(input: GetContainerAPIMetadataInput) async throws -> GetContainerAPIMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3952,8 +3878,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerImages(input: GetContainerImagesInput) async throws -> GetContainerImagesOutput
-    {
+    public func getContainerImages(input: GetContainerImagesInput) async throws -> GetContainerImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4003,8 +3928,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerLog(input: GetContainerLogInput) async throws -> GetContainerLogOutput
-    {
+    public func getContainerLog(input: GetContainerLogInput) async throws -> GetContainerLogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4055,8 +3979,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerServiceDeployments(input: GetContainerServiceDeploymentsInput) async throws -> GetContainerServiceDeploymentsOutput
-    {
+    public func getContainerServiceDeployments(input: GetContainerServiceDeploymentsInput) async throws -> GetContainerServiceDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4106,8 +4029,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerServiceMetricData(input: GetContainerServiceMetricDataInput) async throws -> GetContainerServiceMetricDataOutput
-    {
+    public func getContainerServiceMetricData(input: GetContainerServiceMetricDataInput) async throws -> GetContainerServiceMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4158,8 +4080,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerServicePowers(input: GetContainerServicePowersInput) async throws -> GetContainerServicePowersOutput
-    {
+    public func getContainerServicePowers(input: GetContainerServicePowersInput) async throws -> GetContainerServicePowersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4209,8 +4130,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getContainerServices(input: GetContainerServicesInput) async throws -> GetContainerServicesOutput
-    {
+    public func getContainerServices(input: GetContainerServicesInput) async throws -> GetContainerServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4261,8 +4181,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getCostEstimate(input: GetCostEstimateInput) async throws -> GetCostEstimateOutput
-    {
+    public func getCostEstimate(input: GetCostEstimateInput) async throws -> GetCostEstimateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4314,8 +4233,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDisk(input: GetDiskInput) async throws -> GetDiskOutput
-    {
+    public func getDisk(input: GetDiskInput) async throws -> GetDiskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4367,8 +4285,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDiskSnapshot(input: GetDiskSnapshotInput) async throws -> GetDiskSnapshotOutput
-    {
+    public func getDiskSnapshot(input: GetDiskSnapshotInput) async throws -> GetDiskSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4420,8 +4337,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDiskSnapshots(input: GetDiskSnapshotsInput) async throws -> GetDiskSnapshotsOutput
-    {
+    public func getDiskSnapshots(input: GetDiskSnapshotsInput) async throws -> GetDiskSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4473,8 +4389,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDisks(input: GetDisksInput) async throws -> GetDisksOutput
-    {
+    public func getDisks(input: GetDisksInput) async throws -> GetDisksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4525,8 +4440,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDistributionBundles(input: GetDistributionBundlesInput) async throws -> GetDistributionBundlesOutput
-    {
+    public func getDistributionBundles(input: GetDistributionBundlesInput) async throws -> GetDistributionBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4577,8 +4491,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDistributionLatestCacheReset(input: GetDistributionLatestCacheResetInput) async throws -> GetDistributionLatestCacheResetOutput
-    {
+    public func getDistributionLatestCacheReset(input: GetDistributionLatestCacheResetInput) async throws -> GetDistributionLatestCacheResetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4629,8 +4542,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDistributionMetricData(input: GetDistributionMetricDataInput) async throws -> GetDistributionMetricDataOutput
-    {
+    public func getDistributionMetricData(input: GetDistributionMetricDataInput) async throws -> GetDistributionMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4681,8 +4593,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDistributions(input: GetDistributionsInput) async throws -> GetDistributionsOutput
-    {
+    public func getDistributions(input: GetDistributionsInput) async throws -> GetDistributionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4734,8 +4645,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
-    {
+    public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4787,8 +4697,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getDomains(input: GetDomainsInput) async throws -> GetDomainsOutput
-    {
+    public func getDomains(input: GetDomainsInput) async throws -> GetDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4840,8 +4749,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getExportSnapshotRecords(input: GetExportSnapshotRecordsInput) async throws -> GetExportSnapshotRecordsOutput
-    {
+    public func getExportSnapshotRecords(input: GetExportSnapshotRecordsInput) async throws -> GetExportSnapshotRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4893,8 +4801,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput
-    {
+    public func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4946,8 +4853,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstanceAccessDetails(input: GetInstanceAccessDetailsInput) async throws -> GetInstanceAccessDetailsOutput
-    {
+    public func getInstanceAccessDetails(input: GetInstanceAccessDetailsInput) async throws -> GetInstanceAccessDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4999,8 +4905,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstanceMetricData(input: GetInstanceMetricDataInput) async throws -> GetInstanceMetricDataOutput
-    {
+    public func getInstanceMetricData(input: GetInstanceMetricDataInput) async throws -> GetInstanceMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5052,8 +4957,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstancePortStates(input: GetInstancePortStatesInput) async throws -> GetInstancePortStatesOutput
-    {
+    public func getInstancePortStates(input: GetInstancePortStatesInput) async throws -> GetInstancePortStatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5105,8 +5009,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstanceSnapshot(input: GetInstanceSnapshotInput) async throws -> GetInstanceSnapshotOutput
-    {
+    public func getInstanceSnapshot(input: GetInstanceSnapshotInput) async throws -> GetInstanceSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5158,8 +5061,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstanceSnapshots(input: GetInstanceSnapshotsInput) async throws -> GetInstanceSnapshotsOutput
-    {
+    public func getInstanceSnapshots(input: GetInstanceSnapshotsInput) async throws -> GetInstanceSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5211,8 +5113,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstanceState(input: GetInstanceStateInput) async throws -> GetInstanceStateOutput
-    {
+    public func getInstanceState(input: GetInstanceStateInput) async throws -> GetInstanceStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5264,8 +5165,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getInstances(input: GetInstancesInput) async throws -> GetInstancesOutput
-    {
+    public func getInstances(input: GetInstancesInput) async throws -> GetInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5317,8 +5217,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getKeyPair(input: GetKeyPairInput) async throws -> GetKeyPairOutput
-    {
+    public func getKeyPair(input: GetKeyPairInput) async throws -> GetKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5370,8 +5269,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getKeyPairs(input: GetKeyPairsInput) async throws -> GetKeyPairsOutput
-    {
+    public func getKeyPairs(input: GetKeyPairsInput) async throws -> GetKeyPairsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5423,8 +5321,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getLoadBalancer(input: GetLoadBalancerInput) async throws -> GetLoadBalancerOutput
-    {
+    public func getLoadBalancer(input: GetLoadBalancerInput) async throws -> GetLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5476,8 +5373,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getLoadBalancerMetricData(input: GetLoadBalancerMetricDataInput) async throws -> GetLoadBalancerMetricDataOutput
-    {
+    public func getLoadBalancerMetricData(input: GetLoadBalancerMetricDataInput) async throws -> GetLoadBalancerMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5529,8 +5425,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getLoadBalancerTlsCertificates(input: GetLoadBalancerTlsCertificatesInput) async throws -> GetLoadBalancerTlsCertificatesOutput
-    {
+    public func getLoadBalancerTlsCertificates(input: GetLoadBalancerTlsCertificatesInput) async throws -> GetLoadBalancerTlsCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5580,8 +5475,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getLoadBalancerTlsPolicies(input: GetLoadBalancerTlsPoliciesInput) async throws -> GetLoadBalancerTlsPoliciesOutput
-    {
+    public func getLoadBalancerTlsPolicies(input: GetLoadBalancerTlsPoliciesInput) async throws -> GetLoadBalancerTlsPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5633,8 +5527,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getLoadBalancers(input: GetLoadBalancersInput) async throws -> GetLoadBalancersOutput
-    {
+    public func getLoadBalancers(input: GetLoadBalancersInput) async throws -> GetLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5686,8 +5579,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput
-    {
+    public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5739,8 +5631,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getOperations(input: GetOperationsInput) async throws -> GetOperationsOutput
-    {
+    public func getOperations(input: GetOperationsInput) async throws -> GetOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5792,8 +5683,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getOperationsForResource(input: GetOperationsForResourceInput) async throws -> GetOperationsForResourceOutput
-    {
+    public func getOperationsForResource(input: GetOperationsForResourceInput) async throws -> GetOperationsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5845,8 +5735,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRegions(input: GetRegionsInput) async throws -> GetRegionsOutput
-    {
+    public func getRegions(input: GetRegionsInput) async throws -> GetRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5898,8 +5787,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabase(input: GetRelationalDatabaseInput) async throws -> GetRelationalDatabaseOutput
-    {
+    public func getRelationalDatabase(input: GetRelationalDatabaseInput) async throws -> GetRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5951,8 +5839,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseBlueprints(input: GetRelationalDatabaseBlueprintsInput) async throws -> GetRelationalDatabaseBlueprintsOutput
-    {
+    public func getRelationalDatabaseBlueprints(input: GetRelationalDatabaseBlueprintsInput) async throws -> GetRelationalDatabaseBlueprintsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6004,8 +5891,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseBundles(input: GetRelationalDatabaseBundlesInput) async throws -> GetRelationalDatabaseBundlesOutput
-    {
+    public func getRelationalDatabaseBundles(input: GetRelationalDatabaseBundlesInput) async throws -> GetRelationalDatabaseBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6057,8 +5943,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseEvents(input: GetRelationalDatabaseEventsInput) async throws -> GetRelationalDatabaseEventsOutput
-    {
+    public func getRelationalDatabaseEvents(input: GetRelationalDatabaseEventsInput) async throws -> GetRelationalDatabaseEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6110,8 +5995,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseLogEvents(input: GetRelationalDatabaseLogEventsInput) async throws -> GetRelationalDatabaseLogEventsOutput
-    {
+    public func getRelationalDatabaseLogEvents(input: GetRelationalDatabaseLogEventsInput) async throws -> GetRelationalDatabaseLogEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6163,8 +6047,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseLogStreams(input: GetRelationalDatabaseLogStreamsInput) async throws -> GetRelationalDatabaseLogStreamsOutput
-    {
+    public func getRelationalDatabaseLogStreams(input: GetRelationalDatabaseLogStreamsInput) async throws -> GetRelationalDatabaseLogStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6216,8 +6099,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseMasterUserPassword(input: GetRelationalDatabaseMasterUserPasswordInput) async throws -> GetRelationalDatabaseMasterUserPasswordOutput
-    {
+    public func getRelationalDatabaseMasterUserPassword(input: GetRelationalDatabaseMasterUserPasswordInput) async throws -> GetRelationalDatabaseMasterUserPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6269,8 +6151,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseMetricData(input: GetRelationalDatabaseMetricDataInput) async throws -> GetRelationalDatabaseMetricDataOutput
-    {
+    public func getRelationalDatabaseMetricData(input: GetRelationalDatabaseMetricDataInput) async throws -> GetRelationalDatabaseMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6322,8 +6203,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseParameters(input: GetRelationalDatabaseParametersInput) async throws -> GetRelationalDatabaseParametersOutput
-    {
+    public func getRelationalDatabaseParameters(input: GetRelationalDatabaseParametersInput) async throws -> GetRelationalDatabaseParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6375,8 +6255,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseSnapshot(input: GetRelationalDatabaseSnapshotInput) async throws -> GetRelationalDatabaseSnapshotOutput
-    {
+    public func getRelationalDatabaseSnapshot(input: GetRelationalDatabaseSnapshotInput) async throws -> GetRelationalDatabaseSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6428,8 +6307,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabaseSnapshots(input: GetRelationalDatabaseSnapshotsInput) async throws -> GetRelationalDatabaseSnapshotsOutput
-    {
+    public func getRelationalDatabaseSnapshots(input: GetRelationalDatabaseSnapshotsInput) async throws -> GetRelationalDatabaseSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6481,8 +6359,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getRelationalDatabases(input: GetRelationalDatabasesInput) async throws -> GetRelationalDatabasesOutput
-    {
+    public func getRelationalDatabases(input: GetRelationalDatabasesInput) async throws -> GetRelationalDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6532,8 +6409,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput
-    {
+    public func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6585,8 +6461,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getStaticIp(input: GetStaticIpInput) async throws -> GetStaticIpOutput
-    {
+    public func getStaticIp(input: GetStaticIpInput) async throws -> GetStaticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6638,8 +6513,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func getStaticIps(input: GetStaticIpsInput) async throws -> GetStaticIpsOutput
-    {
+    public func getStaticIps(input: GetStaticIpsInput) async throws -> GetStaticIpsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6691,8 +6565,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput
-    {
+    public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6744,8 +6617,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func isVpcPeered(input: IsVpcPeeredInput) async throws -> IsVpcPeeredOutput
-    {
+    public func isVpcPeered(input: IsVpcPeeredInput) async throws -> IsVpcPeeredOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6797,8 +6669,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func openInstancePublicPorts(input: OpenInstancePublicPortsInput) async throws -> OpenInstancePublicPortsOutput
-    {
+    public func openInstancePublicPorts(input: OpenInstancePublicPortsInput) async throws -> OpenInstancePublicPortsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6850,8 +6721,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func peerVpc(input: PeerVpcInput) async throws -> PeerVpcOutput
-    {
+    public func peerVpc(input: PeerVpcInput) async throws -> PeerVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6902,8 +6772,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func putAlarm(input: PutAlarmInput) async throws -> PutAlarmOutput
-    {
+    public func putAlarm(input: PutAlarmInput) async throws -> PutAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6955,8 +6824,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func putInstancePublicPorts(input: PutInstancePublicPortsInput) async throws -> PutInstancePublicPortsOutput
-    {
+    public func putInstancePublicPorts(input: PutInstancePublicPortsInput) async throws -> PutInstancePublicPortsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7008,8 +6876,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput
-    {
+    public func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7061,8 +6928,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func rebootRelationalDatabase(input: RebootRelationalDatabaseInput) async throws -> RebootRelationalDatabaseOutput
-    {
+    public func rebootRelationalDatabase(input: RebootRelationalDatabaseInput) async throws -> RebootRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7112,8 +6978,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func registerContainerImage(input: RegisterContainerImageInput) async throws -> RegisterContainerImageOutput
-    {
+    public func registerContainerImage(input: RegisterContainerImageInput) async throws -> RegisterContainerImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7165,8 +7030,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func releaseStaticIp(input: ReleaseStaticIpInput) async throws -> ReleaseStaticIpOutput
-    {
+    public func releaseStaticIp(input: ReleaseStaticIpInput) async throws -> ReleaseStaticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7217,8 +7081,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func resetDistributionCache(input: ResetDistributionCacheInput) async throws -> ResetDistributionCacheOutput
-    {
+    public func resetDistributionCache(input: ResetDistributionCacheInput) async throws -> ResetDistributionCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7269,8 +7132,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func sendContactMethodVerification(input: SendContactMethodVerificationInput) async throws -> SendContactMethodVerificationOutput
-    {
+    public func sendContactMethodVerification(input: SendContactMethodVerificationInput) async throws -> SendContactMethodVerificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7322,8 +7184,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput
-    {
+    public func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7373,8 +7234,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func setResourceAccessForBucket(input: SetResourceAccessForBucketInput) async throws -> SetResourceAccessForBucketOutput
-    {
+    public func setResourceAccessForBucket(input: SetResourceAccessForBucketInput) async throws -> SetResourceAccessForBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7424,8 +7284,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput
-    {
+    public func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7475,8 +7334,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func startGUISession(input: StartGUISessionInput) async throws -> StartGUISessionOutput
-    {
+    public func startGUISession(input: StartGUISessionInput) async throws -> StartGUISessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7528,8 +7386,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput
-    {
+    public func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7581,8 +7438,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func startRelationalDatabase(input: StartRelationalDatabaseInput) async throws -> StartRelationalDatabaseOutput
-    {
+    public func startRelationalDatabase(input: StartRelationalDatabaseInput) async throws -> StartRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7632,8 +7488,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func stopGUISession(input: StopGUISessionInput) async throws -> StopGUISessionOutput
-    {
+    public func stopGUISession(input: StopGUISessionInput) async throws -> StopGUISessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7685,8 +7540,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput
-    {
+    public func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7738,8 +7592,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func stopRelationalDatabase(input: StopRelationalDatabaseInput) async throws -> StopRelationalDatabaseOutput
-    {
+    public func stopRelationalDatabase(input: StopRelationalDatabaseInput) async throws -> StopRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7791,8 +7644,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7843,8 +7695,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func testAlarm(input: TestAlarmInput) async throws -> TestAlarmOutput
-    {
+    public func testAlarm(input: TestAlarmInput) async throws -> TestAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7896,8 +7747,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func unpeerVpc(input: UnpeerVpcInput) async throws -> UnpeerVpcOutput
-    {
+    public func unpeerVpc(input: UnpeerVpcInput) async throws -> UnpeerVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7949,8 +7799,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8000,8 +7849,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateBucket(input: UpdateBucketInput) async throws -> UpdateBucketOutput
-    {
+    public func updateBucket(input: UpdateBucketInput) async throws -> UpdateBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8051,8 +7899,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateBucketBundle(input: UpdateBucketBundleInput) async throws -> UpdateBucketBundleOutput
-    {
+    public func updateBucketBundle(input: UpdateBucketBundleInput) async throws -> UpdateBucketBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8102,8 +7949,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateContainerService(input: UpdateContainerServiceInput) async throws -> UpdateContainerServiceOutput
-    {
+    public func updateContainerService(input: UpdateContainerServiceInput) async throws -> UpdateContainerServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8154,8 +8000,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput
-    {
+    public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8206,8 +8051,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateDistributionBundle(input: UpdateDistributionBundleInput) async throws -> UpdateDistributionBundleOutput
-    {
+    public func updateDistributionBundle(input: UpdateDistributionBundleInput) async throws -> UpdateDistributionBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8259,8 +8103,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateDomainEntry(input: UpdateDomainEntryInput) async throws -> UpdateDomainEntryOutput
-    {
+    public func updateDomainEntry(input: UpdateDomainEntryInput) async throws -> UpdateDomainEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8312,8 +8155,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateInstanceMetadataOptions(input: UpdateInstanceMetadataOptionsInput) async throws -> UpdateInstanceMetadataOptionsOutput
-    {
+    public func updateInstanceMetadataOptions(input: UpdateInstanceMetadataOptionsInput) async throws -> UpdateInstanceMetadataOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8365,8 +8207,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateLoadBalancerAttribute(input: UpdateLoadBalancerAttributeInput) async throws -> UpdateLoadBalancerAttributeOutput
-    {
+    public func updateLoadBalancerAttribute(input: UpdateLoadBalancerAttributeInput) async throws -> UpdateLoadBalancerAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8418,8 +8259,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateRelationalDatabase(input: UpdateRelationalDatabaseInput) async throws -> UpdateRelationalDatabaseOutput
-    {
+    public func updateRelationalDatabase(input: UpdateRelationalDatabaseInput) async throws -> UpdateRelationalDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8471,8 +8311,7 @@ extension LightsailClient: LightsailClientProtocol {
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
-    public func updateRelationalDatabaseParameters(input: UpdateRelationalDatabaseParametersInput) async throws -> UpdateRelationalDatabaseParametersOutput
-    {
+    public func updateRelationalDatabaseParameters(input: UpdateRelationalDatabaseParametersInput) async throws -> UpdateRelationalDatabaseParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

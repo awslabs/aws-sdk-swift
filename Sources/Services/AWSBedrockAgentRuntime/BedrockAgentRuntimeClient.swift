@@ -66,7 +66,7 @@ public struct BedrockAgentRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension BedrockAgentRuntimeClient: BedrockAgentRuntimeClientProtocol {
+extension BedrockAgentRuntimeClient {
     /// Performs the `InvokeAgent` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
     /// Invokes the specified Bedrock model to run inference using the input provided in the request body.
@@ -87,8 +87,7 @@ extension BedrockAgentRuntimeClient: BedrockAgentRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func invokeAgent(input: InvokeAgentInput) async throws -> InvokeAgentOutput
-    {
+    public func invokeAgent(input: InvokeAgentInput) async throws -> InvokeAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -141,8 +140,7 @@ extension BedrockAgentRuntimeClient: BedrockAgentRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func retrieve(input: RetrieveInput) async throws -> RetrieveOutput
-    {
+    public func retrieve(input: RetrieveInput) async throws -> RetrieveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -195,8 +193,7 @@ extension BedrockAgentRuntimeClient: BedrockAgentRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func retrieveAndGenerate(input: RetrieveAndGenerateInput) async throws -> RetrieveAndGenerateOutput
-    {
+    public func retrieveAndGenerate(input: RetrieveAndGenerateInput) async throws -> RetrieveAndGenerateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

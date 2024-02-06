@@ -66,7 +66,7 @@ public struct LexModelBuildingClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension LexModelBuildingClient: LexModelBuildingClientProtocol {
+extension LexModelBuildingClient {
     /// Performs the `CreateBotVersion` operation on the `AWSDeepSenseModelBuildingService` service.
     ///
     /// Creates a new version of the bot based on the $LATEST version. If the $LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version. You can update only the $LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation. When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see [versioning-intro]. This operation requires permission for the lex:CreateBotVersion action.
@@ -84,8 +84,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func createBotVersion(input: CreateBotVersionInput) async throws -> CreateBotVersionOutput
-    {
+    public func createBotVersion(input: CreateBotVersionInput) async throws -> CreateBotVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func createIntentVersion(input: CreateIntentVersionInput) async throws -> CreateIntentVersionOutput
-    {
+    public func createIntentVersion(input: CreateIntentVersionInput) async throws -> CreateIntentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func createSlotTypeVersion(input: CreateSlotTypeVersionInput) async throws -> CreateSlotTypeVersionOutput
-    {
+    public func createSlotTypeVersion(input: CreateSlotTypeVersionInput) async throws -> CreateSlotTypeVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteBot(input: DeleteBotInput) async throws -> DeleteBotOutput
-    {
+    public func deleteBot(input: DeleteBotInput) async throws -> DeleteBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutput
-    {
+    public func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -340,8 +335,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func deleteBotChannelAssociation(input: DeleteBotChannelAssociationInput) async throws -> DeleteBotChannelAssociationOutput
-    {
+    public func deleteBotChannelAssociation(input: DeleteBotChannelAssociationInput) async throws -> DeleteBotChannelAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutput
-    {
+    public func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteIntent(input: DeleteIntentInput) async throws -> DeleteIntentOutput
-    {
+    public func deleteIntent(input: DeleteIntentInput) async throws -> DeleteIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +488,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteIntentVersion(input: DeleteIntentVersionInput) async throws -> DeleteIntentVersionOutput
-    {
+    public func deleteIntentVersion(input: DeleteIntentVersionInput) async throws -> DeleteIntentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -548,8 +539,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutput
-    {
+    public func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -600,8 +590,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     ///
     ///
     ///     "name": string, "version": string } }
-    public func deleteSlotTypeVersion(input: DeleteSlotTypeVersionInput) async throws -> DeleteSlotTypeVersionOutput
-    {
+    public func deleteSlotTypeVersion(input: DeleteSlotTypeVersionInput) async throws -> DeleteSlotTypeVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +635,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutput
-    {
+    public func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -692,8 +680,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getBot(input: GetBotInput) async throws -> GetBotOutput
-    {
+    public func getBot(input: GetBotInput) async throws -> GetBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -738,8 +725,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getBotAlias(input: GetBotAliasInput) async throws -> GetBotAliasOutput
-    {
+    public func getBotAlias(input: GetBotAliasInput) async throws -> GetBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +769,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func getBotAliases(input: GetBotAliasesInput) async throws -> GetBotAliasesOutput
-    {
+    public func getBotAliases(input: GetBotAliasesInput) async throws -> GetBotAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -830,8 +815,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getBotChannelAssociation(input: GetBotChannelAssociationInput) async throws -> GetBotChannelAssociationOutput
-    {
+    public func getBotChannelAssociation(input: GetBotChannelAssociationInput) async throws -> GetBotChannelAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +859,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func getBotChannelAssociations(input: GetBotChannelAssociationsInput) async throws -> GetBotChannelAssociationsOutput
-    {
+    public func getBotChannelAssociations(input: GetBotChannelAssociationsInput) async throws -> GetBotChannelAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -922,8 +905,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getBotVersions(input: GetBotVersionsInput) async throws -> GetBotVersionsOutput
-    {
+    public func getBotVersions(input: GetBotVersionsInput) async throws -> GetBotVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -976,8 +958,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getBots(input: GetBotsInput) async throws -> GetBotsOutput
-    {
+    public func getBots(input: GetBotsInput) async throws -> GetBotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,8 +1004,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getBuiltinIntent(input: GetBuiltinIntentInput) async throws -> GetBuiltinIntentOutput
-    {
+    public func getBuiltinIntent(input: GetBuiltinIntentInput) async throws -> GetBuiltinIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1068,8 +1048,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func getBuiltinIntents(input: GetBuiltinIntentsInput) async throws -> GetBuiltinIntentsOutput
-    {
+    public func getBuiltinIntents(input: GetBuiltinIntentsInput) async throws -> GetBuiltinIntentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1114,8 +1093,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func getBuiltinSlotTypes(input: GetBuiltinSlotTypesInput) async throws -> GetBuiltinSlotTypesOutput
-    {
+    public func getBuiltinSlotTypes(input: GetBuiltinSlotTypesInput) async throws -> GetBuiltinSlotTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1161,8 +1139,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getExport(input: GetExportInput) async throws -> GetExportOutput
-    {
+    public func getExport(input: GetExportInput) async throws -> GetExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1208,8 +1185,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getImport(input: GetImportInput) async throws -> GetImportOutput
-    {
+    public func getImport(input: GetImportInput) async throws -> GetImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1254,8 +1230,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getIntent(input: GetIntentInput) async throws -> GetIntentOutput
-    {
+    public func getIntent(input: GetIntentInput) async throws -> GetIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1300,8 +1275,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getIntentVersions(input: GetIntentVersionsInput) async throws -> GetIntentVersionsOutput
-    {
+    public func getIntentVersions(input: GetIntentVersionsInput) async throws -> GetIntentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1354,8 +1328,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getIntents(input: GetIntentsInput) async throws -> GetIntentsOutput
-    {
+    public func getIntents(input: GetIntentsInput) async throws -> GetIntentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1401,8 +1374,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getMigration(input: GetMigrationInput) async throws -> GetMigrationOutput
-    {
+    public func getMigration(input: GetMigrationInput) async throws -> GetMigrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1446,8 +1418,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func getMigrations(input: GetMigrationsInput) async throws -> GetMigrationsOutput
-    {
+    public func getMigrations(input: GetMigrationsInput) async throws -> GetMigrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1493,8 +1464,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getSlotType(input: GetSlotTypeInput) async throws -> GetSlotTypeOutput
-    {
+    public func getSlotType(input: GetSlotTypeInput) async throws -> GetSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1539,8 +1509,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getSlotTypeVersions(input: GetSlotTypeVersionsInput) async throws -> GetSlotTypeVersionsOutput
-    {
+    public func getSlotTypeVersions(input: GetSlotTypeVersionsInput) async throws -> GetSlotTypeVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1593,8 +1562,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func getSlotTypes(input: GetSlotTypesInput) async throws -> GetSlotTypesOutput
-    {
+    public func getSlotTypes(input: GetSlotTypesInput) async throws -> GetSlotTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1639,8 +1607,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func getUtterancesView(input: GetUtterancesViewInput) async throws -> GetUtterancesViewOutput
-    {
+    public func getUtterancesView(input: GetUtterancesViewInput) async throws -> GetUtterancesViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1686,8 +1653,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1699,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func putBot(input: PutBotInput) async throws -> PutBotOutput
-    {
+    public func putBot(input: PutBotInput) async throws -> PutBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1748,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func putBotAlias(input: PutBotAliasInput) async throws -> PutBotAliasOutput
-    {
+    public func putBotAlias(input: PutBotAliasInput) async throws -> PutBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1853,8 +1817,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func putIntent(input: PutIntentInput) async throws -> PutIntentOutput
-    {
+    public func putIntent(input: PutIntentInput) async throws -> PutIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1903,8 +1866,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `PreconditionFailedException` : The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
-    public func putSlotType(input: PutSlotTypeInput) async throws -> PutSlotTypeOutput
-    {
+    public func putSlotType(input: PutSlotTypeInput) async throws -> PutSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1951,8 +1913,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
-    public func startImport(input: StartImportInput) async throws -> StartImportOutput
-    {
+    public func startImport(input: StartImportInput) async throws -> StartImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2001,8 +1962,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput
-    {
+    public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2051,8 +2011,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2101,8 +2060,7 @@ extension LexModelBuildingClient: LexModelBuildingClientProtocol {
     /// - `InternalFailureException` : An internal Amazon Lex error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

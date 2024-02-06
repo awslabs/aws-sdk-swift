@@ -66,7 +66,7 @@ public struct SnowballClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension SnowballClient: SnowballClientProtocol {
+extension SnowballClient {
     /// Performs the `CancelCluster` operation on the `AWSIESnowballJobManagementService` service.
     ///
     /// Cancels a cluster job. You can only cancel a cluster job while it's in the AwaitingQuorum status. You'll have at least an hour after creating a cluster job to cancel it.
@@ -81,8 +81,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-    public func cancelCluster(input: CancelClusterInput) async throws -> CancelClusterOutput
-    {
+    public func cancelCluster(input: CancelClusterInput) async throws -> CancelClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidAddressException` : The address provided was invalid. Check the address with your region's carrier, and try again.
     /// - `UnsupportedAddressException` : The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
-    public func createAddress(input: CreateAddressInput) async throws -> CreateAddressOutput
-    {
+    public func createAddress(input: CreateAddressInput) async throws -> CreateAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidInputCombinationException` : Job or cluster creation failed. One or more inputs were invalid. Confirm that the [CreateClusterRequest$SnowballType] value supports your [CreateJobRequest$JobType], and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +362,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidInputCombinationException` : Job or cluster creation failed. One or more inputs were invalid. Confirm that the [CreateClusterRequest$SnowballType] value supports your [CreateJobRequest$JobType], and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +408,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func createLongTermPricing(input: CreateLongTermPricingInput) async throws -> CreateLongTermPricingOutput
-    {
+    public func createLongTermPricing(input: CreateLongTermPricingInput) async throws -> CreateLongTermPricingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -464,8 +458,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `ReturnShippingLabelAlreadyExistsException` : You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the URL.
-    public func createReturnShippingLabel(input: CreateReturnShippingLabelInput) async throws -> CreateReturnShippingLabelOutput
-    {
+    public func createReturnShippingLabel(input: CreateReturnShippingLabelInput) async throws -> CreateReturnShippingLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,8 +504,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func describeAddress(input: DescribeAddressInput) async throws -> DescribeAddressOutput
-    {
+    public func describeAddress(input: DescribeAddressInput) async throws -> DescribeAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -559,8 +551,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput
-    {
+    public func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +597,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    {
+    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -653,8 +643,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
-    {
+    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -702,8 +691,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `ConflictException` : You get this exception when you call CreateReturnShippingLabel more than once when other requests are not completed.
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func describeReturnShippingLabel(input: DescribeReturnShippingLabelInput) async throws -> DescribeReturnShippingLabelOutput
-    {
+    public func describeReturnShippingLabel(input: DescribeReturnShippingLabelInput) async throws -> DescribeReturnShippingLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -750,8 +738,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func getJobManifest(input: GetJobManifestInput) async throws -> GetJobManifestOutput
-    {
+    public func getJobManifest(input: GetJobManifestInput) async throws -> GetJobManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -798,8 +785,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func getJobUnlockCode(input: GetJobUnlockCodeInput) async throws -> GetJobUnlockCodeOutput
-    {
+    public func getJobUnlockCode(input: GetJobUnlockCodeInput) async throws -> GetJobUnlockCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -840,8 +826,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - Parameter GetSnowballUsageInput : [no documentation found]
     ///
     /// - Returns: `GetSnowballUsageOutput` : [no documentation found]
-    public func getSnowballUsage(input: GetSnowballUsageInput) async throws -> GetSnowballUsageOutput
-    {
+    public func getSnowballUsage(input: GetSnowballUsageInput) async throws -> GetSnowballUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -888,8 +873,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func getSoftwareUpdates(input: GetSoftwareUpdatesInput) async throws -> GetSoftwareUpdatesOutput
-    {
+    public func getSoftwareUpdates(input: GetSoftwareUpdatesInput) async throws -> GetSoftwareUpdatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +920,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func listClusterJobs(input: ListClusterJobsInput) async throws -> ListClusterJobsOutput
-    {
+    public func listClusterJobs(input: ListClusterJobsInput) async throws -> ListClusterJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -983,8 +966,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1013,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `Ec2RequestFailedException` : Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
-    public func listCompatibleImages(input: ListCompatibleImagesInput) async throws -> ListCompatibleImagesOutput
-    {
+    public func listCompatibleImages(input: ListCompatibleImagesInput) async throws -> ListCompatibleImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1078,8 +1059,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1126,8 +1106,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func listLongTermPricing(input: ListLongTermPricingInput) async throws -> ListLongTermPricingOutput
-    {
+    public func listLongTermPricing(input: ListLongTermPricingInput) async throws -> ListLongTermPricingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1173,8 +1152,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func listPickupLocations(input: ListPickupLocationsInput) async throws -> ListPickupLocationsOutput
-    {
+    public func listPickupLocations(input: ListPickupLocationsInput) async throws -> ListPickupLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1199,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func listServiceVersions(input: ListServiceVersionsInput) async throws -> ListServiceVersionsOutput
-    {
+    public func listServiceVersions(input: ListServiceVersionsInput) async throws -> ListServiceVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1272,8 +1249,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
-    {
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1324,8 +1300,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-    public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
-    {
+    public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1372,8 +1347,7 @@ extension SnowballClient: SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func updateJobShipmentState(input: UpdateJobShipmentStateInput) async throws -> UpdateJobShipmentStateOutput
-    {
+    public func updateJobShipmentState(input: UpdateJobShipmentStateInput) async throws -> UpdateJobShipmentStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1419,8 +1393,7 @@ extension SnowballClient: SnowballClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
-    public func updateLongTermPricing(input: UpdateLongTermPricingInput) async throws -> UpdateLongTermPricingOutput
-    {
+    public func updateLongTermPricing(input: UpdateLongTermPricingInput) async throws -> UpdateLongTermPricingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct AppConfigDataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension AppConfigDataClient: AppConfigDataClientProtocol {
+extension AppConfigDataClient {
     /// Performs the `GetLatestConfiguration` operation on the `AppConfigData` service.
     ///
     /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the [StartConfigurationSession] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide. Note the following important information.
@@ -86,8 +86,7 @@ extension AppConfigDataClient: AppConfigDataClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getLatestConfiguration(input: GetLatestConfigurationInput) async throws -> GetLatestConfigurationOutput
-    {
+    public func getLatestConfiguration(input: GetLatestConfigurationInput) async throws -> GetLatestConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AppConfigDataClient: AppConfigDataClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startConfigurationSession(input: StartConfigurationSessionInput) async throws -> StartConfigurationSessionOutput
-    {
+    public func startConfigurationSession(input: StartConfigurationSessionInput) async throws -> StartConfigurationSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

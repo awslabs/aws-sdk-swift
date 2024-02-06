@@ -3905,6 +3905,8 @@ extension SchemasClientTypes {
 
 }
 
+public enum SchemasClientTypes {}
+
 extension SchemasClientTypes.SearchSchemaSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case registryName = "RegistryName"

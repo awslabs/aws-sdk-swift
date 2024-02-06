@@ -66,7 +66,7 @@ public struct MarketplaceEntitlementClientLogHandlerFactory: ClientRuntime.SDKLo
     }
 }
 
-extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
+extension MarketplaceEntitlementClient {
     /// Performs the `GetEntitlements` operation on the `AWSMPEntitlementService` service.
     ///
     /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
@@ -81,8 +81,7 @@ extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
     /// - `InternalServiceErrorException` : An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
     /// - `InvalidParameterException` : One or more parameters in your request was invalid.
     /// - `ThrottlingException` : The calls to the GetEntitlements API are throttled.
-    public func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutput
-    {
+    public func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

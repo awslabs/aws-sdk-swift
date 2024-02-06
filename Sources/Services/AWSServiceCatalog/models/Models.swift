@@ -17334,6 +17334,8 @@ extension ServiceCatalogClientTypes {
 
 }
 
+public enum ServiceCatalogClientTypes {}
+
 extension ServiceCatalogClientTypes.ShareDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shareErrors = "ShareErrors"

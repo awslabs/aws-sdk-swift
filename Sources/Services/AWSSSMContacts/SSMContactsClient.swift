@@ -66,7 +66,7 @@ public struct SSMContactsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension SSMContactsClient: SSMContactsClientProtocol {
+extension SSMContactsClient {
     /// Performs the `AcceptPage` operation on the `SSMContacts` service.
     ///
     /// Used to acknowledge an engagement to a contact channel during an incident.
@@ -83,8 +83,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func acceptPage(input: AcceptPageInput) async throws -> AcceptPageOutput
-    {
+    public func acceptPage(input: AcceptPageInput) async throws -> AcceptPageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func activateContactChannel(input: ActivateContactChannelInput) async throws -> ActivateContactChannelOutput
-    {
+    public func activateContactChannel(input: ActivateContactChannelInput) async throws -> ActivateContactChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput
-    {
+    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createContactChannel(input: CreateContactChannelInput) async throws -> CreateContactChannelOutput
-    {
+    public func createContactChannel(input: CreateContactChannelInput) async throws -> CreateContactChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createRotation(input: CreateRotationInput) async throws -> CreateRotationOutput
-    {
+    public func createRotation(input: CreateRotationInput) async throws -> CreateRotationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createRotationOverride(input: CreateRotationOverrideInput) async throws -> CreateRotationOverrideOutput
-    {
+    public func createRotationOverride(input: CreateRotationOverrideInput) async throws -> CreateRotationOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -396,8 +390,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deactivateContactChannel(input: DeactivateContactChannelInput) async throws -> DeactivateContactChannelOutput
-    {
+    public func deactivateContactChannel(input: DeactivateContactChannelInput) async throws -> DeactivateContactChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
-    {
+    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -499,8 +491,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteContactChannel(input: DeleteContactChannelInput) async throws -> DeleteContactChannelOutput
-    {
+    public func deleteContactChannel(input: DeleteContactChannelInput) async throws -> DeleteContactChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -551,8 +542,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteRotation(input: DeleteRotationInput) async throws -> DeleteRotationOutput
-    {
+    public func deleteRotation(input: DeleteRotationInput) async throws -> DeleteRotationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +592,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteRotationOverride(input: DeleteRotationOverrideInput) async throws -> DeleteRotationOverrideOutput
-    {
+    public func deleteRotationOverride(input: DeleteRotationOverrideInput) async throws -> DeleteRotationOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -654,8 +643,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func describeEngagement(input: DescribeEngagementInput) async throws -> DescribeEngagementOutput
-    {
+    public func describeEngagement(input: DescribeEngagementInput) async throws -> DescribeEngagementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +694,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func describePage(input: DescribePageInput) async throws -> DescribePageOutput
-    {
+    public func describePage(input: DescribePageInput) async throws -> DescribePageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -758,8 +745,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getContact(input: GetContactInput) async throws -> GetContactOutput
-    {
+    public func getContact(input: GetContactInput) async throws -> GetContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -810,8 +796,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getContactChannel(input: GetContactChannelInput) async throws -> GetContactChannelOutput
-    {
+    public func getContactChannel(input: GetContactChannelInput) async throws -> GetContactChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -861,8 +846,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getContactPolicy(input: GetContactPolicyInput) async throws -> GetContactPolicyOutput
-    {
+    public func getContactPolicy(input: GetContactPolicyInput) async throws -> GetContactPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -912,8 +896,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getRotation(input: GetRotationInput) async throws -> GetRotationOutput
-    {
+    public func getRotation(input: GetRotationInput) async throws -> GetRotationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +946,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getRotationOverride(input: GetRotationOverrideInput) async throws -> GetRotationOverrideOutput
-    {
+    public func getRotationOverride(input: GetRotationOverrideInput) async throws -> GetRotationOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1015,8 +997,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listContactChannels(input: ListContactChannelsInput) async throws -> ListContactChannelsOutput
-    {
+    public func listContactChannels(input: ListContactChannelsInput) async throws -> ListContactChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1046,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listContacts(input: ListContactsInput) async throws -> ListContactsOutput
-    {
+    public func listContacts(input: ListContactsInput) async throws -> ListContactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1115,8 +1095,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listEngagements(input: ListEngagementsInput) async throws -> ListEngagementsOutput
-    {
+    public func listEngagements(input: ListEngagementsInput) async throws -> ListEngagementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1166,8 +1145,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listPageReceipts(input: ListPageReceiptsInput) async throws -> ListPageReceiptsOutput
-    {
+    public func listPageReceipts(input: ListPageReceiptsInput) async throws -> ListPageReceiptsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1217,8 +1195,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listPageResolutions(input: ListPageResolutionsInput) async throws -> ListPageResolutionsOutput
-    {
+    public func listPageResolutions(input: ListPageResolutionsInput) async throws -> ListPageResolutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1268,8 +1245,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listPagesByContact(input: ListPagesByContactInput) async throws -> ListPagesByContactOutput
-    {
+    public func listPagesByContact(input: ListPagesByContactInput) async throws -> ListPagesByContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1295,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listPagesByEngagement(input: ListPagesByEngagementInput) async throws -> ListPagesByEngagementOutput
-    {
+    public func listPagesByEngagement(input: ListPagesByEngagementInput) async throws -> ListPagesByEngagementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1369,8 +1344,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listPreviewRotationShifts(input: ListPreviewRotationShiftsInput) async throws -> ListPreviewRotationShiftsOutput
-    {
+    public func listPreviewRotationShifts(input: ListPreviewRotationShiftsInput) async throws -> ListPreviewRotationShiftsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1420,8 +1394,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listRotationOverrides(input: ListRotationOverridesInput) async throws -> ListRotationOverridesOutput
-    {
+    public func listRotationOverrides(input: ListRotationOverridesInput) async throws -> ListRotationOverridesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1472,8 +1445,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listRotationShifts(input: ListRotationShiftsInput) async throws -> ListRotationShiftsOutput
-    {
+    public func listRotationShifts(input: ListRotationShiftsInput) async throws -> ListRotationShiftsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1523,8 +1495,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listRotations(input: ListRotationsInput) async throws -> ListRotationsOutput
-    {
+    public func listRotations(input: ListRotationsInput) async throws -> ListRotationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1574,8 +1545,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1626,8 +1596,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func putContactPolicy(input: PutContactPolicyInput) async throws -> PutContactPolicyOutput
-    {
+    public func putContactPolicy(input: PutContactPolicyInput) async throws -> PutContactPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1679,8 +1648,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func sendActivationCode(input: SendActivationCodeInput) async throws -> SendActivationCodeOutput
-    {
+    public func sendActivationCode(input: SendActivationCodeInput) async throws -> SendActivationCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1731,8 +1699,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func startEngagement(input: StartEngagementInput) async throws -> StartEngagementOutput
-    {
+    public func startEngagement(input: StartEngagementInput) async throws -> StartEngagementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1750,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func stopEngagement(input: StopEngagementInput) async throws -> StopEngagementOutput
-    {
+    public func stopEngagement(input: StopEngagementInput) async throws -> StopEngagementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1835,8 +1801,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1886,8 +1851,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1939,8 +1903,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
-    {
+    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1992,8 +1955,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateContactChannel(input: UpdateContactChannelInput) async throws -> UpdateContactChannelOutput
-    {
+    public func updateContactChannel(input: UpdateContactChannelInput) async throws -> UpdateContactChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2044,8 +2006,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateRotation(input: UpdateRotationInput) async throws -> UpdateRotationOutput
-    {
+    public func updateRotation(input: UpdateRotationInput) async throws -> UpdateRotationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

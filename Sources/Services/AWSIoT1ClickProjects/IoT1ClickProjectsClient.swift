@@ -66,7 +66,7 @@ public struct IoT1ClickProjectsClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
+extension IoT1ClickProjectsClient {
     /// Performs the `AssociateDeviceWithPlacement` operation on the `AWSIoT1ClickProjects` service.
     ///
     /// Associates a physical device with a placement.
@@ -82,8 +82,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
     /// - `ResourceNotFoundException` :
-    public func associateDeviceWithPlacement(input: AssociateDeviceWithPlacementInput) async throws -> AssociateDeviceWithPlacementOutput
-    {
+    public func associateDeviceWithPlacement(input: AssociateDeviceWithPlacementInput) async throws -> AssociateDeviceWithPlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
     /// - `ResourceNotFoundException` :
-    public func createPlacement(input: CreatePlacementInput) async throws -> CreatePlacementOutput
-    {
+    public func createPlacement(input: CreatePlacementInput) async throws -> CreatePlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    public func deletePlacement(input: DeletePlacementInput) async throws -> DeletePlacementOutput
-    {
+    public func deletePlacement(input: DeletePlacementInput) async throws -> DeletePlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -274,8 +270,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +314,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func describePlacement(input: DescribePlacementInput) async throws -> DescribePlacementOutput
-    {
+    public func describePlacement(input: DescribePlacementInput) async throws -> DescribePlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -364,8 +358,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
-    {
+    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +403,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    public func disassociateDeviceFromPlacement(input: DisassociateDeviceFromPlacementInput) async throws -> DisassociateDeviceFromPlacementOutput
-    {
+    public func disassociateDeviceFromPlacement(input: DisassociateDeviceFromPlacementInput) async throws -> DisassociateDeviceFromPlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -455,8 +447,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func getDevicesInPlacement(input: GetDevicesInPlacementInput) async throws -> GetDevicesInPlacementOutput
-    {
+    public func getDevicesInPlacement(input: GetDevicesInPlacementInput) async throws -> GetDevicesInPlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -500,8 +491,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func listPlacements(input: ListPlacementsInput) async throws -> ListPlacementsOutput
-    {
+    public func listPlacements(input: ListPlacementsInput) async throws -> ListPlacementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -545,8 +535,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +580,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -636,8 +624,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -684,8 +671,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -731,8 +717,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    public func updatePlacement(input: UpdatePlacementInput) async throws -> UpdatePlacementOutput
-    {
+    public func updatePlacement(input: UpdatePlacementInput) async throws -> UpdatePlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -780,8 +765,7 @@ extension IoT1ClickProjectsClient: IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

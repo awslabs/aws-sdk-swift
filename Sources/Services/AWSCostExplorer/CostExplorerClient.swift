@@ -66,7 +66,7 @@ public struct CostExplorerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension CostExplorerClient: CostExplorerClientProtocol {
+extension CostExplorerClient {
     /// Performs the `CreateAnomalyMonitor` operation on the `AWSInsightsIndexService` service.
     ///
     /// Creates a new cost anomaly detection monitor with the requested type and monitor specification.
@@ -79,8 +79,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func createAnomalyMonitor(input: CreateAnomalyMonitorInput) async throws -> CreateAnomalyMonitorOutput
-    {
+    public func createAnomalyMonitor(input: CreateAnomalyMonitorInput) async throws -> CreateAnomalyMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    public func createAnomalySubscription(input: CreateAnomalySubscriptionInput) async throws -> CreateAnomalySubscriptionOutput
-    {
+    public func createAnomalySubscription(input: CreateAnomalySubscriptionInput) async throws -> CreateAnomalySubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,8 +173,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-    public func createCostCategoryDefinition(input: CreateCostCategoryDefinitionInput) async throws -> CreateCostCategoryDefinitionOutput
-    {
+    public func createCostCategoryDefinition(input: CreateCostCategoryDefinitionInput) async throws -> CreateCostCategoryDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -223,8 +220,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    public func deleteAnomalyMonitor(input: DeleteAnomalyMonitorInput) async throws -> DeleteAnomalyMonitorOutput
-    {
+    public func deleteAnomalyMonitor(input: DeleteAnomalyMonitorInput) async throws -> DeleteAnomalyMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
-    public func deleteAnomalySubscription(input: DeleteAnomalySubscriptionInput) async throws -> DeleteAnomalySubscriptionOutput
-    {
+    public func deleteAnomalySubscription(input: DeleteAnomalySubscriptionInput) async throws -> DeleteAnomalySubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +314,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    public func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInput) async throws -> DeleteCostCategoryDefinitionOutput
-    {
+    public func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInput) async throws -> DeleteCostCategoryDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +361,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    public func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput) async throws -> DescribeCostCategoryDefinitionOutput
-    {
+    public func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput) async throws -> DescribeCostCategoryDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -415,8 +408,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getAnomalies(input: GetAnomaliesInput) async throws -> GetAnomaliesOutput
-    {
+    public func getAnomalies(input: GetAnomaliesInput) async throws -> GetAnomaliesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -464,8 +456,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    public func getAnomalyMonitors(input: GetAnomalyMonitorsInput) async throws -> GetAnomalyMonitorsOutput
-    {
+    public func getAnomalyMonitors(input: GetAnomalyMonitorsInput) async throws -> GetAnomalyMonitorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -513,8 +504,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
-    public func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput) async throws -> GetAnomalySubscriptionsOutput
-    {
+    public func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput) async throws -> GetAnomalySubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -564,8 +554,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    public func getCostAndUsage(input: GetCostAndUsageInput) async throws -> GetCostAndUsageOutput
-    {
+    public func getCostAndUsage(input: GetCostAndUsageInput) async throws -> GetCostAndUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    public func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput) async throws -> GetCostAndUsageWithResourcesOutput
-    {
+    public func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput) async throws -> GetCostAndUsageWithResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +654,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    public func getCostCategories(input: GetCostCategoriesInput) async throws -> GetCostCategoriesOutput
-    {
+    public func getCostCategories(input: GetCostCategoriesInput) async throws -> GetCostCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -714,8 +701,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getCostForecast(input: GetCostForecastInput) async throws -> GetCostForecastOutput
-    {
+    public func getCostForecast(input: GetCostForecastInput) async throws -> GetCostForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -765,8 +751,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    public func getDimensionValues(input: GetDimensionValuesInput) async throws -> GetDimensionValuesOutput
-    {
+    public func getDimensionValues(input: GetDimensionValuesInput) async throws -> GetDimensionValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +826,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getReservationCoverage(input: GetReservationCoverageInput) async throws -> GetReservationCoverageOutput
-    {
+    public func getReservationCoverage(input: GetReservationCoverageInput) async throws -> GetReservationCoverageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -890,8 +874,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getReservationPurchaseRecommendation(input: GetReservationPurchaseRecommendationInput) async throws -> GetReservationPurchaseRecommendationOutput
-    {
+    public func getReservationPurchaseRecommendation(input: GetReservationPurchaseRecommendationInput) async throws -> GetReservationPurchaseRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -939,8 +922,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getReservationUtilization(input: GetReservationUtilizationInput) async throws -> GetReservationUtilizationOutput
-    {
+    public func getReservationUtilization(input: GetReservationUtilizationInput) async throws -> GetReservationUtilizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -987,8 +969,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutput
-    {
+    public func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1035,8 +1016,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutput
-    {
+    public func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1095,8 +1075,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getSavingsPlansCoverage(input: GetSavingsPlansCoverageInput) async throws -> GetSavingsPlansCoverageOutput
-    {
+    public func getSavingsPlansCoverage(input: GetSavingsPlansCoverageInput) async throws -> GetSavingsPlansCoverageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1143,8 +1122,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getSavingsPlansPurchaseRecommendation(input: GetSavingsPlansPurchaseRecommendationInput) async throws -> GetSavingsPlansPurchaseRecommendationOutput
-    {
+    public func getSavingsPlansPurchaseRecommendation(input: GetSavingsPlansPurchaseRecommendationInput) async throws -> GetSavingsPlansPurchaseRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1191,8 +1169,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getSavingsPlansUtilization(input: GetSavingsPlansUtilizationInput) async throws -> GetSavingsPlansUtilizationOutput
-    {
+    public func getSavingsPlansUtilization(input: GetSavingsPlansUtilizationInput) async throws -> GetSavingsPlansUtilizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1217,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func getSavingsPlansUtilizationDetails(input: GetSavingsPlansUtilizationDetailsInput) async throws -> GetSavingsPlansUtilizationDetailsOutput
-    {
+    public func getSavingsPlansUtilizationDetails(input: GetSavingsPlansUtilizationDetailsInput) async throws -> GetSavingsPlansUtilizationDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1291,8 +1267,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-    {
+    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1340,8 +1315,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnresolvableUsageUnitException` : Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
-    public func getUsageForecast(input: GetUsageForecastInput) async throws -> GetUsageForecastOutput
-    {
+    public func getUsageForecast(input: GetUsageForecastInput) async throws -> GetUsageForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1388,8 +1362,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func listCostAllocationTags(input: ListCostAllocationTagsInput) async throws -> ListCostAllocationTagsOutput
-    {
+    public func listCostAllocationTags(input: ListCostAllocationTagsInput) async throws -> ListCostAllocationTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1435,8 +1408,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func listCostCategoryDefinitions(input: ListCostCategoryDefinitionsInput) async throws -> ListCostCategoryDefinitionsOutput
-    {
+    public func listCostCategoryDefinitions(input: ListCostCategoryDefinitionsInput) async throws -> ListCostCategoryDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1484,8 +1456,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func listSavingsPlansPurchaseRecommendationGeneration(input: ListSavingsPlansPurchaseRecommendationGenerationInput) async throws -> ListSavingsPlansPurchaseRecommendationGenerationOutput
-    {
+    public func listSavingsPlansPurchaseRecommendationGeneration(input: ListSavingsPlansPurchaseRecommendationGenerationInput) async throws -> ListSavingsPlansPurchaseRecommendationGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1532,8 +1503,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1579,8 +1549,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func provideAnomalyFeedback(input: ProvideAnomalyFeedbackInput) async throws -> ProvideAnomalyFeedbackOutput
-    {
+    public func provideAnomalyFeedback(input: ProvideAnomalyFeedbackInput) async throws -> ProvideAnomalyFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1629,8 +1598,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `GenerationExistsException` : A request to generate a recommendation is already in progress.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-    public func startSavingsPlansPurchaseRecommendationGeneration(input: StartSavingsPlansPurchaseRecommendationGenerationInput) async throws -> StartSavingsPlansPurchaseRecommendationGenerationOutput
-    {
+    public func startSavingsPlansPurchaseRecommendationGeneration(input: StartSavingsPlansPurchaseRecommendationGenerationInput) async throws -> StartSavingsPlansPurchaseRecommendationGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1678,8 +1646,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `TooManyTagsException` : Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1726,8 +1693,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1774,8 +1740,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    public func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput) async throws -> UpdateAnomalyMonitorOutput
-    {
+    public func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput) async throws -> UpdateAnomalyMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1823,8 +1788,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
-    public func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutput
-    {
+    public func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1870,8 +1834,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    public func updateCostAllocationTagsStatus(input: UpdateCostAllocationTagsStatusInput) async throws -> UpdateCostAllocationTagsStatusOutput
-    {
+    public func updateCostAllocationTagsStatus(input: UpdateCostAllocationTagsStatusInput) async throws -> UpdateCostAllocationTagsStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1919,8 +1882,7 @@ extension CostExplorerClient: CostExplorerClientProtocol {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-    public func updateCostCategoryDefinition(input: UpdateCostCategoryDefinitionInput) async throws -> UpdateCostCategoryDefinitionOutput
-    {
+    public func updateCostCategoryDefinition(input: UpdateCostCategoryDefinitionInput) async throws -> UpdateCostCategoryDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

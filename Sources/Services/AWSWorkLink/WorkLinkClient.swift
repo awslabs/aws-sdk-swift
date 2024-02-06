@@ -66,7 +66,7 @@ public struct WorkLinkClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension WorkLinkClient: WorkLinkClientProtocol {
+extension WorkLinkClient {
     /// Performs the `AssociateDomain` operation on the `WorkLink` service.
     ///
     /// Specifies a domain to be associated to Amazon WorkLink.
@@ -85,8 +85,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func associateDomain(input: AssociateDomainInput) async throws -> AssociateDomainOutput
-    {
+    public func associateDomain(input: AssociateDomainInput) async throws -> AssociateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func associateWebsiteAuthorizationProvider(input: AssociateWebsiteAuthorizationProviderInput) async throws -> AssociateWebsiteAuthorizationProviderOutput
-    {
+    public func associateWebsiteAuthorizationProvider(input: AssociateWebsiteAuthorizationProviderInput) async throws -> AssociateWebsiteAuthorizationProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func associateWebsiteCertificateAuthority(input: AssociateWebsiteCertificateAuthorityInput) async throws -> AssociateWebsiteCertificateAuthorityOutput
-    {
+    public func associateWebsiteCertificateAuthority(input: AssociateWebsiteCertificateAuthorityInput) async throws -> AssociateWebsiteCertificateAuthorityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
-    {
+    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -292,8 +288,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
-    {
+    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -343,8 +338,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeAuditStreamConfiguration(input: DescribeAuditStreamConfigurationInput) async throws -> DescribeAuditStreamConfigurationOutput
-    {
+    public func describeAuditStreamConfiguration(input: DescribeAuditStreamConfigurationInput) async throws -> DescribeAuditStreamConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +388,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeCompanyNetworkConfiguration(input: DescribeCompanyNetworkConfigurationInput) async throws -> DescribeCompanyNetworkConfigurationOutput
-    {
+    public func describeCompanyNetworkConfiguration(input: DescribeCompanyNetworkConfigurationInput) async throws -> DescribeCompanyNetworkConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -445,8 +438,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
-    {
+    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +488,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeDevicePolicyConfiguration(input: DescribeDevicePolicyConfigurationInput) async throws -> DescribeDevicePolicyConfigurationOutput
-    {
+    public func describeDevicePolicyConfiguration(input: DescribeDevicePolicyConfigurationInput) async throws -> DescribeDevicePolicyConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -547,8 +538,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
-    {
+    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +588,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeFleetMetadata(input: DescribeFleetMetadataInput) async throws -> DescribeFleetMetadataOutput
-    {
+    public func describeFleetMetadata(input: DescribeFleetMetadataInput) async throws -> DescribeFleetMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -649,8 +638,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeIdentityProviderConfiguration(input: DescribeIdentityProviderConfigurationInput) async throws -> DescribeIdentityProviderConfigurationOutput
-    {
+    public func describeIdentityProviderConfiguration(input: DescribeIdentityProviderConfigurationInput) async throws -> DescribeIdentityProviderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +688,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func describeWebsiteCertificateAuthority(input: DescribeWebsiteCertificateAuthorityInput) async throws -> DescribeWebsiteCertificateAuthorityOutput
-    {
+    public func describeWebsiteCertificateAuthority(input: DescribeWebsiteCertificateAuthorityInput) async throws -> DescribeWebsiteCertificateAuthorityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -751,8 +738,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func disassociateDomain(input: DisassociateDomainInput) async throws -> DisassociateDomainOutput
-    {
+    public func disassociateDomain(input: DisassociateDomainInput) async throws -> DisassociateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -803,8 +789,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func disassociateWebsiteAuthorizationProvider(input: DisassociateWebsiteAuthorizationProviderInput) async throws -> DisassociateWebsiteAuthorizationProviderOutput
-    {
+    public func disassociateWebsiteAuthorizationProvider(input: DisassociateWebsiteAuthorizationProviderInput) async throws -> DisassociateWebsiteAuthorizationProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -854,8 +839,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func disassociateWebsiteCertificateAuthority(input: DisassociateWebsiteCertificateAuthorityInput) async throws -> DisassociateWebsiteCertificateAuthorityOutput
-    {
+    public func disassociateWebsiteCertificateAuthority(input: DisassociateWebsiteCertificateAuthorityInput) async throws -> DisassociateWebsiteCertificateAuthorityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -905,8 +889,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -956,8 +939,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1006,8 +988,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput
-    {
+    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1034,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1081,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func listWebsiteAuthorizationProviders(input: ListWebsiteAuthorizationProvidersInput) async throws -> ListWebsiteAuthorizationProvidersOutput
-    {
+    public func listWebsiteAuthorizationProviders(input: ListWebsiteAuthorizationProvidersInput) async throws -> ListWebsiteAuthorizationProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1151,8 +1130,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func listWebsiteCertificateAuthorities(input: ListWebsiteCertificateAuthoritiesInput) async throws -> ListWebsiteCertificateAuthoritiesOutput
-    {
+    public func listWebsiteCertificateAuthorities(input: ListWebsiteCertificateAuthoritiesInput) async throws -> ListWebsiteCertificateAuthoritiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1180,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func restoreDomainAccess(input: RestoreDomainAccessInput) async throws -> RestoreDomainAccessOutput
-    {
+    public func restoreDomainAccess(input: RestoreDomainAccessInput) async throws -> RestoreDomainAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1253,8 +1230,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func revokeDomainAccess(input: RevokeDomainAccessInput) async throws -> RevokeDomainAccessOutput
-    {
+    public func revokeDomainAccess(input: RevokeDomainAccessInput) async throws -> RevokeDomainAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1304,8 +1280,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func signOutUser(input: SignOutUserInput) async throws -> SignOutUserOutput
-    {
+    public func signOutUser(input: SignOutUserInput) async throws -> SignOutUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1351,8 +1326,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1398,8 +1372,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1447,8 +1420,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func updateAuditStreamConfiguration(input: UpdateAuditStreamConfigurationInput) async throws -> UpdateAuditStreamConfigurationOutput
-    {
+    public func updateAuditStreamConfiguration(input: UpdateAuditStreamConfigurationInput) async throws -> UpdateAuditStreamConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1470,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func updateCompanyNetworkConfiguration(input: UpdateCompanyNetworkConfigurationInput) async throws -> UpdateCompanyNetworkConfigurationOutput
-    {
+    public func updateCompanyNetworkConfiguration(input: UpdateCompanyNetworkConfigurationInput) async throws -> UpdateCompanyNetworkConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1549,8 +1520,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func updateDevicePolicyConfiguration(input: UpdateDevicePolicyConfigurationInput) async throws -> UpdateDevicePolicyConfigurationOutput
-    {
+    public func updateDevicePolicyConfiguration(input: UpdateDevicePolicyConfigurationInput) async throws -> UpdateDevicePolicyConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1600,8 +1570,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func updateDomainMetadata(input: UpdateDomainMetadataInput) async throws -> UpdateDomainMetadataOutput
-    {
+    public func updateDomainMetadata(input: UpdateDomainMetadataInput) async throws -> UpdateDomainMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1651,8 +1620,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func updateFleetMetadata(input: UpdateFleetMetadataInput) async throws -> UpdateFleetMetadataOutput
-    {
+    public func updateFleetMetadata(input: UpdateFleetMetadataInput) async throws -> UpdateFleetMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1702,8 +1670,7 @@ extension WorkLinkClient: WorkLinkClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this action.
-    public func updateIdentityProviderConfiguration(input: UpdateIdentityProviderConfigurationInput) async throws -> UpdateIdentityProviderConfigurationOutput
-    {
+    public func updateIdentityProviderConfiguration(input: UpdateIdentityProviderConfigurationInput) async throws -> UpdateIdentityProviderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

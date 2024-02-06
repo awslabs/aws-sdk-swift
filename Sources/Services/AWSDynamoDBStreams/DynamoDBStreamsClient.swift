@@ -66,7 +66,7 @@ public struct DynamoDBStreamsClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
+extension DynamoDBStreamsClient {
     /// Performs the `DescribeStream` operation on the `DynamoDBStreams_20120810` service.
     ///
     /// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. You can call DescribeStream at a maximum rate of 10 times per second. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber, then the shard is still open (able to receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are present, then that shard is closed and can no longer receive more data.
@@ -80,8 +80,7 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
-    public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput
-    {
+    public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
     ///
     /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
-    public func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutput
-    {
+    public func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
     ///
     /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
-    public func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutput
-    {
+    public func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension DynamoDBStreamsClient: DynamoDBStreamsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
-    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
-    {
+    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

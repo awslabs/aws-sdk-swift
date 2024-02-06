@@ -724,6 +724,8 @@ extension ApiLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+public enum AppSyncClientTypes {}
+
 extension AppSyncClientTypes.AppSyncRuntime: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name

@@ -66,7 +66,7 @@ public struct CodeGuruSecurityClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
+extension CodeGuruSecurityClient {
     /// Performs the `BatchGetFindings` operation on the `AwsCodeGuruSecurity` service.
     ///
     /// Returns a list of all requested findings.
@@ -82,8 +82,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func batchGetFindings(input: BatchGetFindingsInput) async throws -> BatchGetFindingsOutput
-    {
+    public func batchGetFindings(input: BatchGetFindingsInput) async throws -> BatchGetFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func createScan(input: CreateScanInput) async throws -> CreateScanOutput
-    {
+    public func createScan(input: CreateScanInput) async throws -> CreateScanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutput
-    {
+    public func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutput
-    {
+    public func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -280,8 +276,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
-    {
+    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +322,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func getMetricsSummary(input: GetMetricsSummaryInput) async throws -> GetMetricsSummaryOutput
-    {
+    public func getMetricsSummary(input: GetMetricsSummaryInput) async throws -> GetMetricsSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -374,8 +368,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getScan(input: GetScanInput) async throws -> GetScanOutput
-    {
+    public func getScan(input: GetScanInput) async throws -> GetScanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -421,8 +414,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func listFindingsMetrics(input: ListFindingsMetricsInput) async throws -> ListFindingsMetricsOutput
-    {
+    public func listFindingsMetrics(input: ListFindingsMetricsInput) async throws -> ListFindingsMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -468,8 +460,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func listScans(input: ListScansInput) async throws -> ListScansOutput
-    {
+    public func listScans(input: ListScansInput) async throws -> ListScansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +555,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +605,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +652,7 @@ extension CodeGuruSecurityClient: CodeGuruSecurityClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    public func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput
-    {
+    public func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

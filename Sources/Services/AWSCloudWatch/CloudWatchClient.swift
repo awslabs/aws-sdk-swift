@@ -62,7 +62,7 @@ public struct CloudWatchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension CloudWatchClient: CloudWatchClientProtocol {
+extension CloudWatchClient {
     /// Performs the `DeleteAlarms` operation on the `GraniteServiceVersion20100801` service.
     ///
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify an incorrect alarm name or make any other error in the operation, no alarms are deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
@@ -75,8 +75,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : The named resource does not exist.
-    public func deleteAlarms(input: DeleteAlarmsInput) async throws -> DeleteAlarmsOutput
-    {
+    public func deleteAlarms(input: DeleteAlarmsInput) async throws -> DeleteAlarmsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -125,8 +124,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     /// - `ResourceNotFoundException` : The named resource does not exist.
-    public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput
-    {
+    public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -173,8 +171,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `DashboardNotFoundError` : The specified dashboard does not exist.
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
-    public func deleteDashboards(input: DeleteDashboardsInput) async throws -> DeleteDashboardsOutput
-    {
+    public func deleteDashboards(input: DeleteDashboardsInput) async throws -> DeleteDashboardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +217,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func deleteInsightRules(input: DeleteInsightRulesInput) async throws -> DeleteInsightRulesOutput
-    {
+    public func deleteInsightRules(input: DeleteInsightRulesInput) async throws -> DeleteInsightRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -268,8 +264,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func deleteMetricStream(input: DeleteMetricStreamInput) async throws -> DeleteMetricStreamOutput
-    {
+    public func deleteMetricStream(input: DeleteMetricStreamInput) async throws -> DeleteMetricStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -314,8 +309,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The next token specified is invalid.
-    public func describeAlarmHistory(input: DescribeAlarmHistoryInput) async throws -> DescribeAlarmHistoryOutput
-    {
+    public func describeAlarmHistory(input: DescribeAlarmHistoryInput) async throws -> DescribeAlarmHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -360,8 +354,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The next token specified is invalid.
-    public func describeAlarms(input: DescribeAlarmsInput) async throws -> DescribeAlarmsOutput
-    {
+    public func describeAlarms(input: DescribeAlarmsInput) async throws -> DescribeAlarmsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -401,8 +394,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - Parameter DescribeAlarmsForMetricInput : [no documentation found]
     ///
     /// - Returns: `DescribeAlarmsForMetricOutput` : [no documentation found]
-    public func describeAlarmsForMetric(input: DescribeAlarmsForMetricInput) async throws -> DescribeAlarmsForMetricOutput
-    {
+    public func describeAlarmsForMetric(input: DescribeAlarmsForMetricInput) async throws -> DescribeAlarmsForMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -450,8 +442,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidNextToken` : The next token specified is invalid.
     /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
-    public func describeAnomalyDetectors(input: DescribeAnomalyDetectorsInput) async throws -> DescribeAnomalyDetectorsOutput
-    {
+    public func describeAnomalyDetectors(input: DescribeAnomalyDetectorsInput) async throws -> DescribeAnomalyDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +487,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The next token specified is invalid.
-    public func describeInsightRules(input: DescribeInsightRulesInput) async throws -> DescribeInsightRulesOutput
-    {
+    public func describeInsightRules(input: DescribeInsightRulesInput) async throws -> DescribeInsightRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +527,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - Parameter DisableAlarmActionsInput : [no documentation found]
     ///
     /// - Returns: `DisableAlarmActionsOutput` : [no documentation found]
-    public func disableAlarmActions(input: DisableAlarmActionsInput) async throws -> DisableAlarmActionsOutput
-    {
+    public func disableAlarmActions(input: DisableAlarmActionsInput) async throws -> DisableAlarmActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -584,8 +573,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func disableInsightRules(input: DisableInsightRulesInput) async throws -> DisableInsightRulesOutput
-    {
+    public func disableInsightRules(input: DisableInsightRulesInput) async throws -> DisableInsightRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -625,8 +613,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - Parameter EnableAlarmActionsInput : [no documentation found]
     ///
     /// - Returns: `EnableAlarmActionsOutput` : [no documentation found]
-    public func enableAlarmActions(input: EnableAlarmActionsInput) async throws -> EnableAlarmActionsOutput
-    {
+    public func enableAlarmActions(input: EnableAlarmActionsInput) async throws -> EnableAlarmActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -673,8 +660,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `LimitExceededException` : The operation exceeded one or more limits.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func enableInsightRules(input: EnableInsightRulesInput) async throws -> EnableInsightRulesOutput
-    {
+    public func enableInsightRules(input: EnableInsightRulesInput) async throws -> EnableInsightRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -721,8 +707,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `DashboardNotFoundError` : The specified dashboard does not exist.
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
-    public func getDashboard(input: GetDashboardInput) async throws -> GetDashboardOutput
-    {
+    public func getDashboard(input: GetDashboardInput) async throws -> GetDashboardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +768,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     /// - `ResourceNotFoundException` : The named resource does not exist.
-    public func getInsightRuleReport(input: GetInsightRuleReportInput) async throws -> GetInsightRuleReportOutput
-    {
+    public func getInsightRuleReport(input: GetInsightRuleReportInput) async throws -> GetInsightRuleReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -840,8 +824,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The next token specified is invalid.
-    public func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutput
-    {
+    public func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +890,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func getMetricStatistics(input: GetMetricStatisticsInput) async throws -> GetMetricStatisticsOutput
-    {
+    public func getMetricStatistics(input: GetMetricStatisticsInput) async throws -> GetMetricStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +939,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     /// - `ResourceNotFoundException` : The named resource does not exist.
-    public func getMetricStream(input: GetMetricStreamInput) async throws -> GetMetricStreamOutput
-    {
+    public func getMetricStream(input: GetMetricStreamInput) async throws -> GetMetricStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1002,8 +983,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - Parameter GetMetricWidgetImageInput : [no documentation found]
     ///
     /// - Returns: `GetMetricWidgetImageOutput` : [no documentation found]
-    public func getMetricWidgetImage(input: GetMetricWidgetImageInput) async throws -> GetMetricWidgetImageOutput
-    {
+    public func getMetricWidgetImage(input: GetMetricWidgetImageInput) async throws -> GetMetricWidgetImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1049,8 +1029,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
-    public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput
-    {
+    public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1097,8 +1076,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidNextToken` : The next token specified is invalid.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func listManagedInsightRules(input: ListManagedInsightRulesInput) async throws -> ListManagedInsightRulesOutput
-    {
+    public func listManagedInsightRules(input: ListManagedInsightRulesInput) async throws -> ListManagedInsightRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1124,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidNextToken` : The next token specified is invalid.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func listMetricStreams(input: ListMetricStreamsInput) async throws -> ListMetricStreamsOutput
-    {
+    public func listMetricStreams(input: ListMetricStreamsInput) async throws -> ListMetricStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1193,8 +1170,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
-    public func listMetrics(input: ListMetricsInput) async throws -> ListMetricsOutput
-    {
+    public func listMetrics(input: ListMetricsInput) async throws -> ListMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1241,8 +1217,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `ResourceNotFoundException` : The named resource does not exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1291,8 +1266,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `LimitExceededException` : The operation exceeded one or more limits.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func putAnomalyDetector(input: PutAnomalyDetectorInput) async throws -> PutAnomalyDetectorOutput
-    {
+    public func putAnomalyDetector(input: PutAnomalyDetectorInput) async throws -> PutAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1337,8 +1311,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
-    public func putCompositeAlarm(input: PutCompositeAlarmInput) async throws -> PutCompositeAlarmOutput
-    {
+    public func putCompositeAlarm(input: PutCompositeAlarmInput) async throws -> PutCompositeAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1384,8 +1357,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `DashboardInvalidInputError` : Some part of the dashboard data is invalid.
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
-    public func putDashboard(input: PutDashboardInput) async throws -> PutDashboardOutput
-    {
+    public func putDashboard(input: PutDashboardInput) async throws -> PutDashboardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1432,8 +1404,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `LimitExceededException` : The operation exceeded one or more limits.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func putInsightRule(input: PutInsightRuleInput) async throws -> PutInsightRuleOutput
-    {
+    public func putInsightRule(input: PutInsightRuleInput) async throws -> PutInsightRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1479,8 +1450,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func putManagedInsightRules(input: PutManagedInsightRulesInput) async throws -> PutManagedInsightRulesOutput
-    {
+    public func putManagedInsightRules(input: PutManagedInsightRulesInput) async throws -> PutManagedInsightRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1536,8 +1506,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
-    public func putMetricAlarm(input: PutMetricAlarmInput) async throws -> PutMetricAlarmOutput
-    {
+    public func putMetricAlarm(input: PutMetricAlarmInput) async throws -> PutMetricAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1558,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func putMetricData(input: PutMetricDataInput) async throws -> PutMetricDataOutput
-    {
+    public func putMetricData(input: PutMetricDataInput) async throws -> PutMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1648,8 +1616,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func putMetricStream(input: PutMetricStreamInput) async throws -> PutMetricStreamOutput
-    {
+    public func putMetricStream(input: PutMetricStreamInput) async throws -> PutMetricStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1695,8 +1662,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidFormatFault` : Data was not syntactically valid JSON.
     /// - `ResourceNotFound` : The named resource does not exist.
-    public func setAlarmState(input: SetAlarmStateInput) async throws -> SetAlarmStateOutput
-    {
+    public func setAlarmState(input: SetAlarmStateInput) async throws -> SetAlarmStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1743,8 +1709,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func startMetricStreams(input: StartMetricStreamsInput) async throws -> StartMetricStreamsOutput
-    {
+    public func startMetricStreams(input: StartMetricStreamsInput) async throws -> StartMetricStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1791,8 +1756,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
-    public func stopMetricStreams(input: StopMetricStreamsInput) async throws -> StopMetricStreamsOutput
-    {
+    public func stopMetricStreams(input: StopMetricStreamsInput) async throws -> StopMetricStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1840,8 +1804,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `ResourceNotFoundException` : The named resource does not exist.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1852,7 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     /// - `ResourceNotFoundException` : The named resource does not exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

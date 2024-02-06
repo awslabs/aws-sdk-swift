@@ -66,7 +66,7 @@ public struct TranslateClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension TranslateClient: TranslateClientProtocol {
+extension TranslateClient {
     /// Performs the `CreateParallelData` operation on the `AWSShineFrontendService_20170701` service.
     ///
     /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your translation output.
@@ -86,8 +86,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    public func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutput
-    {
+    public func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func deleteParallelData(input: DeleteParallelDataInput) async throws -> DeleteParallelDataOutput
-    {
+    public func deleteParallelData(input: DeleteParallelDataInput) async throws -> DeleteParallelDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func deleteTerminology(input: DeleteTerminologyInput) async throws -> DeleteTerminologyOutput
-    {
+    public func deleteTerminology(input: DeleteTerminologyInput) async throws -> DeleteTerminologyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func describeTextTranslationJob(input: DescribeTextTranslationJobInput) async throws -> DescribeTextTranslationJobOutput
-    {
+    public func describeTextTranslationJob(input: DescribeTextTranslationJobInput) async throws -> DescribeTextTranslationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func getParallelData(input: GetParallelDataInput) async throws -> GetParallelDataOutput
-    {
+    public func getParallelData(input: GetParallelDataInput) async throws -> GetParallelDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func getTerminology(input: GetTerminologyInput) async throws -> GetTerminologyOutput
-    {
+    public func getTerminology(input: GetTerminologyInput) async throws -> GetTerminologyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -388,8 +382,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    public func importTerminology(input: ImportTerminologyInput) async throws -> ImportTerminologyOutput
-    {
+    public func importTerminology(input: ImportTerminologyInput) async throws -> ImportTerminologyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -438,8 +431,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedDisplayLanguageCodeException` : Requested display language code is not supported.
-    public func listLanguages(input: ListLanguagesInput) async throws -> ListLanguagesOutput
-    {
+    public func listLanguages(input: ListLanguagesInput) async throws -> ListLanguagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -487,8 +479,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func listParallelData(input: ListParallelDataInput) async throws -> ListParallelDataOutput
-    {
+    public func listParallelData(input: ListParallelDataInput) async throws -> ListParallelDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -536,8 +527,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -585,8 +575,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutput
-    {
+    public func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -635,8 +624,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is not valid. Specify a different filter.
     /// - `InvalidRequestException` : The request that you made is not valid. Check your request to determine why it's not valid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutput
-    {
+    public func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -687,8 +675,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    public func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutput
-    {
+    public func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -737,8 +724,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutput
-    {
+    public func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -788,8 +774,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +826,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Translate service is temporarily unavailable. Wait a bit and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    public func translateDocument(input: TranslateDocumentInput) async throws -> TranslateDocumentOutput
-    {
+    public func translateDocument(input: TranslateDocumentInput) async throws -> TranslateDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -895,8 +879,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    public func translateText(input: TranslateTextInput) async throws -> TranslateTextOutput
-    {
+    public func translateText(input: TranslateTextInput) async throws -> TranslateTextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -945,8 +928,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -999,8 +981,7 @@ extension TranslateClient: TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    public func updateParallelData(input: UpdateParallelDataInput) async throws -> UpdateParallelDataOutput
-    {
+    public func updateParallelData(input: UpdateParallelDataInput) async throws -> UpdateParallelDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

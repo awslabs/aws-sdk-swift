@@ -66,7 +66,7 @@ public struct SQSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SQSClient: SQSClientProtocol {
+extension SQSClient {
     /// Performs the `AddPermission` operation on the `AmazonSQS` service.
     ///
     /// Adds a permission to a queue for a specific [principal](https://docs.aws.amazon.com/general/latest/gr/glos-chap.html#P). This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see [Allow Developers to Write Messages to a Shared Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
@@ -101,8 +101,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
-    {
+    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -164,8 +163,7 @@ extension SQSClient: SQSClientProtocol {
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutput
-    {
+    public func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +230,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutput
-    {
+    public func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +290,7 @@ extension SQSClient: SQSClientProtocol {
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutput
-    {
+    public func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -369,8 +365,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
-    {
+    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +423,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput
-    {
+    public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -489,8 +483,7 @@ extension SQSClient: SQSClientProtocol {
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutput
-    {
+    public func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -546,8 +539,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
-    {
+    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +596,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutput
-    {
+    public func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +652,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutput
-    {
+    public func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +708,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutput
-    {
+    public func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -781,8 +770,7 @@ extension SQSClient: SQSClientProtocol {
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutput
-    {
+    public func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +826,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutput
-    {
+    public func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -894,8 +881,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
-    {
+    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -952,8 +938,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutput
-    {
+    public func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1021,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutput
-    {
+    public func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1083,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
-    {
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1168,8 +1151,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput
-    {
+    public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1241,8 +1223,7 @@ extension SQSClient: SQSClientProtocol {
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutput
-    {
+    public func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1288,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutput
-    {
+    public func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1372,8 +1352,7 @@ extension SQSClient: SQSClientProtocol {
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutput
-    {
+    public func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1440,8 +1419,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func tagQueue(input: TagQueueInput) async throws -> TagQueueOutput
-    {
+    public func tagQueue(input: TagQueueInput) async throws -> TagQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1497,8 +1475,7 @@ extension SQSClient: SQSClientProtocol {
     ///
     /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
-    public func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutput
-    {
+    public func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct SMSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SMSClient: SMSClientProtocol {
+extension SMSClient {
     /// Performs the `CreateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
     ///
     /// Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
@@ -83,8 +83,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput
-    {
+    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `ServerCannotBeReplicatedException` : The specified server cannot be replicated.
     /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func createReplicationJob(input: CreateReplicationJobInput) async throws -> CreateReplicationJobOutput
-    {
+    public func createReplicationJob(input: CreateReplicationJobInput) async throws -> CreateReplicationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    {
+    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func deleteAppLaunchConfiguration(input: DeleteAppLaunchConfigurationInput) async throws -> DeleteAppLaunchConfigurationOutput
-    {
+    public func deleteAppLaunchConfiguration(input: DeleteAppLaunchConfigurationInput) async throws -> DeleteAppLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func deleteAppReplicationConfiguration(input: DeleteAppReplicationConfigurationInput) async throws -> DeleteAppReplicationConfigurationOutput
-    {
+    public func deleteAppReplicationConfiguration(input: DeleteAppReplicationConfigurationInput) async throws -> DeleteAppReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func deleteAppValidationConfiguration(input: DeleteAppValidationConfigurationInput) async throws -> DeleteAppValidationConfigurationOutput
-    {
+    public func deleteAppValidationConfiguration(input: DeleteAppValidationConfigurationInput) async throws -> DeleteAppValidationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +387,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `ReplicationJobNotFoundException` : The specified replication job does not exist.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func deleteReplicationJob(input: DeleteReplicationJobInput) async throws -> DeleteReplicationJobOutput
-    {
+    public func deleteReplicationJob(input: DeleteReplicationJobInput) async throws -> DeleteReplicationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -443,8 +436,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func deleteServerCatalog(input: DeleteServerCatalogInput) async throws -> DeleteServerCatalogOutput
-    {
+    public func deleteServerCatalog(input: DeleteServerCatalogInput) async throws -> DeleteServerCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +485,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func disassociateConnector(input: DisassociateConnectorInput) async throws -> DisassociateConnectorOutput
-    {
+    public func disassociateConnector(input: DisassociateConnectorInput) async throws -> DisassociateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -544,8 +535,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func generateChangeSet(input: GenerateChangeSetInput) async throws -> GenerateChangeSetOutput
-    {
+    public func generateChangeSet(input: GenerateChangeSetInput) async throws -> GenerateChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -595,8 +585,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func generateTemplate(input: GenerateTemplateInput) async throws -> GenerateTemplateOutput
-    {
+    public func generateTemplate(input: GenerateTemplateInput) async throws -> GenerateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +635,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getApp(input: GetAppInput) async throws -> GetAppOutput
-    {
+    public func getApp(input: GetAppInput) async throws -> GetAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +685,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getAppLaunchConfiguration(input: GetAppLaunchConfigurationInput) async throws -> GetAppLaunchConfigurationOutput
-    {
+    public func getAppLaunchConfiguration(input: GetAppLaunchConfigurationInput) async throws -> GetAppLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -748,8 +735,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getAppReplicationConfiguration(input: GetAppReplicationConfigurationInput) async throws -> GetAppReplicationConfigurationOutput
-    {
+    public func getAppReplicationConfiguration(input: GetAppReplicationConfigurationInput) async throws -> GetAppReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -799,8 +785,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getAppValidationConfiguration(input: GetAppValidationConfigurationInput) async throws -> GetAppValidationConfigurationOutput
-    {
+    public func getAppValidationConfiguration(input: GetAppValidationConfigurationInput) async throws -> GetAppValidationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -850,8 +835,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getAppValidationOutput(input: GetAppValidationOutputInput) async throws -> GetAppValidationOutputOutput
-    {
+    public func getAppValidationOutput(input: GetAppValidationOutputInput) async throws -> GetAppValidationOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -897,8 +881,7 @@ extension SMSClient: SMSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getConnectors(input: GetConnectorsInput) async throws -> GetConnectorsOutput
-    {
+    public func getConnectors(input: GetConnectorsInput) async throws -> GetConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -946,8 +929,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `InvalidParameterException` : A specified parameter is not valid.
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getReplicationJobs(input: GetReplicationJobsInput) async throws -> GetReplicationJobsOutput
-    {
+    public func getReplicationJobs(input: GetReplicationJobsInput) async throws -> GetReplicationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +977,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `InvalidParameterException` : A specified parameter is not valid.
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getReplicationRuns(input: GetReplicationRunsInput) async throws -> GetReplicationRunsOutput
-    {
+    public func getReplicationRuns(input: GetReplicationRunsInput) async throws -> GetReplicationRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1045,8 +1026,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `InvalidParameterException` : A specified parameter is not valid.
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func getServers(input: GetServersInput) async throws -> GetServersOutput
-    {
+    public func getServers(input: GetServersInput) async throws -> GetServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1096,8 +1076,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func importAppCatalog(input: ImportAppCatalogInput) async throws -> ImportAppCatalogOutput
-    {
+    public func importAppCatalog(input: ImportAppCatalogInput) async throws -> ImportAppCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1147,8 +1126,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `NoConnectorsAvailableException` : There are no connectors available.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func importServerCatalog(input: ImportServerCatalogInput) async throws -> ImportServerCatalogOutput
-    {
+    public func importServerCatalog(input: ImportServerCatalogInput) async throws -> ImportServerCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1198,8 +1176,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func launchApp(input: LaunchAppInput) async throws -> LaunchAppOutput
-    {
+    public func launchApp(input: LaunchAppInput) async throws -> LaunchAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1249,8 +1226,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput
-    {
+    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1300,8 +1276,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func notifyAppValidationOutput(input: NotifyAppValidationOutputInput) async throws -> NotifyAppValidationOutputOutput
-    {
+    public func notifyAppValidationOutput(input: NotifyAppValidationOutputInput) async throws -> NotifyAppValidationOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1351,8 +1326,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func putAppLaunchConfiguration(input: PutAppLaunchConfigurationInput) async throws -> PutAppLaunchConfigurationOutput
-    {
+    public func putAppLaunchConfiguration(input: PutAppLaunchConfigurationInput) async throws -> PutAppLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1402,8 +1376,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func putAppReplicationConfiguration(input: PutAppReplicationConfigurationInput) async throws -> PutAppReplicationConfigurationOutput
-    {
+    public func putAppReplicationConfiguration(input: PutAppReplicationConfigurationInput) async throws -> PutAppReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1453,8 +1426,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func putAppValidationConfiguration(input: PutAppValidationConfigurationInput) async throws -> PutAppValidationConfigurationOutput
-    {
+    public func putAppValidationConfiguration(input: PutAppValidationConfigurationInput) async throws -> PutAppValidationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1504,8 +1476,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func startAppReplication(input: StartAppReplicationInput) async throws -> StartAppReplicationOutput
-    {
+    public func startAppReplication(input: StartAppReplicationInput) async throws -> StartAppReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1555,8 +1526,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func startOnDemandAppReplication(input: StartOnDemandAppReplicationInput) async throws -> StartOnDemandAppReplicationOutput
-    {
+    public func startOnDemandAppReplication(input: StartOnDemandAppReplicationInput) async throws -> StartOnDemandAppReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1607,8 +1577,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `ReplicationRunLimitExceededException` : You have exceeded the number of on-demand replication runs you can request in a 24-hour period.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func startOnDemandReplicationRun(input: StartOnDemandReplicationRunInput) async throws -> StartOnDemandReplicationRunOutput
-    {
+    public func startOnDemandReplicationRun(input: StartOnDemandReplicationRunInput) async throws -> StartOnDemandReplicationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1658,8 +1627,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func stopAppReplication(input: StopAppReplicationInput) async throws -> StopAppReplicationOutput
-    {
+    public func stopAppReplication(input: StopAppReplicationInput) async throws -> StopAppReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1709,8 +1677,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func terminateApp(input: TerminateAppInput) async throws -> TerminateAppOutput
-    {
+    public func terminateApp(input: TerminateAppInput) async throws -> TerminateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1760,8 +1727,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
-    {
+    public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1814,8 +1780,7 @@ extension SMSClient: SMSClientProtocol {
     /// - `ServerCannotBeReplicatedException` : The specified server cannot be replicated.
     /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-    public func updateReplicationJob(input: UpdateReplicationJobInput) async throws -> UpdateReplicationJobOutput
-    {
+    public func updateReplicationJob(input: UpdateReplicationJobInput) async throws -> UpdateReplicationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

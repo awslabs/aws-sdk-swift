@@ -66,7 +66,7 @@ public struct MediaConvertClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension MediaConvertClient: MediaConvertClientProtocol {
+extension MediaConvertClient {
     /// Performs the `AssociateCertificate` operation on the `MediaConvert` service.
     ///
     /// Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
@@ -84,8 +84,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutput
-    {
+    public func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
-    {
+    public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput
-    {
+    public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -337,8 +332,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
-    {
+    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -388,8 +382,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
-    {
+    public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -436,8 +429,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +476,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput
-    {
+    public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -532,8 +523,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
-    {
+    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -580,8 +570,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
-    {
+    public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -631,8 +620,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutput
-    {
+    public func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -679,8 +667,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutput
-    {
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +714,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutput
-    {
+    public func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +761,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -823,8 +808,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func getPreset(input: GetPresetInput) async throws -> GetPresetOutput
-    {
+    public func getPreset(input: GetPresetInput) async throws -> GetPresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -871,8 +855,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func getQueue(input: GetQueueInput) async throws -> GetQueueOutput
-    {
+    public func getQueue(input: GetQueueInput) async throws -> GetQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -919,8 +902,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
-    {
+    public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -968,8 +950,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1017,8 +998,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput
-    {
+    public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1066,8 +1046,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
-    {
+    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1115,8 +1094,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1163,8 +1141,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput
-    {
+    public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,8 +1191,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1265,8 +1241,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1291,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutput
-    {
+    public func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1367,8 +1341,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutput
-    {
+    public func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1418,8 +1391,7 @@ extension MediaConvertClient: MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    public func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutput
-    {
+    public func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

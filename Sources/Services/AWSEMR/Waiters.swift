@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension EMRClientProtocol {
+extension EMRClient {
 
     static func clusterRunningWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
         let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [

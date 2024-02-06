@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension DatabaseMigrationClientProtocol {
+extension DatabaseMigrationClient {
 
     static func testConnectionSucceedsWaiterConfig() throws -> WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutput> {
         let acceptors: [WaiterConfiguration<DescribeConnectionsInput, DescribeConnectionsOutput>.Acceptor] = [

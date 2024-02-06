@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension TransferClientProtocol {
+extension TransferClient {
 
     static func serverOfflineWaiterConfig() throws -> WaiterConfiguration<DescribeServerInput, DescribeServerOutput> {
         let acceptors: [WaiterConfiguration<DescribeServerInput, DescribeServerOutput>.Acceptor] = [

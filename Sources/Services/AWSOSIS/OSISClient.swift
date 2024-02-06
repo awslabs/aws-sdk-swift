@@ -66,7 +66,7 @@ public struct OSISClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension OSISClient: OSISClientProtocol {
+extension OSISClient {
     /// Performs the `CreatePipeline` operation on the `AmazonOpenSearchIngestionService` service.
     ///
     /// Creates an OpenSearch Ingestion pipeline. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
@@ -84,8 +84,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `ResourceAlreadyExistsException` : You attempted to create a resource that already exists.
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
-    {
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
-    {
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput
-    {
+    public func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func getPipelineBlueprint(input: GetPipelineBlueprintInput) async throws -> GetPipelineBlueprintOutput
-    {
+    public func getPipelineBlueprint(input: GetPipelineBlueprintInput) async throws -> GetPipelineBlueprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -272,8 +268,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func getPipelineChangeProgress(input: GetPipelineChangeProgressInput) async throws -> GetPipelineChangeProgressOutput
-    {
+    public func getPipelineChangeProgress(input: GetPipelineChangeProgressInput) async throws -> GetPipelineChangeProgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func listPipelineBlueprints(input: ListPipelineBlueprintsInput) async throws -> ListPipelineBlueprintsOutput
-    {
+    public func listPipelineBlueprints(input: ListPipelineBlueprintsInput) async throws -> ListPipelineBlueprintsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -364,8 +358,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
-    {
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -411,8 +404,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +451,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func startPipeline(input: StartPipelineInput) async throws -> StartPipelineOutput
-    {
+    public func startPipeline(input: StartPipelineInput) async throws -> StartPipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -506,8 +497,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func stopPipeline(input: StopPipelineInput) async throws -> StopPipelineOutput
-    {
+    public func stopPipeline(input: StopPipelineInput) async throws -> StopPipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +543,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `LimitExceededException` : You attempted to create more than the allowed number of tags.
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -603,8 +592,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -654,8 +642,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
-    {
+    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -702,8 +689,7 @@ extension OSISClient: OSISClientProtocol {
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    public func validatePipeline(input: ValidatePipelineInput) async throws -> ValidatePipelineOutput
-    {
+    public func validatePipeline(input: ValidatePipelineInput) async throws -> ValidatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

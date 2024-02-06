@@ -8666,6 +8666,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum LookoutEquipmentClientTypes {}
+
 extension LookoutEquipmentClientTypes.MissingCompleteSensorData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case affectedSensorCount = "AffectedSensorCount"

@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension MediaLiveClientProtocol {
+extension MediaLiveClient {
 
     static func channelCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeChannelInput, DescribeChannelOutput> {
         let acceptors: [WaiterConfiguration<DescribeChannelInput, DescribeChannelOutput>.Acceptor] = [

@@ -8649,6 +8649,8 @@ extension DataZoneClientTypes {
     }
 }
 
+public enum DataZoneClientTypes {}
+
 extension DeleteAssetInput {
 
     static func urlPathProvider(_ value: DeleteAssetInput) -> Swift.String? {

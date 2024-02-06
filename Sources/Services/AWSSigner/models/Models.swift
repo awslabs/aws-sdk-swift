@@ -3516,6 +3516,8 @@ extension SignerClientTypes {
 
 }
 
+public enum SignerClientTypes {}
+
 extension SignerClientTypes.SigningConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionAlgorithmOptions

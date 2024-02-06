@@ -5980,6 +5980,8 @@ enum PromoteResourceShareCreatedFromPolicyOutputError: ClientRuntime.HttpRespons
     }
 }
 
+public enum RAMClientTypes {}
+
 extension RejectResourceShareInvitationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken

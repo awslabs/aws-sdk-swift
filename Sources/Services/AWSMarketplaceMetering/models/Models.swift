@@ -935,6 +935,8 @@ extension InvalidUsageDimensionExceptionBody: Swift.Decodable {
     }
 }
 
+public enum MarketplaceMeteringClientTypes {}
+
 extension MeterUsageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dryRun = "DryRun"

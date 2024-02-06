@@ -66,7 +66,7 @@ public struct RedshiftServerlessClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
+extension RedshiftServerlessClient {
     /// Performs the `ConvertRecoveryPointToSnapshot` operation on the `RedshiftServerless` service.
     ///
     /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery.html).
@@ -84,8 +84,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func convertRecoveryPointToSnapshot(input: ConvertRecoveryPointToSnapshotInput) async throws -> ConvertRecoveryPointToSnapshotOutput
-    {
+    public func convertRecoveryPointToSnapshot(input: ConvertRecoveryPointToSnapshotInput) async throws -> ConvertRecoveryPointToSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput
-    {
+    public func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput
-    {
+    public func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput
-    {
+    public func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput
-    {
+    public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -340,8 +335,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createSnapshotCopyConfiguration(input: CreateSnapshotCopyConfigurationInput) async throws -> CreateSnapshotCopyConfigurationOutput
-    {
+    public func createSnapshotCopyConfiguration(input: CreateSnapshotCopyConfigurationInput) async throws -> CreateSnapshotCopyConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -443,8 +436,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput
-    {
+    public func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -495,8 +487,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func createWorkgroup(input: CreateWorkgroupInput) async throws -> CreateWorkgroupOutput
-    {
+    public func createWorkgroup(input: CreateWorkgroupInput) async throws -> CreateWorkgroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -547,8 +538,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput
-    {
+    public func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -597,8 +587,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput
-    {
+    public func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -647,8 +636,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
-    {
+    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -696,8 +684,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -745,8 +732,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput
-    {
+    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +781,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-    {
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -846,8 +831,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteSnapshotCopyConfiguration(input: DeleteSnapshotCopyConfigurationInput) async throws -> DeleteSnapshotCopyConfigurationOutput
-    {
+    public func deleteSnapshotCopyConfiguration(input: DeleteSnapshotCopyConfigurationInput) async throws -> DeleteSnapshotCopyConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -896,8 +880,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput
-    {
+    public func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -946,8 +929,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func deleteWorkgroup(input: DeleteWorkgroupInput) async throws -> DeleteWorkgroupOutput
-    {
+    public func deleteWorkgroup(input: DeleteWorkgroupInput) async throws -> DeleteWorkgroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +977,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getCredentials(input: GetCredentialsInput) async throws -> GetCredentialsOutput
-    {
+    public func getCredentials(input: GetCredentialsInput) async throws -> GetCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1047,8 +1028,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getCustomDomainAssociation(input: GetCustomDomainAssociationInput) async throws -> GetCustomDomainAssociationOutput
-    {
+    public func getCustomDomainAssociation(input: GetCustomDomainAssociationInput) async throws -> GetCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1097,8 +1077,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getEndpointAccess(input: GetEndpointAccessInput) async throws -> GetEndpointAccessOutput
-    {
+    public func getEndpointAccess(input: GetEndpointAccessInput) async throws -> GetEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1125,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput
-    {
+    public func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1174,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getRecoveryPoint(input: GetRecoveryPointInput) async throws -> GetRecoveryPointOutput
-    {
+    public func getRecoveryPoint(input: GetRecoveryPointInput) async throws -> GetRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1245,8 +1222,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1294,8 +1270,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getScheduledAction(input: GetScheduledActionInput) async throws -> GetScheduledActionOutput
-    {
+    public func getScheduledAction(input: GetScheduledActionInput) async throws -> GetScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1343,8 +1318,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutput
-    {
+    public func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1391,8 +1365,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getTableRestoreStatus(input: GetTableRestoreStatusInput) async throws -> GetTableRestoreStatusOutput
-    {
+    public func getTableRestoreStatus(input: GetTableRestoreStatusInput) async throws -> GetTableRestoreStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1441,8 +1414,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getUsageLimit(input: GetUsageLimitInput) async throws -> GetUsageLimitOutput
-    {
+    public func getUsageLimit(input: GetUsageLimitInput) async throws -> GetUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1490,8 +1462,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func getWorkgroup(input: GetWorkgroupInput) async throws -> GetWorkgroupOutput
-    {
+    public func getWorkgroup(input: GetWorkgroupInput) async throws -> GetWorkgroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1512,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listCustomDomainAssociations(input: ListCustomDomainAssociationsInput) async throws -> ListCustomDomainAssociationsOutput
-    {
+    public func listCustomDomainAssociations(input: ListCustomDomainAssociationsInput) async throws -> ListCustomDomainAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1591,8 +1561,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listEndpointAccess(input: ListEndpointAccessInput) async throws -> ListEndpointAccessOutput
-    {
+    public func listEndpointAccess(input: ListEndpointAccessInput) async throws -> ListEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1639,8 +1608,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput
-    {
+    public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1687,8 +1655,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listRecoveryPoints(input: ListRecoveryPointsInput) async throws -> ListRecoveryPointsOutput
-    {
+    public func listRecoveryPoints(input: ListRecoveryPointsInput) async throws -> ListRecoveryPointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1737,8 +1704,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listScheduledActions(input: ListScheduledActionsInput) async throws -> ListScheduledActionsOutput
-    {
+    public func listScheduledActions(input: ListScheduledActionsInput) async throws -> ListScheduledActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1788,8 +1754,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listSnapshotCopyConfigurations(input: ListSnapshotCopyConfigurationsInput) async throws -> ListSnapshotCopyConfigurationsOutput
-    {
+    public func listSnapshotCopyConfigurations(input: ListSnapshotCopyConfigurationsInput) async throws -> ListSnapshotCopyConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1837,8 +1802,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput
-    {
+    public func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1886,8 +1850,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listTableRestoreStatus(input: ListTableRestoreStatusInput) async throws -> ListTableRestoreStatusOutput
-    {
+    public func listTableRestoreStatus(input: ListTableRestoreStatusInput) async throws -> ListTableRestoreStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1936,8 +1899,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1987,8 +1949,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listUsageLimits(input: ListUsageLimitsInput) async throws -> ListUsageLimitsOutput
-    {
+    public func listUsageLimits(input: ListUsageLimitsInput) async throws -> ListUsageLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2035,8 +1996,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func listWorkgroups(input: ListWorkgroupsInput) async throws -> ListWorkgroupsOutput
-    {
+    public func listWorkgroups(input: ListWorkgroupsInput) async throws -> ListWorkgroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2086,8 +2046,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2136,8 +2095,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutput
-    {
+    public func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2187,8 +2145,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput
-    {
+    public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2237,8 +2194,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func restoreTableFromRecoveryPoint(input: RestoreTableFromRecoveryPointInput) async throws -> RestoreTableFromRecoveryPointOutput
-    {
+    public func restoreTableFromRecoveryPoint(input: RestoreTableFromRecoveryPointInput) async throws -> RestoreTableFromRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2287,8 +2243,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutput
-    {
+    public func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2338,8 +2293,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2388,8 +2342,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2440,8 +2393,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateCustomDomainAssociation(input: UpdateCustomDomainAssociationInput) async throws -> UpdateCustomDomainAssociationOutput
-    {
+    public func updateCustomDomainAssociation(input: UpdateCustomDomainAssociationInput) async throws -> UpdateCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2491,8 +2443,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutput
-    {
+    public func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2541,8 +2492,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateNamespace(input: UpdateNamespaceInput) async throws -> UpdateNamespaceOutput
-    {
+    public func updateNamespace(input: UpdateNamespaceInput) async throws -> UpdateNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2591,8 +2541,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutput
-    {
+    public func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2641,8 +2590,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput
-    {
+    public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2692,8 +2640,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateSnapshotCopyConfiguration(input: UpdateSnapshotCopyConfigurationInput) async throws -> UpdateSnapshotCopyConfigurationOutput
-    {
+    public func updateSnapshotCopyConfiguration(input: UpdateSnapshotCopyConfigurationInput) async throws -> UpdateSnapshotCopyConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2742,8 +2689,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateUsageLimit(input: UpdateUsageLimitInput) async throws -> UpdateUsageLimitOutput
-    {
+    public func updateUsageLimit(input: UpdateUsageLimitInput) async throws -> UpdateUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2793,8 +2739,7 @@ extension RedshiftServerlessClient: RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    public func updateWorkgroup(input: UpdateWorkgroupInput) async throws -> UpdateWorkgroupOutput
-    {
+    public func updateWorkgroup(input: UpdateWorkgroupInput) async throws -> UpdateWorkgroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

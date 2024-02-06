@@ -66,7 +66,7 @@ public struct Route53RecoveryControlConfigClientLogHandlerFactory: ClientRuntime
     }
 }
 
-extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClientProtocol {
+extension Route53RecoveryControlConfigClient {
     /// Performs the `CreateCluster` operation on the `Route53RecoveryControlConfig` service.
     ///
     /// Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
@@ -85,8 +85,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ServiceQuotaExceededException` : 402 response - You attempted to create more resources than the service allows based on service quotas.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ServiceQuotaExceededException` : 402 response - You attempted to create more resources than the service allows based on service quotas.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func createControlPanel(input: CreateControlPanelInput) async throws -> CreateControlPanelOutput
-    {
+    public func createControlPanel(input: CreateControlPanelInput) async throws -> CreateControlPanelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -191,8 +189,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ServiceQuotaExceededException` : 402 response - You attempted to create more resources than the service allows based on service quotas.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func createRoutingControl(input: CreateRoutingControlInput) async throws -> CreateRoutingControlOutput
-    {
+    public func createRoutingControl(input: CreateRoutingControlInput) async throws -> CreateRoutingControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -239,8 +236,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// __Possible Exceptions:__
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func createSafetyRule(input: CreateSafetyRuleInput) async throws -> CreateSafetyRuleOutput
-    {
+    public func createSafetyRule(input: CreateSafetyRuleInput) async throws -> CreateSafetyRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -339,8 +334,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func deleteControlPanel(input: DeleteControlPanelInput) async throws -> DeleteControlPanelOutput
-    {
+    public func deleteControlPanel(input: DeleteControlPanelInput) async throws -> DeleteControlPanelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -387,8 +381,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func deleteRoutingControl(input: DeleteRoutingControlInput) async throws -> DeleteRoutingControlOutput
-    {
+    public func deleteRoutingControl(input: DeleteRoutingControlInput) async throws -> DeleteRoutingControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func deleteSafetyRule(input: DeleteSafetyRuleInput) async throws -> DeleteSafetyRuleOutput
-    {
+    public func deleteSafetyRule(input: DeleteSafetyRuleInput) async throws -> DeleteSafetyRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    {
+    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func describeControlPanel(input: DescribeControlPanelInput) async throws -> DescribeControlPanelOutput
-    {
+    public func describeControlPanel(input: DescribeControlPanelInput) async throws -> DescribeControlPanelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +566,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func describeRoutingControl(input: DescribeRoutingControlInput) async throws -> DescribeRoutingControlOutput
-    {
+    public func describeRoutingControl(input: DescribeRoutingControlInput) async throws -> DescribeRoutingControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +609,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func describeSafetyRule(input: DescribeSafetyRuleInput) async throws -> DescribeSafetyRuleOutput
-    {
+    public func describeSafetyRule(input: DescribeSafetyRuleInput) async throws -> DescribeSafetyRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +652,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// __Possible Exceptions:__
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -709,8 +696,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func listAssociatedRoute53HealthChecks(input: ListAssociatedRoute53HealthChecksInput) async throws -> ListAssociatedRoute53HealthChecksOutput
-    {
+    public func listAssociatedRoute53HealthChecks(input: ListAssociatedRoute53HealthChecksInput) async throws -> ListAssociatedRoute53HealthChecksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +743,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +790,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func listControlPanels(input: ListControlPanelsInput) async throws -> ListControlPanelsOutput
-    {
+    public func listControlPanels(input: ListControlPanelsInput) async throws -> ListControlPanelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func listRoutingControls(input: ListRoutingControlsInput) async throws -> ListRoutingControlsOutput
-    {
+    public func listRoutingControls(input: ListRoutingControlsInput) async throws -> ListRoutingControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -901,8 +884,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func listSafetyRules(input: ListSafetyRulesInput) async throws -> ListSafetyRulesOutput
-    {
+    public func listSafetyRules(input: ListSafetyRulesInput) async throws -> ListSafetyRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -947,8 +929,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -992,8 +973,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1040,8 +1020,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1089,8 +1068,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func updateControlPanel(input: UpdateControlPanelInput) async throws -> UpdateControlPanelOutput
-    {
+    public func updateControlPanel(input: UpdateControlPanelInput) async throws -> UpdateControlPanelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1118,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ThrottlingException` : 429 response - LimitExceededException or TooManyRequestsException.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func updateRoutingControl(input: UpdateRoutingControlInput) async throws -> UpdateRoutingControlOutput
-    {
+    public func updateRoutingControl(input: UpdateRoutingControlInput) async throws -> UpdateRoutingControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1165,7 @@ extension Route53RecoveryControlConfigClient: Route53RecoveryControlConfigClient
     /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
-    public func updateSafetyRule(input: UpdateSafetyRuleInput) async throws -> UpdateSafetyRuleOutput
-    {
+    public func updateSafetyRule(input: UpdateSafetyRuleInput) async throws -> UpdateSafetyRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

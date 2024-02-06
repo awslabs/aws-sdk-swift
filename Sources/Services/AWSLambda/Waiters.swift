@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension LambdaClientProtocol {
+extension LambdaClient {
 
     static func functionActiveV2WaiterConfig() throws -> WaiterConfiguration<GetFunctionInput, GetFunctionOutput> {
         let acceptors: [WaiterConfiguration<GetFunctionInput, GetFunctionOutput>.Acceptor] = [

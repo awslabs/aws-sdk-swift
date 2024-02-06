@@ -66,7 +66,7 @@ public struct ForecastClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension ForecastClient: ForecastClientProtocol {
+extension ForecastClient {
     /// Performs the `CreateAutoPredictor` operation on the `AmazonForecast` service.
     ///
     /// Creates an Amazon Forecast predictor. Amazon Forecast creates predictors with AutoPredictor, which involves applying the optimal combination of algorithms to each time series in your datasets. You can use [CreateAutoPredictor] to create new predictors or upgrade/retrain existing predictors. Creating new predictors The following parameters are required when creating a new predictor:
@@ -101,8 +101,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createAutoPredictor(input: CreateAutoPredictorInput) async throws -> CreateAutoPredictorOutput
-    {
+    public func createAutoPredictor(input: CreateAutoPredictorInput) async throws -> CreateAutoPredictorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -159,8 +158,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -210,8 +208,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput
-    {
+    public func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -261,8 +258,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput
-    {
+    public func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -356,8 +352,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createExplainability(input: CreateExplainabilityInput) async throws -> CreateExplainabilityOutput
-    {
+    public func createExplainability(input: CreateExplainabilityInput) async throws -> CreateExplainabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -407,8 +402,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createExplainabilityExport(input: CreateExplainabilityExportInput) async throws -> CreateExplainabilityExportOutput
-    {
+    public func createExplainabilityExport(input: CreateExplainabilityExportInput) async throws -> CreateExplainabilityExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +452,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createForecast(input: CreateForecastInput) async throws -> CreateForecastOutput
-    {
+    public func createForecast(input: CreateForecastInput) async throws -> CreateForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +502,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createForecastExportJob(input: CreateForecastExportJobInput) async throws -> CreateForecastExportJobOutput
-    {
+    public func createForecastExportJob(input: CreateForecastExportJobInput) async throws -> CreateForecastExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -560,8 +552,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput
-    {
+    public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -622,8 +613,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createPredictor(input: CreatePredictorInput) async throws -> CreatePredictorOutput
-    {
+    public func createPredictor(input: CreatePredictorInput) async throws -> CreatePredictorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -673,8 +663,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createPredictorBacktestExportJob(input: CreatePredictorBacktestExportJobInput) async throws -> CreatePredictorBacktestExportJobOutput
-    {
+    public func createPredictorBacktestExportJob(input: CreatePredictorBacktestExportJobInput) async throws -> CreatePredictorBacktestExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -724,8 +713,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createWhatIfAnalysis(input: CreateWhatIfAnalysisInput) async throws -> CreateWhatIfAnalysisOutput
-    {
+    public func createWhatIfAnalysis(input: CreateWhatIfAnalysisInput) async throws -> CreateWhatIfAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +763,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createWhatIfForecast(input: CreateWhatIfForecastInput) async throws -> CreateWhatIfForecastOutput
-    {
+    public func createWhatIfForecast(input: CreateWhatIfForecastInput) async throws -> CreateWhatIfForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -826,8 +813,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `ResourceAlreadyExistsException` : There is already a resource with this name. Try again with a different name.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func createWhatIfForecastExport(input: CreateWhatIfForecastExportInput) async throws -> CreateWhatIfForecastExportOutput
-    {
+    public func createWhatIfForecastExport(input: CreateWhatIfForecastExportInput) async throws -> CreateWhatIfForecastExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +861,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +909,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput
-    {
+    public func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -973,8 +957,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteDatasetImportJob(input: DeleteDatasetImportJobInput) async throws -> DeleteDatasetImportJobOutput
-    {
+    public func deleteDatasetImportJob(input: DeleteDatasetImportJobInput) async throws -> DeleteDatasetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1022,8 +1005,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteExplainability(input: DeleteExplainabilityInput) async throws -> DeleteExplainabilityOutput
-    {
+    public func deleteExplainability(input: DeleteExplainabilityInput) async throws -> DeleteExplainabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1053,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteExplainabilityExport(input: DeleteExplainabilityExportInput) async throws -> DeleteExplainabilityExportOutput
-    {
+    public func deleteExplainabilityExport(input: DeleteExplainabilityExportInput) async throws -> DeleteExplainabilityExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1120,8 +1101,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteForecast(input: DeleteForecastInput) async throws -> DeleteForecastOutput
-    {
+    public func deleteForecast(input: DeleteForecastInput) async throws -> DeleteForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1169,8 +1149,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteForecastExportJob(input: DeleteForecastExportJobInput) async throws -> DeleteForecastExportJobOutput
-    {
+    public func deleteForecastExportJob(input: DeleteForecastExportJobInput) async throws -> DeleteForecastExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1197,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput
-    {
+    public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1267,8 +1245,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deletePredictor(input: DeletePredictorInput) async throws -> DeletePredictorOutput
-    {
+    public func deletePredictor(input: DeletePredictorInput) async throws -> DeletePredictorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1293,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deletePredictorBacktestExportJob(input: DeletePredictorBacktestExportJobInput) async throws -> DeletePredictorBacktestExportJobOutput
-    {
+    public func deletePredictorBacktestExportJob(input: DeletePredictorBacktestExportJobInput) async throws -> DeletePredictorBacktestExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1376,8 +1352,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteResourceTree(input: DeleteResourceTreeInput) async throws -> DeleteResourceTreeOutput
-    {
+    public func deleteResourceTree(input: DeleteResourceTreeInput) async throws -> DeleteResourceTreeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1425,8 +1400,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteWhatIfAnalysis(input: DeleteWhatIfAnalysisInput) async throws -> DeleteWhatIfAnalysisOutput
-    {
+    public func deleteWhatIfAnalysis(input: DeleteWhatIfAnalysisInput) async throws -> DeleteWhatIfAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1474,8 +1448,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteWhatIfForecast(input: DeleteWhatIfForecastInput) async throws -> DeleteWhatIfForecastOutput
-    {
+    public func deleteWhatIfForecast(input: DeleteWhatIfForecastInput) async throws -> DeleteWhatIfForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1523,8 +1496,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func deleteWhatIfForecastExport(input: DeleteWhatIfForecastExportInput) async throws -> DeleteWhatIfForecastExportOutput
-    {
+    public func deleteWhatIfForecastExport(input: DeleteWhatIfForecastExportInput) async throws -> DeleteWhatIfForecastExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1571,8 +1543,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeAutoPredictor(input: DescribeAutoPredictorInput) async throws -> DescribeAutoPredictorOutput
-    {
+    public func describeAutoPredictor(input: DescribeAutoPredictorInput) async throws -> DescribeAutoPredictorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1625,8 +1596,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1681,8 +1651,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput
-    {
+    public func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1741,8 +1710,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput
-    {
+    public func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1789,8 +1757,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeExplainability(input: DescribeExplainabilityInput) async throws -> DescribeExplainabilityOutput
-    {
+    public func describeExplainability(input: DescribeExplainabilityInput) async throws -> DescribeExplainabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1837,8 +1804,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeExplainabilityExport(input: DescribeExplainabilityExportInput) async throws -> DescribeExplainabilityExportOutput
-    {
+    public func describeExplainabilityExport(input: DescribeExplainabilityExportInput) async throws -> DescribeExplainabilityExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1895,8 +1861,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeForecast(input: DescribeForecastInput) async throws -> DescribeForecastOutput
-    {
+    public func describeForecast(input: DescribeForecastInput) async throws -> DescribeForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1951,8 +1916,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeForecastExportJob(input: DescribeForecastExportJobInput) async throws -> DescribeForecastExportJobOutput
-    {
+    public func describeForecastExportJob(input: DescribeForecastExportJobInput) async throws -> DescribeForecastExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2013,8 +1977,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeMonitor(input: DescribeMonitorInput) async throws -> DescribeMonitorOutput
-    {
+    public func describeMonitor(input: DescribeMonitorInput) async throws -> DescribeMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2073,8 +2036,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describePredictor(input: DescribePredictorInput) async throws -> DescribePredictorOutput
-    {
+    public func describePredictor(input: DescribePredictorInput) async throws -> DescribePredictorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2129,8 +2091,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describePredictorBacktestExportJob(input: DescribePredictorBacktestExportJobInput) async throws -> DescribePredictorBacktestExportJobOutput
-    {
+    public func describePredictorBacktestExportJob(input: DescribePredictorBacktestExportJobInput) async throws -> DescribePredictorBacktestExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2185,8 +2146,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeWhatIfAnalysis(input: DescribeWhatIfAnalysisInput) async throws -> DescribeWhatIfAnalysisOutput
-    {
+    public func describeWhatIfAnalysis(input: DescribeWhatIfAnalysisInput) async throws -> DescribeWhatIfAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2241,8 +2201,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeWhatIfForecast(input: DescribeWhatIfForecastInput) async throws -> DescribeWhatIfForecastOutput
-    {
+    public func describeWhatIfForecast(input: DescribeWhatIfForecastInput) async throws -> DescribeWhatIfForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2297,8 +2256,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func describeWhatIfForecastExport(input: DescribeWhatIfForecastExportInput) async throws -> DescribeWhatIfForecastExportOutput
-    {
+    public func describeWhatIfForecastExport(input: DescribeWhatIfForecastExportInput) async throws -> DescribeWhatIfForecastExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2346,8 +2304,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func getAccuracyMetrics(input: GetAccuracyMetricsInput) async throws -> GetAccuracyMetricsOutput
-    {
+    public func getAccuracyMetrics(input: GetAccuracyMetricsInput) async throws -> GetAccuracyMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2393,8 +2350,7 @@ extension ForecastClient: ForecastClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput
-    {
+    public func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2441,8 +2397,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput
-    {
+    public func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2488,8 +2443,7 @@ extension ForecastClient: ForecastClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2536,8 +2490,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listExplainabilities(input: ListExplainabilitiesInput) async throws -> ListExplainabilitiesOutput
-    {
+    public func listExplainabilities(input: ListExplainabilitiesInput) async throws -> ListExplainabilitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2584,8 +2537,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listExplainabilityExports(input: ListExplainabilityExportsInput) async throws -> ListExplainabilityExportsOutput
-    {
+    public func listExplainabilityExports(input: ListExplainabilityExportsInput) async throws -> ListExplainabilityExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2632,8 +2584,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listForecastExportJobs(input: ListForecastExportJobsInput) async throws -> ListForecastExportJobsOutput
-    {
+    public func listForecastExportJobs(input: ListForecastExportJobsInput) async throws -> ListForecastExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2680,8 +2631,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listForecasts(input: ListForecastsInput) async throws -> ListForecastsOutput
-    {
+    public func listForecasts(input: ListForecastsInput) async throws -> ListForecastsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2729,8 +2679,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func listMonitorEvaluations(input: ListMonitorEvaluationsInput) async throws -> ListMonitorEvaluationsOutput
-    {
+    public func listMonitorEvaluations(input: ListMonitorEvaluationsInput) async throws -> ListMonitorEvaluationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2777,8 +2726,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput
-    {
+    public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2825,8 +2773,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listPredictorBacktestExportJobs(input: ListPredictorBacktestExportJobsInput) async throws -> ListPredictorBacktestExportJobsOutput
-    {
+    public func listPredictorBacktestExportJobs(input: ListPredictorBacktestExportJobsInput) async throws -> ListPredictorBacktestExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2873,8 +2820,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listPredictors(input: ListPredictorsInput) async throws -> ListPredictorsOutput
-    {
+    public func listPredictors(input: ListPredictorsInput) async throws -> ListPredictorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2921,8 +2867,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2969,8 +2914,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listWhatIfAnalyses(input: ListWhatIfAnalysesInput) async throws -> ListWhatIfAnalysesOutput
-    {
+    public func listWhatIfAnalyses(input: ListWhatIfAnalysesInput) async throws -> ListWhatIfAnalysesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3017,8 +2961,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listWhatIfForecastExports(input: ListWhatIfForecastExportsInput) async throws -> ListWhatIfForecastExportsOutput
-    {
+    public func listWhatIfForecastExports(input: ListWhatIfForecastExportsInput) async throws -> ListWhatIfForecastExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3065,8 +3008,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `InvalidNextTokenException` : The token is not valid. Tokens expire after 24 hours.
-    public func listWhatIfForecasts(input: ListWhatIfForecastsInput) async throws -> ListWhatIfForecastsOutput
-    {
+    public func listWhatIfForecasts(input: ListWhatIfForecastsInput) async throws -> ListWhatIfForecastsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3115,8 +3057,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func resumeResource(input: ResumeResourceInput) async throws -> ResumeResourceOutput
-    {
+    public func resumeResource(input: ResumeResourceInput) async throws -> ResumeResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3178,8 +3119,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func stopResource(input: StopResourceInput) async throws -> StopResourceOutput
-    {
+    public func stopResource(input: StopResourceInput) async throws -> StopResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3227,8 +3167,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `LimitExceededException` : The limit on the number of resources per account has been exceeded.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3275,8 +3214,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3324,8 +3262,7 @@ extension ForecastClient: ForecastClientProtocol {
     /// - `InvalidInputException` : We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-    public func updateDatasetGroup(input: UpdateDatasetGroupInput) async throws -> UpdateDatasetGroupOutput
-    {
+    public func updateDatasetGroup(input: UpdateDatasetGroupInput) async throws -> UpdateDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

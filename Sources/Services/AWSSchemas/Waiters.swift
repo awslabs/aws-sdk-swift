@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension SchemasClientProtocol {
+extension SchemasClient {
 
     static func codeBindingExistsWaiterConfig() throws -> WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutput> {
         let acceptors: [WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutput>.Acceptor] = [

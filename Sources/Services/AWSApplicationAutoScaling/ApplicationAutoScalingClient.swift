@@ -66,7 +66,7 @@ public struct ApplicationAutoScalingClientLogHandlerFactory: ClientRuntime.SDKLo
     }
 }
 
-extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
+extension ApplicationAutoScalingClient {
     /// Performs the `DeleteScalingPolicy` operation on the `AnyScaleFrontendService` service.
     ///
     /// Deletes the specified scaling policy for an Application Auto Scaling scalable target. Deleting a step scaling policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. For more information, see [Delete a step scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/create-step-scaling-policy-cli.html#delete-step-scaling-policy) and [Delete a target tracking scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/create-target-tracking-policy-cli.html#delete-target-tracking-policy) in the Application Auto Scaling User Guide.
@@ -82,8 +82,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ObjectNotFoundException` : The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput
-    {
+    public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ObjectNotFoundException` : The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput
-    {
+    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ObjectNotFoundException` : The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func deregisterScalableTarget(input: DeregisterScalableTargetInput) async throws -> DeregisterScalableTargetOutput
-    {
+    public func deregisterScalableTarget(input: DeregisterScalableTargetInput) async throws -> DeregisterScalableTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `InvalidNextTokenException` : The next token supplied was invalid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func describeScalableTargets(input: DescribeScalableTargetsInput) async throws -> DescribeScalableTargetsOutput
-    {
+    public func describeScalableTargets(input: DescribeScalableTargetsInput) async throws -> DescribeScalableTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `InvalidNextTokenException` : The next token supplied was invalid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func describeScalingActivities(input: DescribeScalingActivitiesInput) async throws -> DescribeScalingActivitiesOutput
-    {
+    public func describeScalingActivities(input: DescribeScalingActivitiesInput) async throws -> DescribeScalingActivitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `InvalidNextTokenException` : The next token supplied was invalid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput
-    {
+    public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +377,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `InvalidNextTokenException` : The next token supplied was invalid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput
-    {
+    public func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -482,8 +474,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `LimitExceededException` : A per-account resource limit is exceeded. For more information, see [Application Auto Scaling service quotas](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-limits.html).
     /// - `ObjectNotFoundException` : The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput
-    {
+    public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -533,8 +524,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `LimitExceededException` : A per-account resource limit is exceeded. For more information, see [Application Auto Scaling service quotas](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-limits.html).
     /// - `ObjectNotFoundException` : The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func putScheduledAction(input: PutScheduledActionInput) async throws -> PutScheduledActionOutput
-    {
+    public func putScheduledAction(input: PutScheduledActionInput) async throws -> PutScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -583,8 +573,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `LimitExceededException` : A per-account resource limit is exceeded. For more information, see [Application Auto Scaling service quotas](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-limits.html).
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func registerScalableTarget(input: RegisterScalableTargetInput) async throws -> RegisterScalableTargetOutput
-    {
+    public func registerScalableTarget(input: RegisterScalableTargetInput) async throws -> RegisterScalableTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,8 +621,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +668,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

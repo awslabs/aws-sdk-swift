@@ -15590,6 +15590,8 @@ extension S3ControlClientTypes {
     }
 }
 
+public enum S3ControlClientTypes {}
+
 extension S3ControlClientTypes.S3CopyObjectOperation: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControlGrants = "AccessControlGrants"

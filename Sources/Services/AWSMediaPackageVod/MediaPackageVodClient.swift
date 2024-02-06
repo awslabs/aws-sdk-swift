@@ -66,7 +66,7 @@ public struct MediaPackageVodClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension MediaPackageVodClient: MediaPackageVodClientProtocol {
+extension MediaPackageVodClient {
     /// Performs the `ConfigureLogs` operation on the `MediaPackageVod` service.
     ///
     /// Changes the packaging group's properities to configure log subscription
@@ -84,8 +84,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutput
-    {
+    public func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput
-    {
+    public func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func createPackagingConfiguration(input: CreatePackagingConfigurationInput) async throws -> CreatePackagingConfigurationOutput
-    {
+    public func createPackagingConfiguration(input: CreatePackagingConfigurationInput) async throws -> CreatePackagingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func createPackagingGroup(input: CreatePackagingGroupInput) async throws -> CreatePackagingGroupOutput
-    {
+    public func createPackagingGroup(input: CreatePackagingGroupInput) async throws -> CreatePackagingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
-    {
+    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func deletePackagingConfiguration(input: DeletePackagingConfigurationInput) async throws -> DeletePackagingConfigurationOutput
-    {
+    public func deletePackagingConfiguration(input: DeletePackagingConfigurationInput) async throws -> DeletePackagingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func deletePackagingGroup(input: DeletePackagingGroupInput) async throws -> DeletePackagingGroupOutput
-    {
+    public func deletePackagingGroup(input: DeletePackagingGroupInput) async throws -> DeletePackagingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func describeAsset(input: DescribeAssetInput) async throws -> DescribeAssetOutput
-    {
+    public func describeAsset(input: DescribeAssetInput) async throws -> DescribeAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func describePackagingConfiguration(input: DescribePackagingConfigurationInput) async throws -> DescribePackagingConfigurationOutput
-    {
+    public func describePackagingConfiguration(input: DescribePackagingConfigurationInput) async throws -> DescribePackagingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func describePackagingGroup(input: DescribePackagingGroupInput) async throws -> DescribePackagingGroupOutput
-    {
+    public func describePackagingGroup(input: DescribePackagingGroupInput) async throws -> DescribePackagingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +566,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutput
-    {
+    public func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -625,8 +614,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func listPackagingConfigurations(input: ListPackagingConfigurationsInput) async throws -> ListPackagingConfigurationsOutput
-    {
+    public func listPackagingConfigurations(input: ListPackagingConfigurationsInput) async throws -> ListPackagingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func listPackagingGroups(input: ListPackagingGroupsInput) async throws -> ListPackagingGroupsOutput
-    {
+    public func listPackagingGroups(input: ListPackagingGroupsInput) async throws -> ListPackagingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +700,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -751,8 +737,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -792,8 +777,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +825,7 @@ extension MediaPackageVodClient: MediaPackageVodClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func updatePackagingGroup(input: UpdatePackagingGroupInput) async throws -> UpdatePackagingGroupOutput
-    {
+    public func updatePackagingGroup(input: UpdatePackagingGroupInput) async throws -> UpdatePackagingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

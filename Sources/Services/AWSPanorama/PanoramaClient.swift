@@ -66,7 +66,7 @@ public struct PanoramaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension PanoramaClient: PanoramaClientProtocol {
+extension PanoramaClient {
     /// Performs the `CreateApplicationInstance` operation on the `OmniCloudServiceLambda` service.
     ///
     /// Creates an application instance and deploys it to a device.
@@ -82,8 +82,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func createApplicationInstance(input: CreateApplicationInstanceInput) async throws -> CreateApplicationInstanceOutput
-    {
+    public func createApplicationInstance(input: CreateApplicationInstanceInput) async throws -> CreateApplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func createJobForDevices(input: CreateJobForDevicesInput) async throws -> CreateJobForDevicesOutput
-    {
+    public func createJobForDevices(input: CreateJobForDevicesInput) async throws -> CreateJobForDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func createNodeFromTemplateJob(input: CreateNodeFromTemplateJobInput) async throws -> CreateNodeFromTemplateJobOutput
-    {
+    public func createNodeFromTemplateJob(input: CreateNodeFromTemplateJobInput) async throws -> CreateNodeFromTemplateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
-    {
+    public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func createPackageImportJob(input: CreatePackageImportJobInput) async throws -> CreatePackageImportJobOutput
-    {
+    public func createPackageImportJob(input: CreatePackageImportJobInput) async throws -> CreatePackageImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
-    {
+    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
-    {
+    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +417,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func deregisterPackageVersion(input: DeregisterPackageVersionInput) async throws -> DeregisterPackageVersionOutput
-    {
+    public func deregisterPackageVersion(input: DeregisterPackageVersionInput) async throws -> DeregisterPackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -472,8 +464,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describeApplicationInstance(input: DescribeApplicationInstanceInput) async throws -> DescribeApplicationInstanceOutput
-    {
+    public func describeApplicationInstance(input: DescribeApplicationInstanceInput) async throws -> DescribeApplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -519,8 +510,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describeApplicationInstanceDetails(input: DescribeApplicationInstanceDetailsInput) async throws -> DescribeApplicationInstanceDetailsOutput
-    {
+    public func describeApplicationInstanceDetails(input: DescribeApplicationInstanceDetailsInput) async throws -> DescribeApplicationInstanceDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +555,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
-    {
+    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +601,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describeDeviceJob(input: DescribeDeviceJobInput) async throws -> DescribeDeviceJobOutput
-    {
+    public func describeDeviceJob(input: DescribeDeviceJobInput) async throws -> DescribeDeviceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -659,8 +647,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describeNode(input: DescribeNodeInput) async throws -> DescribeNodeOutput
-    {
+    public func describeNode(input: DescribeNodeInput) async throws -> DescribeNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +693,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describeNodeFromTemplateJob(input: DescribeNodeFromTemplateJobInput) async throws -> DescribeNodeFromTemplateJobOutput
-    {
+    public func describeNodeFromTemplateJob(input: DescribeNodeFromTemplateJobInput) async throws -> DescribeNodeFromTemplateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -753,8 +739,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput
-    {
+    public func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -799,8 +784,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describePackageImportJob(input: DescribePackageImportJobInput) async throws -> DescribePackageImportJobOutput
-    {
+    public func describePackageImportJob(input: DescribePackageImportJobInput) async throws -> DescribePackageImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -846,8 +830,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput
-    {
+    public func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -891,8 +874,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
-    public func listApplicationInstanceDependencies(input: ListApplicationInstanceDependenciesInput) async throws -> ListApplicationInstanceDependenciesOutput
-    {
+    public func listApplicationInstanceDependencies(input: ListApplicationInstanceDependenciesInput) async throws -> ListApplicationInstanceDependenciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +918,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
-    public func listApplicationInstanceNodeInstances(input: ListApplicationInstanceNodeInstancesInput) async throws -> ListApplicationInstanceNodeInstancesOutput
-    {
+    public func listApplicationInstanceNodeInstances(input: ListApplicationInstanceNodeInstancesInput) async throws -> ListApplicationInstanceNodeInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -981,8 +962,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
-    public func listApplicationInstances(input: ListApplicationInstancesInput) async throws -> ListApplicationInstancesOutput
-    {
+    public func listApplicationInstances(input: ListApplicationInstancesInput) async throws -> ListApplicationInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1028,8 +1008,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1076,8 +1055,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listDevicesJobs(input: ListDevicesJobsInput) async throws -> ListDevicesJobsOutput
-    {
+    public func listDevicesJobs(input: ListDevicesJobsInput) async throws -> ListDevicesJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1123,8 +1101,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listNodeFromTemplateJobs(input: ListNodeFromTemplateJobsInput) async throws -> ListNodeFromTemplateJobsOutput
-    {
+    public func listNodeFromTemplateJobs(input: ListNodeFromTemplateJobsInput) async throws -> ListNodeFromTemplateJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1169,8 +1146,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
-    {
+    public func listNodes(input: ListNodesInput) async throws -> ListNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1216,8 +1192,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listPackageImportJobs(input: ListPackageImportJobsInput) async throws -> ListPackageImportJobsOutput
-    {
+    public func listPackageImportJobs(input: ListPackageImportJobsInput) async throws -> ListPackageImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1264,8 +1239,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
-    {
+    public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1310,8 +1284,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1357,8 +1330,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func provisionDevice(input: ProvisionDeviceInput) async throws -> ProvisionDeviceOutput
-    {
+    public func provisionDevice(input: ProvisionDeviceInput) async throws -> ProvisionDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1406,8 +1378,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func registerPackageVersion(input: RegisterPackageVersionInput) async throws -> RegisterPackageVersionOutput
-    {
+    public func registerPackageVersion(input: RegisterPackageVersionInput) async throws -> RegisterPackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1456,8 +1427,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func removeApplicationInstance(input: RemoveApplicationInstanceInput) async throws -> RemoveApplicationInstanceOutput
-    {
+    public func removeApplicationInstance(input: RemoveApplicationInstanceInput) async throws -> RemoveApplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1502,8 +1472,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func signalApplicationInstanceNodeInstances(input: SignalApplicationInstanceNodeInstancesInput) async throws -> SignalApplicationInstanceNodeInstancesOutput
-    {
+    public func signalApplicationInstanceNodeInstances(input: SignalApplicationInstanceNodeInstancesInput) async throws -> SignalApplicationInstanceNodeInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1519,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1598,8 +1566,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1646,8 +1613,7 @@ extension PanoramaClient: PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    public func updateDeviceMetadata(input: UpdateDeviceMetadataInput) async throws -> UpdateDeviceMetadataOutput
-    {
+    public func updateDeviceMetadata(input: UpdateDeviceMetadataInput) async throws -> UpdateDeviceMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

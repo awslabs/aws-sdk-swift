@@ -961,6 +961,8 @@ extension ChimeSDKIdentityClientTypes {
 
 }
 
+public enum ChimeSDKIdentityClientTypes {}
+
 extension ChimeSDKIdentityClientTypes.Configuration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lex = "Lex"

@@ -6412,6 +6412,8 @@ enum DisassociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpRespons
     }
 }
 
+public enum ElasticBeanstalkClientTypes {}
+
 extension ElasticBeanstalkServiceException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {

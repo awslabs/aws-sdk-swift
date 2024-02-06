@@ -66,7 +66,7 @@ public struct MigrationHubRefactorSpacesClientLogHandlerFactory: ClientRuntime.S
     }
 }
 
-extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProtocol {
+extension MigrationHubRefactorSpacesClient {
     /// Performs the `CreateApplication` operation on the `RefactorSpaces` service.
     ///
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) of NONE you need to configure [ VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html) between your service VPC and the application proxy VPC to route traffic through the application proxy to a service with a private URL endpoint. For more information, see [ Create an application](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html) in the Refactor Spaces User Guide.
@@ -85,8 +85,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -198,8 +196,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
-    {
+    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -251,8 +248,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
-    {
+    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -303,8 +299,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -351,8 +346,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +392,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +439,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
-    {
+    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +486,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
-    {
+    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-    {
+    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -635,8 +624,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -682,8 +670,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func getRoute(input: GetRouteInput) async throws -> GetRouteOutput
-    {
+    public func getRoute(input: GetRouteInput) async throws -> GetRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func getService(input: GetServiceInput) async throws -> GetServiceOutput
-    {
+    public func getService(input: GetServiceInput) async throws -> GetServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -826,8 +811,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func listEnvironmentVpcs(input: ListEnvironmentVpcsInput) async throws -> ListEnvironmentVpcsOutput
-    {
+    public func listEnvironmentVpcs(input: ListEnvironmentVpcsInput) async throws -> ListEnvironmentVpcsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -874,8 +858,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +907,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutput
-    {
+    public func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -974,8 +956,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput
-    {
+    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1020,8 +1001,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1068,8 +1048,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1116,8 +1095,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1164,8 +1142,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1189,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : Request was denied because the request was throttled.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Service.
-    public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
-    {
+    public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

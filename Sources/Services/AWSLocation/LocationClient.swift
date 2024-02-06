@@ -66,7 +66,7 @@ public struct LocationClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension LocationClient: LocationClientProtocol {
+extension LocationClient {
     /// Performs the `AssociateTrackerConsumer` operation on the `LocationService` service.
     ///
     /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
@@ -85,8 +85,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func associateTrackerConsumer(input: AssociateTrackerConsumerInput) async throws -> AssociateTrackerConsumerOutput
-    {
+    public func associateTrackerConsumer(input: AssociateTrackerConsumerInput) async throws -> AssociateTrackerConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func batchDeleteDevicePositionHistory(input: BatchDeleteDevicePositionHistoryInput) async throws -> BatchDeleteDevicePositionHistoryOutput
-    {
+    public func batchDeleteDevicePositionHistory(input: BatchDeleteDevicePositionHistoryInput) async throws -> BatchDeleteDevicePositionHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func batchDeleteGeofence(input: BatchDeleteGeofenceInput) async throws -> BatchDeleteGeofenceOutput
-    {
+    public func batchDeleteGeofence(input: BatchDeleteGeofenceInput) async throws -> BatchDeleteGeofenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func batchEvaluateGeofences(input: BatchEvaluateGeofencesInput) async throws -> BatchEvaluateGeofencesOutput
-    {
+    public func batchEvaluateGeofences(input: BatchEvaluateGeofencesInput) async throws -> BatchEvaluateGeofencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -292,8 +288,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func batchGetDevicePosition(input: BatchGetDevicePositionInput) async throws -> BatchGetDevicePositionOutput
-    {
+    public func batchGetDevicePosition(input: BatchGetDevicePositionInput) async throws -> BatchGetDevicePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func batchPutGeofence(input: BatchPutGeofenceInput) async throws -> BatchPutGeofenceOutput
-    {
+    public func batchPutGeofence(input: BatchPutGeofenceInput) async throws -> BatchPutGeofenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func batchUpdateDevicePosition(input: BatchUpdateDevicePositionInput) async throws -> BatchUpdateDevicePositionOutput
-    {
+    public func batchUpdateDevicePosition(input: BatchUpdateDevicePositionInput) async throws -> BatchUpdateDevicePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +439,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func calculateRoute(input: CalculateRouteInput) async throws -> CalculateRouteOutput
-    {
+    public func calculateRoute(input: CalculateRouteInput) async throws -> CalculateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -501,8 +493,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func calculateRouteMatrix(input: CalculateRouteMatrixInput) async throws -> CalculateRouteMatrixOutput
-    {
+    public func calculateRouteMatrix(input: CalculateRouteMatrixInput) async throws -> CalculateRouteMatrixOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createGeofenceCollection(input: CreateGeofenceCollectionInput) async throws -> CreateGeofenceCollectionOutput
-    {
+    public func createGeofenceCollection(input: CreateGeofenceCollectionInput) async throws -> CreateGeofenceCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +594,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput
-    {
+    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -655,8 +644,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createMap(input: CreateMapInput) async throws -> CreateMapOutput
-    {
+    public func createMap(input: CreateMapInput) async throws -> CreateMapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +694,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createPlaceIndex(input: CreatePlaceIndexInput) async throws -> CreatePlaceIndexOutput
-    {
+    public func createPlaceIndex(input: CreatePlaceIndexInput) async throws -> CreatePlaceIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +744,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createRouteCalculator(input: CreateRouteCalculatorInput) async throws -> CreateRouteCalculatorOutput
-    {
+    public func createRouteCalculator(input: CreateRouteCalculatorInput) async throws -> CreateRouteCalculatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -808,8 +794,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createTracker(input: CreateTrackerInput) async throws -> CreateTrackerOutput
-    {
+    public func createTracker(input: CreateTrackerInput) async throws -> CreateTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -858,8 +843,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteGeofenceCollection(input: DeleteGeofenceCollectionInput) async throws -> DeleteGeofenceCollectionOutput
-    {
+    public func deleteGeofenceCollection(input: DeleteGeofenceCollectionInput) async throws -> DeleteGeofenceCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -905,8 +889,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput
-    {
+    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -953,8 +936,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteMap(input: DeleteMapInput) async throws -> DeleteMapOutput
-    {
+    public func deleteMap(input: DeleteMapInput) async throws -> DeleteMapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1000,8 +982,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deletePlaceIndex(input: DeletePlaceIndexInput) async throws -> DeletePlaceIndexOutput
-    {
+    public func deletePlaceIndex(input: DeletePlaceIndexInput) async throws -> DeletePlaceIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1047,8 +1028,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteRouteCalculator(input: DeleteRouteCalculatorInput) async throws -> DeleteRouteCalculatorOutput
-    {
+    public func deleteRouteCalculator(input: DeleteRouteCalculatorInput) async throws -> DeleteRouteCalculatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1094,8 +1074,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteTracker(input: DeleteTrackerInput) async throws -> DeleteTrackerOutput
-    {
+    public func deleteTracker(input: DeleteTrackerInput) async throws -> DeleteTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1141,8 +1120,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func describeGeofenceCollection(input: DescribeGeofenceCollectionInput) async throws -> DescribeGeofenceCollectionOutput
-    {
+    public func describeGeofenceCollection(input: DescribeGeofenceCollectionInput) async throws -> DescribeGeofenceCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1166,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutput
-    {
+    public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1235,8 +1212,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func describeMap(input: DescribeMapInput) async throws -> DescribeMapOutput
-    {
+    public func describeMap(input: DescribeMapInput) async throws -> DescribeMapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1282,8 +1258,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func describePlaceIndex(input: DescribePlaceIndexInput) async throws -> DescribePlaceIndexOutput
-    {
+    public func describePlaceIndex(input: DescribePlaceIndexInput) async throws -> DescribePlaceIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1329,8 +1304,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func describeRouteCalculator(input: DescribeRouteCalculatorInput) async throws -> DescribeRouteCalculatorOutput
-    {
+    public func describeRouteCalculator(input: DescribeRouteCalculatorInput) async throws -> DescribeRouteCalculatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1376,8 +1350,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func describeTracker(input: DescribeTrackerInput) async throws -> DescribeTrackerOutput
-    {
+    public func describeTracker(input: DescribeTrackerInput) async throws -> DescribeTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1423,8 +1396,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func disassociateTrackerConsumer(input: DisassociateTrackerConsumerInput) async throws -> DisassociateTrackerConsumerOutput
-    {
+    public func disassociateTrackerConsumer(input: DisassociateTrackerConsumerInput) async throws -> DisassociateTrackerConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1470,8 +1442,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getDevicePosition(input: GetDevicePositionInput) async throws -> GetDevicePositionOutput
-    {
+    public func getDevicePosition(input: GetDevicePositionInput) async throws -> GetDevicePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1517,8 +1488,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getDevicePositionHistory(input: GetDevicePositionHistoryInput) async throws -> GetDevicePositionHistoryOutput
-    {
+    public func getDevicePositionHistory(input: GetDevicePositionHistoryInput) async throws -> GetDevicePositionHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1567,8 +1537,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getGeofence(input: GetGeofenceInput) async throws -> GetGeofenceOutput
-    {
+    public func getGeofence(input: GetGeofenceInput) async throws -> GetGeofenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1614,8 +1583,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getMapGlyphs(input: GetMapGlyphsInput) async throws -> GetMapGlyphsOutput
-    {
+    public func getMapGlyphs(input: GetMapGlyphsInput) async throws -> GetMapGlyphsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1662,8 +1630,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getMapSprites(input: GetMapSpritesInput) async throws -> GetMapSpritesOutput
-    {
+    public func getMapSprites(input: GetMapSpritesInput) async throws -> GetMapSpritesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1677,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getMapStyleDescriptor(input: GetMapStyleDescriptorInput) async throws -> GetMapStyleDescriptorOutput
-    {
+    public func getMapStyleDescriptor(input: GetMapStyleDescriptorInput) async throws -> GetMapStyleDescriptorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1758,8 +1724,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getMapTile(input: GetMapTileInput) async throws -> GetMapTileOutput
-    {
+    public func getMapTile(input: GetMapTileInput) async throws -> GetMapTileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1812,8 +1777,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getPlace(input: GetPlaceInput) async throws -> GetPlaceOutput
-    {
+    public func getPlace(input: GetPlaceInput) async throws -> GetPlaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1859,8 +1823,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listDevicePositions(input: ListDevicePositionsInput) async throws -> ListDevicePositionsOutput
-    {
+    public func listDevicePositions(input: ListDevicePositionsInput) async throws -> ListDevicePositionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1908,8 +1871,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listGeofenceCollections(input: ListGeofenceCollectionsInput) async throws -> ListGeofenceCollectionsOutput
-    {
+    public func listGeofenceCollections(input: ListGeofenceCollectionsInput) async throws -> ListGeofenceCollectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1958,8 +1920,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listGeofences(input: ListGeofencesInput) async throws -> ListGeofencesOutput
-    {
+    public func listGeofences(input: ListGeofencesInput) async throws -> ListGeofencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2007,8 +1968,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
-    {
+    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2056,8 +2016,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listMaps(input: ListMapsInput) async throws -> ListMapsOutput
-    {
+    public func listMaps(input: ListMapsInput) async throws -> ListMapsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2105,8 +2064,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listPlaceIndexes(input: ListPlaceIndexesInput) async throws -> ListPlaceIndexesOutput
-    {
+    public func listPlaceIndexes(input: ListPlaceIndexesInput) async throws -> ListPlaceIndexesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2154,8 +2112,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listRouteCalculators(input: ListRouteCalculatorsInput) async throws -> ListRouteCalculatorsOutput
-    {
+    public func listRouteCalculators(input: ListRouteCalculatorsInput) async throws -> ListRouteCalculatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2204,8 +2161,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2251,8 +2207,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listTrackerConsumers(input: ListTrackerConsumersInput) async throws -> ListTrackerConsumersOutput
-    {
+    public func listTrackerConsumers(input: ListTrackerConsumersInput) async throws -> ListTrackerConsumersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2300,8 +2255,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `InternalServerException` : The request has failed to process because of an unknown server error, exception, or failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listTrackers(input: ListTrackersInput) async throws -> ListTrackersOutput
-    {
+    public func listTrackers(input: ListTrackersInput) async throws -> ListTrackersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2351,8 +2305,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func putGeofence(input: PutGeofenceInput) async throws -> PutGeofenceOutput
-    {
+    public func putGeofence(input: PutGeofenceInput) async throws -> PutGeofenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2401,8 +2354,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func searchPlaceIndexForPosition(input: SearchPlaceIndexForPositionInput) async throws -> SearchPlaceIndexForPositionOutput
-    {
+    public func searchPlaceIndexForPosition(input: SearchPlaceIndexForPositionInput) async throws -> SearchPlaceIndexForPositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2452,8 +2404,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func searchPlaceIndexForSuggestions(input: SearchPlaceIndexForSuggestionsInput) async throws -> SearchPlaceIndexForSuggestionsOutput
-    {
+    public func searchPlaceIndexForSuggestions(input: SearchPlaceIndexForSuggestionsInput) async throws -> SearchPlaceIndexForSuggestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2503,8 +2454,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func searchPlaceIndexForText(input: SearchPlaceIndexForTextInput) async throws -> SearchPlaceIndexForTextOutput
-    {
+    public func searchPlaceIndexForText(input: SearchPlaceIndexForTextInput) async throws -> SearchPlaceIndexForTextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2554,8 +2504,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2604,8 +2553,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2652,8 +2600,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateGeofenceCollection(input: UpdateGeofenceCollectionInput) async throws -> UpdateGeofenceCollectionOutput
-    {
+    public func updateGeofenceCollection(input: UpdateGeofenceCollectionInput) async throws -> UpdateGeofenceCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2702,8 +2649,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutput
-    {
+    public func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2752,8 +2698,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateMap(input: UpdateMapInput) async throws -> UpdateMapOutput
-    {
+    public func updateMap(input: UpdateMapInput) async throws -> UpdateMapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2802,8 +2747,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updatePlaceIndex(input: UpdatePlaceIndexInput) async throws -> UpdatePlaceIndexOutput
-    {
+    public func updatePlaceIndex(input: UpdatePlaceIndexInput) async throws -> UpdatePlaceIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2852,8 +2796,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateRouteCalculator(input: UpdateRouteCalculatorInput) async throws -> UpdateRouteCalculatorOutput
-    {
+    public func updateRouteCalculator(input: UpdateRouteCalculatorInput) async throws -> UpdateRouteCalculatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2902,8 +2845,7 @@ extension LocationClient: LocationClientProtocol {
     /// - `ResourceNotFoundException` : The resource that you've entered was not found in your AWS account.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateTracker(input: UpdateTrackerInput) async throws -> UpdateTrackerOutput
-    {
+    public func updateTracker(input: UpdateTrackerInput) async throws -> UpdateTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

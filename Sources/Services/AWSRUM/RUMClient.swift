@@ -66,7 +66,7 @@ public struct RUMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension RUMClient: RUMClientProtocol {
+extension RUMClient {
     /// Performs the `BatchCreateRumMetricDefinitions` operation on the `RUM` service.
     ///
     /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in [CloudWatch metrics that you can collect with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-metrics.html). In addition to these default metrics, you can choose to send extended metrics or custom metrics or both.
@@ -92,8 +92,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func batchCreateRumMetricDefinitions(input: BatchCreateRumMetricDefinitionsInput) async throws -> BatchCreateRumMetricDefinitionsOutput
-    {
+    public func batchCreateRumMetricDefinitions(input: BatchCreateRumMetricDefinitionsInput) async throws -> BatchCreateRumMetricDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -143,8 +142,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func batchDeleteRumMetricDefinitions(input: BatchDeleteRumMetricDefinitionsInput) async throws -> BatchDeleteRumMetricDefinitionsOutput
-    {
+    public func batchDeleteRumMetricDefinitions(input: BatchDeleteRumMetricDefinitionsInput) async throws -> BatchDeleteRumMetricDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `InternalServerException` : Internal service exception.
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func batchGetRumMetricDefinitions(input: BatchGetRumMetricDefinitionsInput) async throws -> BatchGetRumMetricDefinitionsOutput
-    {
+    public func batchGetRumMetricDefinitions(input: BatchGetRumMetricDefinitionsInput) async throws -> BatchGetRumMetricDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func createAppMonitor(input: CreateAppMonitorInput) async throws -> CreateAppMonitorOutput
-    {
+    public func createAppMonitor(input: CreateAppMonitorInput) async throws -> CreateAppMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func deleteAppMonitor(input: DeleteAppMonitorInput) async throws -> DeleteAppMonitorOutput
-    {
+    public func deleteAppMonitor(input: DeleteAppMonitorInput) async throws -> DeleteAppMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -339,8 +334,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func deleteRumMetricsDestination(input: DeleteRumMetricsDestinationInput) async throws -> DeleteRumMetricsDestinationOutput
-    {
+    public func deleteRumMetricsDestination(input: DeleteRumMetricsDestinationInput) async throws -> DeleteRumMetricsDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -387,8 +381,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func getAppMonitor(input: GetAppMonitorInput) async throws -> GetAppMonitorOutput
-    {
+    public func getAppMonitor(input: GetAppMonitorInput) async throws -> GetAppMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -434,8 +427,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func getAppMonitorData(input: GetAppMonitorDataInput) async throws -> GetAppMonitorDataOutput
-    {
+    public func getAppMonitorData(input: GetAppMonitorDataInput) async throws -> GetAppMonitorDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -483,8 +475,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `InternalServerException` : Internal service exception.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func listAppMonitors(input: ListAppMonitorsInput) async throws -> ListAppMonitorsOutput
-    {
+    public func listAppMonitors(input: ListAppMonitorsInput) async throws -> ListAppMonitorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +521,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `InternalServerException` : Internal service exception.
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func listRumMetricsDestinations(input: ListRumMetricsDestinationsInput) async throws -> ListRumMetricsDestinationsOutput
-    {
+    public func listRumMetricsDestinations(input: ListRumMetricsDestinationsInput) async throws -> ListRumMetricsDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +566,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `InternalServerException` : Internal service exception.
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -623,8 +612,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func putRumEvents(input: PutRumEventsInput) async throws -> PutRumEventsOutput
-    {
+    public func putRumEvents(input: PutRumEventsInput) async throws -> PutRumEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func putRumMetricsDestination(input: PutRumMetricsDestinationInput) async throws -> PutRumMetricsDestinationOutput
-    {
+    public func putRumMetricsDestination(input: PutRumMetricsDestinationInput) async throws -> PutRumMetricsDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -722,8 +709,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `InternalServerException` : Internal service exception.
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +756,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `InternalServerException` : Internal service exception.
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +804,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func updateAppMonitor(input: UpdateAppMonitorInput) async throws -> UpdateAppMonitorOutput
-    {
+    public func updateAppMonitor(input: UpdateAppMonitorInput) async throws -> UpdateAppMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -871,8 +855,7 @@ extension RUMClient: RUMClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
-    public func updateRumMetricDefinition(input: UpdateRumMetricDefinitionInput) async throws -> UpdateRumMetricDefinitionOutput
-    {
+    public func updateRumMetricDefinition(input: UpdateRumMetricDefinitionInput) async throws -> UpdateRumMetricDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

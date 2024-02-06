@@ -66,7 +66,7 @@ public struct SnowDeviceManagementClientLogHandlerFactory: ClientRuntime.SDKLogH
     }
 }
 
-extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
+extension SnowDeviceManagementClient {
     /// Performs the `CancelTask` operation on the `SnowDeviceManagement` service.
     ///
     /// Sends a cancel request for a specified task. You can cancel a task only if it's still in a QUEUED state. Tasks that are already running can't be cancelled. A task might still run if it's processed from the queue before the CancelTask operation changes the task's state.
@@ -83,8 +83,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func cancelTask(input: CancelTaskInput) async throws -> CancelTaskOutput
-    {
+    public func cancelTask(input: CancelTaskInput) async throws -> CancelTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createTask(input: CreateTaskInput) async throws -> CreateTaskOutput
-    {
+    public func createTask(input: CreateTaskInput) async throws -> CreateTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
-    {
+    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func describeDeviceEc2Instances(input: DescribeDeviceEc2InstancesInput) async throws -> DescribeDeviceEc2InstancesOutput
-    {
+    public func describeDeviceEc2Instances(input: DescribeDeviceEc2InstancesInput) async throws -> DescribeDeviceEc2InstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput
-    {
+    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutput
-    {
+    public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -373,8 +367,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDeviceResources(input: ListDeviceResourcesInput) async throws -> ListDeviceResourcesOutput
-    {
+    public func listDeviceResources(input: ListDeviceResourcesInput) async throws -> ListDeviceResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -420,8 +413,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -468,8 +460,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput
-    {
+    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +505,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -560,8 +550,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput
-    {
+    public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +595,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -654,8 +642,7 @@ extension SnowDeviceManagementClient: SnowDeviceManagementClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

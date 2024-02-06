@@ -185,6 +185,8 @@ extension CostandUsageReportClientTypes {
     }
 }
 
+public enum CostandUsageReportClientTypes {}
+
 extension DeleteReportDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportName = "ReportName"

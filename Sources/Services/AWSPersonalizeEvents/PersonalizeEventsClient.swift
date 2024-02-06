@@ -66,7 +66,7 @@ public struct PersonalizeEventsClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
+extension PersonalizeEventsClient {
     /// Performs the `PutActionInteractions` operation on the `AmazonPersonalizeEvents` service.
     ///
     /// Records action interaction event data. An action interaction event is an interaction between a user and an action. For example, a user taking an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see [Recording action interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-action-interaction-events.html). For more information about actions in an Actions dataset, see [Actions dataset](https://docs.aws.amazon.com/personalize/latest/dg/actions-datasets.html).
@@ -81,8 +81,7 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func putActionInteractions(input: PutActionInteractionsInput) async throws -> PutActionInteractionsOutput
-    {
+    public func putActionInteractions(input: PutActionInteractionsInput) async throws -> PutActionInteractionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func putActions(input: PutActionsInput) async throws -> PutActionsOutput
-    {
+    public func putActions(input: PutActionsInput) async throws -> PutActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,8 +173,7 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
-    public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-    {
+    public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -223,8 +220,7 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func putItems(input: PutItemsInput) async throws -> PutItemsOutput
-    {
+    public func putItems(input: PutItemsInput) async throws -> PutItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func putUsers(input: PutUsersInput) async throws -> PutUsersOutput
-    {
+    public func putUsers(input: PutUsersInput) async throws -> PutUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -68,7 +68,7 @@ public struct S3ControlClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension S3ControlClient: S3ControlClientProtocol {
+extension S3ControlClient {
     /// Performs the `AssociateAccessGrantsIdentityCenter` operation on the `AWSS3ControlServiceV20180820` service.
     ///
     /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
@@ -76,8 +76,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter AssociateAccessGrantsIdentityCenterInput : [no documentation found]
     ///
     /// - Returns: `AssociateAccessGrantsIdentityCenterOutput` : [no documentation found]
-    public func associateAccessGrantsIdentityCenter(input: AssociateAccessGrantsIdentityCenterInput) async throws -> AssociateAccessGrantsIdentityCenterOutput
-    {
+    public func associateAccessGrantsIdentityCenter(input: AssociateAccessGrantsIdentityCenterInput) async throws -> AssociateAccessGrantsIdentityCenterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -119,8 +118,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateAccessGrantInput : [no documentation found]
     ///
     /// - Returns: `CreateAccessGrantOutput` : [no documentation found]
-    public func createAccessGrant(input: CreateAccessGrantInput) async throws -> CreateAccessGrantOutput
-    {
+    public func createAccessGrant(input: CreateAccessGrantInput) async throws -> CreateAccessGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -162,8 +160,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateAccessGrantsInstanceInput : [no documentation found]
     ///
     /// - Returns: `CreateAccessGrantsInstanceOutput` : [no documentation found]
-    public func createAccessGrantsInstance(input: CreateAccessGrantsInstanceInput) async throws -> CreateAccessGrantsInstanceOutput
-    {
+    public func createAccessGrantsInstance(input: CreateAccessGrantsInstanceInput) async throws -> CreateAccessGrantsInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -214,8 +211,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateAccessGrantsLocationInput : [no documentation found]
     ///
     /// - Returns: `CreateAccessGrantsLocationOutput` : [no documentation found]
-    public func createAccessGrantsLocation(input: CreateAccessGrantsLocationInput) async throws -> CreateAccessGrantsLocationOutput
-    {
+    public func createAccessGrantsLocation(input: CreateAccessGrantsLocationInput) async throws -> CreateAccessGrantsLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -263,8 +259,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateAccessPointInput : [no documentation found]
     ///
     /// - Returns: `CreateAccessPointOutput` : [no documentation found]
-    public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput
-    {
+    public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -311,8 +306,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateAccessPointForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `CreateAccessPointForObjectLambdaOutput` : [no documentation found]
-    public func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutput
-    {
+    public func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// __Possible Exceptions:__
     /// - `BucketAlreadyExists` : The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the Outposts in this Region. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The Outposts bucket you tried to create already exists, and you own it.
-    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
-    {
+    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,8 +430,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `IdempotencyException` :
     /// - `InternalServiceException` :
     /// - `TooManyRequestsException` :
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +480,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateMultiRegionAccessPointInput : [no documentation found]
     ///
     /// - Returns: `CreateMultiRegionAccessPointOutput` : [no documentation found]
-    public func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutput
-    {
+    public func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -532,8 +523,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter CreateStorageLensGroupInput : [no documentation found]
     ///
     /// - Returns: `CreateStorageLensGroupOutput` : [no documentation found]
-    public func createStorageLensGroup(input: CreateStorageLensGroupInput) async throws -> CreateStorageLensGroupOutput
-    {
+    public func createStorageLensGroup(input: CreateStorageLensGroupInput) async throws -> CreateStorageLensGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,8 +564,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessGrantInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessGrantOutput` : [no documentation found]
-    public func deleteAccessGrant(input: DeleteAccessGrantInput) async throws -> DeleteAccessGrantOutput
-    {
+    public func deleteAccessGrant(input: DeleteAccessGrantInput) async throws -> DeleteAccessGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +603,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessGrantsInstanceInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessGrantsInstanceOutput` : [no documentation found]
-    public func deleteAccessGrantsInstance(input: DeleteAccessGrantsInstanceInput) async throws -> DeleteAccessGrantsInstanceOutput
-    {
+    public func deleteAccessGrantsInstance(input: DeleteAccessGrantsInstanceInput) async throws -> DeleteAccessGrantsInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -654,8 +642,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessGrantsInstanceResourcePolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
-    public func deleteAccessGrantsInstanceResourcePolicy(input: DeleteAccessGrantsInstanceResourcePolicyInput) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput
-    {
+    public func deleteAccessGrantsInstanceResourcePolicy(input: DeleteAccessGrantsInstanceResourcePolicyInput) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -694,8 +681,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessGrantsLocationInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessGrantsLocationOutput` : [no documentation found]
-    public func deleteAccessGrantsLocation(input: DeleteAccessGrantsLocationInput) async throws -> DeleteAccessGrantsLocationOutput
-    {
+    public func deleteAccessGrantsLocation(input: DeleteAccessGrantsLocationInput) async throws -> DeleteAccessGrantsLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -740,8 +726,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessPointInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointOutput` : [no documentation found]
-    public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput
-    {
+    public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -785,8 +770,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessPointForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointForObjectLambdaOutput` : [no documentation found]
-    public func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutput
-    {
+    public func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -828,8 +812,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointPolicyOutput` : [no documentation found]
-    public func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutput
-    {
+    public func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -871,8 +854,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
-    public func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput
-    {
+    public func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -916,8 +898,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteBucketInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketOutput` : [no documentation found]
-    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
-    {
+    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -959,8 +940,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutput
-    {
+    public func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1002,8 +982,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
-    public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput
-    {
+    public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1045,8 +1024,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
-    public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput
-    {
+    public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1088,8 +1066,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
-    public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput
-    {
+    public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1117,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    public func deleteJobTagging(input: DeleteJobTaggingInput) async throws -> DeleteJobTaggingOutput
-    {
+    public func deleteJobTagging(input: DeleteJobTaggingInput) async throws -> DeleteJobTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1187,8 +1163,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteMultiRegionAccessPointInput : [no documentation found]
     ///
     /// - Returns: `DeleteMultiRegionAccessPointOutput` : [no documentation found]
-    public func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutput
-    {
+    public func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1235,8 +1210,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
-    public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput
-    {
+    public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1274,8 +1248,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteStorageLensConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteStorageLensConfigurationOutput` : [no documentation found]
-    public func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutput
-    {
+    public func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1313,8 +1286,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteStorageLensConfigurationTaggingInput : [no documentation found]
     ///
     /// - Returns: `DeleteStorageLensConfigurationTaggingOutput` : [no documentation found]
-    public func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutput
-    {
+    public func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1352,8 +1324,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DeleteStorageLensGroupInput : [no documentation found]
     ///
     /// - Returns: `DeleteStorageLensGroupOutput` : [no documentation found]
-    public func deleteStorageLensGroup(input: DeleteStorageLensGroupInput) async throws -> DeleteStorageLensGroupOutput
-    {
+    public func deleteStorageLensGroup(input: DeleteStorageLensGroupInput) async throws -> DeleteStorageLensGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1407,8 +1378,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
-    {
+    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1424,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DescribeMultiRegionAccessPointOperationInput : [no documentation found]
     ///
     /// - Returns: `DescribeMultiRegionAccessPointOperationOutput` : [no documentation found]
-    public func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutput
-    {
+    public func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1494,8 +1463,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter DissociateAccessGrantsIdentityCenterInput : [no documentation found]
     ///
     /// - Returns: `DissociateAccessGrantsIdentityCenterOutput` : [no documentation found]
-    public func dissociateAccessGrantsIdentityCenter(input: DissociateAccessGrantsIdentityCenterInput) async throws -> DissociateAccessGrantsIdentityCenterOutput
-    {
+    public func dissociateAccessGrantsIdentityCenter(input: DissociateAccessGrantsIdentityCenterInput) async throws -> DissociateAccessGrantsIdentityCenterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1534,8 +1502,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessGrantInput : [no documentation found]
     ///
     /// - Returns: `GetAccessGrantOutput` : [no documentation found]
-    public func getAccessGrant(input: GetAccessGrantInput) async throws -> GetAccessGrantOutput
-    {
+    public func getAccessGrant(input: GetAccessGrantInput) async throws -> GetAccessGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1574,8 +1541,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessGrantsInstanceInput : [no documentation found]
     ///
     /// - Returns: `GetAccessGrantsInstanceOutput` : [no documentation found]
-    public func getAccessGrantsInstance(input: GetAccessGrantsInstanceInput) async throws -> GetAccessGrantsInstanceOutput
-    {
+    public func getAccessGrantsInstance(input: GetAccessGrantsInstanceInput) async throws -> GetAccessGrantsInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1614,8 +1580,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessGrantsInstanceForPrefixInput : [no documentation found]
     ///
     /// - Returns: `GetAccessGrantsInstanceForPrefixOutput` : [no documentation found]
-    public func getAccessGrantsInstanceForPrefix(input: GetAccessGrantsInstanceForPrefixInput) async throws -> GetAccessGrantsInstanceForPrefixOutput
-    {
+    public func getAccessGrantsInstanceForPrefix(input: GetAccessGrantsInstanceForPrefixInput) async throws -> GetAccessGrantsInstanceForPrefixOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1655,8 +1620,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessGrantsInstanceResourcePolicyInput : [no documentation found]
     ///
     /// - Returns: `GetAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
-    public func getAccessGrantsInstanceResourcePolicy(input: GetAccessGrantsInstanceResourcePolicyInput) async throws -> GetAccessGrantsInstanceResourcePolicyOutput
-    {
+    public func getAccessGrantsInstanceResourcePolicy(input: GetAccessGrantsInstanceResourcePolicyInput) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1695,8 +1659,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessGrantsLocationInput : [no documentation found]
     ///
     /// - Returns: `GetAccessGrantsLocationOutput` : [no documentation found]
-    public func getAccessGrantsLocation(input: GetAccessGrantsLocationInput) async throws -> GetAccessGrantsLocationOutput
-    {
+    public func getAccessGrantsLocation(input: GetAccessGrantsLocationInput) async throws -> GetAccessGrantsLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1741,8 +1704,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointOutput` : [no documentation found]
-    public func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutput
-    {
+    public func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1782,8 +1744,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointConfigurationForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
-    public func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutput
-    {
+    public func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1827,8 +1788,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointForObjectLambdaOutput` : [no documentation found]
-    public func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutput
-    {
+    public func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1870,8 +1830,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointPolicyOutput` : [no documentation found]
-    public func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutput
-    {
+    public func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1913,8 +1872,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
-    public func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutput
-    {
+    public func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1952,8 +1910,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointPolicyStatusInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointPolicyStatusOutput` : [no documentation found]
-    public func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutput
-    {
+    public func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1991,8 +1948,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetAccessPointPolicyStatusForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointPolicyStatusForObjectLambdaOutput` : [no documentation found]
-    public func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput
-    {
+    public func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2036,8 +1992,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetBucketInput : [no documentation found]
     ///
     /// - Returns: `GetBucketOutput` : [no documentation found]
-    public func getBucket(input: GetBucketInput) async throws -> GetBucketOutput
-    {
+    public func getBucket(input: GetBucketInput) async throws -> GetBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2093,8 +2048,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput
-    {
+    public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2138,8 +2092,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
-    public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput
-    {
+    public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2181,8 +2134,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
-    public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput
-    {
+    public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2234,8 +2186,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
-    public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput
-    {
+    public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2279,8 +2230,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
-    public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput
-    {
+    public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2318,8 +2268,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetDataAccessInput : [no documentation found]
     ///
     /// - Returns: `GetDataAccessOutput` : [no documentation found]
-    public func getDataAccess(input: GetDataAccessInput) async throws -> GetDataAccessOutput
-    {
+    public func getDataAccess(input: GetDataAccessInput) async throws -> GetDataAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2321,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    public func getJobTagging(input: GetJobTaggingInput) async throws -> GetJobTaggingOutput
-    {
+    public func getJobTagging(input: GetJobTaggingInput) async throws -> GetJobTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2419,8 +2367,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetMultiRegionAccessPointInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointOutput` : [no documentation found]
-    public func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutput
-    {
+    public func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2463,8 +2410,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetMultiRegionAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointPolicyOutput` : [no documentation found]
-    public func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutput
-    {
+    public func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2507,8 +2453,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetMultiRegionAccessPointPolicyStatusInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointPolicyStatusOutput` : [no documentation found]
-    public func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutput
-    {
+    public func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2560,8 +2505,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointRoutesOutput` : [no documentation found]
-    public func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutput
-    {
+    public func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2609,8 +2553,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchPublicAccessBlockConfiguration` : Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn't have a PublicAccessBlockConfiguration set.
-    public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput
-    {
+    public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2648,8 +2591,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetStorageLensConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetStorageLensConfigurationOutput` : [no documentation found]
-    public func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutput
-    {
+    public func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2687,8 +2629,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetStorageLensConfigurationTaggingInput : [no documentation found]
     ///
     /// - Returns: `GetStorageLensConfigurationTaggingOutput` : [no documentation found]
-    public func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutput
-    {
+    public func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2726,8 +2667,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter GetStorageLensGroupInput : [no documentation found]
     ///
     /// - Returns: `GetStorageLensGroupOutput` : [no documentation found]
-    public func getStorageLensGroup(input: GetStorageLensGroupInput) async throws -> GetStorageLensGroupOutput
-    {
+    public func getStorageLensGroup(input: GetStorageLensGroupInput) async throws -> GetStorageLensGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2765,8 +2705,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListAccessGrantsInput : [no documentation found]
     ///
     /// - Returns: `ListAccessGrantsOutput` : [no documentation found]
-    public func listAccessGrants(input: ListAccessGrantsInput) async throws -> ListAccessGrantsOutput
-    {
+    public func listAccessGrants(input: ListAccessGrantsInput) async throws -> ListAccessGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2806,8 +2745,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListAccessGrantsInstancesInput : [no documentation found]
     ///
     /// - Returns: `ListAccessGrantsInstancesOutput` : [no documentation found]
-    public func listAccessGrantsInstances(input: ListAccessGrantsInstancesInput) async throws -> ListAccessGrantsInstancesOutput
-    {
+    public func listAccessGrantsInstances(input: ListAccessGrantsInstancesInput) async throws -> ListAccessGrantsInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2847,8 +2785,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListAccessGrantsLocationsInput : [no documentation found]
     ///
     /// - Returns: `ListAccessGrantsLocationsOutput` : [no documentation found]
-    public func listAccessGrantsLocations(input: ListAccessGrantsLocationsInput) async throws -> ListAccessGrantsLocationsOutput
-    {
+    public func listAccessGrantsLocations(input: ListAccessGrantsLocationsInput) async throws -> ListAccessGrantsLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2894,8 +2831,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListAccessPointsInput : [no documentation found]
     ///
     /// - Returns: `ListAccessPointsOutput` : [no documentation found]
-    public func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutput
-    {
+    public func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2940,8 +2876,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListAccessPointsForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `ListAccessPointsForObjectLambdaOutput` : [no documentation found]
-    public func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutput
-    {
+    public func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2995,8 +2930,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `InvalidNextTokenException` :
     /// - `InvalidRequestException` :
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3043,8 +2977,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListMultiRegionAccessPointsInput : [no documentation found]
     ///
     /// - Returns: `ListMultiRegionAccessPointsOutput` : [no documentation found]
-    public func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutput
-    {
+    public func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3084,8 +3017,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListRegionalBucketsInput : [no documentation found]
     ///
     /// - Returns: `ListRegionalBucketsOutput` : [no documentation found]
-    public func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutput
-    {
+    public func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3124,8 +3056,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListStorageLensConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListStorageLensConfigurationsOutput` : [no documentation found]
-    public func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutput
-    {
+    public func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3164,8 +3095,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListStorageLensGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListStorageLensGroupsOutput` : [no documentation found]
-    public func listStorageLensGroups(input: ListStorageLensGroupsInput) async throws -> ListStorageLensGroupsOutput
-    {
+    public func listStorageLensGroups(input: ListStorageLensGroupsInput) async throws -> ListStorageLensGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3204,8 +3134,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3243,8 +3172,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutAccessGrantsInstanceResourcePolicyInput : [no documentation found]
     ///
     /// - Returns: `PutAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
-    public func putAccessGrantsInstanceResourcePolicy(input: PutAccessGrantsInstanceResourcePolicyInput) async throws -> PutAccessGrantsInstanceResourcePolicyOutput
-    {
+    public func putAccessGrantsInstanceResourcePolicy(input: PutAccessGrantsInstanceResourcePolicyInput) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3288,8 +3216,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutAccessPointConfigurationForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `PutAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
-    public func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutput
-    {
+    public func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3334,8 +3261,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutAccessPointPolicyOutput` : [no documentation found]
-    public func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutput
-    {
+    public func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3380,8 +3306,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `PutAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
-    public func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutput
-    {
+    public func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3426,8 +3351,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput
-    {
+    public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3473,8 +3397,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
-    public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput
-    {
+    public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3529,8 +3452,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
-    public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput
-    {
+    public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3607,8 +3529,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
-    public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput
-    {
+    public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3663,8 +3584,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
-    public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput
-    {
+    public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3742,8 +3662,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     /// - `TooManyTagsException` : Amazon S3 throws this exception if you have too many tags in your tag set.
-    public func putJobTagging(input: PutJobTaggingInput) async throws -> PutJobTaggingOutput
-    {
+    public func putJobTagging(input: PutJobTaggingInput) async throws -> PutJobTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3788,8 +3707,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutMultiRegionAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutMultiRegionAccessPointPolicyOutput` : [no documentation found]
-    public func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutput
-    {
+    public func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3836,8 +3754,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
-    public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput
-    {
+    public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3878,8 +3795,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutStorageLensConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutStorageLensConfigurationOutput` : [no documentation found]
-    public func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutput
-    {
+    public func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3920,8 +3836,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter PutStorageLensConfigurationTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutStorageLensConfigurationTaggingOutput` : [no documentation found]
-    public func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutput
-    {
+    public func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3975,8 +3890,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
     /// - Returns: `SubmitMultiRegionAccessPointRoutesOutput` : [no documentation found]
-    public func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutput
-    {
+    public func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4018,8 +3932,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4060,8 +3973,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4100,8 +4012,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter UpdateAccessGrantsLocationInput : [no documentation found]
     ///
     /// - Returns: `UpdateAccessGrantsLocationOutput` : [no documentation found]
-    public func updateAccessGrantsLocation(input: UpdateAccessGrantsLocationInput) async throws -> UpdateAccessGrantsLocationOutput
-    {
+    public func updateAccessGrantsLocation(input: UpdateAccessGrantsLocationInput) async throws -> UpdateAccessGrantsLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4159,8 +4070,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `InternalServiceException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    public func updateJobPriority(input: UpdateJobPriorityInput) async throws -> UpdateJobPriorityOutput
-    {
+    public func updateJobPriority(input: UpdateJobPriorityInput) async throws -> UpdateJobPriorityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4216,8 +4126,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - `JobStatusException` :
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
-    public func updateJobStatus(input: UpdateJobStatusInput) async throws -> UpdateJobStatusOutput
-    {
+    public func updateJobStatus(input: UpdateJobStatusInput) async throws -> UpdateJobStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4256,8 +4165,7 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// - Parameter UpdateStorageLensGroupInput : [no documentation found]
     ///
     /// - Returns: `UpdateStorageLensGroupOutput` : [no documentation found]
-    public func updateStorageLensGroup(input: UpdateStorageLensGroupInput) async throws -> UpdateStorageLensGroupOutput
-    {
+    public func updateStorageLensGroup(input: UpdateStorageLensGroupInput) async throws -> UpdateStorageLensGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

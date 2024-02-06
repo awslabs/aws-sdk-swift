@@ -66,7 +66,7 @@ public struct DAXClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension DAXClient: DAXClientProtocol {
+extension DAXClient {
     /// Performs the `CreateCluster` operation on the `AmazonDAXV3` service.
     ///
     /// Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
@@ -93,8 +93,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact AWS customer support to discuss options for continuing to create encrypted clusters.
     /// - `SubnetGroupNotFoundFault` : The requested subnet group name does not refer to an existing subnet group.
     /// - `TagQuotaPerResourceExceeded` : You have exceeded the maximum number of tags for this DAX cluster.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -145,8 +144,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `ParameterGroupAlreadyExistsFault` : The specified parameter group already exists.
     /// - `ParameterGroupQuotaExceededFault` : You have attempted to exceed the maximum number of parameter groups.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput
-    {
+    public func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -196,8 +194,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `SubnetGroupAlreadyExistsFault` : The specified subnet group already exists.
     /// - `SubnetGroupQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
     /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
-    public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput
-    {
+    public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -248,8 +245,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `NodeNotFoundFault` : None of the nodes in the cluster have the given node ID.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func decreaseReplicationFactor(input: DecreaseReplicationFactorInput) async throws -> DecreaseReplicationFactorOutput
-    {
+    public func decreaseReplicationFactor(input: DecreaseReplicationFactorInput) async throws -> DecreaseReplicationFactorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -299,8 +295,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -350,8 +345,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput
-    {
+    public func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -399,8 +393,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `SubnetGroupInUseFault` : The specified subnet group is currently in use.
     /// - `SubnetGroupNotFoundFault` : The requested subnet group name does not refer to an existing subnet group.
-    public func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput
-    {
+    public func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -449,8 +442,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
-    {
+    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -498,8 +490,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func describeDefaultParameters(input: DescribeDefaultParametersInput) async throws -> DescribeDefaultParametersOutput
-    {
+    public func describeDefaultParameters(input: DescribeDefaultParametersInput) async throws -> DescribeDefaultParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -547,8 +538,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -597,8 +587,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput
-    {
+    public func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -647,8 +636,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput
-    {
+    public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -695,8 +683,7 @@ extension DAXClient: DAXClientProtocol {
     /// __Possible Exceptions:__
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `SubnetGroupNotFoundFault` : The requested subnet group name does not refer to an existing subnet group.
-    public func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput
-    {
+    public func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -750,8 +737,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `NodeQuotaForClusterExceededFault` : You have attempted to exceed the maximum number of nodes for a DAX cluster.
     /// - `NodeQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of nodes for your AWS account.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func increaseReplicationFactor(input: IncreaseReplicationFactorInput) async throws -> IncreaseReplicationFactorOutput
-    {
+    public func increaseReplicationFactor(input: IncreaseReplicationFactorInput) async throws -> IncreaseReplicationFactorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -802,8 +788,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -854,8 +839,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `NodeNotFoundFault` : None of the nodes in the cluster have the given node ID.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func rebootNode(input: RebootNodeInput) async throws -> RebootNodeOutput
-    {
+    public func rebootNode(input: RebootNodeInput) async throws -> RebootNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +891,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `TagQuotaPerResourceExceeded` : You have exceeded the maximum number of tags for this DAX cluster.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -960,8 +943,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `TagNotFoundFault` : The tag does not exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1013,8 +995,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
-    {
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,8 +1045,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput
-    {
+    public func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1115,8 +1095,7 @@ extension DAXClient: DAXClientProtocol {
     /// - `SubnetGroupNotFoundFault` : The requested subnet group name does not refer to an existing subnet group.
     /// - `SubnetInUse` : The requested subnet is being used by another subnet group.
     /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
-    public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput
-    {
+    public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

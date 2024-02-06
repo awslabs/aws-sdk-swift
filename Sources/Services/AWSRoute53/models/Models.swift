@@ -14281,6 +14281,8 @@ extension Route53ClientTypes {
     }
 }
 
+public enum Route53ClientTypes {}
+
 extension Route53ClientTypes {
     public enum Statistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case average

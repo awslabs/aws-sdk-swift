@@ -1035,6 +1035,8 @@ enum AttachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum AutoScalingClientTypes {}
+
 extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingGroupARN = "AutoScalingGroupARN"

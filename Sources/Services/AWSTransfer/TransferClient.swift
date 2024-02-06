@@ -66,7 +66,7 @@ public struct TransferClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension TransferClient: TransferClientProtocol {
+extension TransferClient {
     /// Performs the `CreateAccess` operation on the `TransferService` service.
     ///
     /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability.
@@ -83,8 +83,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutput
-    {
+    public func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createAgreement(input: CreateAgreementInput) async throws -> CreateAgreementOutput
-    {
+    public func createAgreement(input: CreateAgreementInput) async throws -> CreateAgreementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
-    {
+    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
-    {
+    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createServer(input: CreateServerInput) async throws -> CreateServerOutput
-    {
+    public func createServer(input: CreateServerInput) async throws -> CreateServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +388,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
-    {
+    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteAccess(input: DeleteAccessInput) async throws -> DeleteAccessOutput
-    {
+    public func deleteAccess(input: DeleteAccessInput) async throws -> DeleteAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +486,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteAgreement(input: DeleteAgreementInput) async throws -> DeleteAgreementOutput
-    {
+    public func deleteAgreement(input: DeleteAgreementInput) async throws -> DeleteAgreementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -544,8 +535,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
-    {
+    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -594,8 +584,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
-    {
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -645,8 +634,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteHostKey(input: DeleteHostKeyInput) async throws -> DeleteHostKeyOutput
-    {
+    public func deleteHostKey(input: DeleteHostKeyInput) async throws -> DeleteHostKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -695,8 +683,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
-    {
+    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -746,8 +733,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutput
-    {
+    public func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +783,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteSshPublicKey(input: DeleteSshPublicKeyInput) async throws -> DeleteSshPublicKeyOutput
-    {
+    public func deleteSshPublicKey(input: DeleteSshPublicKeyInput) async throws -> DeleteSshPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -847,8 +832,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +882,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
-    {
+    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -948,8 +931,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeAccess(input: DescribeAccessInput) async throws -> DescribeAccessOutput
-    {
+    public func describeAccess(input: DescribeAccessInput) async throws -> DescribeAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -998,8 +980,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput
-    {
+    public func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1048,8 +1029,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
-    {
+    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1098,8 +1078,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput
-    {
+    public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1127,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput
-    {
+    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1198,8 +1176,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeHostKey(input: DescribeHostKeyInput) async throws -> DescribeHostKeyOutput
-    {
+    public func describeHostKey(input: DescribeHostKeyInput) async throws -> DescribeHostKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1248,8 +1225,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeProfile(input: DescribeProfileInput) async throws -> DescribeProfileOutput
-    {
+    public func describeProfile(input: DescribeProfileInput) async throws -> DescribeProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1298,8 +1274,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeSecurityPolicy(input: DescribeSecurityPolicyInput) async throws -> DescribeSecurityPolicyOutput
-    {
+    public func describeSecurityPolicy(input: DescribeSecurityPolicyInput) async throws -> DescribeSecurityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1348,8 +1323,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeServer(input: DescribeServerInput) async throws -> DescribeServerOutput
-    {
+    public func describeServer(input: DescribeServerInput) async throws -> DescribeServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1398,8 +1372,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    {
+    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,8 +1421,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func describeWorkflow(input: DescribeWorkflowInput) async throws -> DescribeWorkflowOutput
-    {
+    public func describeWorkflow(input: DescribeWorkflowInput) async throws -> DescribeWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1470,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput
-    {
+    public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1521,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func importHostKey(input: ImportHostKeyInput) async throws -> ImportHostKeyOutput
-    {
+    public func importHostKey(input: ImportHostKeyInput) async throws -> ImportHostKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1602,8 +1572,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func importSshPublicKey(input: ImportSshPublicKeyInput) async throws -> ImportSshPublicKeyOutput
-    {
+    public func importSshPublicKey(input: ImportSshPublicKeyInput) async throws -> ImportSshPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1653,8 +1622,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listAccesses(input: ListAccessesInput) async throws -> ListAccessesOutput
-    {
+    public func listAccesses(input: ListAccessesInput) async throws -> ListAccessesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1704,8 +1672,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listAgreements(input: ListAgreementsInput) async throws -> ListAgreementsOutput
-    {
+    public func listAgreements(input: ListAgreementsInput) async throws -> ListAgreementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1755,8 +1722,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
-    {
+    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1806,8 +1772,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
-    {
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1857,8 +1822,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput
-    {
+    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1908,8 +1872,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listHostKeys(input: ListHostKeysInput) async throws -> ListHostKeysOutput
-    {
+    public func listHostKeys(input: ListHostKeysInput) async throws -> ListHostKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1959,8 +1922,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput
-    {
+    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2009,8 +1971,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutput
-    {
+    public func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2059,8 +2020,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listServers(input: ListServersInput) async throws -> ListServersOutput
-    {
+    public func listServers(input: ListServersInput) async throws -> ListServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2109,8 +2069,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2160,8 +2119,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2210,8 +2168,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-    {
+    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2262,8 +2219,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func sendWorkflowStepState(input: SendWorkflowStepStateInput) async throws -> SendWorkflowStepStateOutput
-    {
+    public func sendWorkflowStepState(input: SendWorkflowStepStateInput) async throws -> SendWorkflowStepStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2321,8 +2277,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startFileTransfer(input: StartFileTransferInput) async throws -> StartFileTransferOutput
-    {
+    public func startFileTransfer(input: StartFileTransferInput) async throws -> StartFileTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2327,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startServer(input: StartServerInput) async throws -> StartServerOutput
-    {
+    public func startServer(input: StartServerInput) async throws -> StartServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2423,8 +2377,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func stopServer(input: StopServerInput) async throws -> StopServerOutput
-    {
+    public func stopServer(input: StopServerInput) async throws -> StopServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2473,8 +2426,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2523,8 +2475,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput
-    {
+    public func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2585,8 +2536,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func testIdentityProvider(input: TestIdentityProviderInput) async throws -> TestIdentityProviderOutput
-    {
+    public func testIdentityProvider(input: TestIdentityProviderInput) async throws -> TestIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2635,8 +2585,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2687,8 +2636,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateAccess(input: UpdateAccessInput) async throws -> UpdateAccessOutput
-    {
+    public func updateAccess(input: UpdateAccessInput) async throws -> UpdateAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2739,8 +2687,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateAgreement(input: UpdateAgreementInput) async throws -> UpdateAgreementOutput
-    {
+    public func updateAgreement(input: UpdateAgreementInput) async throws -> UpdateAgreementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2790,8 +2737,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput
-    {
+    public func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2842,8 +2788,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput
-    {
+    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2893,8 +2838,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateHostKey(input: UpdateHostKeyInput) async throws -> UpdateHostKeyOutput
-    {
+    public func updateHostKey(input: UpdateHostKeyInput) async throws -> UpdateHostKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2944,8 +2888,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
-    {
+    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2998,8 +2941,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutput
-    {
+    public func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3049,8 +2991,7 @@ extension TransferClient: TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct ServiceCatalogClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension ServiceCatalogClient: ServiceCatalogClientProtocol {
+extension ServiceCatalogClient {
     /// Performs the `AcceptPortfolioShare` operation on the `AWS242ServiceCatalogService` service.
     ///
     /// Accepts an offer to share the specified portfolio.
@@ -81,8 +81,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func acceptPortfolioShare(input: AcceptPortfolioShareInput) async throws -> AcceptPortfolioShareOutput
-    {
+    public func acceptPortfolioShare(input: AcceptPortfolioShareInput) async throws -> AcceptPortfolioShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateBudgetWithResource(input: AssociateBudgetWithResourceInput) async throws -> AssociateBudgetWithResourceOutput
-    {
+    public func associateBudgetWithResource(input: AssociateBudgetWithResourceInput) async throws -> AssociateBudgetWithResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutput
-    {
+    public func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput) async throws -> AssociateProductWithPortfolioOutput
-    {
+    public func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput) async throws -> AssociateProductWithPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateServiceActionWithProvisioningArtifact(input: AssociateServiceActionWithProvisioningArtifactInput) async throws -> AssociateServiceActionWithProvisioningArtifactOutput
-    {
+    public func associateServiceActionWithProvisioningArtifact(input: AssociateServiceActionWithProvisioningArtifactInput) async throws -> AssociateServiceActionWithProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func associateTagOptionWithResource(input: AssociateTagOptionWithResourceInput) async throws -> AssociateTagOptionWithResourceOutput
-    {
+    public func associateTagOptionWithResource(input: AssociateTagOptionWithResourceInput) async throws -> AssociateTagOptionWithResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func batchAssociateServiceActionWithProvisioningArtifact(input: BatchAssociateServiceActionWithProvisioningArtifactInput) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutput
-    {
+    public func batchAssociateServiceActionWithProvisioningArtifact(input: BatchAssociateServiceActionWithProvisioningArtifactInput) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchDisassociateServiceActionFromProvisioningArtifactInput) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutput
-    {
+    public func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchDisassociateServiceActionFromProvisioningArtifactInput) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -474,8 +466,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func copyProduct(input: CopyProductInput) async throws -> CopyProductOutput
-    {
+    public func copyProduct(input: CopyProductInput) async throws -> CopyProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -525,8 +516,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createConstraint(input: CreateConstraintInput) async throws -> CreateConstraintOutput
-    {
+    public func createConstraint(input: CreateConstraintInput) async throws -> CreateConstraintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -575,8 +565,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func createPortfolio(input: CreatePortfolioInput) async throws -> CreatePortfolioOutput
-    {
+    public func createPortfolio(input: CreatePortfolioInput) async throws -> CreatePortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -627,8 +616,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutput
-    {
+    public func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -676,8 +664,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func createProduct(input: CreateProductInput) async throws -> CreateProductOutput
-    {
+    public func createProduct(input: CreateProductInput) async throws -> CreateProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -726,8 +713,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput) async throws -> CreateProvisionedProductPlanOutput
-    {
+    public func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput) async throws -> CreateProvisionedProductPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -776,8 +762,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createProvisioningArtifact(input: CreateProvisioningArtifactInput) async throws -> CreateProvisioningArtifactOutput
-    {
+    public func createProvisioningArtifact(input: CreateProvisioningArtifactInput) async throws -> CreateProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -825,8 +810,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
-    public func createServiceAction(input: CreateServiceActionInput) async throws -> CreateServiceActionOutput
-    {
+    public func createServiceAction(input: CreateServiceActionInput) async throws -> CreateServiceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +859,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `DuplicateResourceException` : The specified resource is a duplicate.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func createTagOption(input: CreateTagOptionInput) async throws -> CreateTagOptionOutput
-    {
+    public func createTagOption(input: CreateTagOptionInput) async throws -> CreateTagOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -923,8 +906,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteConstraint(input: DeleteConstraintInput) async throws -> DeleteConstraintOutput
-    {
+    public func deleteConstraint(input: DeleteConstraintInput) async throws -> DeleteConstraintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -973,8 +955,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func deletePortfolio(input: DeletePortfolioInput) async throws -> DeletePortfolioOutput
-    {
+    public func deletePortfolio(input: DeletePortfolioInput) async throws -> DeletePortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,8 +1004,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deletePortfolioShare(input: DeletePortfolioShareInput) async throws -> DeletePortfolioShareOutput
-    {
+    public func deletePortfolioShare(input: DeletePortfolioShareInput) async throws -> DeletePortfolioShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1073,8 +1053,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func deleteProduct(input: DeleteProductInput) async throws -> DeleteProductOutput
-    {
+    public func deleteProduct(input: DeleteProductInput) async throws -> DeleteProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1121,8 +1100,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInput) async throws -> DeleteProvisionedProductPlanOutput
-    {
+    public func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInput) async throws -> DeleteProvisionedProductPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1170,8 +1148,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput) async throws -> DeleteProvisioningArtifactOutput
-    {
+    public func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput) async throws -> DeleteProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1195,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutput
-    {
+    public func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1268,8 +1244,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func deleteTagOption(input: DeleteTagOptionInput) async throws -> DeleteTagOptionOutput
-    {
+    public func deleteTagOption(input: DeleteTagOptionInput) async throws -> DeleteTagOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1315,8 +1290,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeConstraint(input: DescribeConstraintInput) async throws -> DescribeConstraintOutput
-    {
+    public func describeConstraint(input: DescribeConstraintInput) async throws -> DescribeConstraintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1362,8 +1336,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeCopyProductStatus(input: DescribeCopyProductStatusInput) async throws -> DescribeCopyProductStatusOutput
-    {
+    public func describeCopyProductStatus(input: DescribeCopyProductStatusInput) async throws -> DescribeCopyProductStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1409,8 +1382,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describePortfolio(input: DescribePortfolioInput) async throws -> DescribePortfolioOutput
-    {
+    public func describePortfolio(input: DescribePortfolioInput) async throws -> DescribePortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1458,8 +1430,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput) async throws -> DescribePortfolioShareStatusOutput
-    {
+    public func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput) async throws -> DescribePortfolioShareStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1506,8 +1477,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describePortfolioShares(input: DescribePortfolioSharesInput) async throws -> DescribePortfolioSharesOutput
-    {
+    public func describePortfolioShares(input: DescribePortfolioSharesInput) async throws -> DescribePortfolioSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1554,8 +1524,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProduct(input: DescribeProductInput) async throws -> DescribeProductOutput
-    {
+    public func describeProduct(input: DescribeProductInput) async throws -> DescribeProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1602,8 +1571,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProductAsAdmin(input: DescribeProductAsAdminInput) async throws -> DescribeProductAsAdminOutput
-    {
+    public func describeProductAsAdmin(input: DescribeProductAsAdminInput) async throws -> DescribeProductAsAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1650,8 +1618,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProductView(input: DescribeProductViewInput) async throws -> DescribeProductViewOutput
-    {
+    public func describeProductView(input: DescribeProductViewInput) async throws -> DescribeProductViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1698,8 +1665,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisionedProduct(input: DescribeProvisionedProductInput) async throws -> DescribeProvisionedProductOutput
-    {
+    public func describeProvisionedProduct(input: DescribeProvisionedProductInput) async throws -> DescribeProvisionedProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1746,8 +1712,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisionedProductPlan(input: DescribeProvisionedProductPlanInput) async throws -> DescribeProvisionedProductPlanOutput
-    {
+    public func describeProvisionedProductPlan(input: DescribeProvisionedProductPlanInput) async throws -> DescribeProvisionedProductPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1794,8 +1759,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisioningArtifact(input: DescribeProvisioningArtifactInput) async throws -> DescribeProvisioningArtifactOutput
-    {
+    public func describeProvisioningArtifact(input: DescribeProvisioningArtifactInput) async throws -> DescribeProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1842,8 +1806,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisioningParameters(input: DescribeProvisioningParametersInput) async throws -> DescribeProvisioningParametersOutput
-    {
+    public func describeProvisioningParameters(input: DescribeProvisioningParametersInput) async throws -> DescribeProvisioningParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1852,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeRecord(input: DescribeRecordInput) async throws -> DescribeRecordOutput
-    {
+    public func describeRecord(input: DescribeRecordInput) async throws -> DescribeRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1936,8 +1898,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeServiceAction(input: DescribeServiceActionInput) async throws -> DescribeServiceActionOutput
-    {
+    public func describeServiceAction(input: DescribeServiceActionInput) async throws -> DescribeServiceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1984,8 +1945,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeServiceActionExecutionParameters(input: DescribeServiceActionExecutionParametersInput) async throws -> DescribeServiceActionExecutionParametersOutput
-    {
+    public func describeServiceActionExecutionParameters(input: DescribeServiceActionExecutionParametersInput) async throws -> DescribeServiceActionExecutionParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2032,8 +1992,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func describeTagOption(input: DescribeTagOptionInput) async throws -> DescribeTagOptionOutput
-    {
+    public func describeTagOption(input: DescribeTagOptionInput) async throws -> DescribeTagOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2081,8 +2040,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput) async throws -> DisableAWSOrganizationsAccessOutput
-    {
+    public func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput) async throws -> DisableAWSOrganizationsAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2128,8 +2086,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateBudgetFromResource(input: DisassociateBudgetFromResourceInput) async throws -> DisassociateBudgetFromResourceOutput
-    {
+    public func disassociateBudgetFromResource(input: DisassociateBudgetFromResourceInput) async throws -> DisassociateBudgetFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2176,8 +2133,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutput
-    {
+    public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2225,8 +2181,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput) async throws -> DisassociateProductFromPortfolioOutput
-    {
+    public func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput) async throws -> DisassociateProductFromPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2272,8 +2227,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutput
-    {
+    public func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2321,8 +2275,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func disassociateTagOptionFromResource(input: DisassociateTagOptionFromResourceInput) async throws -> DisassociateTagOptionFromResourceOutput
-    {
+    public func disassociateTagOptionFromResource(input: DisassociateTagOptionFromResourceInput) async throws -> DisassociateTagOptionFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2370,8 +2323,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput) async throws -> EnableAWSOrganizationsAccessOutput
-    {
+    public func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput) async throws -> EnableAWSOrganizationsAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2419,8 +2371,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func executeProvisionedProductPlan(input: ExecuteProvisionedProductPlanInput) async throws -> ExecuteProvisionedProductPlanOutput
-    {
+    public func executeProvisionedProductPlan(input: ExecuteProvisionedProductPlanInput) async throws -> ExecuteProvisionedProductPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2469,8 +2420,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func executeProvisionedProductServiceAction(input: ExecuteProvisionedProductServiceActionInput) async throws -> ExecuteProvisionedProductServiceActionOutput
-    {
+    public func executeProvisionedProductServiceAction(input: ExecuteProvisionedProductServiceActionInput) async throws -> ExecuteProvisionedProductServiceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2518,8 +2468,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput) async throws -> GetAWSOrganizationsAccessStatusOutput
-    {
+    public func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput) async throws -> GetAWSOrganizationsAccessStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2566,8 +2515,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInput) async throws -> GetProvisionedProductOutputsOutput
-    {
+    public func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInput) async throws -> GetProvisionedProductOutputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2616,8 +2564,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutput
-    {
+    public func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2665,8 +2612,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `OperationNotSupportedException` : The operation is not supported.
-    public func listAcceptedPortfolioShares(input: ListAcceptedPortfolioSharesInput) async throws -> ListAcceptedPortfolioSharesOutput
-    {
+    public func listAcceptedPortfolioShares(input: ListAcceptedPortfolioSharesInput) async throws -> ListAcceptedPortfolioSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2713,8 +2659,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listBudgetsForResource(input: ListBudgetsForResourceInput) async throws -> ListBudgetsForResourceOutput
-    {
+    public func listBudgetsForResource(input: ListBudgetsForResourceInput) async throws -> ListBudgetsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2761,8 +2706,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput) async throws -> ListConstraintsForPortfolioOutput
-    {
+    public func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput) async throws -> ListConstraintsForPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2809,8 +2753,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listLaunchPaths(input: ListLaunchPathsInput) async throws -> ListLaunchPathsOutput
-    {
+    public func listLaunchPaths(input: ListLaunchPathsInput) async throws -> ListLaunchPathsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2858,8 +2801,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput) async throws -> ListOrganizationPortfolioAccessOutput
-    {
+    public func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput) async throws -> ListOrganizationPortfolioAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2906,8 +2848,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPortfolioAccess(input: ListPortfolioAccessInput) async throws -> ListPortfolioAccessOutput
-    {
+    public func listPortfolioAccess(input: ListPortfolioAccessInput) async throws -> ListPortfolioAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2953,8 +2894,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func listPortfolios(input: ListPortfoliosInput) async throws -> ListPortfoliosOutput
-    {
+    public func listPortfolios(input: ListPortfoliosInput) async throws -> ListPortfoliosOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3001,8 +2941,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPortfoliosForProduct(input: ListPortfoliosForProductInput) async throws -> ListPortfoliosForProductOutput
-    {
+    public func listPortfoliosForProduct(input: ListPortfoliosForProductInput) async throws -> ListPortfoliosForProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3049,8 +2988,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutput
-    {
+    public func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3097,8 +3035,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProvisionedProductPlans(input: ListProvisionedProductPlansInput) async throws -> ListProvisionedProductPlansOutput
-    {
+    public func listProvisionedProductPlans(input: ListProvisionedProductPlansInput) async throws -> ListProvisionedProductPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3145,8 +3082,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProvisioningArtifacts(input: ListProvisioningArtifactsInput) async throws -> ListProvisioningArtifactsOutput
-    {
+    public func listProvisioningArtifacts(input: ListProvisioningArtifactsInput) async throws -> ListProvisioningArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3193,8 +3129,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProvisioningArtifactsForServiceAction(input: ListProvisioningArtifactsForServiceActionInput) async throws -> ListProvisioningArtifactsForServiceActionOutput
-    {
+    public func listProvisioningArtifactsForServiceAction(input: ListProvisioningArtifactsForServiceActionInput) async throws -> ListProvisioningArtifactsForServiceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3240,8 +3175,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func listRecordHistory(input: ListRecordHistoryInput) async throws -> ListRecordHistoryOutput
-    {
+    public func listRecordHistory(input: ListRecordHistoryInput) async throws -> ListRecordHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3289,8 +3223,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func listResourcesForTagOption(input: ListResourcesForTagOptionInput) async throws -> ListResourcesForTagOptionOutput
-    {
+    public func listResourcesForTagOption(input: ListResourcesForTagOptionInput) async throws -> ListResourcesForTagOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3336,8 +3269,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func listServiceActions(input: ListServiceActionsInput) async throws -> ListServiceActionsOutput
-    {
+    public func listServiceActions(input: ListServiceActionsInput) async throws -> ListServiceActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3384,8 +3316,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listServiceActionsForProvisioningArtifact(input: ListServiceActionsForProvisioningArtifactInput) async throws -> ListServiceActionsForProvisioningArtifactOutput
-    {
+    public func listServiceActionsForProvisioningArtifact(input: ListServiceActionsForProvisioningArtifactInput) async throws -> ListServiceActionsForProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3432,8 +3363,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutput
-    {
+    public func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3480,8 +3410,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutput
-    {
+    public func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3528,8 +3457,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutput
-    {
+    public func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3577,8 +3505,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutput
-    {
+    public func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3626,8 +3553,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutput
-    {
+    public func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3676,8 +3602,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `DuplicateResourceException` : The specified resource is a duplicate.
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutput
-    {
+    public func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3724,8 +3649,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func rejectPortfolioShare(input: RejectPortfolioShareInput) async throws -> RejectPortfolioShareOutput
-    {
+    public func rejectPortfolioShare(input: RejectPortfolioShareInput) async throws -> RejectPortfolioShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3771,8 +3695,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func scanProvisionedProducts(input: ScanProvisionedProductsInput) async throws -> ScanProvisionedProductsOutput
-    {
+    public func scanProvisionedProducts(input: ScanProvisionedProductsInput) async throws -> ScanProvisionedProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3818,8 +3741,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func searchProducts(input: SearchProductsInput) async throws -> SearchProductsOutput
-    {
+    public func searchProducts(input: SearchProductsInput) async throws -> SearchProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3866,8 +3788,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func searchProductsAsAdmin(input: SearchProductsAsAdminInput) async throws -> SearchProductsAsAdminOutput
-    {
+    public func searchProductsAsAdmin(input: SearchProductsAsAdminInput) async throws -> SearchProductsAsAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3913,8 +3834,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func searchProvisionedProducts(input: SearchProvisionedProductsInput) async throws -> SearchProvisionedProductsOutput
-    {
+    public func searchProvisionedProducts(input: SearchProvisionedProductsInput) async throws -> SearchProvisionedProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3960,8 +3880,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func terminateProvisionedProduct(input: TerminateProvisionedProductInput) async throws -> TerminateProvisionedProductOutput
-    {
+    public func terminateProvisionedProduct(input: TerminateProvisionedProductInput) async throws -> TerminateProvisionedProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4009,8 +3928,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateConstraint(input: UpdateConstraintInput) async throws -> UpdateConstraintOutput
-    {
+    public func updateConstraint(input: UpdateConstraintInput) async throws -> UpdateConstraintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4059,8 +3977,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func updatePortfolio(input: UpdatePortfolioInput) async throws -> UpdatePortfolioOutput
-    {
+    public func updatePortfolio(input: UpdatePortfolioInput) async throws -> UpdatePortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4109,8 +4026,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutput
-    {
+    public func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4158,8 +4074,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func updateProduct(input: UpdateProductInput) async throws -> UpdateProductOutput
-    {
+    public func updateProduct(input: UpdateProductInput) async throws -> UpdateProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4206,8 +4121,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateProvisionedProduct(input: UpdateProvisionedProductInput) async throws -> UpdateProvisionedProductOutput
-    {
+    public func updateProvisionedProduct(input: UpdateProvisionedProductInput) async throws -> UpdateProvisionedProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4256,8 +4170,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateProvisionedProductProperties(input: UpdateProvisionedProductPropertiesInput) async throws -> UpdateProvisionedProductPropertiesOutput
-    {
+    public func updateProvisionedProductProperties(input: UpdateProvisionedProductPropertiesInput) async throws -> UpdateProvisionedProductPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4305,8 +4218,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput) async throws -> UpdateProvisioningArtifactOutput
-    {
+    public func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput) async throws -> UpdateProvisioningArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4353,8 +4265,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateServiceAction(input: UpdateServiceActionInput) async throws -> UpdateServiceActionOutput
-    {
+    public func updateServiceAction(input: UpdateServiceActionInput) async throws -> UpdateServiceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4403,8 +4314,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func updateTagOption(input: UpdateTagOptionInput) async throws -> UpdateTagOptionOutput
-    {
+    public func updateTagOption(input: UpdateTagOptionInput) async throws -> UpdateTagOptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

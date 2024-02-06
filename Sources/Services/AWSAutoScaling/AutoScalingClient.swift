@@ -62,7 +62,7 @@ public struct AutoScalingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension AutoScalingClient: AutoScalingClientProtocol {
+extension AutoScalingClient {
     /// Performs the `AttachInstances` operation on the `AutoScaling_2011_01_01` service.
     ///
     /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see [Attach EC2 instances to your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-instance-asg.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -76,8 +76,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func attachInstances(input: AttachInstancesInput) async throws -> AttachInstancesOutput
-    {
+    public func attachInstances(input: AttachInstancesInput) async throws -> AttachInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func attachLoadBalancerTargetGroups(input: AttachLoadBalancerTargetGroupsInput) async throws -> AttachLoadBalancerTargetGroupsOutput
-    {
+    public func attachLoadBalancerTargetGroups(input: AttachLoadBalancerTargetGroupsInput) async throws -> AttachLoadBalancerTargetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func attachLoadBalancers(input: AttachLoadBalancersInput) async throws -> AttachLoadBalancersOutput
-    {
+    public func attachLoadBalancers(input: AttachLoadBalancersInput) async throws -> AttachLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -239,8 +236,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func attachTrafficSources(input: AttachTrafficSourcesInput) async throws -> AttachTrafficSourcesOutput
-    {
+    public func attachTrafficSources(input: AttachTrafficSourcesInput) async throws -> AttachTrafficSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -285,8 +281,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func batchDeleteScheduledAction(input: BatchDeleteScheduledActionInput) async throws -> BatchDeleteScheduledActionOutput
-    {
+    public func batchDeleteScheduledAction(input: BatchDeleteScheduledActionInput) async throws -> BatchDeleteScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `AlreadyExistsFault` : You already have an Auto Scaling group or launch configuration with this name.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func batchPutScheduledUpdateGroupAction(input: BatchPutScheduledUpdateGroupActionInput) async throws -> BatchPutScheduledUpdateGroupActionOutput
-    {
+    public func batchPutScheduledUpdateGroupAction(input: BatchPutScheduledUpdateGroupActionInput) async throws -> BatchPutScheduledUpdateGroupActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -381,8 +375,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `ActiveInstanceRefreshNotFoundFault` : The request failed because an active instance refresh or rollback for the specified Auto Scaling group was not found.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func cancelInstanceRefresh(input: CancelInstanceRefreshInput) async throws -> CancelInstanceRefreshOutput
-    {
+    public func cancelInstanceRefresh(input: CancelInstanceRefreshInput) async throws -> CancelInstanceRefreshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -442,8 +435,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func completeLifecycleAction(input: CompleteLifecycleActionInput) async throws -> CompleteLifecycleActionOutput
-    {
+    public func completeLifecycleAction(input: CompleteLifecycleActionInput) async throws -> CompleteLifecycleActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func createAutoScalingGroup(input: CreateAutoScalingGroupInput) async throws -> CreateAutoScalingGroupOutput
-    {
+    public func createAutoScalingGroup(input: CreateAutoScalingGroupInput) async throws -> CreateAutoScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +530,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `AlreadyExistsFault` : You already have an Auto Scaling group or launch configuration with this name.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func createLaunchConfiguration(input: CreateLaunchConfigurationInput) async throws -> CreateLaunchConfigurationOutput
-    {
+    public func createLaunchConfiguration(input: CreateLaunchConfigurationInput) async throws -> CreateLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
-    public func createOrUpdateTags(input: CreateOrUpdateTagsInput) async throws -> CreateOrUpdateTagsOutput
-    {
+    public func createOrUpdateTags(input: CreateOrUpdateTagsInput) async throws -> CreateOrUpdateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -636,8 +625,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
     /// - `ScalingActivityInProgressFault` : The operation can't be performed because there are scaling activities in progress.
-    public func deleteAutoScalingGroup(input: DeleteAutoScalingGroupInput) async throws -> DeleteAutoScalingGroupOutput
-    {
+    public func deleteAutoScalingGroup(input: DeleteAutoScalingGroupInput) async throws -> DeleteAutoScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -683,8 +671,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
-    public func deleteLaunchConfiguration(input: DeleteLaunchConfigurationInput) async throws -> DeleteLaunchConfigurationOutput
-    {
+    public func deleteLaunchConfiguration(input: DeleteLaunchConfigurationInput) async throws -> DeleteLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func deleteLifecycleHook(input: DeleteLifecycleHookInput) async throws -> DeleteLifecycleHookOutput
-    {
+    public func deleteLifecycleHook(input: DeleteLifecycleHookInput) async throws -> DeleteLifecycleHookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +761,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func deleteNotificationConfiguration(input: DeleteNotificationConfigurationInput) async throws -> DeleteNotificationConfigurationOutput
-    {
+    public func deleteNotificationConfiguration(input: DeleteNotificationConfigurationInput) async throws -> DeleteNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +807,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -868,8 +852,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput
-    {
+    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +898,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -964,8 +946,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
     /// - `ScalingActivityInProgressFault` : The operation can't be performed because there are scaling activities in progress.
-    public func deleteWarmPool(input: DeleteWarmPoolInput) async throws -> DeleteWarmPoolOutput
-    {
+    public func deleteWarmPool(input: DeleteWarmPoolInput) async throws -> DeleteWarmPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1010,8 +991,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
-    {
+    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1062,8 +1042,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeAdjustmentTypes(input: DescribeAdjustmentTypesInput) async throws -> DescribeAdjustmentTypesOutput
-    {
+    public func describeAdjustmentTypes(input: DescribeAdjustmentTypesInput) async throws -> DescribeAdjustmentTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1109,8 +1088,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeAutoScalingGroups(input: DescribeAutoScalingGroupsInput) async throws -> DescribeAutoScalingGroupsOutput
-    {
+    public func describeAutoScalingGroups(input: DescribeAutoScalingGroupsInput) async throws -> DescribeAutoScalingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1156,8 +1134,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeAutoScalingInstances(input: DescribeAutoScalingInstancesInput) async throws -> DescribeAutoScalingInstancesOutput
-    {
+    public func describeAutoScalingInstances(input: DescribeAutoScalingInstancesInput) async throws -> DescribeAutoScalingInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1179,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeAutoScalingNotificationTypes(input: DescribeAutoScalingNotificationTypesInput) async throws -> DescribeAutoScalingNotificationTypesOutput
-    {
+    public func describeAutoScalingNotificationTypes(input: DescribeAutoScalingNotificationTypesInput) async throws -> DescribeAutoScalingNotificationTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1249,8 +1225,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeInstanceRefreshes(input: DescribeInstanceRefreshesInput) async throws -> DescribeInstanceRefreshesOutput
-    {
+    public func describeInstanceRefreshes(input: DescribeInstanceRefreshesInput) async throws -> DescribeInstanceRefreshesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1296,8 +1271,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeLaunchConfigurations(input: DescribeLaunchConfigurationsInput) async throws -> DescribeLaunchConfigurationsOutput
-    {
+    public func describeLaunchConfigurations(input: DescribeLaunchConfigurationsInput) async throws -> DescribeLaunchConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1346,8 +1320,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeLifecycleHookTypes(input: DescribeLifecycleHookTypesInput) async throws -> DescribeLifecycleHookTypesOutput
-    {
+    public func describeLifecycleHookTypes(input: DescribeLifecycleHookTypesInput) async throws -> DescribeLifecycleHookTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1392,8 +1365,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeLifecycleHooks(input: DescribeLifecycleHooksInput) async throws -> DescribeLifecycleHooksOutput
-    {
+    public func describeLifecycleHooks(input: DescribeLifecycleHooksInput) async throws -> DescribeLifecycleHooksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1439,8 +1411,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeLoadBalancerTargetGroups(input: DescribeLoadBalancerTargetGroupsInput) async throws -> DescribeLoadBalancerTargetGroupsOutput
-    {
+    public func describeLoadBalancerTargetGroups(input: DescribeLoadBalancerTargetGroupsInput) async throws -> DescribeLoadBalancerTargetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1457,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput
-    {
+    public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1532,8 +1502,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeMetricCollectionTypes(input: DescribeMetricCollectionTypesInput) async throws -> DescribeMetricCollectionTypesOutput
-    {
+    public func describeMetricCollectionTypes(input: DescribeMetricCollectionTypesInput) async throws -> DescribeMetricCollectionTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1579,8 +1548,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeNotificationConfigurations(input: DescribeNotificationConfigurationsInput) async throws -> DescribeNotificationConfigurationsOutput
-    {
+    public func describeNotificationConfigurations(input: DescribeNotificationConfigurationsInput) async throws -> DescribeNotificationConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1627,8 +1595,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func describePolicies(input: DescribePoliciesInput) async throws -> DescribePoliciesOutput
-    {
+    public func describePolicies(input: DescribePoliciesInput) async throws -> DescribePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1674,8 +1641,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeScalingActivities(input: DescribeScalingActivitiesInput) async throws -> DescribeScalingActivitiesOutput
-    {
+    public func describeScalingActivities(input: DescribeScalingActivitiesInput) async throws -> DescribeScalingActivitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1720,8 +1686,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeScalingProcessTypes(input: DescribeScalingProcessTypesInput) async throws -> DescribeScalingProcessTypesOutput
-    {
+    public func describeScalingProcessTypes(input: DescribeScalingProcessTypesInput) async throws -> DescribeScalingProcessTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1767,8 +1732,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput
-    {
+    public func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1814,8 +1778,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1860,8 +1823,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeTerminationPolicyTypes(input: DescribeTerminationPolicyTypesInput) async throws -> DescribeTerminationPolicyTypesOutput
-    {
+    public func describeTerminationPolicyTypes(input: DescribeTerminationPolicyTypesInput) async throws -> DescribeTerminationPolicyTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1907,8 +1869,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeTrafficSources(input: DescribeTrafficSourcesInput) async throws -> DescribeTrafficSourcesOutput
-    {
+    public func describeTrafficSources(input: DescribeTrafficSourcesInput) async throws -> DescribeTrafficSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1955,8 +1916,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `InvalidNextToken` : The NextToken value is not valid.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func describeWarmPool(input: DescribeWarmPoolInput) async throws -> DescribeWarmPoolOutput
-    {
+    public func describeWarmPool(input: DescribeWarmPoolInput) async throws -> DescribeWarmPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2001,8 +1961,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func detachInstances(input: DetachInstancesInput) async throws -> DetachInstancesOutput
-    {
+    public func detachInstances(input: DetachInstancesInput) async throws -> DetachInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2047,8 +2006,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func detachLoadBalancerTargetGroups(input: DetachLoadBalancerTargetGroupsInput) async throws -> DetachLoadBalancerTargetGroupsOutput
-    {
+    public func detachLoadBalancerTargetGroups(input: DetachLoadBalancerTargetGroupsInput) async throws -> DetachLoadBalancerTargetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2093,8 +2051,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func detachLoadBalancers(input: DetachLoadBalancersInput) async throws -> DetachLoadBalancersOutput
-    {
+    public func detachLoadBalancers(input: DetachLoadBalancersInput) async throws -> DetachLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2139,8 +2096,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func detachTrafficSources(input: DetachTrafficSourcesInput) async throws -> DetachTrafficSourcesOutput
-    {
+    public func detachTrafficSources(input: DetachTrafficSourcesInput) async throws -> DetachTrafficSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2185,8 +2141,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func disableMetricsCollection(input: DisableMetricsCollectionInput) async throws -> DisableMetricsCollectionOutput
-    {
+    public func disableMetricsCollection(input: DisableMetricsCollectionInput) async throws -> DisableMetricsCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2231,8 +2186,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func enableMetricsCollection(input: EnableMetricsCollectionInput) async throws -> EnableMetricsCollectionOutput
-    {
+    public func enableMetricsCollection(input: EnableMetricsCollectionInput) async throws -> EnableMetricsCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2277,8 +2231,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func enterStandby(input: EnterStandbyInput) async throws -> EnterStandbyOutput
-    {
+    public func enterStandby(input: EnterStandbyInput) async throws -> EnterStandbyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2324,8 +2277,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ScalingActivityInProgressFault` : The operation can't be performed because there are scaling activities in progress.
-    public func executePolicy(input: ExecutePolicyInput) async throws -> ExecutePolicyOutput
-    {
+    public func executePolicy(input: ExecutePolicyInput) async throws -> ExecutePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2370,8 +2322,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func exitStandby(input: ExitStandbyInput) async throws -> ExitStandbyOutput
-    {
+    public func exitStandby(input: ExitStandbyInput) async throws -> ExitStandbyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2416,8 +2367,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func getPredictiveScalingForecast(input: GetPredictiveScalingForecastInput) async throws -> GetPredictiveScalingForecastOutput
-    {
+    public func getPredictiveScalingForecast(input: GetPredictiveScalingForecastInput) async throws -> GetPredictiveScalingForecastOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2478,8 +2428,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func putLifecycleHook(input: PutLifecycleHookInput) async throws -> PutLifecycleHookOutput
-    {
+    public func putLifecycleHook(input: PutLifecycleHookInput) async throws -> PutLifecycleHookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2526,8 +2475,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func putNotificationConfiguration(input: PutNotificationConfigurationInput) async throws -> PutNotificationConfigurationOutput
-    {
+    public func putNotificationConfiguration(input: PutNotificationConfigurationInput) async throws -> PutNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2574,8 +2522,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput
-    {
+    public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2622,8 +2569,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `AlreadyExistsFault` : You already have an Auto Scaling group or launch configuration with this name.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func putScheduledUpdateGroupAction(input: PutScheduledUpdateGroupActionInput) async throws -> PutScheduledUpdateGroupActionOutput
-    {
+    public func putScheduledUpdateGroupAction(input: PutScheduledUpdateGroupActionInput) async throws -> PutScheduledUpdateGroupActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2669,8 +2615,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func putWarmPool(input: PutWarmPoolInput) async throws -> PutWarmPoolOutput
-    {
+    public func putWarmPool(input: PutWarmPoolInput) async throws -> PutWarmPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2730,8 +2675,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func recordLifecycleActionHeartbeat(input: RecordLifecycleActionHeartbeatInput) async throws -> RecordLifecycleActionHeartbeatOutput
-    {
+    public func recordLifecycleActionHeartbeat(input: RecordLifecycleActionHeartbeatInput) async throws -> RecordLifecycleActionHeartbeatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2777,8 +2721,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
-    public func resumeProcesses(input: ResumeProcessesInput) async throws -> ResumeProcessesOutput
-    {
+    public func resumeProcesses(input: ResumeProcessesInput) async throws -> ResumeProcessesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2835,8 +2778,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `IrreversibleInstanceRefreshFault` : The request failed because a desired configuration was not found or an incompatible launch template (uses a Systems Manager parameter instead of an AMI ID) or launch template version ($Latest or $Default) is present on the Auto Scaling group.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func rollbackInstanceRefresh(input: RollbackInstanceRefreshInput) async throws -> RollbackInstanceRefreshOutput
-    {
+    public func rollbackInstanceRefresh(input: RollbackInstanceRefreshInput) async throws -> RollbackInstanceRefreshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2882,8 +2824,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ScalingActivityInProgressFault` : The operation can't be performed because there are scaling activities in progress.
-    public func setDesiredCapacity(input: SetDesiredCapacityInput) async throws -> SetDesiredCapacityOutput
-    {
+    public func setDesiredCapacity(input: SetDesiredCapacityInput) async throws -> SetDesiredCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2928,8 +2869,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func setInstanceHealth(input: SetInstanceHealthInput) async throws -> SetInstanceHealthOutput
-    {
+    public func setInstanceHealth(input: SetInstanceHealthInput) async throws -> SetInstanceHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2975,8 +2915,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func setInstanceProtection(input: SetInstanceProtectionInput) async throws -> SetInstanceProtectionOutput
-    {
+    public func setInstanceProtection(input: SetInstanceProtectionInput) async throws -> SetInstanceProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3023,8 +2962,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `InstanceRefreshInProgressFault` : The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     /// - `LimitExceededFault` : You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-    public func startInstanceRefresh(input: StartInstanceRefreshInput) async throws -> StartInstanceRefreshOutput
-    {
+    public func startInstanceRefresh(input: StartInstanceRefreshInput) async throws -> StartInstanceRefreshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3070,8 +3008,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ResourceInUseFault` : The operation can't be performed because the resource is in use.
-    public func suspendProcesses(input: SuspendProcessesInput) async throws -> SuspendProcessesOutput
-    {
+    public func suspendProcesses(input: SuspendProcessesInput) async throws -> SuspendProcessesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3117,8 +3054,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ScalingActivityInProgressFault` : The operation can't be performed because there are scaling activities in progress.
-    public func terminateInstanceInAutoScalingGroup(input: TerminateInstanceInAutoScalingGroupInput) async throws -> TerminateInstanceInAutoScalingGroupOutput
-    {
+    public func terminateInstanceInAutoScalingGroup(input: TerminateInstanceInAutoScalingGroupInput) async throws -> TerminateInstanceInAutoScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3174,8 +3110,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
     /// - `ResourceContentionFault` : You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     /// - `ScalingActivityInProgressFault` : The operation can't be performed because there are scaling activities in progress.
     /// - `ServiceLinkedRoleFailure` : The service-linked role is not yet ready for use.
-    public func updateAutoScalingGroup(input: UpdateAutoScalingGroupInput) async throws -> UpdateAutoScalingGroupOutput
-    {
+    public func updateAutoScalingGroup(input: UpdateAutoScalingGroupInput) async throws -> UpdateAutoScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

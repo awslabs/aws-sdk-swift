@@ -1812,6 +1812,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum MediaStoreClientTypes {}
+
 extension MediaStoreClientTypes {
     public enum MethodName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case delete

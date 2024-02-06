@@ -3955,6 +3955,8 @@ extension FirehoseClientTypes {
 
 }
 
+public enum FirehoseClientTypes {}
+
 extension FirehoseClientTypes {
     public enum HECEndpointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case event

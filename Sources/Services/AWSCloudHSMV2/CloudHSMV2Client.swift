@@ -66,7 +66,7 @@ public struct CloudHSMV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
+extension CloudHSMV2Client {
     /// Performs the `CopyBackupToRegion` operation on the `BaldrApiService` service.
     ///
     /// Copy an AWS CloudHSM cluster backup to a different region.
@@ -84,8 +84,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func copyBackupToRegion(input: CopyBackupToRegionInput) async throws -> CopyBackupToRegionOutput
-    {
+    public func copyBackupToRegion(input: CopyBackupToRegionInput) async throws -> CopyBackupToRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutput
-    {
+    public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput
-    {
+    public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -290,8 +286,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutput
-    {
+    public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +387,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput
-    {
+    public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
-    {
+    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -495,8 +487,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func initializeCluster(input: InitializeClusterInput) async throws -> InitializeClusterOutput
-    {
+    public func initializeCluster(input: InitializeClusterInput) async throws -> InitializeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -547,8 +538,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +588,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func modifyBackupAttributes(input: ModifyBackupAttributesInput) async throws -> ModifyBackupAttributesOutput
-    {
+    public func modifyBackupAttributes(input: ModifyBackupAttributesInput) async throws -> ModifyBackupAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -649,8 +638,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput
-    {
+    public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +688,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
-    public func restoreBackup(input: RestoreBackupInput) async throws -> RestoreBackupOutput
-    {
+    public func restoreBackup(input: RestoreBackupInput) async throws -> RestoreBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -752,8 +739,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -804,8 +790,7 @@ extension CloudHSMV2Client: CloudHSMV2ClientProtocol {
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

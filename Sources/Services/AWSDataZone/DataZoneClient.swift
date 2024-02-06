@@ -66,7 +66,7 @@ public struct DataZoneClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension DataZoneClient: DataZoneClientProtocol {
+extension DataZoneClient {
     /// Performs the `AcceptPredictions` operation on the `DataZone` service.
     ///
     /// Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
@@ -85,8 +85,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func acceptPredictions(input: AcceptPredictionsInput) async throws -> AcceptPredictionsOutput
-    {
+    public func acceptPredictions(input: AcceptPredictionsInput) async throws -> AcceptPredictionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func acceptSubscriptionRequest(input: AcceptSubscriptionRequestInput) async throws -> AcceptSubscriptionRequestOutput
-    {
+    public func acceptSubscriptionRequest(input: AcceptSubscriptionRequestInput) async throws -> AcceptSubscriptionRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -191,8 +189,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func cancelSubscription(input: CancelSubscriptionInput) async throws -> CancelSubscriptionOutput
-    {
+    public func cancelSubscription(input: CancelSubscriptionInput) async throws -> CancelSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput
-    {
+    public func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -294,8 +290,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createAssetRevision(input: CreateAssetRevisionInput) async throws -> CreateAssetRevisionOutput
-    {
+    public func createAssetRevision(input: CreateAssetRevisionInput) async throws -> CreateAssetRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -347,8 +342,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createAssetType(input: CreateAssetTypeInput) async throws -> CreateAssetTypeOutput
-    {
+    public func createAssetType(input: CreateAssetTypeInput) async throws -> CreateAssetTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +394,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-    {
+    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -454,8 +447,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    {
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -507,8 +499,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -560,8 +551,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createEnvironmentProfile(input: CreateEnvironmentProfileInput) async throws -> CreateEnvironmentProfileOutput
-    {
+    public func createEnvironmentProfile(input: CreateEnvironmentProfileInput) async throws -> CreateEnvironmentProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +602,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createFormType(input: CreateFormTypeInput) async throws -> CreateFormTypeOutput
-    {
+    public func createFormType(input: CreateFormTypeInput) async throws -> CreateFormTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +653,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createGlossary(input: CreateGlossaryInput) async throws -> CreateGlossaryOutput
-    {
+    public func createGlossary(input: CreateGlossaryInput) async throws -> CreateGlossaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +706,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createGlossaryTerm(input: CreateGlossaryTermInput) async throws -> CreateGlossaryTermOutput
-    {
+    public func createGlossaryTerm(input: CreateGlossaryTermInput) async throws -> CreateGlossaryTermOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +757,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createGroupProfile(input: CreateGroupProfileInput) async throws -> CreateGroupProfileOutput
-    {
+    public func createGroupProfile(input: CreateGroupProfileInput) async throws -> CreateGroupProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -824,8 +810,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createListingChangeSet(input: CreateListingChangeSetInput) async throws -> CreateListingChangeSetOutput
-    {
+    public func createListingChangeSet(input: CreateListingChangeSetInput) async throws -> CreateListingChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -878,8 +863,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -929,8 +913,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createProjectMembership(input: CreateProjectMembershipInput) async throws -> CreateProjectMembershipOutput
-    {
+    public func createProjectMembership(input: CreateProjectMembershipInput) async throws -> CreateProjectMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -981,8 +964,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createSubscriptionGrant(input: CreateSubscriptionGrantInput) async throws -> CreateSubscriptionGrantOutput
-    {
+    public func createSubscriptionGrant(input: CreateSubscriptionGrantInput) async throws -> CreateSubscriptionGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1034,8 +1016,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createSubscriptionRequest(input: CreateSubscriptionRequestInput) async throws -> CreateSubscriptionRequestOutput
-    {
+    public func createSubscriptionRequest(input: CreateSubscriptionRequestInput) async throws -> CreateSubscriptionRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1087,8 +1068,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createSubscriptionTarget(input: CreateSubscriptionTargetInput) async throws -> CreateSubscriptionTargetOutput
-    {
+    public func createSubscriptionTarget(input: CreateSubscriptionTargetInput) async throws -> CreateSubscriptionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1139,8 +1119,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
-    {
+    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1191,8 +1170,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
-    {
+    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1218,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteAssetType(input: DeleteAssetTypeInput) async throws -> DeleteAssetTypeOutput
-    {
+    public func deleteAssetType(input: DeleteAssetTypeInput) async throws -> DeleteAssetTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1290,8 +1267,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1341,8 +1317,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1391,8 +1366,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1438,8 +1412,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteEnvironmentBlueprintConfiguration(input: DeleteEnvironmentBlueprintConfigurationInput) async throws -> DeleteEnvironmentBlueprintConfigurationOutput
-    {
+    public func deleteEnvironmentBlueprintConfiguration(input: DeleteEnvironmentBlueprintConfigurationInput) async throws -> DeleteEnvironmentBlueprintConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1459,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteEnvironmentProfile(input: DeleteEnvironmentProfileInput) async throws -> DeleteEnvironmentProfileOutput
-    {
+    public func deleteEnvironmentProfile(input: DeleteEnvironmentProfileInput) async throws -> DeleteEnvironmentProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1535,8 +1507,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteFormType(input: DeleteFormTypeInput) async throws -> DeleteFormTypeOutput
-    {
+    public func deleteFormType(input: DeleteFormTypeInput) async throws -> DeleteFormTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1584,8 +1555,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteGlossary(input: DeleteGlossaryInput) async throws -> DeleteGlossaryOutput
-    {
+    public func deleteGlossary(input: DeleteGlossaryInput) async throws -> DeleteGlossaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1633,8 +1603,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteGlossaryTerm(input: DeleteGlossaryTermInput) async throws -> DeleteGlossaryTermOutput
-    {
+    public func deleteGlossaryTerm(input: DeleteGlossaryTermInput) async throws -> DeleteGlossaryTermOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1682,8 +1651,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteListing(input: DeleteListingInput) async throws -> DeleteListingOutput
-    {
+    public func deleteListing(input: DeleteListingInput) async throws -> DeleteListingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1730,8 +1698,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1779,8 +1746,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteProjectMembership(input: DeleteProjectMembershipInput) async throws -> DeleteProjectMembershipOutput
-    {
+    public func deleteProjectMembership(input: DeleteProjectMembershipInput) async throws -> DeleteProjectMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1831,8 +1797,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteSubscriptionGrant(input: DeleteSubscriptionGrantInput) async throws -> DeleteSubscriptionGrantOutput
-    {
+    public func deleteSubscriptionGrant(input: DeleteSubscriptionGrantInput) async throws -> DeleteSubscriptionGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1880,8 +1845,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteSubscriptionRequest(input: DeleteSubscriptionRequestInput) async throws -> DeleteSubscriptionRequestOutput
-    {
+    public func deleteSubscriptionRequest(input: DeleteSubscriptionRequestInput) async throws -> DeleteSubscriptionRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1929,8 +1893,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func deleteSubscriptionTarget(input: DeleteSubscriptionTargetInput) async throws -> DeleteSubscriptionTargetOutput
-    {
+    public func deleteSubscriptionTarget(input: DeleteSubscriptionTargetInput) async throws -> DeleteSubscriptionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1977,8 +1940,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getAsset(input: GetAssetInput) async throws -> GetAssetOutput
-    {
+    public func getAsset(input: GetAssetInput) async throws -> GetAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2026,8 +1988,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getAssetType(input: GetAssetTypeInput) async throws -> GetAssetTypeOutput
-    {
+    public func getAssetType(input: GetAssetTypeInput) async throws -> GetAssetTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2077,8 +2038,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
-    {
+    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2127,8 +2087,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getDataSourceRun(input: GetDataSourceRunInput) async throws -> GetDataSourceRunOutput
-    {
+    public func getDataSourceRun(input: GetDataSourceRunInput) async throws -> GetDataSourceRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2176,8 +2135,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
-    {
+    public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2182,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-    {
+    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2272,8 +2229,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getEnvironmentBlueprint(input: GetEnvironmentBlueprintInput) async throws -> GetEnvironmentBlueprintOutput
-    {
+    public func getEnvironmentBlueprint(input: GetEnvironmentBlueprintInput) async throws -> GetEnvironmentBlueprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2320,8 +2276,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getEnvironmentBlueprintConfiguration(input: GetEnvironmentBlueprintConfigurationInput) async throws -> GetEnvironmentBlueprintConfigurationOutput
-    {
+    public func getEnvironmentBlueprintConfiguration(input: GetEnvironmentBlueprintConfigurationInput) async throws -> GetEnvironmentBlueprintConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2368,8 +2323,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getEnvironmentProfile(input: GetEnvironmentProfileInput) async throws -> GetEnvironmentProfileOutput
-    {
+    public func getEnvironmentProfile(input: GetEnvironmentProfileInput) async throws -> GetEnvironmentProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2416,8 +2370,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getFormType(input: GetFormTypeInput) async throws -> GetFormTypeOutput
-    {
+    public func getFormType(input: GetFormTypeInput) async throws -> GetFormTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2465,8 +2418,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getGlossary(input: GetGlossaryInput) async throws -> GetGlossaryOutput
-    {
+    public func getGlossary(input: GetGlossaryInput) async throws -> GetGlossaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2513,8 +2465,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getGlossaryTerm(input: GetGlossaryTermInput) async throws -> GetGlossaryTermOutput
-    {
+    public func getGlossaryTerm(input: GetGlossaryTermInput) async throws -> GetGlossaryTermOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2561,8 +2512,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getGroupProfile(input: GetGroupProfileInput) async throws -> GetGroupProfileOutput
-    {
+    public func getGroupProfile(input: GetGroupProfileInput) async throws -> GetGroupProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2610,8 +2560,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getIamPortalLoginUrl(input: GetIamPortalLoginUrlInput) async throws -> GetIamPortalLoginUrlOutput
-    {
+    public func getIamPortalLoginUrl(input: GetIamPortalLoginUrlInput) async throws -> GetIamPortalLoginUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2658,8 +2607,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getListing(input: GetListingInput) async throws -> GetListingOutput
-    {
+    public func getListing(input: GetListingInput) async throws -> GetListingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2707,8 +2655,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput
-    {
+    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2755,8 +2702,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutput
-    {
+    public func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2803,8 +2749,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getSubscriptionGrant(input: GetSubscriptionGrantInput) async throws -> GetSubscriptionGrantOutput
-    {
+    public func getSubscriptionGrant(input: GetSubscriptionGrantInput) async throws -> GetSubscriptionGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2851,8 +2796,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getSubscriptionRequestDetails(input: GetSubscriptionRequestDetailsInput) async throws -> GetSubscriptionRequestDetailsOutput
-    {
+    public func getSubscriptionRequestDetails(input: GetSubscriptionRequestDetailsInput) async throws -> GetSubscriptionRequestDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2899,8 +2843,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getSubscriptionTarget(input: GetSubscriptionTargetInput) async throws -> GetSubscriptionTargetOutput
-    {
+    public func getSubscriptionTarget(input: GetSubscriptionTargetInput) async throws -> GetSubscriptionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2947,8 +2890,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func getUserProfile(input: GetUserProfileInput) async throws -> GetUserProfileOutput
-    {
+    public func getUserProfile(input: GetUserProfileInput) async throws -> GetUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2996,8 +2938,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listAssetRevisions(input: ListAssetRevisionsInput) async throws -> ListAssetRevisionsOutput
-    {
+    public func listAssetRevisions(input: ListAssetRevisionsInput) async throws -> ListAssetRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3047,8 +2988,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listDataSourceRunActivities(input: ListDataSourceRunActivitiesInput) async throws -> ListDataSourceRunActivitiesOutput
-    {
+    public func listDataSourceRunActivities(input: ListDataSourceRunActivitiesInput) async throws -> ListDataSourceRunActivitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3098,8 +3038,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listDataSourceRuns(input: ListDataSourceRunsInput) async throws -> ListDataSourceRunsOutput
-    {
+    public func listDataSourceRuns(input: ListDataSourceRunsInput) async throws -> ListDataSourceRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3149,8 +3088,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-    {
+    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3200,8 +3138,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3249,8 +3186,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listEnvironmentBlueprintConfigurations(input: ListEnvironmentBlueprintConfigurationsInput) async throws -> ListEnvironmentBlueprintConfigurationsOutput
-    {
+    public func listEnvironmentBlueprintConfigurations(input: ListEnvironmentBlueprintConfigurationsInput) async throws -> ListEnvironmentBlueprintConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3298,8 +3234,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listEnvironmentBlueprints(input: ListEnvironmentBlueprintsInput) async throws -> ListEnvironmentBlueprintsOutput
-    {
+    public func listEnvironmentBlueprints(input: ListEnvironmentBlueprintsInput) async throws -> ListEnvironmentBlueprintsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3346,8 +3281,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listEnvironmentProfiles(input: ListEnvironmentProfilesInput) async throws -> ListEnvironmentProfilesOutput
-    {
+    public func listEnvironmentProfiles(input: ListEnvironmentProfilesInput) async throws -> ListEnvironmentProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3394,8 +3328,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3443,8 +3376,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput
-    {
+    public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3492,8 +3424,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listProjectMemberships(input: ListProjectMembershipsInput) async throws -> ListProjectMembershipsOutput
-    {
+    public func listProjectMemberships(input: ListProjectMembershipsInput) async throws -> ListProjectMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3540,8 +3471,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3589,8 +3519,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listSubscriptionGrants(input: ListSubscriptionGrantsInput) async throws -> ListSubscriptionGrantsOutput
-    {
+    public func listSubscriptionGrants(input: ListSubscriptionGrantsInput) async throws -> ListSubscriptionGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3638,8 +3567,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listSubscriptionRequests(input: ListSubscriptionRequestsInput) async throws -> ListSubscriptionRequestsOutput
-    {
+    public func listSubscriptionRequests(input: ListSubscriptionRequestsInput) async throws -> ListSubscriptionRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3687,8 +3615,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listSubscriptionTargets(input: ListSubscriptionTargetsInput) async throws -> ListSubscriptionTargetsOutput
-    {
+    public func listSubscriptionTargets(input: ListSubscriptionTargetsInput) async throws -> ListSubscriptionTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3736,8 +3663,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutput
-    {
+    public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3785,8 +3711,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3834,8 +3759,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func putEnvironmentBlueprintConfiguration(input: PutEnvironmentBlueprintConfigurationInput) async throws -> PutEnvironmentBlueprintConfigurationOutput
-    {
+    public func putEnvironmentBlueprintConfiguration(input: PutEnvironmentBlueprintConfigurationInput) async throws -> PutEnvironmentBlueprintConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3885,8 +3809,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func rejectPredictions(input: RejectPredictionsInput) async throws -> RejectPredictionsOutput
-    {
+    public func rejectPredictions(input: RejectPredictionsInput) async throws -> RejectPredictionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3939,8 +3862,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func rejectSubscriptionRequest(input: RejectSubscriptionRequestInput) async throws -> RejectSubscriptionRequestOutput
-    {
+    public func rejectSubscriptionRequest(input: RejectSubscriptionRequestInput) async throws -> RejectSubscriptionRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3991,8 +3913,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func revokeSubscription(input: RevokeSubscriptionInput) async throws -> RevokeSubscriptionOutput
-    {
+    public func revokeSubscription(input: RevokeSubscriptionInput) async throws -> RevokeSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4041,8 +3962,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func search(input: SearchInput) async throws -> SearchOutput
-    {
+    public func search(input: SearchInput) async throws -> SearchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4092,8 +4012,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func searchGroupProfiles(input: SearchGroupProfilesInput) async throws -> SearchGroupProfilesOutput
-    {
+    public func searchGroupProfiles(input: SearchGroupProfilesInput) async throws -> SearchGroupProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4142,8 +4061,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func searchListings(input: SearchListingsInput) async throws -> SearchListingsOutput
-    {
+    public func searchListings(input: SearchListingsInput) async throws -> SearchListingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4192,8 +4110,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func searchTypes(input: SearchTypesInput) async throws -> SearchTypesOutput
-    {
+    public func searchTypes(input: SearchTypesInput) async throws -> SearchTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4243,8 +4160,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func searchUserProfiles(input: SearchUserProfilesInput) async throws -> SearchUserProfilesOutput
-    {
+    public func searchUserProfiles(input: SearchUserProfilesInput) async throws -> SearchUserProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4296,8 +4212,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func startDataSourceRun(input: StartDataSourceRunInput) async throws -> StartDataSourceRunOutput
-    {
+    public func startDataSourceRun(input: StartDataSourceRunInput) async throws -> StartDataSourceRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4348,8 +4263,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4398,8 +4312,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4449,8 +4362,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4502,8 +4414,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput
-    {
+    public func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4556,8 +4467,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4609,8 +4519,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateEnvironmentProfile(input: UpdateEnvironmentProfileInput) async throws -> UpdateEnvironmentProfileOutput
-    {
+    public func updateEnvironmentProfile(input: UpdateEnvironmentProfileInput) async throws -> UpdateEnvironmentProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4661,8 +4570,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateGlossary(input: UpdateGlossaryInput) async throws -> UpdateGlossaryOutput
-    {
+    public func updateGlossary(input: UpdateGlossaryInput) async throws -> UpdateGlossaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4714,8 +4622,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateGlossaryTerm(input: UpdateGlossaryTermInput) async throws -> UpdateGlossaryTermOutput
-    {
+    public func updateGlossaryTerm(input: UpdateGlossaryTermInput) async throws -> UpdateGlossaryTermOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4765,8 +4672,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateGroupProfile(input: UpdateGroupProfileInput) async throws -> UpdateGroupProfileOutput
-    {
+    public func updateGroupProfile(input: UpdateGroupProfileInput) async throws -> UpdateGroupProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4818,8 +4724,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4870,8 +4775,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateSubscriptionGrantStatus(input: UpdateSubscriptionGrantStatusInput) async throws -> UpdateSubscriptionGrantStatusOutput
-    {
+    public func updateSubscriptionGrantStatus(input: UpdateSubscriptionGrantStatusInput) async throws -> UpdateSubscriptionGrantStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4922,8 +4826,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateSubscriptionRequest(input: UpdateSubscriptionRequestInput) async throws -> UpdateSubscriptionRequestOutput
-    {
+    public func updateSubscriptionRequest(input: UpdateSubscriptionRequestInput) async throws -> UpdateSubscriptionRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4974,8 +4877,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateSubscriptionTarget(input: UpdateSubscriptionTargetInput) async throws -> UpdateSubscriptionTargetOutput
-    {
+    public func updateSubscriptionTarget(input: UpdateSubscriptionTargetInput) async throws -> UpdateSubscriptionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5025,8 +4927,7 @@ extension DataZoneClient: DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
-    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput
-    {
+    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

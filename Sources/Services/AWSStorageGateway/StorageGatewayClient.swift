@@ -66,7 +66,7 @@ public struct StorageGatewayClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension StorageGatewayClient: StorageGatewayClientProtocol {
+extension StorageGatewayClient {
     /// Performs the `ActivateGateway` operation on the `StorageGateway_20130630` service.
     ///
     /// Activates the gateway you previously deployed on your host. In the activation process, you specify information such as the Amazon Web Services Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see [UpdateGatewayInformation]. You must turn on the gateway VM before you can activate your gateway.
@@ -94,8 +94,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func activateGateway(input: ActivateGatewayInput) async throws -> ActivateGatewayOutput
-    {
+    public func activateGateway(input: ActivateGatewayInput) async throws -> ActivateGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -142,8 +141,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func addCache(input: AddCacheInput) async throws -> AddCacheOutput
-    {
+    public func addCache(input: AddCacheInput) async throws -> AddCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +201,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -251,8 +248,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func addUploadBuffer(input: AddUploadBufferInput) async throws -> AddUploadBufferOutput
-    {
+    public func addUploadBuffer(input: AddUploadBufferInput) async throws -> AddUploadBufferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -301,8 +297,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func addWorkingStorage(input: AddWorkingStorageInput) async throws -> AddWorkingStorageOutput
-    {
+    public func addWorkingStorage(input: AddWorkingStorageInput) async throws -> AddWorkingStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -349,8 +344,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func assignTapePool(input: AssignTapePoolInput) async throws -> AssignTapePoolOutput
-    {
+    public func assignTapePool(input: AssignTapePoolInput) async throws -> AssignTapePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func associateFileSystem(input: AssociateFileSystemInput) async throws -> AssociateFileSystemOutput
-    {
+    public func associateFileSystem(input: AssociateFileSystemInput) async throws -> AssociateFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -445,8 +438,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func attachVolume(input: AttachVolumeInput) async throws -> AttachVolumeOutput
-    {
+    public func attachVolume(input: AttachVolumeInput) async throws -> AttachVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +485,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func cancelArchival(input: CancelArchivalInput) async throws -> CancelArchivalOutput
-    {
+    public func cancelArchival(input: CancelArchivalInput) async throws -> CancelArchivalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func cancelRetrieval(input: CancelRetrievalInput) async throws -> CancelRetrievalOutput
-    {
+    public func cancelRetrieval(input: CancelRetrievalInput) async throws -> CancelRetrievalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -589,8 +579,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createCachediSCSIVolume(input: CreateCachediSCSIVolumeInput) async throws -> CreateCachediSCSIVolumeOutput
-    {
+    public func createCachediSCSIVolume(input: CreateCachediSCSIVolumeInput) async throws -> CreateCachediSCSIVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -637,8 +626,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createNFSFileShare(input: CreateNFSFileShareInput) async throws -> CreateNFSFileShareOutput
-    {
+    public func createNFSFileShare(input: CreateNFSFileShareInput) async throws -> CreateNFSFileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +673,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createSMBFileShare(input: CreateSMBFileShareInput) async throws -> CreateSMBFileShareOutput
-    {
+    public func createSMBFileShare(input: CreateSMBFileShareInput) async throws -> CreateSMBFileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -738,8 +725,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     /// - `ServiceUnavailableError` : An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -787,8 +773,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     /// - `ServiceUnavailableError` : An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
-    public func createSnapshotFromVolumeRecoveryPoint(input: CreateSnapshotFromVolumeRecoveryPointInput) async throws -> CreateSnapshotFromVolumeRecoveryPointOutput
-    {
+    public func createSnapshotFromVolumeRecoveryPoint(input: CreateSnapshotFromVolumeRecoveryPointInput) async throws -> CreateSnapshotFromVolumeRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -845,8 +830,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createStorediSCSIVolume(input: CreateStorediSCSIVolumeInput) async throws -> CreateStorediSCSIVolumeOutput
-    {
+    public func createStorediSCSIVolume(input: CreateStorediSCSIVolumeInput) async throws -> CreateStorediSCSIVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -893,8 +877,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createTapePool(input: CreateTapePoolInput) async throws -> CreateTapePoolOutput
-    {
+    public func createTapePool(input: CreateTapePoolInput) async throws -> CreateTapePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -941,8 +924,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createTapeWithBarcode(input: CreateTapeWithBarcodeInput) async throws -> CreateTapeWithBarcodeOutput
-    {
+    public func createTapeWithBarcode(input: CreateTapeWithBarcodeInput) async throws -> CreateTapeWithBarcodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -989,8 +971,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func createTapes(input: CreateTapesInput) async throws -> CreateTapesOutput
-    {
+    public func createTapes(input: CreateTapesInput) async throws -> CreateTapesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1037,8 +1018,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteAutomaticTapeCreationPolicy(input: DeleteAutomaticTapeCreationPolicyInput) async throws -> DeleteAutomaticTapeCreationPolicyOutput
-    {
+    public func deleteAutomaticTapeCreationPolicy(input: DeleteAutomaticTapeCreationPolicyInput) async throws -> DeleteAutomaticTapeCreationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1087,8 +1067,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteBandwidthRateLimit(input: DeleteBandwidthRateLimitInput) async throws -> DeleteBandwidthRateLimitOutput
-    {
+    public func deleteBandwidthRateLimit(input: DeleteBandwidthRateLimitInput) async throws -> DeleteBandwidthRateLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1139,8 +1118,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteChapCredentials(input: DeleteChapCredentialsInput) async throws -> DeleteChapCredentialsOutput
-    {
+    public func deleteChapCredentials(input: DeleteChapCredentialsInput) async throws -> DeleteChapCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1187,8 +1165,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteFileShare(input: DeleteFileShareInput) async throws -> DeleteFileShareOutput
-    {
+    public func deleteFileShare(input: DeleteFileShareInput) async throws -> DeleteFileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1235,8 +1212,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput
-    {
+    public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1283,8 +1259,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteSnapshotSchedule(input: DeleteSnapshotScheduleInput) async throws -> DeleteSnapshotScheduleOutput
-    {
+    public func deleteSnapshotSchedule(input: DeleteSnapshotScheduleInput) async throws -> DeleteSnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1331,8 +1306,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteTape(input: DeleteTapeInput) async throws -> DeleteTapeOutput
-    {
+    public func deleteTape(input: DeleteTapeInput) async throws -> DeleteTapeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1379,8 +1353,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteTapeArchive(input: DeleteTapeArchiveInput) async throws -> DeleteTapeArchiveOutput
-    {
+    public func deleteTapeArchive(input: DeleteTapeArchiveInput) async throws -> DeleteTapeArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1427,8 +1400,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteTapePool(input: DeleteTapePoolInput) async throws -> DeleteTapePoolOutput
-    {
+    public func deleteTapePool(input: DeleteTapePoolInput) async throws -> DeleteTapePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1475,8 +1447,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput
-    {
+    public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1523,8 +1494,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeAvailabilityMonitorTest(input: DescribeAvailabilityMonitorTestInput) async throws -> DescribeAvailabilityMonitorTestOutput
-    {
+    public func describeAvailabilityMonitorTest(input: DescribeAvailabilityMonitorTestInput) async throws -> DescribeAvailabilityMonitorTestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1571,8 +1541,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeBandwidthRateLimit(input: DescribeBandwidthRateLimitInput) async throws -> DescribeBandwidthRateLimitOutput
-    {
+    public func describeBandwidthRateLimit(input: DescribeBandwidthRateLimitInput) async throws -> DescribeBandwidthRateLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1619,8 +1588,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeBandwidthRateLimitSchedule(input: DescribeBandwidthRateLimitScheduleInput) async throws -> DescribeBandwidthRateLimitScheduleOutput
-    {
+    public func describeBandwidthRateLimitSchedule(input: DescribeBandwidthRateLimitScheduleInput) async throws -> DescribeBandwidthRateLimitScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1667,8 +1635,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeCache(input: DescribeCacheInput) async throws -> DescribeCacheOutput
-    {
+    public func describeCache(input: DescribeCacheInput) async throws -> DescribeCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1715,8 +1682,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeCachediSCSIVolumes(input: DescribeCachediSCSIVolumesInput) async throws -> DescribeCachediSCSIVolumesOutput
-    {
+    public func describeCachediSCSIVolumes(input: DescribeCachediSCSIVolumesInput) async throws -> DescribeCachediSCSIVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1763,8 +1729,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeChapCredentials(input: DescribeChapCredentialsInput) async throws -> DescribeChapCredentialsOutput
-    {
+    public func describeChapCredentials(input: DescribeChapCredentialsInput) async throws -> DescribeChapCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1811,8 +1776,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeFileSystemAssociations(input: DescribeFileSystemAssociationsInput) async throws -> DescribeFileSystemAssociationsOutput
-    {
+    public func describeFileSystemAssociations(input: DescribeFileSystemAssociationsInput) async throws -> DescribeFileSystemAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1859,8 +1823,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeGatewayInformation(input: DescribeGatewayInformationInput) async throws -> DescribeGatewayInformationOutput
-    {
+    public func describeGatewayInformation(input: DescribeGatewayInformationInput) async throws -> DescribeGatewayInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1917,8 +1880,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeMaintenanceStartTime(input: DescribeMaintenanceStartTimeInput) async throws -> DescribeMaintenanceStartTimeOutput
-    {
+    public func describeMaintenanceStartTime(input: DescribeMaintenanceStartTimeInput) async throws -> DescribeMaintenanceStartTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1965,8 +1927,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeNFSFileShares(input: DescribeNFSFileSharesInput) async throws -> DescribeNFSFileSharesOutput
-    {
+    public func describeNFSFileShares(input: DescribeNFSFileSharesInput) async throws -> DescribeNFSFileSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2013,8 +1974,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeSMBFileShares(input: DescribeSMBFileSharesInput) async throws -> DescribeSMBFileSharesOutput
-    {
+    public func describeSMBFileShares(input: DescribeSMBFileSharesInput) async throws -> DescribeSMBFileSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2061,8 +2021,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeSMBSettings(input: DescribeSMBSettingsInput) async throws -> DescribeSMBSettingsOutput
-    {
+    public func describeSMBSettings(input: DescribeSMBSettingsInput) async throws -> DescribeSMBSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2109,8 +2068,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeSnapshotSchedule(input: DescribeSnapshotScheduleInput) async throws -> DescribeSnapshotScheduleOutput
-    {
+    public func describeSnapshotSchedule(input: DescribeSnapshotScheduleInput) async throws -> DescribeSnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2157,8 +2115,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeStorediSCSIVolumes(input: DescribeStorediSCSIVolumesInput) async throws -> DescribeStorediSCSIVolumesOutput
-    {
+    public func describeStorediSCSIVolumes(input: DescribeStorediSCSIVolumesInput) async throws -> DescribeStorediSCSIVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2205,8 +2162,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeTapeArchives(input: DescribeTapeArchivesInput) async throws -> DescribeTapeArchivesOutput
-    {
+    public func describeTapeArchives(input: DescribeTapeArchivesInput) async throws -> DescribeTapeArchivesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2253,8 +2209,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeTapeRecoveryPoints(input: DescribeTapeRecoveryPointsInput) async throws -> DescribeTapeRecoveryPointsOutput
-    {
+    public func describeTapeRecoveryPoints(input: DescribeTapeRecoveryPointsInput) async throws -> DescribeTapeRecoveryPointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2301,8 +2256,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeTapes(input: DescribeTapesInput) async throws -> DescribeTapesOutput
-    {
+    public func describeTapes(input: DescribeTapesInput) async throws -> DescribeTapesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2349,8 +2303,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeUploadBuffer(input: DescribeUploadBufferInput) async throws -> DescribeUploadBufferOutput
-    {
+    public func describeUploadBuffer(input: DescribeUploadBufferInput) async throws -> DescribeUploadBufferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2397,8 +2350,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeVTLDevices(input: DescribeVTLDevicesInput) async throws -> DescribeVTLDevicesOutput
-    {
+    public func describeVTLDevices(input: DescribeVTLDevicesInput) async throws -> DescribeVTLDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2445,8 +2397,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func describeWorkingStorage(input: DescribeWorkingStorageInput) async throws -> DescribeWorkingStorageOutput
-    {
+    public func describeWorkingStorage(input: DescribeWorkingStorageInput) async throws -> DescribeWorkingStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2493,8 +2444,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutput
-    {
+    public func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2541,8 +2491,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func disableGateway(input: DisableGatewayInput) async throws -> DisableGatewayOutput
-    {
+    public func disableGateway(input: DisableGatewayInput) async throws -> DisableGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2589,8 +2538,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func disassociateFileSystem(input: DisassociateFileSystemInput) async throws -> DisassociateFileSystemOutput
-    {
+    public func disassociateFileSystem(input: DisassociateFileSystemInput) async throws -> DisassociateFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2637,8 +2585,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func joinDomain(input: JoinDomainInput) async throws -> JoinDomainOutput
-    {
+    public func joinDomain(input: JoinDomainInput) async throws -> JoinDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2685,8 +2632,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listAutomaticTapeCreationPolicies(input: ListAutomaticTapeCreationPoliciesInput) async throws -> ListAutomaticTapeCreationPoliciesOutput
-    {
+    public func listAutomaticTapeCreationPolicies(input: ListAutomaticTapeCreationPoliciesInput) async throws -> ListAutomaticTapeCreationPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2733,8 +2679,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listFileShares(input: ListFileSharesInput) async throws -> ListFileSharesOutput
-    {
+    public func listFileShares(input: ListFileSharesInput) async throws -> ListFileSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2781,8 +2726,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listFileSystemAssociations(input: ListFileSystemAssociationsInput) async throws -> ListFileSystemAssociationsOutput
-    {
+    public func listFileSystemAssociations(input: ListFileSystemAssociationsInput) async throws -> ListFileSystemAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2833,8 +2777,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
-    {
+    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2881,8 +2824,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listLocalDisks(input: ListLocalDisksInput) async throws -> ListLocalDisksOutput
-    {
+    public func listLocalDisks(input: ListLocalDisksInput) async throws -> ListLocalDisksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2929,8 +2871,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2977,8 +2918,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listTapePools(input: ListTapePoolsInput) async throws -> ListTapePoolsOutput
-    {
+    public func listTapePools(input: ListTapePoolsInput) async throws -> ListTapePoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3035,8 +2975,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listTapes(input: ListTapesInput) async throws -> ListTapesOutput
-    {
+    public func listTapes(input: ListTapesInput) async throws -> ListTapesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3083,8 +3022,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listVolumeInitiators(input: ListVolumeInitiatorsInput) async throws -> ListVolumeInitiatorsOutput
-    {
+    public func listVolumeInitiators(input: ListVolumeInitiatorsInput) async throws -> ListVolumeInitiatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3131,8 +3069,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listVolumeRecoveryPoints(input: ListVolumeRecoveryPointsInput) async throws -> ListVolumeRecoveryPointsOutput
-    {
+    public func listVolumeRecoveryPoints(input: ListVolumeRecoveryPointsInput) async throws -> ListVolumeRecoveryPointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3187,8 +3124,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func listVolumes(input: ListVolumesInput) async throws -> ListVolumesOutput
-    {
+    public func listVolumes(input: ListVolumesInput) async throws -> ListVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3235,8 +3171,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func notifyWhenUploaded(input: NotifyWhenUploadedInput) async throws -> NotifyWhenUploadedOutput
-    {
+    public func notifyWhenUploaded(input: NotifyWhenUploadedInput) async throws -> NotifyWhenUploadedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3290,8 +3225,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func refreshCache(input: RefreshCacheInput) async throws -> RefreshCacheOutput
-    {
+    public func refreshCache(input: RefreshCacheInput) async throws -> RefreshCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3338,8 +3272,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3386,8 +3319,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func resetCache(input: ResetCacheInput) async throws -> ResetCacheOutput
-    {
+    public func resetCache(input: ResetCacheInput) async throws -> ResetCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3434,8 +3366,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func retrieveTapeArchive(input: RetrieveTapeArchiveInput) async throws -> RetrieveTapeArchiveOutput
-    {
+    public func retrieveTapeArchive(input: RetrieveTapeArchiveInput) async throws -> RetrieveTapeArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3482,8 +3413,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func retrieveTapeRecoveryPoint(input: RetrieveTapeRecoveryPointInput) async throws -> RetrieveTapeRecoveryPointOutput
-    {
+    public func retrieveTapeRecoveryPoint(input: RetrieveTapeRecoveryPointInput) async throws -> RetrieveTapeRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3530,8 +3460,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func setLocalConsolePassword(input: SetLocalConsolePasswordInput) async throws -> SetLocalConsolePasswordOutput
-    {
+    public func setLocalConsolePassword(input: SetLocalConsolePasswordInput) async throws -> SetLocalConsolePasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3578,8 +3507,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func setSMBGuestPassword(input: SetSMBGuestPasswordInput) async throws -> SetSMBGuestPasswordOutput
-    {
+    public func setSMBGuestPassword(input: SetSMBGuestPasswordInput) async throws -> SetSMBGuestPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3626,8 +3554,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func shutdownGateway(input: ShutdownGatewayInput) async throws -> ShutdownGatewayOutput
-    {
+    public func shutdownGateway(input: ShutdownGatewayInput) async throws -> ShutdownGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3674,8 +3601,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func startAvailabilityMonitorTest(input: StartAvailabilityMonitorTestInput) async throws -> StartAvailabilityMonitorTestOutput
-    {
+    public func startAvailabilityMonitorTest(input: StartAvailabilityMonitorTestInput) async throws -> StartAvailabilityMonitorTestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3722,8 +3648,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func startGateway(input: StartGatewayInput) async throws -> StartGatewayOutput
-    {
+    public func startGateway(input: StartGatewayInput) async throws -> StartGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3770,8 +3695,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateAutomaticTapeCreationPolicy(input: UpdateAutomaticTapeCreationPolicyInput) async throws -> UpdateAutomaticTapeCreationPolicyOutput
-    {
+    public func updateAutomaticTapeCreationPolicy(input: UpdateAutomaticTapeCreationPolicyInput) async throws -> UpdateAutomaticTapeCreationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3822,8 +3746,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateBandwidthRateLimit(input: UpdateBandwidthRateLimitInput) async throws -> UpdateBandwidthRateLimitOutput
-    {
+    public func updateBandwidthRateLimit(input: UpdateBandwidthRateLimitInput) async throws -> UpdateBandwidthRateLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3870,8 +3793,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateBandwidthRateLimitSchedule(input: UpdateBandwidthRateLimitScheduleInput) async throws -> UpdateBandwidthRateLimitScheduleOutput
-    {
+    public func updateBandwidthRateLimitSchedule(input: UpdateBandwidthRateLimitScheduleInput) async throws -> UpdateBandwidthRateLimitScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3926,8 +3848,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateChapCredentials(input: UpdateChapCredentialsInput) async throws -> UpdateChapCredentialsOutput
-    {
+    public func updateChapCredentials(input: UpdateChapCredentialsInput) async throws -> UpdateChapCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3974,8 +3895,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateFileSystemAssociation(input: UpdateFileSystemAssociationInput) async throws -> UpdateFileSystemAssociationOutput
-    {
+    public func updateFileSystemAssociation(input: UpdateFileSystemAssociationInput) async throws -> UpdateFileSystemAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4022,8 +3942,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput
-    {
+    public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4070,8 +3989,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput
-    {
+    public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4126,8 +4044,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateMaintenanceStartTime(input: UpdateMaintenanceStartTimeInput) async throws -> UpdateMaintenanceStartTimeOutput
-    {
+    public func updateMaintenanceStartTime(input: UpdateMaintenanceStartTimeInput) async throws -> UpdateMaintenanceStartTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4184,8 +4101,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateNFSFileShare(input: UpdateNFSFileShareInput) async throws -> UpdateNFSFileShareOutput
-    {
+    public func updateNFSFileShare(input: UpdateNFSFileShareInput) async throws -> UpdateNFSFileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4232,8 +4148,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateSMBFileShare(input: UpdateSMBFileShareInput) async throws -> UpdateSMBFileShareOutput
-    {
+    public func updateSMBFileShare(input: UpdateSMBFileShareInput) async throws -> UpdateSMBFileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4280,8 +4195,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateSMBFileShareVisibility(input: UpdateSMBFileShareVisibilityInput) async throws -> UpdateSMBFileShareVisibilityOutput
-    {
+    public func updateSMBFileShareVisibility(input: UpdateSMBFileShareVisibilityInput) async throws -> UpdateSMBFileShareVisibilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4328,8 +4242,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateSMBLocalGroups(input: UpdateSMBLocalGroupsInput) async throws -> UpdateSMBLocalGroupsOutput
-    {
+    public func updateSMBLocalGroups(input: UpdateSMBLocalGroupsInput) async throws -> UpdateSMBLocalGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4376,8 +4289,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateSMBSecurityStrategy(input: UpdateSMBSecurityStrategyInput) async throws -> UpdateSMBSecurityStrategyOutput
-    {
+    public func updateSMBSecurityStrategy(input: UpdateSMBSecurityStrategyInput) async throws -> UpdateSMBSecurityStrategyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4432,8 +4344,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateSnapshotSchedule(input: UpdateSnapshotScheduleInput) async throws -> UpdateSnapshotScheduleOutput
-    {
+    public func updateSnapshotSchedule(input: UpdateSnapshotScheduleInput) async throws -> UpdateSnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4480,8 +4391,7 @@ extension StorageGatewayClient: StorageGatewayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-    public func updateVTLDeviceType(input: UpdateVTLDeviceTypeInput) async throws -> UpdateVTLDeviceTypeOutput
-    {
+    public func updateVTLDeviceType(input: UpdateVTLDeviceTypeInput) async throws -> UpdateVTLDeviceTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct EvidentlyClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension EvidentlyClient: EvidentlyClientProtocol {
+extension EvidentlyClient {
     /// Performs the `BatchEvaluateFeature` operation on the `Evidently` service.
     ///
     /// This operation assigns feature variation to user sessions. For each user session, you pass in an entityID that represents the user. Evidently then checks the evaluation rules and assigns the variation. The first rules that are evaluated are the override rules. If the user's entityID matches an override rule, the user is served the variation specified by that rule. Next, if there is a launch of the feature, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch. If the user is not assigned to a launch, and there is an ongoing experiment for this feature, the user might be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the user is enrolled in the experiment, the variation they are served depends on the allocation of the various feature variations used for the experiment. If the user is not assigned to a launch or experiment, they are served the default variation.
@@ -82,8 +82,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func batchEvaluateFeature(input: BatchEvaluateFeatureInput) async throws -> BatchEvaluateFeatureOutput
-    {
+    public func batchEvaluateFeature(input: BatchEvaluateFeatureInput) async throws -> BatchEvaluateFeatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutput
-    {
+    public func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createFeature(input: CreateFeatureInput) async throws -> CreateFeatureOutput
-    {
+    public func createFeature(input: CreateFeatureInput) async throws -> CreateFeatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createLaunch(input: CreateLaunchInput) async throws -> CreateLaunchOutput
-    {
+    public func createLaunch(input: CreateLaunchInput) async throws -> CreateLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutput
-    {
+    public func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -381,8 +375,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceUnavailableException` : The service was unavailable. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutput
-    {
+    public func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteFeature(input: DeleteFeatureInput) async throws -> DeleteFeatureOutput
-    {
+    public func deleteFeature(input: DeleteFeatureInput) async throws -> DeleteFeatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteLaunch(input: DeleteLaunchInput) async throws -> DeleteLaunchOutput
-    {
+    public func deleteLaunch(input: DeleteLaunchInput) async throws -> DeleteLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -522,8 +513,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -569,8 +559,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutput
-    {
+    public func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func evaluateFeature(input: EvaluateFeatureInput) async throws -> EvaluateFeatureOutput
-    {
+    public func evaluateFeature(input: EvaluateFeatureInput) async throws -> EvaluateFeatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +652,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutput
-    {
+    public func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +698,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func getExperimentResults(input: GetExperimentResultsInput) async throws -> GetExperimentResultsOutput
-    {
+    public func getExperimentResults(input: GetExperimentResultsInput) async throws -> GetExperimentResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -760,8 +746,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func getFeature(input: GetFeatureInput) async throws -> GetFeatureOutput
-    {
+    public func getFeature(input: GetFeatureInput) async throws -> GetFeatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -806,8 +791,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func getLaunch(input: GetLaunchInput) async throws -> GetLaunchOutput
-    {
+    public func getLaunch(input: GetLaunchInput) async throws -> GetLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -852,8 +836,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput
-    {
+    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +881,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutput
-    {
+    public func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -943,8 +925,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput
-    {
+    public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -990,8 +971,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listFeatures(input: ListFeaturesInput) async throws -> ListFeaturesOutput
-    {
+    public func listFeatures(input: ListFeaturesInput) async throws -> ListFeaturesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1036,8 +1016,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listLaunches(input: ListLaunchesInput) async throws -> ListLaunchesOutput
-    {
+    public func listLaunches(input: ListLaunchesInput) async throws -> ListLaunchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1061,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1107,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listSegmentReferences(input: ListSegmentReferencesInput) async throws -> ListSegmentReferencesOutput
-    {
+    public func listSegmentReferences(input: ListSegmentReferencesInput) async throws -> ListSegmentReferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1175,8 +1152,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listSegments(input: ListSegmentsInput) async throws -> ListSegmentsOutput
-    {
+    public func listSegments(input: ListSegmentsInput) async throws -> ListSegmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1197,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1267,8 +1242,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func putProjectEvents(input: PutProjectEventsInput) async throws -> PutProjectEventsOutput
-    {
+    public func putProjectEvents(input: PutProjectEventsInput) async throws -> PutProjectEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1318,8 +1292,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutput
-    {
+    public func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1369,8 +1342,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func startLaunch(input: StartLaunchInput) async throws -> StartLaunchOutput
-    {
+    public func startLaunch(input: StartLaunchInput) async throws -> StartLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1417,8 +1389,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutput
-    {
+    public func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1466,8 +1437,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func stopLaunch(input: StopLaunchInput) async throws -> StopLaunchOutput
-    {
+    public func stopLaunch(input: StopLaunchInput) async throws -> StopLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1514,8 +1484,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1562,8 +1531,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func testSegmentPattern(input: TestSegmentPatternInput) async throws -> TestSegmentPatternOutput
-    {
+    public func testSegmentPattern(input: TestSegmentPatternInput) async throws -> TestSegmentPatternOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1610,8 +1578,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1624,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutput
-    {
+    public func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1707,8 +1673,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateFeature(input: UpdateFeatureInput) async throws -> UpdateFeatureOutput
-    {
+    public func updateFeature(input: UpdateFeatureInput) async throws -> UpdateFeatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1756,8 +1721,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateLaunch(input: UpdateLaunchInput) async throws -> UpdateLaunchOutput
-    {
+    public func updateLaunch(input: UpdateLaunchInput) async throws -> UpdateLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1806,8 +1770,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1856,8 +1819,7 @@ extension EvidentlyClient: EvidentlyClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateProjectDataDelivery(input: UpdateProjectDataDeliveryInput) async throws -> UpdateProjectDataDeliveryOutput
-    {
+    public func updateProjectDataDelivery(input: UpdateProjectDataDeliveryInput) async throws -> UpdateProjectDataDeliveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

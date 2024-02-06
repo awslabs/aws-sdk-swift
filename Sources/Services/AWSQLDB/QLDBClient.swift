@@ -66,7 +66,7 @@ public struct QLDBClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension QLDBClient: QLDBClientProtocol {
+extension QLDBClient {
     /// Performs the `CancelJournalKinesisStream` operation on the `AmazonQLDB` service.
     ///
     /// Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.
@@ -81,8 +81,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func cancelJournalKinesisStream(input: CancelJournalKinesisStreamInput) async throws -> CancelJournalKinesisStreamOutput
-    {
+    public func cancelJournalKinesisStream(input: CancelJournalKinesisStreamInput) async throws -> CancelJournalKinesisStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `LimitExceededException` : You have reached the limit on the maximum number of resources allowed.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceInUseException` : The specified resource can't be modified at this time.
-    public func createLedger(input: CreateLedgerInput) async throws -> CreateLedgerOutput
-    {
+    public func createLedger(input: CreateLedgerInput) async throws -> CreateLedgerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `ResourceInUseException` : The specified resource can't be modified at this time.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func deleteLedger(input: DeleteLedgerInput) async throws -> DeleteLedgerOutput
-    {
+    public func deleteLedger(input: DeleteLedgerInput) async throws -> DeleteLedgerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -221,8 +218,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func describeJournalKinesisStream(input: DescribeJournalKinesisStreamInput) async throws -> DescribeJournalKinesisStreamOutput
-    {
+    public func describeJournalKinesisStream(input: DescribeJournalKinesisStreamInput) async throws -> DescribeJournalKinesisStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -264,8 +260,7 @@ extension QLDBClient: QLDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func describeJournalS3Export(input: DescribeJournalS3ExportInput) async throws -> DescribeJournalS3ExportOutput
-    {
+    public func describeJournalS3Export(input: DescribeJournalS3ExportInput) async throws -> DescribeJournalS3ExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -308,8 +303,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func describeLedger(input: DescribeLedgerInput) async throws -> DescribeLedgerOutput
-    {
+    public func describeLedger(input: DescribeLedgerInput) async throws -> DescribeLedgerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +346,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func exportJournalToS3(input: ExportJournalToS3Input) async throws -> ExportJournalToS3Output
-    {
+    public func exportJournalToS3(input: ExportJournalToS3Input) async throws -> ExportJournalToS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +393,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func getBlock(input: GetBlockInput) async throws -> GetBlockOutput
-    {
+    public func getBlock(input: GetBlockInput) async throws -> GetBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +440,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func getDigest(input: GetDigestInput) async throws -> GetDigestOutput
-    {
+    public func getDigest(input: GetDigestInput) async throws -> GetDigestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +484,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutput
-    {
+    public func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +531,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func listJournalKinesisStreamsForLedger(input: ListJournalKinesisStreamsForLedgerInput) async throws -> ListJournalKinesisStreamsForLedgerOutput
-    {
+    public func listJournalKinesisStreamsForLedger(input: ListJournalKinesisStreamsForLedgerInput) async throws -> ListJournalKinesisStreamsForLedgerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -580,8 +569,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - Parameter ListJournalS3ExportsInput : [no documentation found]
     ///
     /// - Returns: `ListJournalS3ExportsOutput` : [no documentation found]
-    public func listJournalS3Exports(input: ListJournalS3ExportsInput) async throws -> ListJournalS3ExportsOutput
-    {
+    public func listJournalS3Exports(input: ListJournalS3ExportsInput) async throws -> ListJournalS3ExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -619,8 +607,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - Parameter ListJournalS3ExportsForLedgerInput : [no documentation found]
     ///
     /// - Returns: `ListJournalS3ExportsForLedgerOutput` : [no documentation found]
-    public func listJournalS3ExportsForLedger(input: ListJournalS3ExportsForLedgerInput) async throws -> ListJournalS3ExportsForLedgerOutput
-    {
+    public func listJournalS3ExportsForLedger(input: ListJournalS3ExportsForLedgerInput) async throws -> ListJournalS3ExportsForLedgerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -658,8 +645,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - Parameter ListLedgersInput : [no documentation found]
     ///
     /// - Returns: `ListLedgersOutput` : [no documentation found]
-    public func listLedgers(input: ListLedgersInput) async throws -> ListLedgersOutput
-    {
+    public func listLedgers(input: ListLedgersInput) async throws -> ListLedgersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -703,8 +689,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -748,8 +733,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourcePreconditionNotMetException` : The operation failed because a condition wasn't satisfied in advance.
-    public func streamJournalToKinesis(input: StreamJournalToKinesisInput) async throws -> StreamJournalToKinesisOutput
-    {
+    public func streamJournalToKinesis(input: StreamJournalToKinesisInput) async throws -> StreamJournalToKinesisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +779,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -842,8 +825,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -887,8 +869,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func updateLedger(input: UpdateLedgerInput) async throws -> UpdateLedgerOutput
-    {
+    public func updateLedger(input: UpdateLedgerInput) async throws -> UpdateLedgerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -934,8 +915,7 @@ extension QLDBClient: QLDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more parameters in the request aren't valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    public func updateLedgerPermissionsMode(input: UpdateLedgerPermissionsModeInput) async throws -> UpdateLedgerPermissionsModeOutput
-    {
+    public func updateLedgerPermissionsMode(input: UpdateLedgerPermissionsModeInput) async throws -> UpdateLedgerPermissionsModeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

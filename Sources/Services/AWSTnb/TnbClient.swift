@@ -66,7 +66,7 @@ public struct TnbClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension TnbClient: TnbClientProtocol {
+extension TnbClient {
     /// Performs the `CancelSolNetworkOperation` operation on the `TNB` service.
     ///
     /// Cancels a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
@@ -83,8 +83,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func cancelSolNetworkOperation(input: CancelSolNetworkOperationInput) async throws -> CancelSolNetworkOperationOutput
-    {
+    public func cancelSolNetworkOperation(input: CancelSolNetworkOperationInput) async throws -> CancelSolNetworkOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func createSolFunctionPackage(input: CreateSolFunctionPackageInput) async throws -> CreateSolFunctionPackageOutput
-    {
+    public func createSolFunctionPackage(input: CreateSolFunctionPackageInput) async throws -> CreateSolFunctionPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func createSolNetworkInstance(input: CreateSolNetworkInstanceInput) async throws -> CreateSolNetworkInstanceOutput
-    {
+    public func createSolNetworkInstance(input: CreateSolNetworkInstanceInput) async throws -> CreateSolNetworkInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func createSolNetworkPackage(input: CreateSolNetworkPackageInput) async throws -> CreateSolNetworkPackageOutput
-    {
+    public func createSolNetworkPackage(input: CreateSolNetworkPackageInput) async throws -> CreateSolNetworkPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func deleteSolFunctionPackage(input: DeleteSolFunctionPackageInput) async throws -> DeleteSolFunctionPackageOutput
-    {
+    public func deleteSolFunctionPackage(input: DeleteSolFunctionPackageInput) async throws -> DeleteSolFunctionPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func deleteSolNetworkInstance(input: DeleteSolNetworkInstanceInput) async throws -> DeleteSolNetworkInstanceOutput
-    {
+    public func deleteSolNetworkInstance(input: DeleteSolNetworkInstanceInput) async throws -> DeleteSolNetworkInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +369,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func deleteSolNetworkPackage(input: DeleteSolNetworkPackageInput) async throws -> DeleteSolNetworkPackageOutput
-    {
+    public func deleteSolNetworkPackage(input: DeleteSolNetworkPackageInput) async throws -> DeleteSolNetworkPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -422,8 +415,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolFunctionInstance(input: GetSolFunctionInstanceInput) async throws -> GetSolFunctionInstanceOutput
-    {
+    public func getSolFunctionInstance(input: GetSolFunctionInstanceInput) async throws -> GetSolFunctionInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +461,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolFunctionPackage(input: GetSolFunctionPackageInput) async throws -> GetSolFunctionPackageOutput
-    {
+    public func getSolFunctionPackage(input: GetSolFunctionPackageInput) async throws -> GetSolFunctionPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -516,8 +507,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolFunctionPackageContent(input: GetSolFunctionPackageContentInput) async throws -> GetSolFunctionPackageContentOutput
-    {
+    public func getSolFunctionPackageContent(input: GetSolFunctionPackageContentInput) async throws -> GetSolFunctionPackageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -564,8 +554,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolFunctionPackageDescriptor(input: GetSolFunctionPackageDescriptorInput) async throws -> GetSolFunctionPackageDescriptorOutput
-    {
+    public func getSolFunctionPackageDescriptor(input: GetSolFunctionPackageDescriptorInput) async throws -> GetSolFunctionPackageDescriptorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +601,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolNetworkInstance(input: GetSolNetworkInstanceInput) async throws -> GetSolNetworkInstanceOutput
-    {
+    public func getSolNetworkInstance(input: GetSolNetworkInstanceInput) async throws -> GetSolNetworkInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -659,8 +647,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolNetworkOperation(input: GetSolNetworkOperationInput) async throws -> GetSolNetworkOperationOutput
-    {
+    public func getSolNetworkOperation(input: GetSolNetworkOperationInput) async throws -> GetSolNetworkOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +693,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolNetworkPackage(input: GetSolNetworkPackageInput) async throws -> GetSolNetworkPackageOutput
-    {
+    public func getSolNetworkPackage(input: GetSolNetworkPackageInput) async throws -> GetSolNetworkPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -753,8 +739,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolNetworkPackageContent(input: GetSolNetworkPackageContentInput) async throws -> GetSolNetworkPackageContentOutput
-    {
+    public func getSolNetworkPackageContent(input: GetSolNetworkPackageContentInput) async throws -> GetSolNetworkPackageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -801,8 +786,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func getSolNetworkPackageDescriptor(input: GetSolNetworkPackageDescriptorInput) async throws -> GetSolNetworkPackageDescriptorOutput
-    {
+    public func getSolNetworkPackageDescriptor(input: GetSolNetworkPackageDescriptorInput) async throws -> GetSolNetworkPackageDescriptorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -849,8 +833,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func instantiateSolNetworkInstance(input: InstantiateSolNetworkInstanceInput) async throws -> InstantiateSolNetworkInstanceOutput
-    {
+    public func instantiateSolNetworkInstance(input: InstantiateSolNetworkInstanceInput) async throws -> InstantiateSolNetworkInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -899,8 +882,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func listSolFunctionInstances(input: ListSolFunctionInstancesInput) async throws -> ListSolFunctionInstancesOutput
-    {
+    public func listSolFunctionInstances(input: ListSolFunctionInstancesInput) async throws -> ListSolFunctionInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -946,8 +928,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func listSolFunctionPackages(input: ListSolFunctionPackagesInput) async throws -> ListSolFunctionPackagesOutput
-    {
+    public func listSolFunctionPackages(input: ListSolFunctionPackagesInput) async throws -> ListSolFunctionPackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -993,8 +974,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func listSolNetworkInstances(input: ListSolNetworkInstancesInput) async throws -> ListSolNetworkInstancesOutput
-    {
+    public func listSolNetworkInstances(input: ListSolNetworkInstancesInput) async throws -> ListSolNetworkInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1040,8 +1020,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func listSolNetworkOperations(input: ListSolNetworkOperationsInput) async throws -> ListSolNetworkOperationsOutput
-    {
+    public func listSolNetworkOperations(input: ListSolNetworkOperationsInput) async throws -> ListSolNetworkOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1087,8 +1066,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func listSolNetworkPackages(input: ListSolNetworkPackagesInput) async throws -> ListSolNetworkPackagesOutput
-    {
+    public func listSolNetworkPackages(input: ListSolNetworkPackagesInput) async throws -> ListSolNetworkPackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1135,8 +1113,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1182,8 +1159,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func putSolFunctionPackageContent(input: PutSolFunctionPackageContentInput) async throws -> PutSolFunctionPackageContentOutput
-    {
+    public func putSolFunctionPackageContent(input: PutSolFunctionPackageContentInput) async throws -> PutSolFunctionPackageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1233,8 +1209,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func putSolNetworkPackageContent(input: PutSolNetworkPackageContentInput) async throws -> PutSolNetworkPackageContentOutput
-    {
+    public func putSolNetworkPackageContent(input: PutSolNetworkPackageContentInput) async throws -> PutSolNetworkPackageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1284,8 +1259,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1335,8 +1309,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func terminateSolNetworkInstance(input: TerminateSolNetworkInstanceInput) async throws -> TerminateSolNetworkInstanceOutput
-    {
+    public func terminateSolNetworkInstance(input: TerminateSolNetworkInstanceInput) async throws -> TerminateSolNetworkInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1385,8 +1358,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1433,8 +1405,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func updateSolFunctionPackage(input: UpdateSolFunctionPackageInput) async throws -> UpdateSolFunctionPackageOutput
-    {
+    public func updateSolFunctionPackage(input: UpdateSolFunctionPackageInput) async throws -> UpdateSolFunctionPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1484,8 +1455,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func updateSolNetworkInstance(input: UpdateSolNetworkInstanceInput) async throws -> UpdateSolNetworkInstanceOutput
-    {
+    public func updateSolNetworkInstance(input: UpdateSolNetworkInstanceInput) async throws -> UpdateSolNetworkInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1534,8 +1504,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func updateSolNetworkPackage(input: UpdateSolNetworkPackageInput) async throws -> UpdateSolNetworkPackageOutput
-    {
+    public func updateSolNetworkPackage(input: UpdateSolNetworkPackageInput) async throws -> UpdateSolNetworkPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1584,8 +1553,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func validateSolFunctionPackageContent(input: ValidateSolFunctionPackageContentInput) async throws -> ValidateSolFunctionPackageContentOutput
-    {
+    public func validateSolFunctionPackageContent(input: ValidateSolFunctionPackageContentInput) async throws -> ValidateSolFunctionPackageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1635,8 +1603,7 @@ extension TnbClient: TnbClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
     /// - `ThrottlingException` : Exception caused by throttling.
     /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
-    public func validateSolNetworkPackageContent(input: ValidateSolNetworkPackageContentInput) async throws -> ValidateSolNetworkPackageContentOutput
-    {
+    public func validateSolNetworkPackageContent(input: ValidateSolNetworkPackageContentInput) async throws -> ValidateSolNetworkPackageContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

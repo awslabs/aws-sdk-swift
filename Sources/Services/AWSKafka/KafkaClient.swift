@@ -66,7 +66,7 @@ public struct KafkaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension KafkaClient: KafkaClientProtocol {
+extension KafkaClient {
     /// Performs the `BatchAssociateScramSecret` operation on the `Kafka` service.
     ///
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
@@ -85,8 +85,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func batchAssociateScramSecret(input: BatchAssociateScramSecretInput) async throws -> BatchAssociateScramSecretOutput
-    {
+    public func batchAssociateScramSecret(input: BatchAssociateScramSecretInput) async throws -> BatchAssociateScramSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func batchDisassociateScramSecret(input: BatchDisassociateScramSecretInput) async throws -> BatchDisassociateScramSecretOutput
-    {
+    public func batchDisassociateScramSecret(input: BatchDisassociateScramSecretInput) async throws -> BatchDisassociateScramSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func createClusterV2(input: CreateClusterV2Input) async throws -> CreateClusterV2Output
-    {
+    public func createClusterV2(input: CreateClusterV2Input) async throws -> CreateClusterV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput
-    {
+    public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -346,8 +341,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func createReplicator(input: CreateReplicatorInput) async throws -> CreateReplicatorOutput
-    {
+    public func createReplicator(input: CreateReplicatorInput) async throws -> CreateReplicatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func createVpcConnection(input: CreateVpcConnectionInput) async throws -> CreateVpcConnectionOutput
-    {
+    public func createVpcConnection(input: CreateVpcConnectionInput) async throws -> CreateVpcConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +439,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +485,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteClusterPolicy(input: DeleteClusterPolicyInput) async throws -> DeleteClusterPolicyOutput
-    {
+    public func deleteClusterPolicy(input: DeleteClusterPolicyInput) async throws -> DeleteClusterPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +530,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutput
-    {
+    public func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func deleteReplicator(input: DeleteReplicatorInput) async throws -> DeleteReplicatorOutput
-    {
+    public func deleteReplicator(input: DeleteReplicatorInput) async throws -> DeleteReplicatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -635,8 +624,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteVpcConnection(input: DeleteVpcConnectionInput) async throws -> DeleteVpcConnectionOutput
-    {
+    public func deleteVpcConnection(input: DeleteVpcConnectionInput) async throws -> DeleteVpcConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -682,8 +670,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    {
+    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeClusterOperation(input: DescribeClusterOperationInput) async throws -> DescribeClusterOperationOutput
-    {
+    public func describeClusterOperation(input: DescribeClusterOperationInput) async throws -> DescribeClusterOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeClusterOperationV2(input: DescribeClusterOperationV2Input) async throws -> DescribeClusterOperationV2Output
-    {
+    public func describeClusterOperationV2(input: DescribeClusterOperationV2Input) async throws -> DescribeClusterOperationV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -825,8 +810,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeClusterV2(input: DescribeClusterV2Input) async throws -> DescribeClusterV2Output
-    {
+    public func describeClusterV2(input: DescribeClusterV2Input) async throws -> DescribeClusterV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +857,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutput
-    {
+    public func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -921,8 +904,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput
-    {
+    public func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -970,8 +952,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeReplicator(input: DescribeReplicatorInput) async throws -> DescribeReplicatorOutput
-    {
+    public func describeReplicator(input: DescribeReplicatorInput) async throws -> DescribeReplicatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1018,8 +999,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func describeVpcConnection(input: DescribeVpcConnectionInput) async throws -> DescribeVpcConnectionOutput
-    {
+    public func describeVpcConnection(input: DescribeVpcConnectionInput) async throws -> DescribeVpcConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1045,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func getBootstrapBrokers(input: GetBootstrapBrokersInput) async throws -> GetBootstrapBrokersOutput
-    {
+    public func getBootstrapBrokers(input: GetBootstrapBrokersInput) async throws -> GetBootstrapBrokersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1111,8 +1090,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func getClusterPolicy(input: GetClusterPolicyInput) async throws -> GetClusterPolicyOutput
-    {
+    public func getClusterPolicy(input: GetClusterPolicyInput) async throws -> GetClusterPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1160,8 +1138,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func getCompatibleKafkaVersions(input: GetCompatibleKafkaVersionsInput) async throws -> GetCompatibleKafkaVersionsOutput
-    {
+    public func getCompatibleKafkaVersions(input: GetCompatibleKafkaVersionsInput) async throws -> GetCompatibleKafkaVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1208,8 +1185,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listClientVpcConnections(input: ListClientVpcConnectionsInput) async throws -> ListClientVpcConnectionsOutput
-    {
+    public func listClientVpcConnections(input: ListClientVpcConnectionsInput) async throws -> ListClientVpcConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1255,8 +1231,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listClusterOperations(input: ListClusterOperationsInput) async throws -> ListClusterOperationsOutput
-    {
+    public func listClusterOperations(input: ListClusterOperationsInput) async throws -> ListClusterOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1305,8 +1280,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listClusterOperationsV2(input: ListClusterOperationsV2Input) async throws -> ListClusterOperationsV2Output
-    {
+    public func listClusterOperationsV2(input: ListClusterOperationsV2Input) async throws -> ListClusterOperationsV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1352,8 +1326,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1399,8 +1372,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listClustersV2(input: ListClustersV2Input) async throws -> ListClustersV2Output
-    {
+    public func listClustersV2(input: ListClustersV2Input) async throws -> ListClustersV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,8 +1420,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutput
-    {
+    public func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1496,8 +1467,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput
-    {
+    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1543,8 +1513,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listKafkaVersions(input: ListKafkaVersionsInput) async throws -> ListKafkaVersionsOutput
-    {
+    public func listKafkaVersions(input: ListKafkaVersionsInput) async throws -> ListKafkaVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1590,8 +1559,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
-    {
+    public func listNodes(input: ListNodesInput) async throws -> ListNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1640,8 +1608,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listReplicators(input: ListReplicatorsInput) async throws -> ListReplicatorsOutput
-    {
+    public func listReplicators(input: ListReplicatorsInput) async throws -> ListReplicatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1690,8 +1657,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listScramSecrets(input: ListScramSecretsInput) async throws -> ListScramSecretsOutput
-    {
+    public func listScramSecrets(input: ListScramSecretsInput) async throws -> ListScramSecretsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1736,8 +1702,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1748,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func listVpcConnections(input: ListVpcConnectionsInput) async throws -> ListVpcConnectionsOutput
-    {
+    public func listVpcConnections(input: ListVpcConnectionsInput) async throws -> ListVpcConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1829,8 +1793,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
-    public func putClusterPolicy(input: PutClusterPolicyInput) async throws -> PutClusterPolicyOutput
-    {
+    public func putClusterPolicy(input: PutClusterPolicyInput) async throws -> PutClusterPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1881,8 +1844,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutput
-    {
+    public func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1931,8 +1893,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func rejectClientVpcConnection(input: RejectClientVpcConnectionInput) async throws -> RejectClientVpcConnectionOutput
-    {
+    public func rejectClientVpcConnection(input: RejectClientVpcConnectionInput) async throws -> RejectClientVpcConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1979,8 +1940,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2027,8 +1987,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2075,8 +2034,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateBrokerCount(input: UpdateBrokerCountInput) async throws -> UpdateBrokerCountOutput
-    {
+    public func updateBrokerCount(input: UpdateBrokerCountInput) async throws -> UpdateBrokerCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2125,8 +2083,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateBrokerStorage(input: UpdateBrokerStorageInput) async throws -> UpdateBrokerStorageOutput
-    {
+    public func updateBrokerStorage(input: UpdateBrokerStorageInput) async throws -> UpdateBrokerStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2177,8 +2134,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateBrokerType(input: UpdateBrokerTypeInput) async throws -> UpdateBrokerTypeOutput
-    {
+    public func updateBrokerType(input: UpdateBrokerTypeInput) async throws -> UpdateBrokerTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2228,8 +2184,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateClusterConfiguration(input: UpdateClusterConfigurationInput) async throws -> UpdateClusterConfigurationOutput
-    {
+    public func updateClusterConfiguration(input: UpdateClusterConfigurationInput) async throws -> UpdateClusterConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2280,8 +2235,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateClusterKafkaVersion(input: UpdateClusterKafkaVersionInput) async throws -> UpdateClusterKafkaVersionOutput
-    {
+    public func updateClusterKafkaVersion(input: UpdateClusterKafkaVersionInput) async throws -> UpdateClusterKafkaVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2331,8 +2285,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
-    {
+    public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2382,8 +2335,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `NotFoundException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateConnectivity(input: UpdateConnectivityInput) async throws -> UpdateConnectivityOutput
-    {
+    public func updateConnectivity(input: UpdateConnectivityInput) async throws -> UpdateConnectivityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2432,8 +2384,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateMonitoring(input: UpdateMonitoringInput) async throws -> UpdateMonitoringOutput
-    {
+    public func updateMonitoring(input: UpdateMonitoringInput) async throws -> UpdateMonitoringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2484,8 +2435,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateReplicationInfo(input: UpdateReplicationInfoInput) async throws -> UpdateReplicationInfoOutput
-    {
+    public func updateReplicationInfo(input: UpdateReplicationInfoInput) async throws -> UpdateReplicationInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2536,8 +2486,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateSecurity(input: UpdateSecurityInput) async throws -> UpdateSecurityOutput
-    {
+    public func updateSecurity(input: UpdateSecurityInput) async throws -> UpdateSecurityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2588,8 +2537,7 @@ extension KafkaClient: KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func updateStorage(input: UpdateStorageInput) async throws -> UpdateStorageOutput
-    {
+    public func updateStorage(input: UpdateStorageInput) async throws -> UpdateStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

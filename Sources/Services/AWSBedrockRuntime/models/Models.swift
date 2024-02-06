@@ -57,6 +57,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum BedrockRuntimeClientTypes {}
+
 extension InternalServerException: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message

@@ -66,7 +66,7 @@ public struct HealthClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension HealthClient: HealthClientProtocol {
+extension HealthClient {
     /// Performs the `DescribeAffectedAccountsForOrganization` operation on the `AWSHealth_20160804` service.
     ///
     /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
@@ -79,8 +79,7 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
-    public func describeAffectedAccountsForOrganization(input: DescribeAffectedAccountsForOrganizationInput) async throws -> DescribeAffectedAccountsForOrganizationOutput
-    {
+    public func describeAffectedAccountsForOrganization(input: DescribeAffectedAccountsForOrganizationInput) async throws -> DescribeAffectedAccountsForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension HealthClient: HealthClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeAffectedEntities(input: DescribeAffectedEntitiesInput) async throws -> DescribeAffectedEntitiesOutput
-    {
+    public func describeAffectedEntities(input: DescribeAffectedEntitiesInput) async throws -> DescribeAffectedEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension HealthClient: HealthClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeAffectedEntitiesForOrganization(input: DescribeAffectedEntitiesForOrganizationInput) async throws -> DescribeAffectedEntitiesForOrganizationOutput
-    {
+    public func describeAffectedEntitiesForOrganization(input: DescribeAffectedEntitiesForOrganizationInput) async throws -> DescribeAffectedEntitiesForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -225,8 +222,7 @@ extension HealthClient: HealthClientProtocol {
     /// - Parameter DescribeEntityAggregatesInput : [no documentation found]
     ///
     /// - Returns: `DescribeEntityAggregatesOutput` : [no documentation found]
-    public func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutput
-    {
+    public func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -267,8 +263,7 @@ extension HealthClient: HealthClientProtocol {
     /// - Parameter DescribeEntityAggregatesForOrganizationInput : [no documentation found]
     ///
     /// - Returns: `DescribeEntityAggregatesForOrganizationOutput` : [no documentation found]
-    public func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutput
-    {
+    public func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -314,8 +309,7 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
-    public func describeEventAggregates(input: DescribeEventAggregatesInput) async throws -> DescribeEventAggregatesOutput
-    {
+    public func describeEventAggregates(input: DescribeEventAggregatesInput) async throws -> DescribeEventAggregatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -361,8 +355,7 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventDetails(input: DescribeEventDetailsInput) async throws -> DescribeEventDetailsOutput
-    {
+    public func describeEventDetails(input: DescribeEventDetailsInput) async throws -> DescribeEventDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -415,8 +408,7 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventDetailsForOrganization(input: DescribeEventDetailsForOrganizationInput) async throws -> DescribeEventDetailsForOrganizationOutput
-    {
+    public func describeEventDetailsForOrganization(input: DescribeEventDetailsForOrganizationInput) async throws -> DescribeEventDetailsForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +455,7 @@ extension HealthClient: HealthClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventTypes(input: DescribeEventTypesInput) async throws -> DescribeEventTypesOutput
-    {
+    public func describeEventTypes(input: DescribeEventTypesInput) async throws -> DescribeEventTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -515,8 +506,7 @@ extension HealthClient: HealthClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +562,7 @@ extension HealthClient: HealthClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidPaginationToken` : The specified pagination token (nextToken) is not valid.
     /// - `UnsupportedLocale` : The specified locale is not supported.
-    public func describeEventsForOrganization(input: DescribeEventsForOrganizationInput) async throws -> DescribeEventsForOrganizationOutput
-    {
+    public func describeEventsForOrganization(input: DescribeEventsForOrganizationInput) async throws -> DescribeEventsForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +603,7 @@ extension HealthClient: HealthClientProtocol {
     /// - Parameter DescribeHealthServiceStatusForOrganizationInput : [no documentation found]
     ///
     /// - Returns: `DescribeHealthServiceStatusForOrganizationOutput` : [no documentation found]
-    public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutput
-    {
+    public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +649,7 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
-    public func disableHealthServiceAccessForOrganization(input: DisableHealthServiceAccessForOrganizationInput) async throws -> DisableHealthServiceAccessForOrganizationOutput
-    {
+    public func disableHealthServiceAccessForOrganization(input: DisableHealthServiceAccessForOrganizationInput) async throws -> DisableHealthServiceAccessForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +702,7 @@ extension HealthClient: HealthClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
-    public func enableHealthServiceAccessForOrganization(input: EnableHealthServiceAccessForOrganizationInput) async throws -> EnableHealthServiceAccessForOrganizationOutput
-    {
+    public func enableHealthServiceAccessForOrganization(input: EnableHealthServiceAccessForOrganizationInput) async throws -> EnableHealthServiceAccessForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

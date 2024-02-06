@@ -66,7 +66,7 @@ public struct DataSyncClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension DataSyncClient: DataSyncClientProtocol {
+extension DataSyncClient {
     /// Performs the `AddStorageSystem` operation on the `FmrsService` service.
     ///
     /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
@@ -80,8 +80,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func addStorageSystem(input: AddStorageSystemInput) async throws -> AddStorageSystemOutput
-    {
+    public func addStorageSystem(input: AddStorageSystemInput) async throws -> AddStorageSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func cancelTaskExecution(input: CancelTaskExecutionInput) async throws -> CancelTaskExecutionOutput
-    {
+    public func cancelTaskExecution(input: CancelTaskExecutionInput) async throws -> CancelTaskExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutput
-    {
+    public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationAzureBlob(input: CreateLocationAzureBlobInput) async throws -> CreateLocationAzureBlobOutput
-    {
+    public func createLocationAzureBlob(input: CreateLocationAzureBlobInput) async throws -> CreateLocationAzureBlobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -280,8 +276,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationEfs(input: CreateLocationEfsInput) async throws -> CreateLocationEfsOutput
-    {
+    public func createLocationEfs(input: CreateLocationEfsInput) async throws -> CreateLocationEfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationFsxLustre(input: CreateLocationFsxLustreInput) async throws -> CreateLocationFsxLustreOutput
-    {
+    public func createLocationFsxLustre(input: CreateLocationFsxLustreInput) async throws -> CreateLocationFsxLustreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationFsxOntap(input: CreateLocationFsxOntapInput) async throws -> CreateLocationFsxOntapOutput
-    {
+    public func createLocationFsxOntap(input: CreateLocationFsxOntapInput) async throws -> CreateLocationFsxOntapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +417,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationFsxOpenZfs(input: CreateLocationFsxOpenZfsInput) async throws -> CreateLocationFsxOpenZfsOutput
-    {
+    public func createLocationFsxOpenZfs(input: CreateLocationFsxOpenZfsInput) async throws -> CreateLocationFsxOpenZfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -472,8 +464,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationFsxWindows(input: CreateLocationFsxWindowsInput) async throws -> CreateLocationFsxWindowsOutput
-    {
+    public func createLocationFsxWindows(input: CreateLocationFsxWindowsInput) async throws -> CreateLocationFsxWindowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +511,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationHdfs(input: CreateLocationHdfsInput) async throws -> CreateLocationHdfsOutput
-    {
+    public func createLocationHdfs(input: CreateLocationHdfsInput) async throws -> CreateLocationHdfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +558,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutput
-    {
+    public func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +605,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationObjectStorage(input: CreateLocationObjectStorageInput) async throws -> CreateLocationObjectStorageOutput
-    {
+    public func createLocationObjectStorage(input: CreateLocationObjectStorageInput) async throws -> CreateLocationObjectStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -671,8 +659,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3Output
-    {
+    public func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +706,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutput
-    {
+    public func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -767,8 +753,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func createTask(input: CreateTaskInput) async throws -> CreateTaskOutput
-    {
+    public func createTask(input: CreateTaskInput) async throws -> CreateTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -815,8 +800,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput
-    {
+    public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -863,8 +847,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput
-    {
+    public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -911,8 +894,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func deleteTask(input: DeleteTaskInput) async throws -> DeleteTaskOutput
-    {
+    public func deleteTask(input: DeleteTaskInput) async throws -> DeleteTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -959,8 +941,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutput
-    {
+    public func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1007,8 +988,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeDiscoveryJob(input: DescribeDiscoveryJobInput) async throws -> DescribeDiscoveryJobOutput
-    {
+    public func describeDiscoveryJob(input: DescribeDiscoveryJobInput) async throws -> DescribeDiscoveryJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1055,8 +1035,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationAzureBlob(input: DescribeLocationAzureBlobInput) async throws -> DescribeLocationAzureBlobOutput
-    {
+    public func describeLocationAzureBlob(input: DescribeLocationAzureBlobInput) async throws -> DescribeLocationAzureBlobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1082,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationEfs(input: DescribeLocationEfsInput) async throws -> DescribeLocationEfsOutput
-    {
+    public func describeLocationEfs(input: DescribeLocationEfsInput) async throws -> DescribeLocationEfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1151,8 +1129,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationFsxLustre(input: DescribeLocationFsxLustreInput) async throws -> DescribeLocationFsxLustreOutput
-    {
+    public func describeLocationFsxLustre(input: DescribeLocationFsxLustreInput) async throws -> DescribeLocationFsxLustreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1199,8 +1176,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationFsxOntap(input: DescribeLocationFsxOntapInput) async throws -> DescribeLocationFsxOntapOutput
-    {
+    public func describeLocationFsxOntap(input: DescribeLocationFsxOntapInput) async throws -> DescribeLocationFsxOntapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1247,8 +1223,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationFsxOpenZfs(input: DescribeLocationFsxOpenZfsInput) async throws -> DescribeLocationFsxOpenZfsOutput
-    {
+    public func describeLocationFsxOpenZfs(input: DescribeLocationFsxOpenZfsInput) async throws -> DescribeLocationFsxOpenZfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1295,8 +1270,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationFsxWindows(input: DescribeLocationFsxWindowsInput) async throws -> DescribeLocationFsxWindowsOutput
-    {
+    public func describeLocationFsxWindows(input: DescribeLocationFsxWindowsInput) async throws -> DescribeLocationFsxWindowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1343,8 +1317,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationHdfs(input: DescribeLocationHdfsInput) async throws -> DescribeLocationHdfsOutput
-    {
+    public func describeLocationHdfs(input: DescribeLocationHdfsInput) async throws -> DescribeLocationHdfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1391,8 +1364,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationNfs(input: DescribeLocationNfsInput) async throws -> DescribeLocationNfsOutput
-    {
+    public func describeLocationNfs(input: DescribeLocationNfsInput) async throws -> DescribeLocationNfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1439,8 +1411,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationObjectStorage(input: DescribeLocationObjectStorageInput) async throws -> DescribeLocationObjectStorageOutput
-    {
+    public func describeLocationObjectStorage(input: DescribeLocationObjectStorageInput) async throws -> DescribeLocationObjectStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1487,8 +1458,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationS3(input: DescribeLocationS3Input) async throws -> DescribeLocationS3Output
-    {
+    public func describeLocationS3(input: DescribeLocationS3Input) async throws -> DescribeLocationS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1535,8 +1505,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeLocationSmb(input: DescribeLocationSmbInput) async throws -> DescribeLocationSmbOutput
-    {
+    public func describeLocationSmb(input: DescribeLocationSmbInput) async throws -> DescribeLocationSmbOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1583,8 +1552,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeStorageSystem(input: DescribeStorageSystemInput) async throws -> DescribeStorageSystemOutput
-    {
+    public func describeStorageSystem(input: DescribeStorageSystemInput) async throws -> DescribeStorageSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1631,8 +1599,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeStorageSystemResourceMetrics(input: DescribeStorageSystemResourceMetricsInput) async throws -> DescribeStorageSystemResourceMetricsOutput
-    {
+    public func describeStorageSystemResourceMetrics(input: DescribeStorageSystemResourceMetricsInput) async throws -> DescribeStorageSystemResourceMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1679,8 +1646,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeStorageSystemResources(input: DescribeStorageSystemResourcesInput) async throws -> DescribeStorageSystemResourcesOutput
-    {
+    public func describeStorageSystemResources(input: DescribeStorageSystemResourcesInput) async throws -> DescribeStorageSystemResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1727,8 +1693,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutput
-    {
+    public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1775,8 +1740,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutput
-    {
+    public func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1823,8 +1787,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func generateRecommendations(input: GenerateRecommendationsInput) async throws -> GenerateRecommendationsOutput
-    {
+    public func generateRecommendations(input: GenerateRecommendationsInput) async throws -> GenerateRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1871,8 +1834,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutput
-    {
+    public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1919,8 +1881,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listDiscoveryJobs(input: ListDiscoveryJobsInput) async throws -> ListDiscoveryJobsOutput
-    {
+    public func listDiscoveryJobs(input: ListDiscoveryJobsInput) async throws -> ListDiscoveryJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1967,8 +1928,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutput
-    {
+    public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2015,8 +1975,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listStorageSystems(input: ListStorageSystemsInput) async throws -> ListStorageSystemsOutput
-    {
+    public func listStorageSystems(input: ListStorageSystemsInput) async throws -> ListStorageSystemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2063,8 +2022,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2111,8 +2069,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listTaskExecutions(input: ListTaskExecutionsInput) async throws -> ListTaskExecutionsOutput
-    {
+    public func listTaskExecutions(input: ListTaskExecutionsInput) async throws -> ListTaskExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2159,8 +2116,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput
-    {
+    public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2207,8 +2163,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func removeStorageSystem(input: RemoveStorageSystemInput) async throws -> RemoveStorageSystemOutput
-    {
+    public func removeStorageSystem(input: RemoveStorageSystemInput) async throws -> RemoveStorageSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2255,8 +2210,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func startDiscoveryJob(input: StartDiscoveryJobInput) async throws -> StartDiscoveryJobOutput
-    {
+    public func startDiscoveryJob(input: StartDiscoveryJobInput) async throws -> StartDiscoveryJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2304,8 +2258,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func startTaskExecution(input: StartTaskExecutionInput) async throws -> StartTaskExecutionOutput
-    {
+    public func startTaskExecution(input: StartTaskExecutionInput) async throws -> StartTaskExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2352,8 +2305,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func stopDiscoveryJob(input: StopDiscoveryJobInput) async throws -> StopDiscoveryJobOutput
-    {
+    public func stopDiscoveryJob(input: StopDiscoveryJobInput) async throws -> StopDiscoveryJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2400,8 +2352,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2448,8 +2399,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2496,8 +2446,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutput
-    {
+    public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2544,8 +2493,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateDiscoveryJob(input: UpdateDiscoveryJobInput) async throws -> UpdateDiscoveryJobOutput
-    {
+    public func updateDiscoveryJob(input: UpdateDiscoveryJobInput) async throws -> UpdateDiscoveryJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2592,8 +2540,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateLocationAzureBlob(input: UpdateLocationAzureBlobInput) async throws -> UpdateLocationAzureBlobOutput
-    {
+    public func updateLocationAzureBlob(input: UpdateLocationAzureBlobInput) async throws -> UpdateLocationAzureBlobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2640,8 +2587,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateLocationHdfs(input: UpdateLocationHdfsInput) async throws -> UpdateLocationHdfsOutput
-    {
+    public func updateLocationHdfs(input: UpdateLocationHdfsInput) async throws -> UpdateLocationHdfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2688,8 +2634,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateLocationNfs(input: UpdateLocationNfsInput) async throws -> UpdateLocationNfsOutput
-    {
+    public func updateLocationNfs(input: UpdateLocationNfsInput) async throws -> UpdateLocationNfsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2736,8 +2681,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateLocationObjectStorage(input: UpdateLocationObjectStorageInput) async throws -> UpdateLocationObjectStorageOutput
-    {
+    public func updateLocationObjectStorage(input: UpdateLocationObjectStorageInput) async throws -> UpdateLocationObjectStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2784,8 +2728,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateLocationSmb(input: UpdateLocationSmbInput) async throws -> UpdateLocationSmbOutput
-    {
+    public func updateLocationSmb(input: UpdateLocationSmbInput) async throws -> UpdateLocationSmbOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2832,8 +2775,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateStorageSystem(input: UpdateStorageSystemInput) async throws -> UpdateStorageSystemOutput
-    {
+    public func updateStorageSystem(input: UpdateStorageSystemInput) async throws -> UpdateStorageSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2880,8 +2822,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateTask(input: UpdateTaskInput) async throws -> UpdateTaskOutput
-    {
+    public func updateTask(input: UpdateTaskInput) async throws -> UpdateTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2928,8 +2869,7 @@ extension DataSyncClient: DataSyncClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateTaskExecution(input: UpdateTaskExecutionInput) async throws -> UpdateTaskExecutionOutput
-    {
+    public func updateTaskExecution(input: UpdateTaskExecutionInput) async throws -> UpdateTaskExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

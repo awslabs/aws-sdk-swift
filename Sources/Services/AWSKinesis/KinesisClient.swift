@@ -66,7 +66,7 @@ public struct KinesisClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension KinesisClient: KinesisClientProtocol {
+extension KinesisClient {
     /// Performs the `AddTagsToStream` operation on the `Kinesis_20131202` service.
     ///
     /// Adds or updates tags for the specified Kinesis data stream. You can assign up to 50 tags to a data stream. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If tags have already been assigned to the stream, AddTagsToStream overwrites any existing tags that correspond to the specified tag keys. [AddTagsToStream] has a limit of five transactions per second per account.
@@ -83,8 +83,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func addTagsToStream(input: AddTagsToStreamInput) async throws -> AddTagsToStreamOutput
-    {
+    public func addTagsToStream(input: AddTagsToStreamInput) async throws -> AddTagsToStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
-    public func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput
-    {
+    public func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func decreaseStreamRetentionPeriod(input: DecreaseStreamRetentionPeriodInput) async throws -> DecreaseStreamRetentionPeriodOutput
-    {
+    public func decreaseStreamRetentionPeriod(input: DecreaseStreamRetentionPeriodInput) async throws -> DecreaseStreamRetentionPeriodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -245,8 +242,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -296,8 +292,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutput
-    {
+    public func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func deregisterStreamConsumer(input: DeregisterStreamConsumerInput) async throws -> DeregisterStreamConsumerOutput
-    {
+    public func deregisterStreamConsumer(input: DeregisterStreamConsumerInput) async throws -> DeregisterStreamConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension KinesisClient: KinesisClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-    public func describeLimits(input: DescribeLimitsInput) async throws -> DescribeLimitsOutput
-    {
+    public func describeLimits(input: DescribeLimitsInput) async throws -> DescribeLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -442,8 +435,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput
-    {
+    public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func describeStreamConsumer(input: DescribeStreamConsumerInput) async throws -> DescribeStreamConsumerOutput
-    {
+    public func describeStreamConsumer(input: DescribeStreamConsumerInput) async throws -> DescribeStreamConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func describeStreamSummary(input: DescribeStreamSummaryInput) async throws -> DescribeStreamSummaryOutput
-    {
+    public func describeStreamSummary(input: DescribeStreamSummaryInput) async throws -> DescribeStreamSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -592,8 +582,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func disableEnhancedMonitoring(input: DisableEnhancedMonitoringInput) async throws -> DisableEnhancedMonitoringOutput
-    {
+    public func disableEnhancedMonitoring(input: DisableEnhancedMonitoringInput) async throws -> DisableEnhancedMonitoringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -643,8 +632,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func enableEnhancedMonitoring(input: EnableEnhancedMonitoringInput) async throws -> EnableEnhancedMonitoringOutput
-    {
+    public func enableEnhancedMonitoring(input: EnableEnhancedMonitoringInput) async throws -> EnableEnhancedMonitoringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +688,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `ProvisionedThroughputExceededException` : The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutput
-    {
+    public func getRecords(input: GetRecordsInput) async throws -> GetRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,8 +741,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -804,8 +790,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `ProvisionedThroughputExceededException` : The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutput
-    {
+    public func getShardIterator(input: GetShardIteratorInput) async throws -> GetShardIteratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -855,8 +840,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func increaseStreamRetentionPeriod(input: IncreaseStreamRetentionPeriodInput) async throws -> IncreaseStreamRetentionPeriodOutput
-    {
+    public func increaseStreamRetentionPeriod(input: IncreaseStreamRetentionPeriodInput) async throws -> IncreaseStreamRetentionPeriodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +891,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func listShards(input: ListShardsInput) async throws -> ListShardsOutput
-    {
+    public func listShards(input: ListShardsInput) async throws -> ListShardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -958,8 +941,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func listStreamConsumers(input: ListStreamConsumersInput) async throws -> ListStreamConsumersOutput
-    {
+    public func listStreamConsumers(input: ListStreamConsumersInput) async throws -> ListStreamConsumersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1007,8 +989,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `ExpiredNextTokenException` : The pagination token passed to the operation is expired.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
-    {
+    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1057,8 +1038,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func listTagsForStream(input: ListTagsForStreamInput) async throws -> ListTagsForStreamOutput
-    {
+    public func listTagsForStream(input: ListTagsForStreamInput) async throws -> ListTagsForStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1109,8 +1089,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
     /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
-    public func mergeShards(input: MergeShardsInput) async throws -> MergeShardsOutput
-    {
+    public func mergeShards(input: MergeShardsInput) async throws -> MergeShardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1165,8 +1144,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `ProvisionedThroughputExceededException` : The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput
-    {
+    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1199,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `ProvisionedThroughputExceededException` : The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func putRecords(input: PutRecordsInput) async throws -> PutRecordsOutput
-    {
+    public func putRecords(input: PutRecordsInput) async throws -> PutRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1279,8 +1256,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1329,8 +1305,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func registerStreamConsumer(input: RegisterStreamConsumerInput) async throws -> RegisterStreamConsumerOutput
-    {
+    public func registerStreamConsumer(input: RegisterStreamConsumerInput) async throws -> RegisterStreamConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1380,8 +1355,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func removeTagsFromStream(input: RemoveTagsFromStreamInput) async throws -> RemoveTagsFromStreamOutput
-    {
+    public func removeTagsFromStream(input: RemoveTagsFromStreamInput) async throws -> RemoveTagsFromStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1432,8 +1406,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
     /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
-    public func splitShard(input: SplitShardInput) async throws -> SplitShardOutput
-    {
+    public func splitShard(input: SplitShardInput) async throws -> SplitShardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1489,8 +1462,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func startStreamEncryption(input: StartStreamEncryptionInput) async throws -> StartStreamEncryptionOutput
-    {
+    public func startStreamEncryption(input: StartStreamEncryptionInput) async throws -> StartStreamEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1540,8 +1512,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func stopStreamEncryption(input: StopStreamEncryptionInput) async throws -> StopStreamEncryptionOutput
-    {
+    public func stopStreamEncryption(input: StopStreamEncryptionInput) async throws -> StopStreamEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1591,8 +1562,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func subscribeToShard(input: SubscribeToShardInput) async throws -> SubscribeToShardOutput
-    {
+    public func subscribeToShard(input: SubscribeToShardInput) async throws -> SubscribeToShardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1660,8 +1630,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
     /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
-    public func updateShardCount(input: UpdateShardCountInput) async throws -> UpdateShardCountOutput
-    {
+    public func updateShardCount(input: UpdateShardCountInput) async throws -> UpdateShardCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1679,7 @@ extension KinesisClient: KinesisClientProtocol {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    public func updateStreamMode(input: UpdateStreamModeInput) async throws -> UpdateStreamModeOutput
-    {
+    public func updateStreamMode(input: UpdateStreamModeInput) async throws -> UpdateStreamModeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

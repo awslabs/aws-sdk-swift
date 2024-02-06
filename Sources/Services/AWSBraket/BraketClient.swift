@@ -66,7 +66,7 @@ public struct BraketClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension BraketClient: BraketClientProtocol {
+extension BraketClient {
     /// Performs the `CancelJob` operation on the `Braket` service.
     ///
     /// Cancels an Amazon Braket job.
@@ -84,8 +84,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func cancelQuantumTask(input: CancelQuantumTaskInput) async throws -> CancelQuantumTaskOutput
-    {
+    public func cancelQuantumTask(input: CancelQuantumTaskInput) async throws -> CancelQuantumTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createQuantumTask(input: CreateQuantumTaskInput) async throws -> CreateQuantumTaskOutput
-    {
+    public func createQuantumTask(input: CreateQuantumTaskInput) async throws -> CreateQuantumTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
-    {
+    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutput
-    {
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getQuantumTask(input: GetQuantumTaskInput) async throws -> GetQuantumTaskOutput
-    {
+    public func getQuantumTask(input: GetQuantumTaskInput) async throws -> GetQuantumTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +468,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput
-    {
+    public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -525,8 +516,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput
-    {
+    public func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,8 +564,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ThrottlingException` : The throttling rate limit is met.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func searchQuantumTasks(input: SearchQuantumTasksInput) async throws -> SearchQuantumTasksOutput
-    {
+    public func searchQuantumTasks(input: SearchQuantumTasksInput) async throws -> SearchQuantumTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -622,8 +611,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -670,8 +658,7 @@ extension BraketClient: BraketClientProtocol {
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

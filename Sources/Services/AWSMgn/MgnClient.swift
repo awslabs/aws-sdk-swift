@@ -66,7 +66,7 @@ public struct MgnClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension MgnClient: MgnClientProtocol {
+extension MgnClient {
     /// Performs the `ArchiveApplication` operation on the `ApplicationMigrationService` service.
     ///
     /// Archive application.
@@ -82,8 +82,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func archiveApplication(input: ArchiveApplicationInput) async throws -> ArchiveApplicationOutput
-    {
+    public func archiveApplication(input: ArchiveApplicationInput) async throws -> ArchiveApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func archiveWave(input: ArchiveWaveInput) async throws -> ArchiveWaveOutput
-    {
+    public func archiveWave(input: ArchiveWaveInput) async throws -> ArchiveWaveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func associateApplications(input: AssociateApplicationsInput) async throws -> AssociateApplicationsOutput
-    {
+    public func associateApplications(input: AssociateApplicationsInput) async throws -> AssociateApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func associateSourceServers(input: AssociateSourceServersInput) async throws -> AssociateSourceServersOutput
-    {
+    public func associateSourceServers(input: AssociateSourceServersInput) async throws -> AssociateSourceServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func changeServerLifeCycleState(input: ChangeServerLifeCycleStateInput) async throws -> ChangeServerLifeCycleStateOutput
-    {
+    public func changeServerLifeCycleState(input: ChangeServerLifeCycleStateInput) async throws -> ChangeServerLifeCycleStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -373,8 +367,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
-    {
+    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -421,8 +414,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput
-    {
+    public func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +461,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput
-    {
+    public func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func createWave(input: CreateWaveInput) async throws -> CreateWaveOutput
-    {
+    public func createWave(input: CreateWaveInput) async throws -> CreateWaveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +555,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +602,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
-    {
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +649,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-    {
+    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -709,8 +696,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput
-    {
+    public func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +743,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput
-    {
+    public func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +790,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput
-    {
+    public func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func deleteVcenterClient(input: DeleteVcenterClientInput) async throws -> DeleteVcenterClientOutput
-    {
+    public func deleteVcenterClient(input: DeleteVcenterClientInput) async throws -> DeleteVcenterClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -901,8 +884,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func deleteWave(input: DeleteWaveInput) async throws -> DeleteWaveOutput
-    {
+    public func deleteWave(input: DeleteWaveInput) async throws -> DeleteWaveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -948,8 +930,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput
-    {
+    public func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +976,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput
-    {
+    public func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1043,8 +1023,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput
-    {
+    public func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1091,8 +1070,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput
-    {
+    public func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1138,8 +1116,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput
-    {
+    public func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1186,8 +1163,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func describeVcenterClients(input: DescribeVcenterClientsInput) async throws -> DescribeVcenterClientsOutput
-    {
+    public func describeVcenterClients(input: DescribeVcenterClientsInput) async throws -> DescribeVcenterClientsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1232,8 +1208,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func disassociateApplications(input: DisassociateApplicationsInput) async throws -> DisassociateApplicationsOutput
-    {
+    public func disassociateApplications(input: DisassociateApplicationsInput) async throws -> DisassociateApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1255,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func disassociateSourceServers(input: DisassociateSourceServersInput) async throws -> DisassociateSourceServersOutput
-    {
+    public func disassociateSourceServers(input: DisassociateSourceServersInput) async throws -> DisassociateSourceServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1302,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func disconnectFromService(input: DisconnectFromServiceInput) async throws -> DisconnectFromServiceOutput
-    {
+    public func disconnectFromService(input: DisconnectFromServiceInput) async throws -> DisconnectFromServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1350,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func finalizeCutover(input: FinalizeCutoverInput) async throws -> FinalizeCutoverOutput
-    {
+    public func finalizeCutover(input: FinalizeCutoverInput) async throws -> FinalizeCutoverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1424,8 +1396,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput
-    {
+    public func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1471,8 +1442,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput
-    {
+    public func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1518,8 +1488,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
     /// - `ValidationException` : Validate exception.
-    public func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput
-    {
+    public func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1561,8 +1530,7 @@ extension MgnClient: MgnClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1608,8 +1576,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
-    {
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1655,8 +1622,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func listExportErrors(input: ListExportErrorsInput) async throws -> ListExportErrorsOutput
-    {
+    public func listExportErrors(input: ListExportErrorsInput) async throws -> ListExportErrorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1701,8 +1667,7 @@ extension MgnClient: MgnClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func listExports(input: ListExportsInput) async throws -> ListExportsOutput
-    {
+    public func listExports(input: ListExportsInput) async throws -> ListExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1748,8 +1713,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func listImportErrors(input: ListImportErrorsInput) async throws -> ListImportErrorsOutput
-    {
+    public func listImportErrors(input: ListImportErrorsInput) async throws -> ListImportErrorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1795,8 +1759,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput
-    {
+    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1842,8 +1805,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func listManagedAccounts(input: ListManagedAccountsInput) async throws -> ListManagedAccountsOutput
-    {
+    public func listManagedAccounts(input: ListManagedAccountsInput) async throws -> ListManagedAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1851,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func listSourceServerActions(input: ListSourceServerActionsInput) async throws -> ListSourceServerActionsOutput
-    {
+    public func listSourceServerActions(input: ListSourceServerActionsInput) async throws -> ListSourceServerActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1939,8 +1900,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1983,8 +1943,7 @@ extension MgnClient: MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func listTemplateActions(input: ListTemplateActionsInput) async throws -> ListTemplateActionsOutput
-    {
+    public func listTemplateActions(input: ListTemplateActionsInput) async throws -> ListTemplateActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2029,8 +1988,7 @@ extension MgnClient: MgnClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func listWaves(input: ListWavesInput) async throws -> ListWavesOutput
-    {
+    public func listWaves(input: ListWavesInput) async throws -> ListWavesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2077,8 +2035,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func markAsArchived(input: MarkAsArchivedInput) async throws -> MarkAsArchivedOutput
-    {
+    public func markAsArchived(input: MarkAsArchivedInput) async throws -> MarkAsArchivedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2127,8 +2084,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func pauseReplication(input: PauseReplicationInput) async throws -> PauseReplicationOutput
-    {
+    public func pauseReplication(input: PauseReplicationInput) async throws -> PauseReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2176,8 +2132,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func putSourceServerAction(input: PutSourceServerActionInput) async throws -> PutSourceServerActionOutput
-    {
+    public func putSourceServerAction(input: PutSourceServerActionInput) async throws -> PutSourceServerActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2225,8 +2180,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func putTemplateAction(input: PutTemplateActionInput) async throws -> PutTemplateActionOutput
-    {
+    public func putTemplateAction(input: PutTemplateActionInput) async throws -> PutTemplateActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2273,8 +2227,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func removeSourceServerAction(input: RemoveSourceServerActionInput) async throws -> RemoveSourceServerActionOutput
-    {
+    public func removeSourceServerAction(input: RemoveSourceServerActionInput) async throws -> RemoveSourceServerActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2321,8 +2274,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func removeTemplateAction(input: RemoveTemplateActionInput) async throws -> RemoveTemplateActionOutput
-    {
+    public func removeTemplateAction(input: RemoveTemplateActionInput) async throws -> RemoveTemplateActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2371,8 +2323,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func resumeReplication(input: ResumeReplicationInput) async throws -> ResumeReplicationOutput
-    {
+    public func resumeReplication(input: ResumeReplicationInput) async throws -> ResumeReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2419,8 +2370,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput
-    {
+    public func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2467,8 +2417,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func startCutover(input: StartCutoverInput) async throws -> StartCutoverOutput
-    {
+    public func startCutover(input: StartCutoverInput) async throws -> StartCutoverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2515,8 +2464,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func startExport(input: StartExportInput) async throws -> StartExportOutput
-    {
+    public func startExport(input: StartExportInput) async throws -> StartExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2565,8 +2513,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func startImport(input: StartImportInput) async throws -> StartImportOutput
-    {
+    public func startImport(input: StartImportInput) async throws -> StartImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2616,8 +2563,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
-    {
+    public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2664,8 +2610,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func startTest(input: StartTestInput) async throws -> StartTestOutput
-    {
+    public func startTest(input: StartTestInput) async throws -> StartTestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2714,8 +2659,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
-    {
+    public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2764,8 +2708,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2812,8 +2755,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func terminateTargetInstances(input: TerminateTargetInstancesInput) async throws -> TerminateTargetInstancesOutput
-    {
+    public func terminateTargetInstances(input: TerminateTargetInstancesInput) async throws -> TerminateTargetInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2860,8 +2802,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func unarchiveApplication(input: UnarchiveApplicationInput) async throws -> UnarchiveApplicationOutput
-    {
+    public func unarchiveApplication(input: UnarchiveApplicationInput) async throws -> UnarchiveApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2908,8 +2849,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func unarchiveWave(input: UnarchiveWaveInput) async throws -> UnarchiveWaveOutput
-    {
+    public func unarchiveWave(input: UnarchiveWaveInput) async throws -> UnarchiveWaveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2958,8 +2898,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3004,8 +2943,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3052,8 +2990,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput
-    {
+    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3101,8 +3038,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput
-    {
+    public func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3150,8 +3086,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput
-    {
+    public func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3200,8 +3135,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput
-    {
+    public func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3249,8 +3183,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutput
-    {
+    public func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3297,8 +3230,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func updateSourceServer(input: UpdateSourceServerInput) async throws -> UpdateSourceServerOutput
-    {
+    public func updateSourceServer(input: UpdateSourceServerInput) async throws -> UpdateSourceServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3346,8 +3278,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
-    public func updateSourceServerReplicationType(input: UpdateSourceServerReplicationTypeInput) async throws -> UpdateSourceServerReplicationTypeOutput
-    {
+    public func updateSourceServerReplicationType(input: UpdateSourceServerReplicationTypeInput) async throws -> UpdateSourceServerReplicationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3394,8 +3325,7 @@ extension MgnClient: MgnClientProtocol {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
-    public func updateWave(input: UpdateWaveInput) async throws -> UpdateWaveOutput
-    {
+    public func updateWave(input: UpdateWaveInput) async throws -> UpdateWaveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

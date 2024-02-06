@@ -66,7 +66,7 @@ public struct CodeGuruProfilerClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
+extension CodeGuruProfilerClient {
     /// Performs the `AddNotificationChannels` operation on the `CodeGuruProfiler` service.
     ///
     /// Add up to 2 anomaly notifications channels for a profiling group.
@@ -84,8 +84,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use [Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) to request a service quota increase.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func addNotificationChannels(input: AddNotificationChannelsInput) async throws -> AddNotificationChannelsOutput
-    {
+    public func addNotificationChannels(input: AddNotificationChannelsInput) async throws -> AddNotificationChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func batchGetFrameMetricData(input: BatchGetFrameMetricDataInput) async throws -> BatchGetFrameMetricDataOutput
-    {
+    public func batchGetFrameMetricData(input: BatchGetFrameMetricDataInput) async throws -> BatchGetFrameMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func configureAgent(input: ConfigureAgentInput) async throws -> ConfigureAgentOutput
-    {
+    public func configureAgent(input: ConfigureAgentInput) async throws -> ConfigureAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use [Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) to request a service quota increase.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func createProfilingGroup(input: CreateProfilingGroupInput) async throws -> CreateProfilingGroupOutput
-    {
+    public func createProfilingGroup(input: CreateProfilingGroupInput) async throws -> CreateProfilingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -285,8 +281,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func deleteProfilingGroup(input: DeleteProfilingGroupInput) async throws -> DeleteProfilingGroupOutput
-    {
+    public func deleteProfilingGroup(input: DeleteProfilingGroupInput) async throws -> DeleteProfilingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func describeProfilingGroup(input: DescribeProfilingGroupInput) async throws -> DescribeProfilingGroupOutput
-    {
+    public func describeProfilingGroup(input: DescribeProfilingGroupInput) async throws -> DescribeProfilingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func getFindingsReportAccountSummary(input: GetFindingsReportAccountSummaryInput) async throws -> GetFindingsReportAccountSummaryOutput
-    {
+    public func getFindingsReportAccountSummary(input: GetFindingsReportAccountSummaryInput) async throws -> GetFindingsReportAccountSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -423,8 +416,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func getNotificationConfiguration(input: GetNotificationConfigurationInput) async throws -> GetNotificationConfigurationOutput
-    {
+    public func getNotificationConfiguration(input: GetNotificationConfigurationInput) async throws -> GetNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -468,8 +460,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +521,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
-    {
+    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -578,8 +568,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput
-    {
+    public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -625,8 +614,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func listFindingsReports(input: ListFindingsReportsInput) async throws -> ListFindingsReportsOutput
-    {
+    public func listFindingsReports(input: ListFindingsReportsInput) async throws -> ListFindingsReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -672,8 +660,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func listProfileTimes(input: ListProfileTimesInput) async throws -> ListProfileTimesOutput
-    {
+    public func listProfileTimes(input: ListProfileTimesInput) async throws -> ListProfileTimesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -717,8 +704,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listProfilingGroups(input: ListProfilingGroupsInput) async throws -> ListProfilingGroupsOutput
-    {
+    public func listProfilingGroups(input: ListProfilingGroupsInput) async throws -> ListProfilingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -763,8 +749,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : The parameter is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +794,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func postAgentProfile(input: PostAgentProfileInput) async throws -> PostAgentProfileOutput
-    {
+    public func postAgentProfile(input: PostAgentProfileInput) async throws -> PostAgentProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -862,8 +846,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput
-    {
+    public func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -911,8 +894,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutput
-    {
+    public func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -958,8 +940,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
-    {
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1005,8 +986,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutput
-    {
+    public func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1033,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : The parameter is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1080,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : The parameter is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1149,8 +1127,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    public func updateProfilingGroup(input: UpdateProfilingGroupInput) async throws -> UpdateProfilingGroupOutput
-    {
+    public func updateProfilingGroup(input: UpdateProfilingGroupInput) async throws -> UpdateProfilingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

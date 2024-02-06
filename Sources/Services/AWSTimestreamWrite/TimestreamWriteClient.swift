@@ -66,7 +66,7 @@ public struct TimestreamWriteClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension TimestreamWriteClient: TimestreamWriteClientProtocol {
+extension TimestreamWriteClient {
     /// Performs the `CreateBatchLoadTask` operation on the `Timestream_20181101` service.
     ///
     /// Creates a new Timestream batch load task. A batch load task processes data from a CSV source in an S3 location and writes to a Timestream table. A mapping from source to target is defined in a batch load task. Errors and events are written to a report at an S3 location. For the report, if the KMS key is not specified, the report will be encrypted with an S3 managed key when SSE_S3 is the option. Otherwise an error is thrown. For more information, see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk). [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html). For details, see [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-batch-load.html).
@@ -86,8 +86,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ServiceQuotaExceededException` : The instance quota of resource exceeded for this account.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func createBatchLoadTask(input: CreateBatchLoadTaskInput) async throws -> CreateBatchLoadTaskOutput
-    {
+    public func createBatchLoadTask(input: CreateBatchLoadTaskInput) async throws -> CreateBatchLoadTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ServiceQuotaExceededException` : The instance quota of resource exceeded for this account.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutput
-    {
+    public func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -194,8 +192,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ServiceQuotaExceededException` : The instance quota of resource exceeded for this account.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func createTable(input: CreateTableInput) async throws -> CreateTableOutput
-    {
+    public func createTable(input: CreateTableInput) async throws -> CreateTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -246,8 +243,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutput
-    {
+    public func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -298,8 +294,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput
-    {
+    public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -349,8 +344,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
-    public func describeBatchLoadTask(input: DescribeBatchLoadTaskInput) async throws -> DescribeBatchLoadTaskOutput
-    {
+    public func describeBatchLoadTask(input: DescribeBatchLoadTaskInput) async throws -> DescribeBatchLoadTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -401,8 +395,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func describeDatabase(input: DescribeDatabaseInput) async throws -> DescribeDatabaseOutput
-    {
+    public func describeDatabase(input: DescribeDatabaseInput) async throws -> DescribeDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +452,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
-    {
+    public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,8 +503,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput
-    {
+    public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -562,8 +553,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func listBatchLoadTasks(input: ListBatchLoadTasksInput) async throws -> ListBatchLoadTasksOutput
-    {
+    public func listBatchLoadTasks(input: ListBatchLoadTasksInput) async throws -> ListBatchLoadTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +603,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
-    {
+    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -665,8 +654,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func listTables(input: ListTablesInput) async throws -> ListTablesOutput
-    {
+    public func listTables(input: ListTablesInput) async throws -> ListTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +703,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -767,8 +754,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func resumeBatchLoadTask(input: ResumeBatchLoadTaskInput) async throws -> ResumeBatchLoadTaskOutput
-    {
+    public func resumeBatchLoadTask(input: ResumeBatchLoadTaskInput) async throws -> ResumeBatchLoadTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -818,8 +804,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ServiceQuotaExceededException` : The instance quota of resource exceeded for this account.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +854,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ServiceQuotaExceededException` : The instance quota of resource exceeded for this account.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -922,8 +906,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ServiceQuotaExceededException` : The instance quota of resource exceeded for this account.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutput
-    {
+    public func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -974,8 +957,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput
-    {
+    public func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1043,8 +1025,7 @@ extension TimestreamWriteClient: TimestreamWriteClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     /// - `ValidationException` : An invalid or malformed request.
-    public func writeRecords(input: WriteRecordsInput) async throws -> WriteRecordsOutput
-    {
+    public func writeRecords(input: WriteRecordsInput) async throws -> WriteRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

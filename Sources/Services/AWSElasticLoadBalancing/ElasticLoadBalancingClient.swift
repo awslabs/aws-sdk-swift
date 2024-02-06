@@ -62,7 +62,7 @@ public struct ElasticLoadBalancingClientLogHandlerFactory: ClientRuntime.SDKLogH
     }
 }
 
-extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
+extension ElasticLoadBalancingClient {
     /// Performs the `AddTags` operation on the `ElasticLoadBalancing_v7` service.
     ///
     /// Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the load balancer, AddTags updates its value. For more information, see [Tag Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html) in the Classic Load Balancers Guide.
@@ -77,8 +77,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
     /// - `TooManyTagsException` : The quota for the number of tags that can be assigned to a load balancer has been reached.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -125,8 +124,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `InvalidSecurityGroupException` : One or more of the specified security groups do not exist.
-    public func applySecurityGroupsToLoadBalancer(input: ApplySecurityGroupsToLoadBalancerInput) async throws -> ApplySecurityGroupsToLoadBalancerOutput
-    {
+    public func applySecurityGroupsToLoadBalancer(input: ApplySecurityGroupsToLoadBalancerInput) async throws -> ApplySecurityGroupsToLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `InvalidSubnetException` : The specified VPC has no associated Internet gateway.
     /// - `SubnetNotFoundException` : One or more of the specified subnets do not exist.
-    public func attachLoadBalancerToSubnets(input: AttachLoadBalancerToSubnetsInput) async throws -> AttachLoadBalancerToSubnetsOutput
-    {
+    public func attachLoadBalancerToSubnets(input: AttachLoadBalancerToSubnetsInput) async throws -> AttachLoadBalancerToSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +217,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
-    public func configureHealthCheck(input: ConfigureHealthCheckInput) async throws -> ConfigureHealthCheckOutput
-    {
+    public func configureHealthCheck(input: ConfigureHealthCheckInput) async throws -> ConfigureHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -269,8 +265,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `DuplicatePolicyNameException` : A policy with the specified name already exists for this load balancer.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `TooManyPoliciesException` : The quota for the number of policies for this load balancer has been reached.
-    public func createAppCookieStickinessPolicy(input: CreateAppCookieStickinessPolicyInput) async throws -> CreateAppCookieStickinessPolicyOutput
-    {
+    public func createAppCookieStickinessPolicy(input: CreateAppCookieStickinessPolicyInput) async throws -> CreateAppCookieStickinessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `DuplicatePolicyNameException` : A policy with the specified name already exists for this load balancer.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `TooManyPoliciesException` : The quota for the number of policies for this load balancer has been reached.
-    public func createLBCookieStickinessPolicy(input: CreateLBCookieStickinessPolicyInput) async throws -> CreateLBCookieStickinessPolicyOutput
-    {
+    public func createLBCookieStickinessPolicy(input: CreateLBCookieStickinessPolicyInput) async throws -> CreateLBCookieStickinessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +369,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `TooManyAccessPointsException` : The quota for the number of load balancers has been reached.
     /// - `TooManyTagsException` : The quota for the number of tags that can be assigned to a load balancer has been reached.
     /// - `UnsupportedProtocolException` : The specified protocol or signature version is not supported.
-    public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput
-    {
+    public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `DuplicateListenerException` : A listener already exists for the specified load balancer name and port, but with a different instance port, protocol, or SSL certificate.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `UnsupportedProtocolException` : The specified protocol or signature version is not supported.
-    public func createLoadBalancerListeners(input: CreateLoadBalancerListenersInput) async throws -> CreateLoadBalancerListenersOutput
-    {
+    public func createLoadBalancerListeners(input: CreateLoadBalancerListenersInput) async throws -> CreateLoadBalancerListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `PolicyTypeNotFoundException` : One or more of the specified policy types do not exist.
     /// - `TooManyPoliciesException` : The quota for the number of policies for this load balancer has been reached.
-    public func createLoadBalancerPolicy(input: CreateLoadBalancerPolicyInput) async throws -> CreateLoadBalancerPolicyOutput
-    {
+    public func createLoadBalancerPolicy(input: CreateLoadBalancerPolicyInput) async throws -> CreateLoadBalancerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -516,8 +507,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - Parameter DeleteLoadBalancerInput : Contains the parameters for DeleteLoadBalancer.
     ///
     /// - Returns: `DeleteLoadBalancerOutput` : Contains the output of DeleteLoadBalancer.
-    public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput
-    {
+    public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -562,8 +552,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
-    public func deleteLoadBalancerListeners(input: DeleteLoadBalancerListenersInput) async throws -> DeleteLoadBalancerListenersOutput
-    {
+    public func deleteLoadBalancerListeners(input: DeleteLoadBalancerListenersInput) async throws -> DeleteLoadBalancerListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +598,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
-    public func deleteLoadBalancerPolicy(input: DeleteLoadBalancerPolicyInput) async throws -> DeleteLoadBalancerPolicyOutput
-    {
+    public func deleteLoadBalancerPolicy(input: DeleteLoadBalancerPolicyInput) async throws -> DeleteLoadBalancerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -656,8 +644,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidEndPointException` : The specified endpoint is not valid.
-    public func deregisterInstancesFromLoadBalancer(input: DeregisterInstancesFromLoadBalancerInput) async throws -> DeregisterInstancesFromLoadBalancerOutput
-    {
+    public func deregisterInstancesFromLoadBalancer(input: DeregisterInstancesFromLoadBalancerInput) async throws -> DeregisterInstancesFromLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +684,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - Parameter DescribeAccountLimitsInput : [no documentation found]
     ///
     /// - Returns: `DescribeAccountLimitsOutput` : [no documentation found]
-    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
-    {
+    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -744,8 +730,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidEndPointException` : The specified endpoint is not valid.
-    public func describeInstanceHealth(input: DescribeInstanceHealthInput) async throws -> DescribeInstanceHealthOutput
-    {
+    public func describeInstanceHealth(input: DescribeInstanceHealthInput) async throws -> DescribeInstanceHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -791,8 +776,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `LoadBalancerAttributeNotFoundException` : The specified load balancer attribute does not exist.
-    public func describeLoadBalancerAttributes(input: DescribeLoadBalancerAttributesInput) async throws -> DescribeLoadBalancerAttributesOutput
-    {
+    public func describeLoadBalancerAttributes(input: DescribeLoadBalancerAttributesInput) async throws -> DescribeLoadBalancerAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +822,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `PolicyNotFoundException` : One or more of the specified policies do not exist.
-    public func describeLoadBalancerPolicies(input: DescribeLoadBalancerPoliciesInput) async throws -> DescribeLoadBalancerPoliciesOutput
-    {
+    public func describeLoadBalancerPolicies(input: DescribeLoadBalancerPoliciesInput) async throws -> DescribeLoadBalancerPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -884,8 +867,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `PolicyTypeNotFoundException` : One or more of the specified policy types do not exist.
-    public func describeLoadBalancerPolicyTypes(input: DescribeLoadBalancerPolicyTypesInput) async throws -> DescribeLoadBalancerPolicyTypesOutput
-    {
+    public func describeLoadBalancerPolicyTypes(input: DescribeLoadBalancerPolicyTypesInput) async throws -> DescribeLoadBalancerPolicyTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -931,8 +913,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `DependencyThrottleException` : A request made by Elastic Load Balancing to another service exceeds the maximum request rate permitted for your account.
-    public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput
-    {
+    public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +958,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1024,8 +1004,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
-    public func detachLoadBalancerFromSubnets(input: DetachLoadBalancerFromSubnetsInput) async throws -> DetachLoadBalancerFromSubnetsOutput
-    {
+    public func detachLoadBalancerFromSubnets(input: DetachLoadBalancerFromSubnetsInput) async throws -> DetachLoadBalancerFromSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1050,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
-    public func disableAvailabilityZonesForLoadBalancer(input: DisableAvailabilityZonesForLoadBalancerInput) async throws -> DisableAvailabilityZonesForLoadBalancerOutput
-    {
+    public func disableAvailabilityZonesForLoadBalancer(input: DisableAvailabilityZonesForLoadBalancerInput) async throws -> DisableAvailabilityZonesForLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1117,8 +1095,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
-    public func enableAvailabilityZonesForLoadBalancer(input: EnableAvailabilityZonesForLoadBalancerInput) async throws -> EnableAvailabilityZonesForLoadBalancerOutput
-    {
+    public func enableAvailabilityZonesForLoadBalancer(input: EnableAvailabilityZonesForLoadBalancerInput) async throws -> EnableAvailabilityZonesForLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1173,8 +1150,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `LoadBalancerAttributeNotFoundException` : The specified load balancer attribute does not exist.
-    public func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutput
-    {
+    public func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1220,8 +1196,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidEndPointException` : The specified endpoint is not valid.
-    public func registerInstancesWithLoadBalancer(input: RegisterInstancesWithLoadBalancerInput) async throws -> RegisterInstancesWithLoadBalancerOutput
-    {
+    public func registerInstancesWithLoadBalancer(input: RegisterInstancesWithLoadBalancerInput) async throws -> RegisterInstancesWithLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1266,8 +1241,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    {
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1290,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `ListenerNotFoundException` : The load balancer does not have a listener configured at the specified port.
     /// - `UnsupportedProtocolException` : The specified protocol or signature version is not supported.
-    public func setLoadBalancerListenerSSLCertificate(input: SetLoadBalancerListenerSSLCertificateInput) async throws -> SetLoadBalancerListenerSSLCertificateOutput
-    {
+    public func setLoadBalancerListenerSSLCertificate(input: SetLoadBalancerListenerSSLCertificateInput) async throws -> SetLoadBalancerListenerSSLCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1364,8 +1337,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `AccessPointNotFoundException` : The specified load balancer does not exist.
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `PolicyNotFoundException` : One or more of the specified policies do not exist.
-    public func setLoadBalancerPoliciesForBackendServer(input: SetLoadBalancerPoliciesForBackendServerInput) async throws -> SetLoadBalancerPoliciesForBackendServerOutput
-    {
+    public func setLoadBalancerPoliciesForBackendServer(input: SetLoadBalancerPoliciesForBackendServerInput) async throws -> SetLoadBalancerPoliciesForBackendServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1413,8 +1385,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration change is not valid.
     /// - `ListenerNotFoundException` : The load balancer does not have a listener configured at the specified port.
     /// - `PolicyNotFoundException` : One or more of the specified policies do not exist.
-    public func setLoadBalancerPoliciesOfListener(input: SetLoadBalancerPoliciesOfListenerInput) async throws -> SetLoadBalancerPoliciesOfListenerOutput
-    {
+    public func setLoadBalancerPoliciesOfListener(input: SetLoadBalancerPoliciesOfListenerInput) async throws -> SetLoadBalancerPoliciesOfListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

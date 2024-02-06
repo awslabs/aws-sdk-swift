@@ -62,7 +62,7 @@ public struct CloudFormationClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension CloudFormationClient: CloudFormationClientProtocol {
+extension CloudFormationClient {
     /// Performs the `ActivateOrganizationsAccess` operation on the `CloudFormation` service.
     ///
     /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has permissions to create and manage StackSets for your organization.
@@ -76,8 +76,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
-    public func activateOrganizationsAccess(input: ActivateOrganizationsAccessInput) async throws -> ActivateOrganizationsAccessOutput
-    {
+    public func activateOrganizationsAccess(input: ActivateOrganizationsAccessInput) async throws -> ActivateOrganizationsAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -123,8 +122,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func activateType(input: ActivateTypeInput) async throws -> ActivateTypeOutput
-    {
+    public func activateType(input: ActivateTypeInput) async throws -> ActivateTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -170,8 +168,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeConfigurationNotFoundException` : The specified extension configuration can't be found.
-    public func batchDescribeTypeConfigurations(input: BatchDescribeTypeConfigurationsInput) async throws -> BatchDescribeTypeConfigurationsOutput
-    {
+    public func batchDescribeTypeConfigurations(input: BatchDescribeTypeConfigurationsInput) async throws -> BatchDescribeTypeConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -216,8 +213,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func cancelUpdateStack(input: CancelUpdateStackInput) async throws -> CancelUpdateStackOutput
-    {
+    public func cancelUpdateStack(input: CancelUpdateStackInput) async throws -> CancelUpdateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -262,8 +258,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func continueUpdateRollback(input: ContinueUpdateRollbackInput) async throws -> ContinueUpdateRollbackOutput
-    {
+    public func continueUpdateRollback(input: ContinueUpdateRollbackInput) async throws -> ContinueUpdateRollbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -310,8 +305,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `AlreadyExistsException` : The resource with the name requested already exists.
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `LimitExceededException` : The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
-    public func createChangeSet(input: CreateChangeSetInput) async throws -> CreateChangeSetOutput
-    {
+    public func createChangeSet(input: CreateChangeSetInput) async throws -> CreateChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -359,8 +353,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `LimitExceededException` : The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func createStack(input: CreateStackInput) async throws -> CreateStackOutput
-    {
+    public func createStack(input: CreateStackInput) async throws -> CreateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +403,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    public func createStackInstances(input: CreateStackInstancesInput) async throws -> CreateStackInstancesOutput
-    {
+    public func createStackInstances(input: CreateStackInstancesInput) async throws -> CreateStackInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +451,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `CreatedButModifiedException` : The specified resource exists, but has been changed.
     /// - `LimitExceededException` : The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     /// - `NameAlreadyExistsException` : The specified name is already in use.
-    public func createStackSet(input: CreateStackSetInput) async throws -> CreateStackSetOutput
-    {
+    public func createStackSet(input: CreateStackSetInput) async throws -> CreateStackSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -507,8 +498,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
-    public func deactivateOrganizationsAccess(input: DeactivateOrganizationsAccessInput) async throws -> DeactivateOrganizationsAccessOutput
-    {
+    public func deactivateOrganizationsAccess(input: DeactivateOrganizationsAccessInput) async throws -> DeactivateOrganizationsAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -554,8 +544,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func deactivateType(input: DeactivateTypeInput) async throws -> DeactivateTypeOutput
-    {
+    public func deactivateType(input: DeactivateTypeInput) async throws -> DeactivateTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -600,8 +589,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidChangeSetStatusException` : The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
-    public func deleteChangeSet(input: DeleteChangeSetInput) async throws -> DeleteChangeSetOutput
-    {
+    public func deleteChangeSet(input: DeleteChangeSetInput) async throws -> DeleteChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +634,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
-    {
+    public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -696,8 +683,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    public func deleteStackInstances(input: DeleteStackInstancesInput) async throws -> DeleteStackInstancesOutput
-    {
+    public func deleteStackInstances(input: DeleteStackInstancesInput) async throws -> DeleteStackInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -744,8 +730,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotEmptyException` : You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
-    public func deleteStackSet(input: DeleteStackSetInput) async throws -> DeleteStackSetOutput
-    {
+    public func deleteStackSet(input: DeleteStackSetInput) async throws -> DeleteStackSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -791,8 +776,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func deregisterType(input: DeregisterTypeInput) async throws -> DeregisterTypeOutput
-    {
+    public func deregisterType(input: DeregisterTypeInput) async throws -> DeregisterTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -832,8 +816,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeAccountLimitsInput : The input for the [DescribeAccountLimits] action.
     ///
     /// - Returns: `DescribeAccountLimitsOutput` : The output for the [DescribeAccountLimits] action.
-    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
-    {
+    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -878,8 +861,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ChangeSetNotFoundException` : The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-    public func describeChangeSet(input: DescribeChangeSetInput) async throws -> DescribeChangeSetOutput
-    {
+    public func describeChangeSet(input: DescribeChangeSetInput) async throws -> DescribeChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +906,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ChangeSetNotFoundException` : The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-    public func describeChangeSetHooks(input: DescribeChangeSetHooksInput) async throws -> DescribeChangeSetHooksOutput
-    {
+    public func describeChangeSetHooks(input: DescribeChangeSetHooksInput) async throws -> DescribeChangeSetHooksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -971,8 +952,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
-    public func describeOrganizationsAccess(input: DescribeOrganizationsAccessInput) async throws -> DescribeOrganizationsAccessOutput
-    {
+    public func describeOrganizationsAccess(input: DescribeOrganizationsAccessInput) async throws -> DescribeOrganizationsAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1021,8 +1001,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func describePublisher(input: DescribePublisherInput) async throws -> DescribePublisherOutput
-    {
+    public func describePublisher(input: DescribePublisherInput) async throws -> DescribePublisherOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1062,8 +1041,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeStackDriftDetectionStatusInput : [no documentation found]
     ///
     /// - Returns: `DescribeStackDriftDetectionStatusOutput` : [no documentation found]
-    public func describeStackDriftDetectionStatus(input: DescribeStackDriftDetectionStatusInput) async throws -> DescribeStackDriftDetectionStatusOutput
-    {
+    public func describeStackDriftDetectionStatus(input: DescribeStackDriftDetectionStatusInput) async throws -> DescribeStackDriftDetectionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1081,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeStackEventsInput : The input for [DescribeStackEvents] action.
     ///
     /// - Returns: `DescribeStackEventsOutput` : The output for a [DescribeStackEvents] action.
-    public func describeStackEvents(input: DescribeStackEventsInput) async throws -> DescribeStackEventsOutput
-    {
+    public func describeStackEvents(input: DescribeStackEventsInput) async throws -> DescribeStackEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1150,8 +1127,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func describeStackInstance(input: DescribeStackInstanceInput) async throws -> DescribeStackInstanceOutput
-    {
+    public func describeStackInstance(input: DescribeStackInstanceInput) async throws -> DescribeStackInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1191,8 +1167,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeStackResourceInput : The input for [DescribeStackResource] action.
     ///
     /// - Returns: `DescribeStackResourceOutput` : The output for a [DescribeStackResource] action.
-    public func describeStackResource(input: DescribeStackResourceInput) async throws -> DescribeStackResourceOutput
-    {
+    public func describeStackResource(input: DescribeStackResourceInput) async throws -> DescribeStackResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1232,8 +1207,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeStackResourceDriftsInput : [no documentation found]
     ///
     /// - Returns: `DescribeStackResourceDriftsOutput` : [no documentation found]
-    public func describeStackResourceDrifts(input: DescribeStackResourceDriftsInput) async throws -> DescribeStackResourceDriftsOutput
-    {
+    public func describeStackResourceDrifts(input: DescribeStackResourceDriftsInput) async throws -> DescribeStackResourceDriftsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1273,8 +1247,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeStackResourcesInput : The input for [DescribeStackResources] action.
     ///
     /// - Returns: `DescribeStackResourcesOutput` : The output for a [DescribeStackResources] action.
-    public func describeStackResources(input: DescribeStackResourcesInput) async throws -> DescribeStackResourcesOutput
-    {
+    public func describeStackResources(input: DescribeStackResourcesInput) async throws -> DescribeStackResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1292,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func describeStackSet(input: DescribeStackSetInput) async throws -> DescribeStackSetOutput
-    {
+    public func describeStackSet(input: DescribeStackSetInput) async throws -> DescribeStackSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1366,8 +1338,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func describeStackSetOperation(input: DescribeStackSetOperationInput) async throws -> DescribeStackSetOperationOutput
-    {
+    public func describeStackSetOperation(input: DescribeStackSetOperationInput) async throws -> DescribeStackSetOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1407,8 +1378,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DescribeStacksInput : The input for [DescribeStacks] action.
     ///
     /// - Returns: `DescribeStacksOutput` : The output for a [DescribeStacks] action.
-    public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
-    {
+    public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1424,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func describeType(input: DescribeTypeInput) async throws -> DescribeTypeOutput
-    {
+    public func describeType(input: DescribeTypeInput) async throws -> DescribeTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1500,8 +1469,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func describeTypeRegistration(input: DescribeTypeRegistrationInput) async throws -> DescribeTypeRegistrationOutput
-    {
+    public func describeTypeRegistration(input: DescribeTypeRegistrationInput) async throws -> DescribeTypeRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1509,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DetectStackDriftInput : [no documentation found]
     ///
     /// - Returns: `DetectStackDriftOutput` : [no documentation found]
-    public func detectStackDrift(input: DetectStackDriftInput) async throws -> DetectStackDriftOutput
-    {
+    public func detectStackDrift(input: DetectStackDriftInput) async throws -> DetectStackDriftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1582,8 +1549,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter DetectStackResourceDriftInput : [no documentation found]
     ///
     /// - Returns: `DetectStackResourceDriftOutput` : [no documentation found]
-    public func detectStackResourceDrift(input: DetectStackResourceDriftInput) async throws -> DetectStackResourceDriftOutput
-    {
+    public func detectStackResourceDrift(input: DetectStackResourceDriftInput) async throws -> DetectStackResourceDriftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1639,8 +1605,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func detectStackSetDrift(input: DetectStackSetDriftInput) async throws -> DetectStackSetDriftOutput
-    {
+    public func detectStackSetDrift(input: DetectStackSetDriftInput) async throws -> DetectStackSetDriftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1681,8 +1646,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter EstimateTemplateCostInput : The input for an [EstimateTemplateCost] action.
     ///
     /// - Returns: `EstimateTemplateCostOutput` : The output for a [EstimateTemplateCost] action.
-    public func estimateTemplateCost(input: EstimateTemplateCostInput) async throws -> EstimateTemplateCostOutput
-    {
+    public func estimateTemplateCost(input: EstimateTemplateCostInput) async throws -> EstimateTemplateCostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1730,8 +1694,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `InvalidChangeSetStatusException` : The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func executeChangeSet(input: ExecuteChangeSetInput) async throws -> ExecuteChangeSetOutput
-    {
+    public func executeChangeSet(input: ExecuteChangeSetInput) async throws -> ExecuteChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1771,8 +1734,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter GetStackPolicyInput : The input for the [GetStackPolicy] action.
     ///
     /// - Returns: `GetStackPolicyOutput` : The output for the [GetStackPolicy] action.
-    public func getStackPolicy(input: GetStackPolicyInput) async throws -> GetStackPolicyOutput
-    {
+    public func getStackPolicy(input: GetStackPolicyInput) async throws -> GetStackPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1817,8 +1779,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ChangeSetNotFoundException` : The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
-    {
+    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1863,8 +1824,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func getTemplateSummary(input: GetTemplateSummaryInput) async throws -> GetTemplateSummaryOutput
-    {
+    public func getTemplateSummary(input: GetTemplateSummaryInput) async throws -> GetTemplateSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1915,8 +1875,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `StackNotFoundException` : The specified stack ARN doesn't exist or stack doesn't exist corresponding to the ARN in input.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    public func importStacksToStackSet(input: ImportStacksToStackSetInput) async throws -> ImportStacksToStackSetOutput
-    {
+    public func importStacksToStackSet(input: ImportStacksToStackSetInput) async throws -> ImportStacksToStackSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1957,8 +1916,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ListChangeSetsInput : The input for the [ListChangeSets] action.
     ///
     /// - Returns: `ListChangeSetsOutput` : The output for the [ListChangeSets] action.
-    public func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutput
-    {
+    public func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1998,8 +1956,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ListExportsInput : [no documentation found]
     ///
     /// - Returns: `ListExportsOutput` : [no documentation found]
-    public func listExports(input: ListExportsInput) async throws -> ListExportsOutput
-    {
+    public func listExports(input: ListExportsInput) async throws -> ListExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2039,8 +1996,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ListImportsInput : [no documentation found]
     ///
     /// - Returns: `ListImportsOutput` : [no documentation found]
-    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput
-    {
+    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2087,8 +2043,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func listStackInstanceResourceDrifts(input: ListStackInstanceResourceDriftsInput) async throws -> ListStackInstanceResourceDriftsOutput
-    {
+    public func listStackInstanceResourceDrifts(input: ListStackInstanceResourceDriftsInput) async throws -> ListStackInstanceResourceDriftsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2133,8 +2088,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func listStackInstances(input: ListStackInstancesInput) async throws -> ListStackInstancesOutput
-    {
+    public func listStackInstances(input: ListStackInstancesInput) async throws -> ListStackInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2174,8 +2128,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ListStackResourcesInput : The input for the [ListStackResource] action.
     ///
     /// - Returns: `ListStackResourcesOutput` : The output for a [ListStackResources] action.
-    public func listStackResources(input: ListStackResourcesInput) async throws -> ListStackResourcesOutput
-    {
+    public func listStackResources(input: ListStackResourcesInput) async throws -> ListStackResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2221,8 +2174,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func listStackSetOperationResults(input: ListStackSetOperationResultsInput) async throws -> ListStackSetOperationResultsOutput
-    {
+    public func listStackSetOperationResults(input: ListStackSetOperationResultsInput) async throws -> ListStackSetOperationResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2267,8 +2219,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func listStackSetOperations(input: ListStackSetOperationsInput) async throws -> ListStackSetOperationsOutput
-    {
+    public func listStackSetOperations(input: ListStackSetOperationsInput) async throws -> ListStackSetOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2314,8 +2265,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ListStackSetsInput : [no documentation found]
     ///
     /// - Returns: `ListStackSetsOutput` : [no documentation found]
-    public func listStackSets(input: ListStackSetsInput) async throws -> ListStackSetsOutput
-    {
+    public func listStackSets(input: ListStackSetsInput) async throws -> ListStackSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2355,8 +2305,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ListStacksInput : The input for [ListStacks] action.
     ///
     /// - Returns: `ListStacksOutput` : The output for [ListStacks] action.
-    public func listStacks(input: ListStacksInput) async throws -> ListStacksOutput
-    {
+    public func listStacks(input: ListStacksInput) async throws -> ListStacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2401,8 +2350,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func listTypeRegistrations(input: ListTypeRegistrationsInput) async throws -> ListTypeRegistrationsOutput
-    {
+    public func listTypeRegistrations(input: ListTypeRegistrationsInput) async throws -> ListTypeRegistrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2447,8 +2395,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func listTypeVersions(input: ListTypeVersionsInput) async throws -> ListTypeVersionsOutput
-    {
+    public func listTypeVersions(input: ListTypeVersionsInput) async throws -> ListTypeVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2493,8 +2440,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func listTypes(input: ListTypesInput) async throws -> ListTypesOutput
-    {
+    public func listTypes(input: ListTypesInput) async throws -> ListTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2540,8 +2486,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func publishType(input: PublishTypeInput) async throws -> PublishTypeOutput
-    {
+    public func publishType(input: PublishTypeInput) async throws -> PublishTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2587,8 +2532,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidStateTransitionException` : Error reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). CloudFormation doesn't return this error to users.
     /// - `OperationStatusCheckFailedException` : Error reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). CloudFormation doesn't return this error to users.
-    public func recordHandlerProgress(input: RecordHandlerProgressInput) async throws -> RecordHandlerProgressOutput
-    {
+    public func recordHandlerProgress(input: RecordHandlerProgressInput) async throws -> RecordHandlerProgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2633,8 +2577,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func registerPublisher(input: RegisterPublisherInput) async throws -> RegisterPublisherOutput
-    {
+    public func registerPublisher(input: RegisterPublisherInput) async throws -> RegisterPublisherOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2688,8 +2631,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    public func registerType(input: RegisterTypeInput) async throws -> RegisterTypeOutput
-    {
+    public func registerType(input: RegisterTypeInput) async throws -> RegisterTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2744,8 +2686,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func rollbackStack(input: RollbackStackInput) async throws -> RollbackStackOutput
-    {
+    public func rollbackStack(input: RollbackStackInput) async throws -> RollbackStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2785,8 +2726,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter SetStackPolicyInput : The input for the [SetStackPolicy] action.
     ///
     /// - Returns: `SetStackPolicyOutput` : [no documentation found]
-    public func setStackPolicy(input: SetStackPolicyInput) async throws -> SetStackPolicyOutput
-    {
+    public func setStackPolicy(input: SetStackPolicyInput) async throws -> SetStackPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2832,8 +2772,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func setTypeConfiguration(input: SetTypeConfigurationInput) async throws -> SetTypeConfigurationOutput
-    {
+    public func setTypeConfiguration(input: SetTypeConfigurationInput) async throws -> SetTypeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2879,8 +2818,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func setTypeDefaultVersion(input: SetTypeDefaultVersionInput) async throws -> SetTypeDefaultVersionOutput
-    {
+    public func setTypeDefaultVersion(input: SetTypeDefaultVersionInput) async throws -> SetTypeDefaultVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2920,8 +2858,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter SignalResourceInput : The input for the [SignalResource] action.
     ///
     /// - Returns: `SignalResourceOutput` : [no documentation found]
-    public func signalResource(input: SignalResourceInput) async throws -> SignalResourceOutput
-    {
+    public func signalResource(input: SignalResourceInput) async throws -> SignalResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2968,8 +2905,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    public func stopStackSetOperation(input: StopStackSetOperationInput) async throws -> StopStackSetOperationOutput
-    {
+    public func stopStackSetOperation(input: StopStackSetOperationInput) async throws -> StopStackSetOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3022,8 +2958,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    public func testType(input: TestTypeInput) async throws -> TestTypeOutput
-    {
+    public func testType(input: TestTypeInput) async throws -> TestTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3069,8 +3004,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput
-    {
+    public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3120,8 +3054,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    public func updateStackInstances(input: UpdateStackInstancesInput) async throws -> UpdateStackInstancesOutput
-    {
+    public func updateStackInstances(input: UpdateStackInstancesInput) async throws -> UpdateStackInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3172,8 +3105,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    public func updateStackSet(input: UpdateStackSetInput) async throws -> UpdateStackSetOutput
-    {
+    public func updateStackSet(input: UpdateStackSetInput) async throws -> UpdateStackSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3214,8 +3146,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter UpdateTerminationProtectionInput : [no documentation found]
     ///
     /// - Returns: `UpdateTerminationProtectionOutput` : [no documentation found]
-    public func updateTerminationProtection(input: UpdateTerminationProtectionInput) async throws -> UpdateTerminationProtectionOutput
-    {
+    public func updateTerminationProtection(input: UpdateTerminationProtectionInput) async throws -> UpdateTerminationProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3255,8 +3186,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
     /// - Parameter ValidateTemplateInput : The input for [ValidateTemplate] action.
     ///
     /// - Returns: `ValidateTemplateOutput` : The output for [ValidateTemplate] action.
-    public func validateTemplate(input: ValidateTemplateInput) async throws -> ValidateTemplateOutput
-    {
+    public func validateTemplate(input: ValidateTemplateInput) async throws -> ValidateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

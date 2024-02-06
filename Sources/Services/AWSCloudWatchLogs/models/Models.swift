@@ -786,6 +786,8 @@ enum CancelExportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum CloudWatchLogsClientTypes {}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

@@ -178,6 +178,8 @@ extension BraketClientTypes {
     }
 }
 
+public enum BraketClientTypes {}
+
 extension CancelJobInput {
 
     static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {

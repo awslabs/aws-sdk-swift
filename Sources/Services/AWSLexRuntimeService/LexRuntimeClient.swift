@@ -66,7 +66,7 @@ public struct LexRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension LexRuntimeClient: LexRuntimeClientProtocol {
+extension LexRuntimeClient {
     /// Performs the `DeleteSession` operation on the `AWSDeepSenseRunTimeService` service.
     ///
     /// Removes session information for a specified bot, alias, and user ID.
@@ -83,8 +83,7 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     /// - `InternalFailureException` : Internal service error. Retry the call.
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    public func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput
-    {
+    public func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     /// - `InternalFailureException` : Internal service error. Retry the call.
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput
-    {
+    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -218,8 +216,7 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
     /// - `RequestTimeoutException` : The input speech is too long.
     /// - `UnsupportedMediaTypeException` : The Content-Type header (PostContent API) has an invalid value.
-    public func postContent(input: PostContentInput) async throws -> PostContentOutput
-    {
+    public func postContent(input: PostContentInput) async throws -> PostContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -307,8 +304,7 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `LoopDetectedException` : This exception is not used.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    public func postText(input: PostTextInput) async throws -> PostTextOutput
-    {
+    public func postText(input: PostTextInput) async throws -> PostTextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +362,7 @@ extension LexRuntimeClient: LexRuntimeClientProtocol {
     /// - `LimitExceededException` : Exceeded a limit.
     /// - `NotAcceptableException` : The accept header in the request does not have a valid value.
     /// - `NotFoundException` : The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-    public func putSession(input: PutSessionInput) async throws -> PutSessionOutput
-    {
+    public func putSession(input: PutSessionInput) async throws -> PutSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

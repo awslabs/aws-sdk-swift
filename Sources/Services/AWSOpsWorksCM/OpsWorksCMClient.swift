@@ -66,7 +66,7 @@ public struct OpsWorksCMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension OpsWorksCMClient: OpsWorksCMClientProtocol {
+extension OpsWorksCMClient {
     /// Performs the `AssociateNode` operation on the `OpsWorksCM_V2016_11_01` service.
     ///
     /// Associates a new node with the server. For more information about how to disassociate a node, see [DisassociateNode]. On a Chef server: This command is an alternative to knife bootstrap. Example (Chef): aws opsworks-cm associate-node --server-name MyServer --node-name MyManagedNode --engine-attributes "Name=CHEF_ORGANIZATION,Value=default" "Name=CHEF_NODE_PUBLIC_KEY,Value=public-key-pem" On a Puppet server, this command is an alternative to the puppet cert sign command that signs a Puppet node CSR. Example (Puppet): aws opsworks-cm associate-node --server-name MyServer --node-name MyManagedNode --engine-attributes "Name=PUPPET_NODE_CSR,Value=csr-pem" A node can can only be associated with servers that are in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. The AssociateNode API call can be integrated into Auto Scaling configurations, AWS Cloudformation templates, or the user data of a server's instance.
@@ -81,8 +81,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func associateNode(input: AssociateNodeInput) async throws -> AssociateNodeOutput
-    {
+    public func associateNode(input: AssociateNodeInput) async throws -> AssociateNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `LimitExceededException` : The limit of servers or backups has been reached.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func createBackup(input: CreateBackupInput) async throws -> CreateBackupOutput
-    {
+    public func createBackup(input: CreateBackupInput) async throws -> CreateBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `ResourceAlreadyExistsException` : The requested resource cannot be created because it already exists.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func createServer(input: CreateServerInput) async throws -> CreateServerOutput
-    {
+    public func createServer(input: CreateServerInput) async throws -> CreateServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput
-    {
+    public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutput
-    {
+    public func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -321,8 +316,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - Parameter DescribeAccountAttributesInput : [no documentation found]
     ///
     /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -370,8 +364,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidNextTokenException` : This occurs when the provided nextToken is not valid.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput
-    {
+    public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -419,8 +412,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidNextTokenException` : This occurs when the provided nextToken is not valid.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -467,8 +459,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func describeNodeAssociationStatus(input: DescribeNodeAssociationStatusInput) async throws -> DescribeNodeAssociationStatusOutput
-    {
+    public func describeNodeAssociationStatus(input: DescribeNodeAssociationStatusInput) async throws -> DescribeNodeAssociationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -516,8 +507,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidNextTokenException` : This occurs when the provided nextToken is not valid.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func describeServers(input: DescribeServersInput) async throws -> DescribeServersOutput
-    {
+    public func describeServers(input: DescribeServersInput) async throws -> DescribeServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +555,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func disassociateNode(input: DisassociateNodeInput) async throws -> DisassociateNodeOutput
-    {
+    public func disassociateNode(input: DisassociateNodeInput) async throws -> DisassociateNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +603,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func exportServerEngineAttribute(input: ExportServerEngineAttributeInput) async throws -> ExportServerEngineAttributeOutput
-    {
+    public func exportServerEngineAttribute(input: ExportServerEngineAttributeInput) async throws -> ExportServerEngineAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -662,8 +650,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +698,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func restoreServer(input: RestoreServerInput) async throws -> RestoreServerOutput
-    {
+    public func restoreServer(input: RestoreServerInput) async throws -> RestoreServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -760,8 +746,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func startMaintenance(input: StartMaintenanceInput) async throws -> StartMaintenanceOutput
-    {
+    public func startMaintenance(input: StartMaintenanceInput) async throws -> StartMaintenanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +794,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -858,8 +842,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +890,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutput
-    {
+    public func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -956,8 +938,7 @@ extension OpsWorksCMClient: OpsWorksCMClientProtocol {
     /// - `InvalidStateException` : The resource is in a state that does not allow you to perform a specified action.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ValidationException` : One or more of the provided request parameters are not valid.
-    public func updateServerEngineAttributes(input: UpdateServerEngineAttributesInput) async throws -> UpdateServerEngineAttributesOutput
-    {
+    public func updateServerEngineAttributes(input: UpdateServerEngineAttributesInput) async throws -> UpdateServerEngineAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

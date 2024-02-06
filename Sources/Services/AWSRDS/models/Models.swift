@@ -47737,6 +47737,8 @@ enum PurchaseReservedDBInstancesOfferingOutputError: ClientRuntime.HttpResponseE
     }
 }
 
+public enum RDSClientTypes {}
+
 extension RDSClientTypes.Range: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case from = "From"

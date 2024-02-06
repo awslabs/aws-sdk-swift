@@ -10738,6 +10738,8 @@ enum PutGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum QBusinessClientTypes {}
+
 extension QBusinessClientTypes {
     public enum ReadAccessType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case allow

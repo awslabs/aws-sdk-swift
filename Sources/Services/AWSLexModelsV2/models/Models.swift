@@ -20400,6 +20400,8 @@ extension LexModelsV2ClientTypes {
 
 }
 
+public enum LexModelsV2ClientTypes {}
+
 extension LexModelsV2ClientTypes.LexTranscriptFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateRangeFilter

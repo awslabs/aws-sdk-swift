@@ -66,7 +66,7 @@ public struct MigrationHubStrategyClientLogHandlerFactory: ClientRuntime.SDKLogH
     }
 }
 
-extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
+extension MigrationHubStrategyClient {
     /// Performs the `GetApplicationComponentDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
     ///
     /// Retrieves details about an application component.
@@ -81,8 +81,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutput
-    {
+    public func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutput
-    {
+    public func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput
-    {
+    public func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -219,8 +216,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutput
-    {
+    public func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -265,8 +261,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The request body isn't valid.
-    public func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutput
-    {
+    public func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -311,8 +306,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutput
-    {
+    public func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -356,8 +350,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutput
-    {
+    public func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -403,8 +396,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutput
-    {
+    public func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -450,8 +442,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutput
-    {
+    public func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -498,8 +489,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutput
-    {
+    public func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -544,8 +534,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listAnalyzableServers(input: ListAnalyzableServersInput) async throws -> ListAnalyzableServersOutput
-    {
+    public func listAnalyzableServers(input: ListAnalyzableServersInput) async throws -> ListAnalyzableServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +582,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ServiceLinkedRoleLockClientException` : Exception to indicate that the service-linked role (SLR) is locked.
     /// - `ValidationException` : The request body isn't valid.
-    public func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutput
-    {
+    public func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -642,8 +630,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutput
-    {
+    public func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -689,8 +676,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutput
-    {
+    public func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -736,8 +722,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listServers(input: ListServersInput) async throws -> ListServersOutput
-    {
+    public func listServers(input: ListServersInput) async throws -> ListServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -786,8 +771,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutput
-    {
+    public func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -835,8 +819,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutput
-    {
+    public func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -885,8 +868,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutput
-    {
+    public func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -935,8 +917,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutput
-    {
+    public func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -984,8 +965,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutput
-    {
+    public func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1033,8 +1013,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutput
-    {
+    public func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1061,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutput
-    {
+    public func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

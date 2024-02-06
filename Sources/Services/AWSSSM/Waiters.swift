@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension SSMClientProtocol {
+extension SSMClient {
 
     static func commandExecutedWaiterConfig() throws -> WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutput> {
         let acceptors: [WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutput>.Acceptor] = [
