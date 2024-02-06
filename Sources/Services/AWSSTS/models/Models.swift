@@ -2252,6 +2252,8 @@ extension RegionDisabledExceptionBody: Swift.Decodable {
     }
 }
 
+public enum STSClientTypes {}
+
 extension STSClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"

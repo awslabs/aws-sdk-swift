@@ -66,7 +66,7 @@ public struct LookoutEquipmentClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
+extension LookoutEquipmentClient {
     /// Performs the `CreateDataset` operation on the `AWSLookoutEquipmentFrontendService` service.
     ///
     /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
@@ -84,8 +84,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutput
-    {
+    public func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createLabel(input: CreateLabelInput) async throws -> CreateLabelOutput
-    {
+    public func createLabel(input: CreateLabelInput) async throws -> CreateLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -245,8 +242,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createLabelGroup(input: CreateLabelGroupInput) async throws -> CreateLabelGroupOutput
-    {
+    public func createLabelGroup(input: CreateLabelGroupInput) async throws -> CreateLabelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -299,8 +295,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    {
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutput
-    {
+    public func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -405,8 +399,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -457,8 +450,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteInferenceScheduler(input: DeleteInferenceSchedulerInput) async throws -> DeleteInferenceSchedulerOutput
-    {
+    public func deleteInferenceScheduler(input: DeleteInferenceSchedulerInput) async throws -> DeleteInferenceSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput
-    {
+    public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -561,8 +552,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutput
-    {
+    public func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +603,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    {
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -665,8 +654,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -717,8 +705,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutput
-    {
+    public func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutput
-    {
+    public func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +805,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -870,8 +855,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeInferenceScheduler(input: DescribeInferenceSchedulerInput) async throws -> DescribeInferenceSchedulerOutput
-    {
+    public func describeInferenceScheduler(input: DescribeInferenceSchedulerInput) async throws -> DescribeInferenceSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -921,8 +905,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeLabel(input: DescribeLabelInput) async throws -> DescribeLabelOutput
-    {
+    public func describeLabel(input: DescribeLabelInput) async throws -> DescribeLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -972,8 +955,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutput
-    {
+    public func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,8 +1005,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput
-    {
+    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1074,8 +1055,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutput
-    {
+    public func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1125,8 +1105,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
-    {
+    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1176,8 +1155,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutput
-    {
+    public func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1229,8 +1207,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutput
-    {
+    public func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1283,8 +1260,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutput
-    {
+    public func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1334,8 +1310,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutput
-    {
+    public func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1384,8 +1359,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1435,8 +1409,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listInferenceEvents(input: ListInferenceEventsInput) async throws -> ListInferenceEventsOutput
-    {
+    public func listInferenceEvents(input: ListInferenceEventsInput) async throws -> ListInferenceEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1459,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listInferenceExecutions(input: ListInferenceExecutionsInput) async throws -> ListInferenceExecutionsOutput
-    {
+    public func listInferenceExecutions(input: ListInferenceExecutionsInput) async throws -> ListInferenceExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1536,8 +1508,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listInferenceSchedulers(input: ListInferenceSchedulersInput) async throws -> ListInferenceSchedulersOutput
-    {
+    public func listInferenceSchedulers(input: ListInferenceSchedulersInput) async throws -> ListInferenceSchedulersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1586,8 +1557,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listLabelGroups(input: ListLabelGroupsInput) async throws -> ListLabelGroupsOutput
-    {
+    public func listLabelGroups(input: ListLabelGroupsInput) async throws -> ListLabelGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1636,8 +1606,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutput
-    {
+    public func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1687,8 +1656,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutput
-    {
+    public func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1737,8 +1705,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput
-    {
+    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1787,8 +1754,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutput
-    {
+    public func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1838,8 +1804,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutput
-    {
+    public func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1854,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1942,8 +1906,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1996,8 +1959,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutput
-    {
+    public func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2049,8 +2011,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func startInferenceScheduler(input: StartInferenceSchedulerInput) async throws -> StartInferenceSchedulerOutput
-    {
+    public func startInferenceScheduler(input: StartInferenceSchedulerInput) async throws -> StartInferenceSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2101,8 +2062,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutput
-    {
+    public func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2153,8 +2113,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func stopInferenceScheduler(input: StopInferenceSchedulerInput) async throws -> StopInferenceSchedulerOutput
-    {
+    public func stopInferenceScheduler(input: StopInferenceSchedulerInput) async throws -> StopInferenceSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2205,8 +2164,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutput
-    {
+    public func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2257,8 +2215,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2308,8 +2265,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2360,8 +2316,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutput
-    {
+    public func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2412,8 +2367,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutput
-    {
+    public func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2464,8 +2418,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateLabelGroup(input: UpdateLabelGroupInput) async throws -> UpdateLabelGroupOutput
-    {
+    public func updateLabelGroup(input: UpdateLabelGroupInput) async throws -> UpdateLabelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2516,8 +2469,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
-    {
+    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2568,8 +2520,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    public func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutput
-    {
+    public func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

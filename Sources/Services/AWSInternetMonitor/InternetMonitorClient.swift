@@ -66,7 +66,7 @@ public struct InternetMonitorClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension InternetMonitorClient: InternetMonitorClientProtocol {
+extension InternetMonitorClient {
     /// Performs the `CreateMonitor` operation on the `InternetMonitor20210603` service.
     ///
     /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs, Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to the city-networks. That is, the locations and ASNs (typically internet service providers or ISPs), where clients access your application. For more information, see [Using Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html) in the Amazon CloudWatch User Guide. When you create a monitor, you choose the percentage of traffic that you want to monitor. You can also set a maximum limit for the number of city-networks where client traffic is monitored, that caps the total traffic that Internet Monitor monitors. A city-network maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
@@ -84,8 +84,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `LimitExceededException` : The request exceeded a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput
-    {
+    public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput
-    {
+    public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func getHealthEvent(input: GetHealthEventInput) async throws -> GetHealthEventOutput
-    {
+    public func getHealthEvent(input: GetHealthEventInput) async throws -> GetHealthEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutput
-    {
+    public func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `LimitExceededException` : The request exceeded a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
-    {
+    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `LimitExceededException` : The request exceeded a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func getQueryStatus(input: GetQueryStatusInput) async throws -> GetQueryStatusOutput
-    {
+    public func getQueryStatus(input: GetQueryStatusInput) async throws -> GetQueryStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func listHealthEvents(input: ListHealthEventsInput) async throws -> ListHealthEventsOutput
-    {
+    public func listHealthEvents(input: ListHealthEventsInput) async throws -> ListHealthEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +417,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput
-    {
+    public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -472,8 +464,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerErrorException` : There was an internal server error.
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -519,8 +510,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `LimitExceededException` : The request exceeded a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput
-    {
+    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -569,8 +559,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `LimitExceededException` : The request exceeded a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func stopQuery(input: StopQueryInput) async throws -> StopQueryOutput
-    {
+    public func stopQuery(input: StopQueryInput) async throws -> StopQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +605,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerErrorException` : There was an internal server error.
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +654,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `InternalServerErrorException` : There was an internal server error.
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +702,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The request specifies a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    public func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutput
-    {
+    public func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

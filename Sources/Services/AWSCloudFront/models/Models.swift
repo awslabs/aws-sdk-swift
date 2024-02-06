@@ -1682,6 +1682,8 @@ extension CloudFrontClientTypes {
     }
 }
 
+public enum CloudFrontClientTypes {}
+
 extension CloudFrontClientTypes.CloudFrontOriginAccessIdentity: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"

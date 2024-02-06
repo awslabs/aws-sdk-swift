@@ -62,7 +62,7 @@ public struct RDSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension RDSClient: RDSClientProtocol {
+extension RDSClient {
     /// Performs the `AddRoleToDBCluster` operation on the `AmazonRDSv19` service.
     ///
     /// Associates an Identity and Access Management (IAM) role with a DB cluster.
@@ -78,8 +78,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterRoleAlreadyExistsFault` : The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
     /// - `DBClusterRoleQuotaExceededFault` : You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func addRoleToDBCluster(input: AddRoleToDBClusterInput) async throws -> AddRoleToDBClusterOutput
-    {
+    public func addRoleToDBCluster(input: AddRoleToDBClusterInput) async throws -> AddRoleToDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBInstanceRoleAlreadyExistsFault` : The specified RoleArn or FeatureName value is already associated with the DB instance.
     /// - `DBInstanceRoleQuotaExceededFault` : You can't associate any more Amazon Web Services Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func addRoleToDBInstance(input: AddRoleToDBInstanceInput) async throws -> AddRoleToDBInstanceOutput
-    {
+    public func addRoleToDBInstance(input: AddRoleToDBInstanceInput) async throws -> AddRoleToDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `SourceNotFoundFault` : The requested source could not be found.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutput
-    {
+    public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSnapshotTenantDatabaseNotFoundFault` : The specified snapshot tenant database wasn't found.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -276,8 +272,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput
-    {
+    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -325,8 +320,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `AuthorizationQuotaExceededFault` : The DB security group authorization quota has been reached.
     /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
     /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
-    public func authorizeDBSecurityGroupIngress(input: AuthorizeDBSecurityGroupIngressInput) async throws -> AuthorizeDBSecurityGroupIngressOutput
-    {
+    public func authorizeDBSecurityGroupIngress(input: AuthorizeDBSecurityGroupIngressInput) async throws -> AuthorizeDBSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -372,8 +366,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func backtrackDBCluster(input: BacktrackDBClusterInput) async throws -> BacktrackDBClusterOutput
-    {
+    public func backtrackDBCluster(input: BacktrackDBClusterInput) async throws -> BacktrackDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -419,8 +412,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ExportTaskNotFoundFault` : The export task doesn't exist.
     /// - `InvalidExportTaskStateFault` : You can't cancel an export task that has completed.
-    public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput
-    {
+    public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -467,8 +459,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
-    public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutput
-    {
+    public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -527,8 +518,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutput
-    {
+    public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -575,8 +565,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
-    public func copyDBParameterGroup(input: CopyDBParameterGroupInput) async throws -> CopyDBParameterGroupOutput
-    {
+    public func copyDBParameterGroup(input: CopyDBParameterGroupInput) async throws -> CopyDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -626,8 +615,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func copyDBSnapshot(input: CopyDBSnapshotInput) async throws -> CopyDBSnapshotOutput
-    {
+    public func copyDBSnapshot(input: CopyDBSnapshotInput) async throws -> CopyDBSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `OptionGroupAlreadyExistsFault` : The option group you are trying to create already exists.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `OptionGroupQuotaExceededFault` : The quota of 20 option groups was exceeded for this Amazon Web Services account.
-    public func copyOptionGroup(input: CopyOptionGroupInput) async throws -> CopyOptionGroupOutput
-    {
+    public func copyOptionGroup(input: CopyOptionGroupInput) async throws -> CopyOptionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -730,8 +717,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `SourceClusterNotSupportedFault` : The source DB cluster isn't supported for a blue/green deployment.
     /// - `SourceDatabaseNotSupportedFault` : The source DB instance isn't supported for a blue/green deployment.
-    public func createBlueGreenDeployment(input: CreateBlueGreenDeploymentInput) async throws -> CreateBlueGreenDeploymentOutput
-    {
+    public func createBlueGreenDeployment(input: CreateBlueGreenDeploymentInput) async throws -> CreateBlueGreenDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -780,8 +766,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `CustomDBEngineVersionQuotaExceededFault` : You have exceeded your CEV quota.
     /// - `Ec2ImagePropertiesNotSupportedFault` : The AMI configuration prerequisite has not been met.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
-    public func createCustomDBEngineVersion(input: CreateCustomDBEngineVersionInput) async throws -> CreateCustomDBEngineVersionOutput
-    {
+    public func createCustomDBEngineVersion(input: CreateCustomDBEngineVersionInput) async throws -> CreateCustomDBEngineVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -845,8 +830,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
-    public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput
-    {
+    public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +891,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func createDBClusterEndpoint(input: CreateDBClusterEndpointInput) async throws -> CreateDBClusterEndpointOutput
-    {
+    public func createDBClusterEndpoint(input: CreateDBClusterEndpointInput) async throws -> CreateDBClusterEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +937,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
-    public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutput
-    {
+    public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1004,8 +986,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutput
-    {
+    public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1052,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-    public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput
-    {
+    public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1139,8 +1119,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-    public func createDBInstanceReadReplica(input: CreateDBInstanceReadReplicaInput) async throws -> CreateDBInstanceReadReplicaOutput
-    {
+    public func createDBInstanceReadReplica(input: CreateDBInstanceReadReplicaInput) async throws -> CreateDBInstanceReadReplicaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1186,8 +1165,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB parameter groups.
-    public func createDBParameterGroup(input: CreateDBParameterGroupInput) async throws -> CreateDBParameterGroupOutput
-    {
+    public func createDBParameterGroup(input: CreateDBParameterGroupInput) async throws -> CreateDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1234,8 +1212,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyAlreadyExistsFault` : The specified proxy name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyQuotaExceededFault` : Your Amazon Web Services account already has the maximum number of proxies in the specified Amazon Web Services Region.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-    public func createDBProxy(input: CreateDBProxyInput) async throws -> CreateDBProxyOutput
-    {
+    public func createDBProxy(input: CreateDBProxyInput) async throws -> CreateDBProxyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1284,8 +1261,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-    public func createDBProxyEndpoint(input: CreateDBProxyEndpointInput) async throws -> CreateDBProxyEndpointOutput
-    {
+    public func createDBProxyEndpoint(input: CreateDBProxyEndpointInput) async throws -> CreateDBProxyEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1332,8 +1308,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSecurityGroupAlreadyExistsFault` : A DB security group with the name specified in DBSecurityGroupName already exists.
     /// - `DBSecurityGroupNotSupportedFault` : A DB security group isn't allowed for this action.
     /// - `DBSecurityGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB security groups.
-    public func createDBSecurityGroup(input: CreateDBSecurityGroupInput) async throws -> CreateDBSecurityGroupOutput
-    {
+    public func createDBSecurityGroup(input: CreateDBSecurityGroupInput) async throws -> CreateDBSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1381,8 +1356,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func createDBSnapshot(input: CreateDBSnapshotInput) async throws -> CreateDBSnapshotOutput
-    {
+    public func createDBSnapshot(input: CreateDBSnapshotInput) async throws -> CreateDBSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1405,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSubnetGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB subnet groups.
     /// - `DBSubnetQuotaExceededFault` : The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-    public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutput
-    {
+    public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1483,8 +1456,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `SourceNotFoundFault` : The requested source could not be found.
     /// - `SubscriptionAlreadyExistFault` : The supplied subscription name already exists.
     /// - `SubscriptionCategoryNotFoundFault` : The supplied category does not exist.
-    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
-    {
+    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1532,8 +1504,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
     /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput
-    {
+    public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1583,8 +1554,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `IntegrationConflictOperationFault` : A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
     /// - `IntegrationQuotaExceededFault` : You can't crate any more zero-ETL integrations because the quota has been reached.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
-    public func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput
-    {
+    public func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1630,8 +1600,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `OptionGroupAlreadyExistsFault` : The option group you are trying to create already exists.
     /// - `OptionGroupQuotaExceededFault` : The quota of 20 option groups was exceeded for this Amazon Web Services account.
-    public func createOptionGroup(input: CreateOptionGroupInput) async throws -> CreateOptionGroupOutput
-    {
+    public func createOptionGroup(input: CreateOptionGroupInput) async throws -> CreateOptionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1682,8 +1651,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// modify a tenant database to use the name of an existing tenant database.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-    public func createTenantDatabase(input: CreateTenantDatabaseInput) async throws -> CreateTenantDatabaseOutput
-    {
+    public func createTenantDatabase(input: CreateTenantDatabaseInput) async throws -> CreateTenantDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1729,8 +1697,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     /// - `InvalidBlueGreenDeploymentStateFault` : The blue/green deployment can't be switched over or deleted because there is an invalid configuration in the green environment.
-    public func deleteBlueGreenDeployment(input: DeleteBlueGreenDeploymentInput) async throws -> DeleteBlueGreenDeploymentOutput
-    {
+    public func deleteBlueGreenDeployment(input: DeleteBlueGreenDeploymentInput) async throws -> DeleteBlueGreenDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1750,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `CustomDBEngineVersionNotFoundFault` : The specified CEV was not found.
     /// - `InvalidCustomDBEngineVersionStateFault` : You can't delete the CEV.
-    public func deleteCustomDBEngineVersion(input: DeleteCustomDBEngineVersionInput) async throws -> DeleteCustomDBEngineVersionOutput
-    {
+    public func deleteCustomDBEngineVersion(input: DeleteCustomDBEngineVersionInput) async throws -> DeleteCustomDBEngineVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1834,8 +1800,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput
-    {
+    public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1881,8 +1846,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterAutomatedBackupNotFoundFault` : No automated backup for this DB cluster was found.
     /// - `InvalidDBClusterAutomatedBackupStateFault` : The automated backup is in an invalid state. For example, this automated backup is associated with an active cluster.
-    public func deleteDBClusterAutomatedBackup(input: DeleteDBClusterAutomatedBackupInput) async throws -> DeleteDBClusterAutomatedBackupOutput
-    {
+    public func deleteDBClusterAutomatedBackup(input: DeleteDBClusterAutomatedBackupInput) async throws -> DeleteDBClusterAutomatedBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1940,8 +1904,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterEndpointNotFoundFault` : The specified custom endpoint doesn't exist.
     /// - `InvalidDBClusterEndpointStateFault` : The requested operation can't be performed on the endpoint while the endpoint is in this state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func deleteDBClusterEndpoint(input: DeleteDBClusterEndpointInput) async throws -> DeleteDBClusterEndpointOutput
-    {
+    public func deleteDBClusterEndpoint(input: DeleteDBClusterEndpointInput) async throws -> DeleteDBClusterEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1987,8 +1950,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutput
-    {
+    public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2034,8 +1996,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
-    public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutput
-    {
+    public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2092,8 +2053,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput
-    {
+    public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2139,8 +2099,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
     /// - `InvalidDBInstanceAutomatedBackupStateFault` : The automated backup is in an invalid state. For example, this automated backup is associated with an active instance.
-    public func deleteDBInstanceAutomatedBackup(input: DeleteDBInstanceAutomatedBackupInput) async throws -> DeleteDBInstanceAutomatedBackupOutput
-    {
+    public func deleteDBInstanceAutomatedBackup(input: DeleteDBInstanceAutomatedBackupInput) async throws -> DeleteDBInstanceAutomatedBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2186,8 +2145,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func deleteDBParameterGroup(input: DeleteDBParameterGroupInput) async throws -> DeleteDBParameterGroupOutput
-    {
+    public func deleteDBParameterGroup(input: DeleteDBParameterGroupInput) async throws -> DeleteDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2233,8 +2191,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func deleteDBProxy(input: DeleteDBProxyInput) async throws -> DeleteDBProxyOutput
-    {
+    public func deleteDBProxy(input: DeleteDBProxyInput) async throws -> DeleteDBProxyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2280,8 +2237,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
     /// - `InvalidDBProxyEndpointStateFault` : You can't perform this operation while the DB proxy endpoint is in a particular state.
-    public func deleteDBProxyEndpoint(input: DeleteDBProxyEndpointInput) async throws -> DeleteDBProxyEndpointOutput
-    {
+    public func deleteDBProxyEndpoint(input: DeleteDBProxyEndpointInput) async throws -> DeleteDBProxyEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2327,8 +2283,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
     /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
-    public func deleteDBSecurityGroup(input: DeleteDBSecurityGroupInput) async throws -> DeleteDBSecurityGroupOutput
-    {
+    public func deleteDBSecurityGroup(input: DeleteDBSecurityGroupInput) async throws -> DeleteDBSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2374,8 +2329,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
-    public func deleteDBSnapshot(input: DeleteDBSnapshotInput) async throws -> DeleteDBSnapshotOutput
-    {
+    public func deleteDBSnapshot(input: DeleteDBSnapshotInput) async throws -> DeleteDBSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2422,8 +2376,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
     /// - `InvalidDBSubnetStateFault` : The DB subnet isn't in the available state.
-    public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutput
-    {
+    public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2469,8 +2422,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidEventSubscriptionStateFault` : This error can occur if someone else is modifying a subscription. You should retry the action.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
-    {
+    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2516,8 +2468,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput
-    {
+    public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2564,8 +2515,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `IntegrationConflictOperationFault` : A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     /// - `InvalidIntegrationStateFault` : The integration is in an invalid state and can't perform the requested operation.
-    public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
-    {
+    public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2611,8 +2561,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidOptionGroupStateFault` : The option group isn't in the available state.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
-    public func deleteOptionGroup(input: DeleteOptionGroupInput) async throws -> DeleteOptionGroupOutput
-    {
+    public func deleteOptionGroup(input: DeleteOptionGroupInput) async throws -> DeleteOptionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2659,8 +2608,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
-    public func deleteTenantDatabase(input: DeleteTenantDatabaseInput) async throws -> DeleteTenantDatabaseOutput
-    {
+    public func deleteTenantDatabase(input: DeleteTenantDatabaseInput) async throws -> DeleteTenantDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2708,8 +2656,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetNotFoundFault` : The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func deregisterDBProxyTargets(input: DeregisterDBProxyTargetsInput) async throws -> DeregisterDBProxyTargetsOutput
-    {
+    public func deregisterDBProxyTargets(input: DeregisterDBProxyTargetsInput) async throws -> DeregisterDBProxyTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2749,8 +2696,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeAccountAttributesInput :
     ///
     /// - Returns: `DescribeAccountAttributesOutput` : Data returned by the DescribeAccountAttributes action.
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2795,8 +2741,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
-    public func describeBlueGreenDeployments(input: DescribeBlueGreenDeploymentsInput) async throws -> DescribeBlueGreenDeploymentsOutput
-    {
+    public func describeBlueGreenDeployments(input: DescribeBlueGreenDeploymentsInput) async throws -> DescribeBlueGreenDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2841,8 +2786,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
-    public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput
-    {
+    public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2887,8 +2831,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterAutomatedBackupNotFoundFault` : No automated backup for this DB cluster was found.
-    public func describeDBClusterAutomatedBackups(input: DescribeDBClusterAutomatedBackupsInput) async throws -> DescribeDBClusterAutomatedBackupsOutput
-    {
+    public func describeDBClusterAutomatedBackups(input: DescribeDBClusterAutomatedBackupsInput) async throws -> DescribeDBClusterAutomatedBackupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2934,8 +2877,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterBacktrackNotFoundFault` : BacktrackIdentifier doesn't refer to an existing backtrack.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
-    public func describeDBClusterBacktracks(input: DescribeDBClusterBacktracksInput) async throws -> DescribeDBClusterBacktracksOutput
-    {
+    public func describeDBClusterBacktracks(input: DescribeDBClusterBacktracksInput) async throws -> DescribeDBClusterBacktracksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2980,8 +2922,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
-    public func describeDBClusterEndpoints(input: DescribeDBClusterEndpointsInput) async throws -> DescribeDBClusterEndpointsOutput
-    {
+    public func describeDBClusterEndpoints(input: DescribeDBClusterEndpointsInput) async throws -> DescribeDBClusterEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3026,8 +2967,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
-    public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutput
-    {
+    public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3072,8 +3012,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
-    public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutput
-    {
+    public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3118,8 +3057,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
-    public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutput
-    {
+    public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3164,8 +3102,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
-    public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutput
-    {
+    public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3210,8 +3147,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
-    public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutput
-    {
+    public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3251,8 +3187,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeDBEngineVersionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeDBEngineVersionsOutput` : Contains the result of a successful invocation of the DescribeDBEngineVersions action.
-    public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput
-    {
+    public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3297,8 +3232,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
-    public func describeDBInstanceAutomatedBackups(input: DescribeDBInstanceAutomatedBackupsInput) async throws -> DescribeDBInstanceAutomatedBackupsOutput
-    {
+    public func describeDBInstanceAutomatedBackups(input: DescribeDBInstanceAutomatedBackupsInput) async throws -> DescribeDBInstanceAutomatedBackupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3343,8 +3277,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
-    public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutput
-    {
+    public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3389,8 +3322,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
-    public func describeDBLogFiles(input: DescribeDBLogFilesInput) async throws -> DescribeDBLogFilesOutput
-    {
+    public func describeDBLogFiles(input: DescribeDBLogFilesInput) async throws -> DescribeDBLogFilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3435,8 +3367,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
-    public func describeDBParameterGroups(input: DescribeDBParameterGroupsInput) async throws -> DescribeDBParameterGroupsOutput
-    {
+    public func describeDBParameterGroups(input: DescribeDBParameterGroupsInput) async throws -> DescribeDBParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3481,8 +3412,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
-    public func describeDBParameters(input: DescribeDBParametersInput) async throws -> DescribeDBParametersOutput
-    {
+    public func describeDBParameters(input: DescribeDBParametersInput) async throws -> DescribeDBParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3527,8 +3457,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-    public func describeDBProxies(input: DescribeDBProxiesInput) async throws -> DescribeDBProxiesOutput
-    {
+    public func describeDBProxies(input: DescribeDBProxiesInput) async throws -> DescribeDBProxiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3574,8 +3503,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-    public func describeDBProxyEndpoints(input: DescribeDBProxyEndpointsInput) async throws -> DescribeDBProxyEndpointsOutput
-    {
+    public func describeDBProxyEndpoints(input: DescribeDBProxyEndpointsInput) async throws -> DescribeDBProxyEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3622,8 +3550,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func describeDBProxyTargetGroups(input: DescribeDBProxyTargetGroupsInput) async throws -> DescribeDBProxyTargetGroupsOutput
-    {
+    public func describeDBProxyTargetGroups(input: DescribeDBProxyTargetGroupsInput) async throws -> DescribeDBProxyTargetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3671,8 +3598,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetNotFoundFault` : The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func describeDBProxyTargets(input: DescribeDBProxyTargetsInput) async throws -> DescribeDBProxyTargetsOutput
-    {
+    public func describeDBProxyTargets(input: DescribeDBProxyTargetsInput) async throws -> DescribeDBProxyTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3712,8 +3638,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeDBRecommendationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeDBRecommendationsOutput` : [no documentation found]
-    public func describeDBRecommendations(input: DescribeDBRecommendationsInput) async throws -> DescribeDBRecommendationsOutput
-    {
+    public func describeDBRecommendations(input: DescribeDBRecommendationsInput) async throws -> DescribeDBRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3758,8 +3683,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
-    public func describeDBSecurityGroups(input: DescribeDBSecurityGroupsInput) async throws -> DescribeDBSecurityGroupsOutput
-    {
+    public func describeDBSecurityGroups(input: DescribeDBSecurityGroupsInput) async throws -> DescribeDBSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3804,8 +3728,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
-    public func describeDBSnapshotAttributes(input: DescribeDBSnapshotAttributesInput) async throws -> DescribeDBSnapshotAttributesOutput
-    {
+    public func describeDBSnapshotAttributes(input: DescribeDBSnapshotAttributesInput) async throws -> DescribeDBSnapshotAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3850,8 +3773,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
-    public func describeDBSnapshotTenantDatabases(input: DescribeDBSnapshotTenantDatabasesInput) async throws -> DescribeDBSnapshotTenantDatabasesOutput
-    {
+    public func describeDBSnapshotTenantDatabases(input: DescribeDBSnapshotTenantDatabasesInput) async throws -> DescribeDBSnapshotTenantDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3896,8 +3818,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
-    public func describeDBSnapshots(input: DescribeDBSnapshotsInput) async throws -> DescribeDBSnapshotsOutput
-    {
+    public func describeDBSnapshots(input: DescribeDBSnapshotsInput) async throws -> DescribeDBSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3942,8 +3863,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
-    public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutput
-    {
+    public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3983,8 +3903,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeEngineDefaultClusterParametersInput :
     ///
     /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
-    public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput
-    {
+    public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4024,8 +3943,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeEngineDefaultParametersInput :
     ///
     /// - Returns: `DescribeEngineDefaultParametersOutput` : [no documentation found]
-    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput
-    {
+    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4065,8 +3983,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeEventCategoriesInput :
     ///
     /// - Returns: `DescribeEventCategoriesOutput` : Data returned from the DescribeEventCategories operation.
-    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
-    {
+    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4111,8 +4028,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
-    {
+    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4152,8 +4068,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeEventsInput :
     ///
     /// - Returns: `DescribeEventsOutput` : Contains the result of a successful invocation of the DescribeEvents action.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4198,8 +4113,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ExportTaskNotFoundFault` : The export task doesn't exist.
-    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput
-    {
+    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4244,8 +4158,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
-    public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput
-    {
+    public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4290,8 +4203,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
-    public func describeIntegrations(input: DescribeIntegrationsInput) async throws -> DescribeIntegrationsOutput
-    {
+    public func describeIntegrations(input: DescribeIntegrationsInput) async throws -> DescribeIntegrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4331,8 +4243,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeOptionGroupOptionsInput :
     ///
     /// - Returns: `DescribeOptionGroupOptionsOutput` :
-    public func describeOptionGroupOptions(input: DescribeOptionGroupOptionsInput) async throws -> DescribeOptionGroupOptionsOutput
-    {
+    public func describeOptionGroupOptions(input: DescribeOptionGroupOptionsInput) async throws -> DescribeOptionGroupOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4377,8 +4288,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
-    public func describeOptionGroups(input: DescribeOptionGroupsInput) async throws -> DescribeOptionGroupsOutput
-    {
+    public func describeOptionGroups(input: DescribeOptionGroupsInput) async throws -> DescribeOptionGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4418,8 +4328,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeOrderableDBInstanceOptionsInput :
     ///
     /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : Contains the result of a successful invocation of the DescribeOrderableDBInstanceOptions action.
-    public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput
-    {
+    public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4464,8 +4373,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput
-    {
+    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4510,8 +4418,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ReservedDBInstanceNotFoundFault` : The specified reserved DB Instance not found.
-    public func describeReservedDBInstances(input: DescribeReservedDBInstancesInput) async throws -> DescribeReservedDBInstancesOutput
-    {
+    public func describeReservedDBInstances(input: DescribeReservedDBInstancesInput) async throws -> DescribeReservedDBInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4556,8 +4463,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ReservedDBInstancesOfferingNotFoundFault` : Specified offering does not exist.
-    public func describeReservedDBInstancesOfferings(input: DescribeReservedDBInstancesOfferingsInput) async throws -> DescribeReservedDBInstancesOfferingsOutput
-    {
+    public func describeReservedDBInstancesOfferings(input: DescribeReservedDBInstancesOfferingsInput) async throws -> DescribeReservedDBInstancesOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4597,8 +4503,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter DescribeSourceRegionsInput :
     ///
     /// - Returns: `DescribeSourceRegionsOutput` : Contains the result of a successful invocation of the DescribeSourceRegions action.
-    public func describeSourceRegions(input: DescribeSourceRegionsInput) async throws -> DescribeSourceRegionsOutput
-    {
+    public func describeSourceRegions(input: DescribeSourceRegionsInput) async throws -> DescribeSourceRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4643,8 +4548,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
-    public func describeTenantDatabases(input: DescribeTenantDatabasesInput) async throws -> DescribeTenantDatabasesOutput
-    {
+    public func describeTenantDatabases(input: DescribeTenantDatabasesInput) async throws -> DescribeTenantDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4690,8 +4594,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutput
-    {
+    public func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4737,8 +4640,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The operation can't be performed because another operation is in progress.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func disableHttpEndpoint(input: DisableHttpEndpointInput) async throws -> DisableHttpEndpointOutput
-    {
+    public func disableHttpEndpoint(input: DisableHttpEndpointInput) async throws -> DisableHttpEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4784,8 +4686,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBLogFileNotFoundFault` : LogFileName doesn't refer to an existing DB log file.
-    public func downloadDBLogFilePortion(input: DownloadDBLogFilePortionInput) async throws -> DownloadDBLogFilePortionOutput
-    {
+    public func downloadDBLogFilePortion(input: DownloadDBLogFilePortionInput) async throws -> DownloadDBLogFilePortionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4831,8 +4732,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The operation can't be performed because another operation is in progress.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func enableHttpEndpoint(input: EnableHttpEndpointInput) async throws -> EnableHttpEndpointOutput
-    {
+    public func enableHttpEndpoint(input: EnableHttpEndpointInput) async throws -> EnableHttpEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4879,8 +4779,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutput
-    {
+    public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4939,8 +4838,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func failoverGlobalCluster(input: FailoverGlobalClusterInput) async throws -> FailoverGlobalClusterOutput
-    {
+    public func failoverGlobalCluster(input: FailoverGlobalClusterInput) async throws -> FailoverGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4993,8 +4891,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSnapshotTenantDatabaseNotFoundFault` : The specified snapshot tenant database wasn't found.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5041,8 +4938,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func modifyActivityStream(input: ModifyActivityStreamInput) async throws -> ModifyActivityStreamOutput
-    {
+    public func modifyActivityStream(input: ModifyActivityStreamInput) async throws -> ModifyActivityStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5094,8 +4990,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
-    public func modifyCertificates(input: ModifyCertificatesInput) async throws -> ModifyCertificatesOutput
-    {
+    public func modifyCertificates(input: ModifyCertificatesInput) async throws -> ModifyCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5142,8 +5037,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterCapacityFault` : Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16, 32, 64, 128, and 256.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func modifyCurrentDBClusterCapacity(input: ModifyCurrentDBClusterCapacityInput) async throws -> ModifyCurrentDBClusterCapacityOutput
-    {
+    public func modifyCurrentDBClusterCapacity(input: ModifyCurrentDBClusterCapacityInput) async throws -> ModifyCurrentDBClusterCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5189,8 +5083,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `CustomDBEngineVersionNotFoundFault` : The specified CEV was not found.
     /// - `InvalidCustomDBEngineVersionStateFault` : You can't delete the CEV.
-    public func modifyCustomDBEngineVersion(input: ModifyCustomDBEngineVersionInput) async throws -> ModifyCustomDBEngineVersionOutput
-    {
+    public func modifyCustomDBEngineVersion(input: ModifyCustomDBEngineVersionInput) async throws -> ModifyCustomDBEngineVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5249,8 +5142,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotAvailableFault` : The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
-    public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput
-    {
+    public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5310,8 +5202,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterEndpointStateFault` : The requested operation can't be performed on the endpoint while the endpoint is in this state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func modifyDBClusterEndpoint(input: ModifyDBClusterEndpointInput) async throws -> ModifyDBClusterEndpointOutput
-    {
+    public func modifyDBClusterEndpoint(input: ModifyDBClusterEndpointInput) async throws -> ModifyDBClusterEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5357,8 +5248,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutput
-    {
+    public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5405,8 +5295,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
     /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-    public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutput
-    {
+    public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5471,8 +5360,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-    public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput
-    {
+    public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5518,8 +5406,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func modifyDBParameterGroup(input: ModifyDBParameterGroupInput) async throws -> ModifyDBParameterGroupOutput
-    {
+    public func modifyDBParameterGroup(input: ModifyDBParameterGroupInput) async throws -> ModifyDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5566,8 +5453,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyAlreadyExistsFault` : The specified proxy name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func modifyDBProxy(input: ModifyDBProxyInput) async throws -> ModifyDBProxyOutput
-    {
+    public func modifyDBProxy(input: ModifyDBProxyInput) async throws -> ModifyDBProxyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5615,8 +5501,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
     /// - `InvalidDBProxyEndpointStateFault` : You can't perform this operation while the DB proxy endpoint is in a particular state.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func modifyDBProxyEndpoint(input: ModifyDBProxyEndpointInput) async throws -> ModifyDBProxyEndpointOutput
-    {
+    public func modifyDBProxyEndpoint(input: ModifyDBProxyEndpointInput) async throws -> ModifyDBProxyEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5663,8 +5548,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func modifyDBProxyTargetGroup(input: ModifyDBProxyTargetGroupInput) async throws -> ModifyDBProxyTargetGroupOutput
-    {
+    public func modifyDBProxyTargetGroup(input: ModifyDBProxyTargetGroupInput) async throws -> ModifyDBProxyTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5704,8 +5588,7 @@ extension RDSClient: RDSClientProtocol {
     /// - Parameter ModifyDBRecommendationInput : [no documentation found]
     ///
     /// - Returns: `ModifyDBRecommendationOutput` : [no documentation found]
-    public func modifyDBRecommendation(input: ModifyDBRecommendationInput) async throws -> ModifyDBRecommendationOutput
-    {
+    public func modifyDBRecommendation(input: ModifyDBRecommendationInput) async throws -> ModifyDBRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5750,8 +5633,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
-    public func modifyDBSnapshot(input: ModifyDBSnapshotInput) async throws -> ModifyDBSnapshotOutput
-    {
+    public func modifyDBSnapshot(input: ModifyDBSnapshotInput) async throws -> ModifyDBSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5798,8 +5680,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
     /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-    public func modifyDBSnapshotAttribute(input: ModifyDBSnapshotAttributeInput) async throws -> ModifyDBSnapshotAttributeOutput
-    {
+    public func modifyDBSnapshotAttribute(input: ModifyDBSnapshotAttributeInput) async throws -> ModifyDBSnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5848,8 +5729,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSubnetQuotaExceededFault` : The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `SubnetAlreadyInUse` : The DB subnet is already in use in the Availability Zone.
-    public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput
-    {
+    public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5899,8 +5779,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `SNSTopicArnNotFoundFault` : The SNS topic ARN does not exist.
     /// - `SubscriptionCategoryNotFoundFault` : The supplied category does not exist.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
-    {
+    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5948,8 +5827,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutput
-    {
+    public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5995,8 +5873,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidOptionGroupStateFault` : The option group isn't in the available state.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
-    public func modifyOptionGroup(input: ModifyOptionGroupInput) async throws -> ModifyOptionGroupOutput
-    {
+    public func modifyOptionGroup(input: ModifyOptionGroupInput) async throws -> ModifyOptionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6047,8 +5924,7 @@ extension RDSClient: RDSClientProtocol {
     ///
     /// modify a tenant database to use the name of an existing tenant database.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
-    public func modifyTenantDatabase(input: ModifyTenantDatabaseInput) async throws -> ModifyTenantDatabaseOutput
-    {
+    public func modifyTenantDatabase(input: ModifyTenantDatabaseInput) async throws -> ModifyTenantDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6098,8 +5974,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func promoteReadReplica(input: PromoteReadReplicaInput) async throws -> PromoteReadReplicaOutput
-    {
+    public func promoteReadReplica(input: PromoteReadReplicaInput) async throws -> PromoteReadReplicaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6145,8 +6020,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func promoteReadReplicaDBCluster(input: PromoteReadReplicaDBClusterInput) async throws -> PromoteReadReplicaDBClusterOutput
-    {
+    public func promoteReadReplicaDBCluster(input: PromoteReadReplicaDBClusterInput) async throws -> PromoteReadReplicaDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6193,8 +6067,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `ReservedDBInstanceAlreadyExistsFault` : User already has a reservation with the given identifier.
     /// - `ReservedDBInstanceQuotaExceededFault` : Request would exceed the user's DB Instance quota.
     /// - `ReservedDBInstancesOfferingNotFoundFault` : Specified offering does not exist.
-    public func purchaseReservedDBInstancesOffering(input: PurchaseReservedDBInstancesOfferingInput) async throws -> PurchaseReservedDBInstancesOfferingOutput
-    {
+    public func purchaseReservedDBInstancesOffering(input: PurchaseReservedDBInstancesOfferingInput) async throws -> PurchaseReservedDBInstancesOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6241,8 +6114,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func rebootDBCluster(input: RebootDBClusterInput) async throws -> RebootDBClusterOutput
-    {
+    public func rebootDBCluster(input: RebootDBClusterInput) async throws -> RebootDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6288,8 +6160,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput
-    {
+    public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6342,8 +6213,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
-    public func registerDBProxyTargets(input: RegisterDBProxyTargetsInput) async throws -> RegisterDBProxyTargetsOutput
-    {
+    public func registerDBProxyTargets(input: RegisterDBProxyTargetsInput) async throws -> RegisterDBProxyTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6390,8 +6260,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput
-    {
+    public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6438,8 +6307,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBClusterRoleNotFoundFault` : The specified IAM role Amazon Resource Name (ARN) isn't associated with the specified DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func removeRoleFromDBCluster(input: RemoveRoleFromDBClusterInput) async throws -> RemoveRoleFromDBClusterOutput
-    {
+    public func removeRoleFromDBCluster(input: RemoveRoleFromDBClusterInput) async throws -> RemoveRoleFromDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6486,8 +6354,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBInstanceRoleNotFoundFault` : The specified RoleArn value doesn't match the specified feature for the DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func removeRoleFromDBInstance(input: RemoveRoleFromDBInstanceInput) async throws -> RemoveRoleFromDBInstanceOutput
-    {
+    public func removeRoleFromDBInstance(input: RemoveRoleFromDBInstanceInput) async throws -> RemoveRoleFromDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6533,8 +6400,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `SourceNotFoundFault` : The requested source could not be found.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutput
-    {
+    public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6587,8 +6453,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBSnapshotTenantDatabaseNotFoundFault` : The specified snapshot tenant database wasn't found.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6634,8 +6499,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutput
-    {
+    public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6681,8 +6545,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func resetDBParameterGroup(input: ResetDBParameterGroupInput) async throws -> ResetDBParameterGroupOutput
-    {
+    public func resetDBParameterGroup(input: ResetDBParameterGroupInput) async throws -> ResetDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6741,8 +6604,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
-    public func restoreDBClusterFromS3(input: RestoreDBClusterFromS3Input) async throws -> RestoreDBClusterFromS3Output
-    {
+    public func restoreDBClusterFromS3(input: RestoreDBClusterFromS3Input) async throws -> RestoreDBClusterFromS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6805,8 +6667,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
-    public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput
-    {
+    public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6869,8 +6730,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
-    public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput
-    {
+    public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6937,8 +6797,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-    public func restoreDBInstanceFromDBSnapshot(input: RestoreDBInstanceFromDBSnapshotInput) async throws -> RestoreDBInstanceFromDBSnapshotOutput
-    {
+    public func restoreDBInstanceFromDBSnapshot(input: RestoreDBInstanceFromDBSnapshotInput) async throws -> RestoreDBInstanceFromDBSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7000,8 +6859,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
-    public func restoreDBInstanceFromS3(input: RestoreDBInstanceFromS3Input) async throws -> RestoreDBInstanceFromS3Output
-    {
+    public func restoreDBInstanceFromS3(input: RestoreDBInstanceFromS3Input) async throws -> RestoreDBInstanceFromS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7069,8 +6927,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     /// - `TenantDatabaseQuotaExceededFault` : You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-    public func restoreDBInstanceToPointInTime(input: RestoreDBInstanceToPointInTimeInput) async throws -> RestoreDBInstanceToPointInTimeOutput
-    {
+    public func restoreDBInstanceToPointInTime(input: RestoreDBInstanceToPointInTimeInput) async throws -> RestoreDBInstanceToPointInTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7117,8 +6974,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
     /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
-    public func revokeDBSecurityGroupIngress(input: RevokeDBSecurityGroupIngressInput) async throws -> RevokeDBSecurityGroupIngressOutput
-    {
+    public func revokeDBSecurityGroupIngress(input: RevokeDBSecurityGroupIngressInput) async throws -> RevokeDBSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7168,8 +7024,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func startActivityStream(input: StartActivityStreamInput) async throws -> StartActivityStreamOutput
-    {
+    public func startActivityStream(input: StartActivityStreamInput) async throws -> StartActivityStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7216,8 +7071,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput
-    {
+    public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7272,8 +7126,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
-    public func startDBInstance(input: StartDBInstanceInput) async throws -> StartDBInstanceOutput
-    {
+    public func startDBInstance(input: StartDBInstanceInput) async throws -> StartDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7322,8 +7175,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
-    public func startDBInstanceAutomatedBackupsReplication(input: StartDBInstanceAutomatedBackupsReplicationInput) async throws -> StartDBInstanceAutomatedBackupsReplicationOutput
-    {
+    public func startDBInstanceAutomatedBackupsReplication(input: StartDBInstanceAutomatedBackupsReplicationInput) async throws -> StartDBInstanceAutomatedBackupsReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7377,8 +7229,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidExportSourceStateFault` : The state of the export snapshot is invalid for exporting to an Amazon S3 bucket.
     /// - `InvalidS3BucketFault` : The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
-    public func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutput
-    {
+    public func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7427,8 +7278,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func stopActivityStream(input: StopActivityStreamInput) async throws -> StopActivityStreamOutput
-    {
+    public func stopActivityStream(input: StopActivityStreamInput) async throws -> StopActivityStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7475,8 +7325,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput
-    {
+    public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7525,8 +7374,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
-    public func stopDBInstance(input: StopDBInstanceInput) async throws -> StopDBInstanceOutput
-    {
+    public func stopDBInstance(input: StopDBInstanceInput) async throws -> StopDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7572,8 +7420,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func stopDBInstanceAutomatedBackupsReplication(input: StopDBInstanceAutomatedBackupsReplicationInput) async throws -> StopDBInstanceAutomatedBackupsReplicationOutput
-    {
+    public func stopDBInstanceAutomatedBackupsReplication(input: StopDBInstanceAutomatedBackupsReplicationInput) async throws -> StopDBInstanceAutomatedBackupsReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7619,8 +7466,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     /// - `InvalidBlueGreenDeploymentStateFault` : The blue/green deployment can't be switched over or deleted because there is an invalid configuration in the green environment.
-    public func switchoverBlueGreenDeployment(input: SwitchoverBlueGreenDeploymentInput) async throws -> SwitchoverBlueGreenDeploymentOutput
-    {
+    public func switchoverBlueGreenDeployment(input: SwitchoverBlueGreenDeploymentInput) async throws -> SwitchoverBlueGreenDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7668,8 +7514,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func switchoverGlobalCluster(input: SwitchoverGlobalClusterInput) async throws -> SwitchoverGlobalClusterOutput
-    {
+    public func switchoverGlobalCluster(input: SwitchoverGlobalClusterInput) async throws -> SwitchoverGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7715,8 +7560,7 @@ extension RDSClient: RDSClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
-    public func switchoverReadReplica(input: SwitchoverReadReplicaInput) async throws -> SwitchoverReadReplicaOutput
-    {
+    public func switchoverReadReplica(input: SwitchoverReadReplicaInput) async throws -> SwitchoverReadReplicaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

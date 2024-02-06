@@ -66,7 +66,7 @@ public struct PrivateNetworksClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension PrivateNetworksClient: PrivateNetworksClientProtocol {
+extension PrivateNetworksClient {
     /// Performs the `AcknowledgeOrderReceipt` operation on the `E5GNetworkControllerLambda` service.
     ///
     /// Acknowledges that the specified network order was received.
@@ -81,8 +81,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func acknowledgeOrderReceipt(input: AcknowledgeOrderReceiptInput) async throws -> AcknowledgeOrderReceiptOutput
-    {
+    public func acknowledgeOrderReceipt(input: AcknowledgeOrderReceiptInput) async throws -> AcknowledgeOrderReceiptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func activateDeviceIdentifier(input: ActivateDeviceIdentifierInput) async throws -> ActivateDeviceIdentifierOutput
-    {
+    public func activateDeviceIdentifier(input: ActivateDeviceIdentifierInput) async throws -> ActivateDeviceIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -177,8 +175,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func activateNetworkSite(input: ActivateNetworkSiteInput) async throws -> ActivateNetworkSiteOutput
-    {
+    public func activateNetworkSite(input: ActivateNetworkSiteInput) async throws -> ActivateNetworkSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -225,8 +222,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func configureAccessPoint(input: ConfigureAccessPointInput) async throws -> ConfigureAccessPointOutput
-    {
+    public func configureAccessPoint(input: ConfigureAccessPointInput) async throws -> ConfigureAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `LimitExceededException` : The limit was exceeded.
     /// - `ValidationException` : The request failed validation.
-    public func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutput
-    {
+    public func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -321,8 +316,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func createNetworkSite(input: CreateNetworkSiteInput) async throws -> CreateNetworkSiteOutput
-    {
+    public func createNetworkSite(input: CreateNetworkSiteInput) async throws -> CreateNetworkSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -369,8 +363,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func deactivateDeviceIdentifier(input: DeactivateDeviceIdentifierInput) async throws -> DeactivateDeviceIdentifierOutput
-    {
+    public func deactivateDeviceIdentifier(input: DeactivateDeviceIdentifierInput) async throws -> DeactivateDeviceIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -418,8 +411,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func deleteNetwork(input: DeleteNetworkInput) async throws -> DeleteNetworkOutput
-    {
+    public func deleteNetwork(input: DeleteNetworkInput) async throws -> DeleteNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -465,8 +457,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func deleteNetworkSite(input: DeleteNetworkSiteInput) async throws -> DeleteNetworkSiteOutput
-    {
+    public func deleteNetworkSite(input: DeleteNetworkSiteInput) async throws -> DeleteNetworkSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,8 +502,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getDeviceIdentifier(input: GetDeviceIdentifierInput) async throws -> GetDeviceIdentifierOutput
-    {
+    public func getDeviceIdentifier(input: GetDeviceIdentifierInput) async throws -> GetDeviceIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -556,8 +546,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutput
-    {
+    public func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -601,8 +590,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getNetworkResource(input: GetNetworkResourceInput) async throws -> GetNetworkResourceOutput
-    {
+    public func getNetworkResource(input: GetNetworkResourceInput) async throws -> GetNetworkResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +634,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getNetworkSite(input: GetNetworkSiteInput) async throws -> GetNetworkSiteOutput
-    {
+    public func getNetworkSite(input: GetNetworkSiteInput) async throws -> GetNetworkSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +678,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getOrder(input: GetOrderInput) async throws -> GetOrderOutput
-    {
+    public func getOrder(input: GetOrderInput) async throws -> GetOrderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -736,8 +722,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listDeviceIdentifiers(input: ListDeviceIdentifiersInput) async throws -> ListDeviceIdentifiersOutput
-    {
+    public func listDeviceIdentifiers(input: ListDeviceIdentifiersInput) async throws -> ListDeviceIdentifiersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -784,8 +769,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listNetworkResources(input: ListNetworkResourcesInput) async throws -> ListNetworkResourcesOutput
-    {
+    public func listNetworkResources(input: ListNetworkResourcesInput) async throws -> ListNetworkResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -832,8 +816,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listNetworkSites(input: ListNetworkSitesInput) async throws -> ListNetworkSitesOutput
-    {
+    public func listNetworkSites(input: ListNetworkSitesInput) async throws -> ListNetworkSitesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -880,8 +863,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutput
-    {
+    public func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -928,8 +910,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutput
-    {
+    public func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -978,8 +959,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1021,8 +1001,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Information about an internal error.
-    public func ping(input: PingInput) async throws -> PingOutput
-    {
+    public func ping(input: PingInput) async throws -> PingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1075,8 +1054,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutput
-    {
+    public func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1125,8 +1103,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1175,8 +1152,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1197,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func updateNetworkSite(input: UpdateNetworkSiteInput) async throws -> UpdateNetworkSiteOutput
-    {
+    public func updateNetworkSite(input: UpdateNetworkSiteInput) async throws -> UpdateNetworkSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1269,8 +1244,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func updateNetworkSitePlan(input: UpdateNetworkSitePlanInput) async throws -> UpdateNetworkSitePlanOutput
-    {
+    public func updateNetworkSitePlan(input: UpdateNetworkSitePlanInput) async throws -> UpdateNetworkSitePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

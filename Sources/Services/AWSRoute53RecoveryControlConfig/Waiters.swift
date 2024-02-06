@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension Route53RecoveryControlConfigClientProtocol {
+extension Route53RecoveryControlConfigClient {
 
     static func clusterCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
         let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [

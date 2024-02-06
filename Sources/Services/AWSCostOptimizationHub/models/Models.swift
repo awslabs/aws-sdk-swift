@@ -387,6 +387,8 @@ extension CostOptimizationHubClientTypes {
 
 }
 
+public enum CostOptimizationHubClientTypes {}
+
 extension CostOptimizationHubClientTypes.EbsVolume: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration

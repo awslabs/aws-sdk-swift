@@ -66,7 +66,7 @@ public struct LexModelsV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension LexModelsV2Client: LexModelsV2ClientProtocol {
+extension LexModelsV2Client {
     /// Performs the `BatchCreateCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
     ///
     /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
@@ -83,8 +83,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func batchCreateCustomVocabularyItem(input: BatchCreateCustomVocabularyItemInput) async throws -> BatchCreateCustomVocabularyItemOutput
-    {
+    public func batchCreateCustomVocabularyItem(input: BatchCreateCustomVocabularyItemInput) async throws -> BatchCreateCustomVocabularyItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func batchDeleteCustomVocabularyItem(input: BatchDeleteCustomVocabularyItemInput) async throws -> BatchDeleteCustomVocabularyItemOutput
-    {
+    public func batchDeleteCustomVocabularyItem(input: BatchDeleteCustomVocabularyItemInput) async throws -> BatchDeleteCustomVocabularyItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func batchUpdateCustomVocabularyItem(input: BatchUpdateCustomVocabularyItemInput) async throws -> BatchUpdateCustomVocabularyItemOutput
-    {
+    public func batchUpdateCustomVocabularyItem(input: BatchUpdateCustomVocabularyItemInput) async throws -> BatchUpdateCustomVocabularyItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func buildBotLocale(input: BuildBotLocaleInput) async throws -> BuildBotLocaleOutput
-    {
+    public func buildBotLocale(input: BuildBotLocaleInput) async throws -> BuildBotLocaleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createBot(input: CreateBotInput) async throws -> CreateBotOutput
-    {
+    public func createBot(input: CreateBotInput) async throws -> CreateBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createBotAlias(input: CreateBotAliasInput) async throws -> CreateBotAliasOutput
-    {
+    public func createBotAlias(input: CreateBotAliasInput) async throws -> CreateBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createBotLocale(input: CreateBotLocaleInput) async throws -> CreateBotLocaleOutput
-    {
+    public func createBotLocale(input: CreateBotLocaleInput) async throws -> CreateBotLocaleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -435,8 +428,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createBotVersion(input: CreateBotVersionInput) async throws -> CreateBotVersionOutput
-    {
+    public func createBotVersion(input: CreateBotVersionInput) async throws -> CreateBotVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -486,8 +478,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createExport(input: CreateExportInput) async throws -> CreateExportOutput
-    {
+    public func createExport(input: CreateExportInput) async throws -> CreateExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -549,8 +540,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createIntent(input: CreateIntentInput) async throws -> CreateIntentOutput
-    {
+    public func createIntent(input: CreateIntentInput) async throws -> CreateIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -600,8 +590,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createResourcePolicy(input: CreateResourcePolicyInput) async throws -> CreateResourcePolicyOutput
-    {
+    public func createResourcePolicy(input: CreateResourcePolicyInput) async throws -> CreateResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +641,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createResourcePolicyStatement(input: CreateResourcePolicyStatementInput) async throws -> CreateResourcePolicyStatementOutput
-    {
+    public func createResourcePolicyStatement(input: CreateResourcePolicyStatementInput) async throws -> CreateResourcePolicyStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,8 +692,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createSlot(input: CreateSlotInput) async throws -> CreateSlotOutput
-    {
+    public func createSlot(input: CreateSlotInput) async throws -> CreateSlotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +742,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createSlotType(input: CreateSlotTypeInput) async throws -> CreateSlotTypeOutput
-    {
+    public func createSlotType(input: CreateSlotTypeInput) async throws -> CreateSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -806,8 +792,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createTestSetDiscrepancyReport(input: CreateTestSetDiscrepancyReportInput) async throws -> CreateTestSetDiscrepancyReportOutput
-    {
+    public func createTestSetDiscrepancyReport(input: CreateTestSetDiscrepancyReportInput) async throws -> CreateTestSetDiscrepancyReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -856,8 +841,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutput
-    {
+    public func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -904,8 +888,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteBot(input: DeleteBotInput) async throws -> DeleteBotOutput
-    {
+    public func deleteBot(input: DeleteBotInput) async throws -> DeleteBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -953,8 +936,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutput
-    {
+    public func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1002,8 +984,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteBotLocale(input: DeleteBotLocaleInput) async throws -> DeleteBotLocaleOutput
-    {
+    public func deleteBotLocale(input: DeleteBotLocaleInput) async throws -> DeleteBotLocaleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1050,8 +1031,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutput
-    {
+    public func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1079,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteCustomVocabulary(input: DeleteCustomVocabularyInput) async throws -> DeleteCustomVocabularyOutput
-    {
+    public func deleteCustomVocabulary(input: DeleteCustomVocabularyInput) async throws -> DeleteCustomVocabularyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1125,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteExport(input: DeleteExportInput) async throws -> DeleteExportOutput
-    {
+    public func deleteExport(input: DeleteExportInput) async throws -> DeleteExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1193,8 +1171,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteImport(input: DeleteImportInput) async throws -> DeleteImportOutput
-    {
+    public func deleteImport(input: DeleteImportInput) async throws -> DeleteImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1241,8 +1218,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteIntent(input: DeleteIntentInput) async throws -> DeleteIntentOutput
-    {
+    public func deleteIntent(input: DeleteIntentInput) async throws -> DeleteIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1287,8 +1263,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1334,8 +1309,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
-    public func deleteResourcePolicyStatement(input: DeleteResourcePolicyStatementInput) async throws -> DeleteResourcePolicyStatementOutput
-    {
+    public func deleteResourcePolicyStatement(input: DeleteResourcePolicyStatementInput) async throws -> DeleteResourcePolicyStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1383,8 +1357,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteSlot(input: DeleteSlotInput) async throws -> DeleteSlotOutput
-    {
+    public func deleteSlot(input: DeleteSlotInput) async throws -> DeleteSlotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1404,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutput
-    {
+    public func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1480,8 +1452,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteTestSet(input: DeleteTestSetInput) async throws -> DeleteTestSetOutput
-    {
+    public func deleteTestSet(input: DeleteTestSetInput) async throws -> DeleteTestSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1525,8 +1496,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutput
-    {
+    public func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1573,8 +1543,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeBot(input: DescribeBotInput) async throws -> DescribeBotOutput
-    {
+    public func describeBot(input: DescribeBotInput) async throws -> DescribeBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1620,8 +1589,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeBotAlias(input: DescribeBotAliasInput) async throws -> DescribeBotAliasOutput
-    {
+    public func describeBotAlias(input: DescribeBotAliasInput) async throws -> DescribeBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1667,8 +1635,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeBotLocale(input: DescribeBotLocaleInput) async throws -> DescribeBotLocaleOutput
-    {
+    public func describeBotLocale(input: DescribeBotLocaleInput) async throws -> DescribeBotLocaleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1713,8 +1680,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeBotRecommendation(input: DescribeBotRecommendationInput) async throws -> DescribeBotRecommendationOutput
-    {
+    public func describeBotRecommendation(input: DescribeBotRecommendationInput) async throws -> DescribeBotRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1759,8 +1725,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeBotResourceGeneration(input: DescribeBotResourceGenerationInput) async throws -> DescribeBotResourceGenerationOutput
-    {
+    public func describeBotResourceGeneration(input: DescribeBotResourceGenerationInput) async throws -> DescribeBotResourceGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1806,8 +1771,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeBotVersion(input: DescribeBotVersionInput) async throws -> DescribeBotVersionOutput
-    {
+    public func describeBotVersion(input: DescribeBotVersionInput) async throws -> DescribeBotVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1853,8 +1817,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeCustomVocabularyMetadata(input: DescribeCustomVocabularyMetadataInput) async throws -> DescribeCustomVocabularyMetadataOutput
-    {
+    public func describeCustomVocabularyMetadata(input: DescribeCustomVocabularyMetadataInput) async throws -> DescribeCustomVocabularyMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1899,8 +1862,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeExport(input: DescribeExportInput) async throws -> DescribeExportOutput
-    {
+    public func describeExport(input: DescribeExportInput) async throws -> DescribeExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1945,8 +1907,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeImport(input: DescribeImportInput) async throws -> DescribeImportOutput
-    {
+    public func describeImport(input: DescribeImportInput) async throws -> DescribeImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1992,8 +1953,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeIntent(input: DescribeIntentInput) async throws -> DescribeIntentOutput
-    {
+    public func describeIntent(input: DescribeIntentInput) async throws -> DescribeIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2037,8 +1997,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
-    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
-    {
+    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2084,8 +2043,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeSlot(input: DescribeSlotInput) async throws -> DescribeSlotOutput
-    {
+    public func describeSlot(input: DescribeSlotInput) async throws -> DescribeSlotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2131,8 +2089,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeSlotType(input: DescribeSlotTypeInput) async throws -> DescribeSlotTypeOutput
-    {
+    public func describeSlotType(input: DescribeSlotTypeInput) async throws -> DescribeSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2178,8 +2135,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeTestExecution(input: DescribeTestExecutionInput) async throws -> DescribeTestExecutionOutput
-    {
+    public func describeTestExecution(input: DescribeTestExecutionInput) async throws -> DescribeTestExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2225,8 +2181,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeTestSet(input: DescribeTestSetInput) async throws -> DescribeTestSetOutput
-    {
+    public func describeTestSet(input: DescribeTestSetInput) async throws -> DescribeTestSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2272,8 +2227,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeTestSetDiscrepancyReport(input: DescribeTestSetDiscrepancyReportInput) async throws -> DescribeTestSetDiscrepancyReportOutput
-    {
+    public func describeTestSetDiscrepancyReport(input: DescribeTestSetDiscrepancyReportInput) async throws -> DescribeTestSetDiscrepancyReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2319,8 +2273,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func describeTestSetGeneration(input: DescribeTestSetGenerationInput) async throws -> DescribeTestSetGenerationOutput
-    {
+    public func describeTestSetGeneration(input: DescribeTestSetGenerationInput) async throws -> DescribeTestSetGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2368,8 +2321,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func generateBotElement(input: GenerateBotElementInput) async throws -> GenerateBotElementOutput
-    {
+    public func generateBotElement(input: GenerateBotElementInput) async throws -> GenerateBotElementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2418,8 +2370,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func getTestExecutionArtifactsUrl(input: GetTestExecutionArtifactsUrlInput) async throws -> GetTestExecutionArtifactsUrlOutput
-    {
+    public func getTestExecutionArtifactsUrl(input: GetTestExecutionArtifactsUrlInput) async throws -> GetTestExecutionArtifactsUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2470,8 +2421,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listAggregatedUtterances(input: ListAggregatedUtterancesInput) async throws -> ListAggregatedUtterancesOutput
-    {
+    public func listAggregatedUtterances(input: ListAggregatedUtterancesInput) async throws -> ListAggregatedUtterancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2519,8 +2469,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBotAliases(input: ListBotAliasesInput) async throws -> ListBotAliasesOutput
-    {
+    public func listBotAliases(input: ListBotAliasesInput) async throws -> ListBotAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2568,8 +2517,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBotLocales(input: ListBotLocalesInput) async throws -> ListBotLocalesOutput
-    {
+    public func listBotLocales(input: ListBotLocalesInput) async throws -> ListBotLocalesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2617,8 +2565,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBotRecommendations(input: ListBotRecommendationsInput) async throws -> ListBotRecommendationsOutput
-    {
+    public func listBotRecommendations(input: ListBotRecommendationsInput) async throws -> ListBotRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2666,8 +2613,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBotResourceGenerations(input: ListBotResourceGenerationsInput) async throws -> ListBotResourceGenerationsOutput
-    {
+    public func listBotResourceGenerations(input: ListBotResourceGenerationsInput) async throws -> ListBotResourceGenerationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2715,8 +2661,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBotVersions(input: ListBotVersionsInput) async throws -> ListBotVersionsOutput
-    {
+    public func listBotVersions(input: ListBotVersionsInput) async throws -> ListBotVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2764,8 +2709,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBots(input: ListBotsInput) async throws -> ListBotsOutput
-    {
+    public func listBots(input: ListBotsInput) async throws -> ListBotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2813,8 +2757,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBuiltInIntents(input: ListBuiltInIntentsInput) async throws -> ListBuiltInIntentsOutput
-    {
+    public func listBuiltInIntents(input: ListBuiltInIntentsInput) async throws -> ListBuiltInIntentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2862,8 +2805,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput) async throws -> ListBuiltInSlotTypesOutput
-    {
+    public func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput) async throws -> ListBuiltInSlotTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2912,8 +2854,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listCustomVocabularyItems(input: ListCustomVocabularyItemsInput) async throws -> ListCustomVocabularyItemsOutput
-    {
+    public func listCustomVocabularyItems(input: ListCustomVocabularyItemsInput) async throws -> ListCustomVocabularyItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2960,8 +2901,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listExports(input: ListExportsInput) async throws -> ListExportsOutput
-    {
+    public func listExports(input: ListExportsInput) async throws -> ListExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3008,8 +2948,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput
-    {
+    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3072,8 +3011,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listIntentMetrics(input: ListIntentMetricsInput) async throws -> ListIntentMetricsOutput
-    {
+    public func listIntentMetrics(input: ListIntentMetricsInput) async throws -> ListIntentMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3129,8 +3067,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listIntentPaths(input: ListIntentPathsInput) async throws -> ListIntentPathsOutput
-    {
+    public func listIntentPaths(input: ListIntentPathsInput) async throws -> ListIntentPathsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3193,8 +3130,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listIntentStageMetrics(input: ListIntentStageMetricsInput) async throws -> ListIntentStageMetricsOutput
-    {
+    public func listIntentStageMetrics(input: ListIntentStageMetricsInput) async throws -> ListIntentStageMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3242,8 +3178,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listIntents(input: ListIntentsInput) async throws -> ListIntentsOutput
-    {
+    public func listIntents(input: ListIntentsInput) async throws -> ListIntentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3292,8 +3227,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listRecommendedIntents(input: ListRecommendedIntentsInput) async throws -> ListRecommendedIntentsOutput
-    {
+    public func listRecommendedIntents(input: ListRecommendedIntentsInput) async throws -> ListRecommendedIntentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3346,8 +3280,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listSessionAnalyticsData(input: ListSessionAnalyticsDataInput) async throws -> ListSessionAnalyticsDataOutput
-    {
+    public func listSessionAnalyticsData(input: ListSessionAnalyticsDataInput) async throws -> ListSessionAnalyticsDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3410,8 +3343,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listSessionMetrics(input: ListSessionMetricsInput) async throws -> ListSessionMetricsOutput
-    {
+    public func listSessionMetrics(input: ListSessionMetricsInput) async throws -> ListSessionMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3459,8 +3391,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listSlotTypes(input: ListSlotTypesInput) async throws -> ListSlotTypesOutput
-    {
+    public func listSlotTypes(input: ListSlotTypesInput) async throws -> ListSlotTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3508,8 +3439,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listSlots(input: ListSlotsInput) async throws -> ListSlotsOutput
-    {
+    public func listSlots(input: ListSlotsInput) async throws -> ListSlotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3557,8 +3487,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3604,8 +3533,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listTestExecutionResultItems(input: ListTestExecutionResultItemsInput) async throws -> ListTestExecutionResultItemsOutput
-    {
+    public func listTestExecutionResultItems(input: ListTestExecutionResultItemsInput) async throws -> ListTestExecutionResultItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3653,8 +3581,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listTestExecutions(input: ListTestExecutionsInput) async throws -> ListTestExecutionsOutput
-    {
+    public func listTestExecutions(input: ListTestExecutionsInput) async throws -> ListTestExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3703,8 +3630,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listTestSetRecords(input: ListTestSetRecordsInput) async throws -> ListTestSetRecordsOutput
-    {
+    public func listTestSetRecords(input: ListTestSetRecordsInput) async throws -> ListTestSetRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3752,8 +3678,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listTestSets(input: ListTestSetsInput) async throws -> ListTestSetsOutput
-    {
+    public func listTestSets(input: ListTestSetsInput) async throws -> ListTestSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3811,8 +3736,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listUtteranceAnalyticsData(input: ListUtteranceAnalyticsDataInput) async throws -> ListUtteranceAnalyticsDataOutput
-    {
+    public func listUtteranceAnalyticsData(input: ListUtteranceAnalyticsDataInput) async throws -> ListUtteranceAnalyticsDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3875,8 +3799,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func listUtteranceMetrics(input: ListUtteranceMetricsInput) async throws -> ListUtteranceMetricsOutput
-    {
+    public func listUtteranceMetrics(input: ListUtteranceMetricsInput) async throws -> ListUtteranceMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3925,8 +3848,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func searchAssociatedTranscripts(input: SearchAssociatedTranscriptsInput) async throws -> SearchAssociatedTranscriptsOutput
-    {
+    public func searchAssociatedTranscripts(input: SearchAssociatedTranscriptsInput) async throws -> SearchAssociatedTranscriptsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3977,8 +3899,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func startBotRecommendation(input: StartBotRecommendationInput) async throws -> StartBotRecommendationOutput
-    {
+    public func startBotRecommendation(input: StartBotRecommendationInput) async throws -> StartBotRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4028,8 +3949,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func startBotResourceGeneration(input: StartBotResourceGenerationInput) async throws -> StartBotResourceGenerationOutput
-    {
+    public func startBotResourceGeneration(input: StartBotResourceGenerationInput) async throws -> StartBotResourceGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4079,8 +3999,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func startImport(input: StartImportInput) async throws -> StartImportOutput
-    {
+    public func startImport(input: StartImportInput) async throws -> StartImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4130,8 +4049,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func startTestExecution(input: StartTestExecutionInput) async throws -> StartTestExecutionOutput
-    {
+    public func startTestExecution(input: StartTestExecutionInput) async throws -> StartTestExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4181,8 +4099,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func startTestSetGeneration(input: StartTestSetGenerationInput) async throws -> StartTestSetGenerationOutput
-    {
+    public func startTestSetGeneration(input: StartTestSetGenerationInput) async throws -> StartTestSetGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4233,8 +4150,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func stopBotRecommendation(input: StopBotRecommendationInput) async throws -> StopBotRecommendationOutput
-    {
+    public func stopBotRecommendation(input: StopBotRecommendationInput) async throws -> StopBotRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4279,8 +4195,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4328,8 +4243,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4377,8 +4291,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateBot(input: UpdateBotInput) async throws -> UpdateBotOutput
-    {
+    public func updateBot(input: UpdateBotInput) async throws -> UpdateBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4428,8 +4341,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateBotAlias(input: UpdateBotAliasInput) async throws -> UpdateBotAliasOutput
-    {
+    public func updateBotAlias(input: UpdateBotAliasInput) async throws -> UpdateBotAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4479,8 +4391,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateBotLocale(input: UpdateBotLocaleInput) async throws -> UpdateBotLocaleOutput
-    {
+    public func updateBotLocale(input: UpdateBotLocaleInput) async throws -> UpdateBotLocaleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4531,8 +4442,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateBotRecommendation(input: UpdateBotRecommendationInput) async throws -> UpdateBotRecommendationOutput
-    {
+    public func updateBotRecommendation(input: UpdateBotRecommendationInput) async throws -> UpdateBotRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4582,8 +4492,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateExport(input: UpdateExportInput) async throws -> UpdateExportOutput
-    {
+    public func updateExport(input: UpdateExportInput) async throws -> UpdateExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4633,8 +4542,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateIntent(input: UpdateIntentInput) async throws -> UpdateIntentOutput
-    {
+    public func updateIntent(input: UpdateIntentInput) async throws -> UpdateIntentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4684,8 +4592,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateResourcePolicy(input: UpdateResourcePolicyInput) async throws -> UpdateResourcePolicyOutput
-    {
+    public func updateResourcePolicy(input: UpdateResourcePolicyInput) async throws -> UpdateResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4736,8 +4643,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateSlot(input: UpdateSlotInput) async throws -> UpdateSlotOutput
-    {
+    public func updateSlot(input: UpdateSlotInput) async throws -> UpdateSlotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4787,8 +4693,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateSlotType(input: UpdateSlotTypeInput) async throws -> UpdateSlotTypeOutput
-    {
+    public func updateSlotType(input: UpdateSlotTypeInput) async throws -> UpdateSlotTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4838,8 +4743,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
     /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-    public func updateTestSet(input: UpdateTestSetInput) async throws -> UpdateTestSetOutput
-    {
+    public func updateTestSet(input: UpdateTestSetInput) async throws -> UpdateTestSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

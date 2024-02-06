@@ -66,7 +66,7 @@ public struct EMRClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension EMRClient: EMRClientProtocol {
+extension EMRClient {
     /// Performs the `AddInstanceFleet` operation on the `ElasticMapReduce` service.
     ///
     /// Adds an instance fleet to a running cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x.
@@ -80,8 +80,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func addInstanceFleet(input: AddInstanceFleetInput) async throws -> AddInstanceFleetOutput
-    {
+    public func addInstanceFleet(input: AddInstanceFleetInput) async throws -> AddInstanceFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func addInstanceGroups(input: AddInstanceGroupsInput) async throws -> AddInstanceGroupsOutput
-    {
+    public func addInstanceGroups(input: AddInstanceGroupsInput) async throws -> AddInstanceGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func addJobFlowSteps(input: AddJobFlowStepsInput) async throws -> AddJobFlowStepsOutput
-    {
+    public func addJobFlowSteps(input: AddJobFlowStepsInput) async throws -> AddJobFlowStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -222,8 +219,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -270,8 +266,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func cancelSteps(input: CancelStepsInput) async throws -> CancelStepsOutput
-    {
+    public func cancelSteps(input: CancelStepsInput) async throws -> CancelStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutput
-    {
+    public func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +360,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutput
-    {
+    public func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func createStudioSessionMapping(input: CreateStudioSessionMappingInput) async throws -> CreateStudioSessionMappingOutput
-    {
+    public func createStudioSessionMapping(input: CreateStudioSessionMappingInput) async throws -> CreateStudioSessionMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -462,8 +454,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutput
-    {
+    public func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -510,8 +501,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutput
-    {
+    public func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -558,8 +548,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func deleteStudioSessionMapping(input: DeleteStudioSessionMappingInput) async throws -> DeleteStudioSessionMappingOutput
-    {
+    public func deleteStudioSessionMapping(input: DeleteStudioSessionMappingInput) async throws -> DeleteStudioSessionMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +595,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    {
+    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +649,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func describeJobFlows(input: DescribeJobFlowsInput) async throws -> DescribeJobFlowsOutput
-    {
+    public func describeJobFlows(input: DescribeJobFlowsInput) async throws -> DescribeJobFlowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -709,8 +696,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func describeNotebookExecution(input: DescribeNotebookExecutionInput) async throws -> DescribeNotebookExecutionOutput
-    {
+    public func describeNotebookExecution(input: DescribeNotebookExecutionInput) async throws -> DescribeNotebookExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +743,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func describeReleaseLabel(input: DescribeReleaseLabelInput) async throws -> DescribeReleaseLabelOutput
-    {
+    public func describeReleaseLabel(input: DescribeReleaseLabelInput) async throws -> DescribeReleaseLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +790,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func describeSecurityConfiguration(input: DescribeSecurityConfigurationInput) async throws -> DescribeSecurityConfigurationOutput
-    {
+    public func describeSecurityConfiguration(input: DescribeSecurityConfigurationInput) async throws -> DescribeSecurityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func describeStep(input: DescribeStepInput) async throws -> DescribeStepOutput
-    {
+    public func describeStep(input: DescribeStepInput) async throws -> DescribeStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -901,8 +884,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func describeStudio(input: DescribeStudioInput) async throws -> DescribeStudioOutput
-    {
+    public func describeStudio(input: DescribeStudioInput) async throws -> DescribeStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -943,8 +925,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter GetAutoTerminationPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetAutoTerminationPolicyOutput` : [no documentation found]
-    public func getAutoTerminationPolicy(input: GetAutoTerminationPolicyInput) async throws -> GetAutoTerminationPolicyOutput
-    {
+    public func getAutoTerminationPolicy(input: GetAutoTerminationPolicyInput) async throws -> GetAutoTerminationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -991,8 +972,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func getBlockPublicAccessConfiguration(input: GetBlockPublicAccessConfigurationInput) async throws -> GetBlockPublicAccessConfigurationOutput
-    {
+    public func getBlockPublicAccessConfiguration(input: GetBlockPublicAccessConfigurationInput) async throws -> GetBlockPublicAccessConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1039,8 +1019,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func getClusterSessionCredentials(input: GetClusterSessionCredentialsInput) async throws -> GetClusterSessionCredentialsOutput
-    {
+    public func getClusterSessionCredentials(input: GetClusterSessionCredentialsInput) async throws -> GetClusterSessionCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1081,8 +1060,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter GetManagedScalingPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetManagedScalingPolicyOutput` : [no documentation found]
-    public func getManagedScalingPolicy(input: GetManagedScalingPolicyInput) async throws -> GetManagedScalingPolicyOutput
-    {
+    public func getManagedScalingPolicy(input: GetManagedScalingPolicyInput) async throws -> GetManagedScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1107,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func getStudioSessionMapping(input: GetStudioSessionMappingInput) async throws -> GetStudioSessionMappingOutput
-    {
+    public func getStudioSessionMapping(input: GetStudioSessionMappingInput) async throws -> GetStudioSessionMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1177,8 +1154,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listBootstrapActions(input: ListBootstrapActionsInput) async throws -> ListBootstrapActionsOutput
-    {
+    public func listBootstrapActions(input: ListBootstrapActionsInput) async throws -> ListBootstrapActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1225,8 +1201,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1273,8 +1248,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listInstanceFleets(input: ListInstanceFleetsInput) async throws -> ListInstanceFleetsOutput
-    {
+    public func listInstanceFleets(input: ListInstanceFleetsInput) async throws -> ListInstanceFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1321,8 +1295,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listInstanceGroups(input: ListInstanceGroupsInput) async throws -> ListInstanceGroupsOutput
-    {
+    public func listInstanceGroups(input: ListInstanceGroupsInput) async throws -> ListInstanceGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1369,8 +1342,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
-    {
+    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1417,8 +1389,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listNotebookExecutions(input: ListNotebookExecutionsInput) async throws -> ListNotebookExecutionsOutput
-    {
+    public func listNotebookExecutions(input: ListNotebookExecutionsInput) async throws -> ListNotebookExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1465,8 +1436,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listReleaseLabels(input: ListReleaseLabelsInput) async throws -> ListReleaseLabelsOutput
-    {
+    public func listReleaseLabels(input: ListReleaseLabelsInput) async throws -> ListReleaseLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1513,8 +1483,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listSecurityConfigurations(input: ListSecurityConfigurationsInput) async throws -> ListSecurityConfigurationsOutput
-    {
+    public func listSecurityConfigurations(input: ListSecurityConfigurationsInput) async throws -> ListSecurityConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1561,8 +1530,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listSteps(input: ListStepsInput) async throws -> ListStepsOutput
-    {
+    public func listSteps(input: ListStepsInput) async throws -> ListStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1609,8 +1577,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listStudioSessionMappings(input: ListStudioSessionMappingsInput) async throws -> ListStudioSessionMappingsOutput
-    {
+    public func listStudioSessionMappings(input: ListStudioSessionMappingsInput) async throws -> ListStudioSessionMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1624,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutput
-    {
+    public func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1705,8 +1671,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func listSupportedInstanceTypes(input: ListSupportedInstanceTypesInput) async throws -> ListSupportedInstanceTypesOutput
-    {
+    public func listSupportedInstanceTypes(input: ListSupportedInstanceTypesInput) async throws -> ListSupportedInstanceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1753,8 +1718,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput
-    {
+    public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1801,8 +1765,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func modifyInstanceFleet(input: ModifyInstanceFleetInput) async throws -> ModifyInstanceFleetOutput
-    {
+    public func modifyInstanceFleet(input: ModifyInstanceFleetInput) async throws -> ModifyInstanceFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1848,8 +1811,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func modifyInstanceGroups(input: ModifyInstanceGroupsInput) async throws -> ModifyInstanceGroupsOutput
-    {
+    public func modifyInstanceGroups(input: ModifyInstanceGroupsInput) async throws -> ModifyInstanceGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1890,8 +1852,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter PutAutoScalingPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutAutoScalingPolicyOutput` : [no documentation found]
-    public func putAutoScalingPolicy(input: PutAutoScalingPolicyInput) async throws -> PutAutoScalingPolicyOutput
-    {
+    public func putAutoScalingPolicy(input: PutAutoScalingPolicyInput) async throws -> PutAutoScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1932,8 +1893,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter PutAutoTerminationPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutAutoTerminationPolicyOutput` : [no documentation found]
-    public func putAutoTerminationPolicy(input: PutAutoTerminationPolicyInput) async throws -> PutAutoTerminationPolicyOutput
-    {
+    public func putAutoTerminationPolicy(input: PutAutoTerminationPolicyInput) async throws -> PutAutoTerminationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1980,8 +1940,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func putBlockPublicAccessConfiguration(input: PutBlockPublicAccessConfigurationInput) async throws -> PutBlockPublicAccessConfigurationOutput
-    {
+    public func putBlockPublicAccessConfiguration(input: PutBlockPublicAccessConfigurationInput) async throws -> PutBlockPublicAccessConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2022,8 +1981,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter PutManagedScalingPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutManagedScalingPolicyOutput` : [no documentation found]
-    public func putManagedScalingPolicy(input: PutManagedScalingPolicyInput) async throws -> PutManagedScalingPolicyOutput
-    {
+    public func putManagedScalingPolicy(input: PutManagedScalingPolicyInput) async throws -> PutManagedScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2064,8 +2022,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter RemoveAutoScalingPolicyInput : [no documentation found]
     ///
     /// - Returns: `RemoveAutoScalingPolicyOutput` : [no documentation found]
-    public func removeAutoScalingPolicy(input: RemoveAutoScalingPolicyInput) async throws -> RemoveAutoScalingPolicyOutput
-    {
+    public func removeAutoScalingPolicy(input: RemoveAutoScalingPolicyInput) async throws -> RemoveAutoScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2106,8 +2063,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter RemoveAutoTerminationPolicyInput : [no documentation found]
     ///
     /// - Returns: `RemoveAutoTerminationPolicyOutput` : [no documentation found]
-    public func removeAutoTerminationPolicy(input: RemoveAutoTerminationPolicyInput) async throws -> RemoveAutoTerminationPolicyOutput
-    {
+    public func removeAutoTerminationPolicy(input: RemoveAutoTerminationPolicyInput) async throws -> RemoveAutoTerminationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2148,8 +2104,7 @@ extension EMRClient: EMRClientProtocol {
     /// - Parameter RemoveManagedScalingPolicyInput : [no documentation found]
     ///
     /// - Returns: `RemoveManagedScalingPolicyOutput` : [no documentation found]
-    public func removeManagedScalingPolicy(input: RemoveManagedScalingPolicyInput) async throws -> RemoveManagedScalingPolicyOutput
-    {
+    public func removeManagedScalingPolicy(input: RemoveManagedScalingPolicyInput) async throws -> RemoveManagedScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2196,8 +2151,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    {
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2243,8 +2197,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func runJobFlow(input: RunJobFlowInput) async throws -> RunJobFlowOutput
-    {
+    public func runJobFlow(input: RunJobFlowInput) async throws -> RunJobFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2290,8 +2243,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func setKeepJobFlowAliveWhenNoSteps(input: SetKeepJobFlowAliveWhenNoStepsInput) async throws -> SetKeepJobFlowAliveWhenNoStepsOutput
-    {
+    public func setKeepJobFlowAliveWhenNoSteps(input: SetKeepJobFlowAliveWhenNoStepsInput) async throws -> SetKeepJobFlowAliveWhenNoStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2337,8 +2289,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func setTerminationProtection(input: SetTerminationProtectionInput) async throws -> SetTerminationProtectionOutput
-    {
+    public func setTerminationProtection(input: SetTerminationProtectionInput) async throws -> SetTerminationProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2384,8 +2335,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func setVisibleToAllUsers(input: SetVisibleToAllUsersInput) async throws -> SetVisibleToAllUsersOutput
-    {
+    public func setVisibleToAllUsers(input: SetVisibleToAllUsersInput) async throws -> SetVisibleToAllUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2432,8 +2382,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func startNotebookExecution(input: StartNotebookExecutionInput) async throws -> StartNotebookExecutionOutput
-    {
+    public func startNotebookExecution(input: StartNotebookExecutionInput) async throws -> StartNotebookExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2480,8 +2429,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func stopNotebookExecution(input: StopNotebookExecutionInput) async throws -> StopNotebookExecutionOutput
-    {
+    public func stopNotebookExecution(input: StopNotebookExecutionInput) async throws -> StopNotebookExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2527,8 +2475,7 @@ extension EMRClient: EMRClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
-    public func terminateJobFlows(input: TerminateJobFlowsInput) async throws -> TerminateJobFlowsOutput
-    {
+    public func terminateJobFlows(input: TerminateJobFlowsInput) async throws -> TerminateJobFlowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2575,8 +2522,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon EMR service.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutput
-    {
+    public func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2623,8 +2569,7 @@ extension EMRClient: EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     /// - `InvalidRequestException` : This exception occurs when there is something wrong with user input.
-    public func updateStudioSessionMapping(input: UpdateStudioSessionMappingInput) async throws -> UpdateStudioSessionMappingOutput
-    {
+    public func updateStudioSessionMapping(input: UpdateStudioSessionMappingInput) async throws -> UpdateStudioSessionMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct SageMakerFeatureStoreRuntimeClientLogHandlerFactory: ClientRuntime
     }
 }
 
-extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClientProtocol {
+extension SageMakerFeatureStoreRuntimeClient {
     /// Performs the `BatchGetRecord` operation on the `AmazonSageMakerFeatureStoreRuntime` service.
     ///
     /// Retrieves a batch of Records from a FeatureGroup.
@@ -82,8 +82,7 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     /// - `ServiceUnavailable` : The service is currently unavailable.
     /// - `ValidationError` : There was an error validating your request.
-    public func batchGetRecord(input: BatchGetRecordInput) async throws -> BatchGetRecordOutput
-    {
+    public func batchGetRecord(input: BatchGetRecordInput) async throws -> BatchGetRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     /// - `ServiceUnavailable` : The service is currently unavailable.
     /// - `ValidationError` : There was an error validating your request.
-    public func deleteRecord(input: DeleteRecordInput) async throws -> DeleteRecordOutput
-    {
+    public func deleteRecord(input: DeleteRecordInput) async throws -> DeleteRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     /// - `ResourceNotFound` : A resource that is required to perform an action was not found.
     /// - `ServiceUnavailable` : The service is currently unavailable.
     /// - `ValidationError` : There was an error validating your request.
-    public func getRecord(input: GetRecordInput) async throws -> GetRecordOutput
-    {
+    public func getRecord(input: GetRecordInput) async throws -> GetRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     /// - `ServiceUnavailable` : The service is currently unavailable.
     /// - `ValidationError` : There was an error validating your request.
-    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput
-    {
+    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

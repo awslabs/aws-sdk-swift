@@ -66,7 +66,7 @@ public struct OAMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension OAMClient: OAMClientProtocol {
+extension OAMClient {
     /// Performs the `CreateLink` operation on the `oamservice` service.
     ///
     /// Creates a link between a source account and a sink that you have created in a monitoring account. Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts. For more information, see [CreateSink](https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html) and [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each monitoring account can be linked to as many as 100,000 source accounts. Each source account can be linked to as many as five monitoring accounts.
@@ -83,8 +83,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
-    public func createLink(input: CreateLinkInput) async throws -> CreateLinkOutput
-    {
+    public func createLink(input: CreateLinkInput) async throws -> CreateLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
-    public func createSink(input: CreateSinkInput) async throws -> CreateSinkOutput
-    {
+    public func createSink(input: CreateSinkInput) async throws -> CreateSinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutput
-    {
+    public func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func deleteSink(input: DeleteSinkInput) async throws -> DeleteSinkOutput
-    {
+    public func deleteSink(input: DeleteSinkInput) async throws -> DeleteSinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func getLink(input: GetLinkInput) async throws -> GetLinkOutput
-    {
+    public func getLink(input: GetLinkInput) async throws -> GetLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func getSink(input: GetSinkInput) async throws -> GetSinkOutput
-    {
+    public func getSink(input: GetSinkInput) async throws -> GetSinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func getSinkPolicy(input: GetSinkPolicyInput) async throws -> GetSinkPolicyOutput
-    {
+    public func getSinkPolicy(input: GetSinkPolicyInput) async throws -> GetSinkPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func listAttachedLinks(input: ListAttachedLinksInput) async throws -> ListAttachedLinksOutput
-    {
+    public func listAttachedLinks(input: ListAttachedLinksInput) async throws -> ListAttachedLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +468,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func listLinks(input: ListLinksInput) async throws -> ListLinksOutput
-    {
+    public func listLinks(input: ListLinksInput) async throws -> ListLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -524,8 +515,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func listSinks(input: ListSinksInput) async throws -> ListSinksOutput
-    {
+    public func listSinks(input: ListSinksInput) async throws -> ListSinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -571,8 +561,7 @@ extension OAMClient: OAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -628,8 +617,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func putSinkPolicy(input: PutSinkPolicyInput) async throws -> PutSinkPolicyOutput
-    {
+    public func putSinkPolicy(input: PutSinkPolicyInput) async throws -> PutSinkPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -676,8 +664,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `TooManyTagsException` : A resource can have no more than 50 tags.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -723,8 +710,7 @@ extension OAMClient: OAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +756,7 @@ extension OAMClient: OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    public func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutput
-    {
+    public func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

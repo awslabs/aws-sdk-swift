@@ -62,7 +62,7 @@ public struct DocDBClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension DocDBClient: DocDBClientProtocol {
+extension DocDBClient {
     /// Performs the `AddSourceIdentifierToSubscription` operation on the `AmazonRDSv19` service.
     ///
     /// Adds a source identifier to an existing event notification subscription.
@@ -76,8 +76,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `SourceNotFoundFault` : The requested source could not be found.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutput
-    {
+    public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -124,8 +123,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing instance.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing snapshot.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified instance isn't in the available state.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput
-    {
+    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +217,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBParameterGroupAlreadyExistsFault` : A parameter group with the same name already exists.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing parameter group.
     /// - `DBParameterGroupQuotaExceededFault` : This request would cause you to exceed the allowed number of parameter groups.
-    public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutput
-    {
+    public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
     /// - `SnapshotQuotaExceededFault` : The request would cause you to exceed the allowed number of snapshots.
-    public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutput
-    {
+    public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
-    public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput
-    {
+    public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,8 +374,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupAlreadyExistsFault` : A parameter group with the same name already exists.
     /// - `DBParameterGroupQuotaExceededFault` : This request would cause you to exceed the allowed number of parameter groups.
-    public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutput
-    {
+    public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidDBClusterSnapshotStateFault` : The provided value isn't a valid cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `SnapshotQuotaExceededFault` : The request would cause you to exceed the allowed number of snapshots.
-    public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutput
-    {
+    public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -490,8 +482,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     /// - `StorageTypeNotSupportedFault` : Storage of the specified StorageType can't be associated with the DB instance.
-    public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput
-    {
+    public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +531,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBSubnetGroupQuotaExceededFault` : The request would cause you to exceed the allowed number of subnet groups.
     /// - `DBSubnetQuotaExceededFault` : The request would cause you to exceed the allowed number of subnets in a subnet group.
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
-    public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutput
-    {
+    public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -592,8 +582,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `SourceNotFoundFault` : The requested source could not be found.
     /// - `SubscriptionAlreadyExistFault` : The provided subscription name already exists.
     /// - `SubscriptionCategoryNotFoundFault` : The provided category does not exist.
-    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
-    {
+    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Choose a new global cluster identifier (unique name) to create a new global cluster.
     /// - `GlobalClusterQuotaExceededFault` : The number of global clusters for this account is already at the maximum allowed.
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
-    public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput
-    {
+    public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +679,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidDBClusterSnapshotStateFault` : The provided value isn't a valid cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `SnapshotQuotaExceededFault` : The request would cause you to exceed the allowed number of snapshots.
-    public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput
-    {
+    public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -738,8 +725,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutput
-    {
+    public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -785,8 +771,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
     /// - `InvalidDBClusterSnapshotStateFault` : The provided value isn't a valid cluster snapshot state.
-    public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutput
-    {
+    public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -835,8 +820,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified instance isn't in the available state.
     /// - `SnapshotQuotaExceededFault` : The request would cause you to exceed the allowed number of snapshots.
-    public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput
-    {
+    public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -883,8 +867,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing subnet group.
     /// - `InvalidDBSubnetGroupStateFault` : The subnet group can't be deleted because it's in use.
     /// - `InvalidDBSubnetStateFault` : The subnet isn't in the available state.
-    public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutput
-    {
+    public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +913,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidEventSubscriptionStateFault` : Someone else might be modifying a subscription. Wait a few seconds, and try again.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
-    {
+    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +959,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global cluster.
     /// - `InvalidGlobalClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput
-    {
+    public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,8 +1004,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
-    public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput
-    {
+    public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1069,8 +1049,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing parameter group.
-    public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutput
-    {
+    public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1115,8 +1094,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing parameter group.
-    public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutput
-    {
+    public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1161,8 +1139,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
-    public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutput
-    {
+    public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1207,8 +1184,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
-    public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutput
-    {
+    public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1253,8 +1229,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
-    public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutput
-    {
+    public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1294,8 +1269,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - Parameter DescribeDBEngineVersionsInput : Represents the input to [DescribeDBEngineVersions].
     ///
     /// - Returns: `DescribeDBEngineVersionsOutput` : Represents the output of [DescribeDBEngineVersions].
-    public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput
-    {
+    public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1340,8 +1314,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing instance.
-    public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutput
-    {
+    public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1386,8 +1359,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing subnet group.
-    public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutput
-    {
+    public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1427,8 +1399,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - Parameter DescribeEngineDefaultClusterParametersInput : Represents the input to [DescribeEngineDefaultClusterParameters].
     ///
     /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
-    public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput
-    {
+    public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1468,8 +1439,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - Parameter DescribeEventCategoriesInput : Represents the input to [DescribeEventCategories].
     ///
     /// - Returns: `DescribeEventCategoriesOutput` : Represents the output of [DescribeEventCategories].
-    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
-    {
+    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1514,8 +1484,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
-    {
+    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1555,8 +1524,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - Parameter DescribeEventsInput : Represents the input to [DescribeEvents].
     ///
     /// - Returns: `DescribeEventsOutput` : Represents the output of [DescribeEvents].
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1601,8 +1569,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global cluster.
-    public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput
-    {
+    public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1642,8 +1609,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - Parameter DescribeOrderableDBInstanceOptionsInput : Represents the input to [DescribeOrderableDBInstanceOptions].
     ///
     /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : Represents the output of [DescribeOrderableDBInstanceOptions].
-    public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput
-    {
+    public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1688,8 +1654,7 @@ extension DocDBClient: DocDBClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput
-    {
+    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1736,8 +1701,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified instance isn't in the available state.
-    public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutput
-    {
+    public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1784,8 +1748,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing instance.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing snapshot.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1840,8 +1803,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
-    public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput
-    {
+    public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1887,8 +1849,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutput
-    {
+    public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1935,8 +1896,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
     /// - `InvalidDBClusterSnapshotStateFault` : The provided value isn't a valid cluster snapshot state.
     /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-    public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutput
-    {
+    public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1993,8 +1953,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     /// - `StorageTypeNotSupportedFault` : Storage of the specified StorageType can't be associated with the DB instance.
-    public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput
-    {
+    public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2043,8 +2002,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBSubnetQuotaExceededFault` : The request would cause you to exceed the allowed number of subnets in a subnet group.
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `SubnetAlreadyInUse` : The subnet is already in use in the Availability Zone.
-    public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput
-    {
+    public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2094,8 +2052,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `SNSTopicArnNotFoundFault` : The SNS topic Amazon Resource Name (ARN) does not exist.
     /// - `SubscriptionCategoryNotFoundFault` : The provided category does not exist.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
-    {
+    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2141,8 +2098,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global cluster.
     /// - `InvalidGlobalClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutput
-    {
+    public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2188,8 +2144,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing instance.
     /// - `InvalidDBInstanceStateFault` : The specified instance isn't in the available state.
-    public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput
-    {
+    public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2236,8 +2191,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global cluster.
     /// - `InvalidGlobalClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
-    public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput
-    {
+    public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2283,8 +2237,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `SourceNotFoundFault` : The requested source could not be found.
     /// - `SubscriptionNotFoundFault` : The subscription name does not exist.
-    public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutput
-    {
+    public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2331,8 +2284,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing instance.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing snapshot.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2378,8 +2330,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can't delete it when the parameter group is in this state.
-    public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutput
-    {
+    public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2437,8 +2388,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
-    public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput
-    {
+    public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2497,8 +2447,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
-    public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput
-    {
+    public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2545,8 +2494,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified instance isn't in the available state.
-    public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput
-    {
+    public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2593,8 +2541,7 @@ extension DocDBClient: DocDBClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing cluster.
     /// - `InvalidDBClusterStateFault` : The cluster isn't in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified instance isn't in the available state.
-    public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput
-    {
+    public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

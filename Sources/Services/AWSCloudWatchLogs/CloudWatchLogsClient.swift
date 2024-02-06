@@ -66,7 +66,7 @@ public struct CloudWatchLogsClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
+extension CloudWatchLogsClient {
     /// Performs the `AssociateKmsKey` operation on the `Logs_20140328` service.
     ///
     /// Associates the specified KMS key with either one log group in the account, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey, you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation.
@@ -89,8 +89,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func associateKmsKey(input: AssociateKmsKeyInput) async throws -> AssociateKmsKeyOutput
-    {
+    public func associateKmsKey(input: AssociateKmsKeyInput) async throws -> AssociateKmsKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput
-    {
+    public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +201,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func createDelivery(input: CreateDeliveryInput) async throws -> CreateDeliveryOutput
-    {
+    public func createDelivery(input: CreateDeliveryInput) async throws -> CreateDeliveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -255,8 +252,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func createExportTask(input: CreateExportTaskInput) async throws -> CreateExportTaskOutput
-    {
+    public func createExportTask(input: CreateExportTaskInput) async throws -> CreateExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -306,8 +302,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func createLogAnomalyDetector(input: CreateLogAnomalyDetectorInput) async throws -> CreateLogAnomalyDetectorOutput
-    {
+    public func createLogAnomalyDetector(input: CreateLogAnomalyDetectorInput) async throws -> CreateLogAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +361,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func createLogGroup(input: CreateLogGroupInput) async throws -> CreateLogGroupOutput
-    {
+    public func createLogGroup(input: CreateLogGroupInput) async throws -> CreateLogGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -422,8 +416,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func createLogStream(input: CreateLogStreamInput) async throws -> CreateLogStreamOutput
-    {
+    public func createLogStream(input: CreateLogStreamInput) async throws -> CreateLogStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +469,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteAccountPolicy(input: DeleteAccountPolicyInput) async throws -> DeleteAccountPolicyOutput
-    {
+    public func deleteAccountPolicy(input: DeleteAccountPolicyInput) async throws -> DeleteAccountPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -526,8 +518,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteDataProtectionPolicy(input: DeleteDataProtectionPolicyInput) async throws -> DeleteDataProtectionPolicyOutput
-    {
+    public func deleteDataProtectionPolicy(input: DeleteDataProtectionPolicyInput) async throws -> DeleteDataProtectionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -578,8 +569,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func deleteDelivery(input: DeleteDeliveryInput) async throws -> DeleteDeliveryOutput
-    {
+    public func deleteDelivery(input: DeleteDeliveryInput) async throws -> DeleteDeliveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +620,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func deleteDeliveryDestination(input: DeleteDeliveryDestinationInput) async throws -> DeleteDeliveryDestinationOutput
-    {
+    public func deleteDeliveryDestination(input: DeleteDeliveryDestinationInput) async throws -> DeleteDeliveryDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +669,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func deleteDeliveryDestinationPolicy(input: DeleteDeliveryDestinationPolicyInput) async throws -> DeleteDeliveryDestinationPolicyOutput
-    {
+    public func deleteDeliveryDestinationPolicy(input: DeleteDeliveryDestinationPolicyInput) async throws -> DeleteDeliveryDestinationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -732,8 +720,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func deleteDeliverySource(input: DeleteDeliverySourceInput) async throws -> DeleteDeliverySourceOutput
-    {
+    public func deleteDeliverySource(input: DeleteDeliverySourceInput) async throws -> DeleteDeliverySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -782,8 +769,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
-    {
+    public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -832,8 +818,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteLogAnomalyDetector(input: DeleteLogAnomalyDetectorInput) async throws -> DeleteLogAnomalyDetectorOutput
-    {
+    public func deleteLogAnomalyDetector(input: DeleteLogAnomalyDetectorInput) async throws -> DeleteLogAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -882,8 +867,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteLogGroup(input: DeleteLogGroupInput) async throws -> DeleteLogGroupOutput
-    {
+    public func deleteLogGroup(input: DeleteLogGroupInput) async throws -> DeleteLogGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -932,8 +916,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteLogStream(input: DeleteLogStreamInput) async throws -> DeleteLogStreamOutput
-    {
+    public func deleteLogStream(input: DeleteLogStreamInput) async throws -> DeleteLogStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -982,8 +965,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteMetricFilter(input: DeleteMetricFilterInput) async throws -> DeleteMetricFilterOutput
-    {
+    public func deleteMetricFilter(input: DeleteMetricFilterInput) async throws -> DeleteMetricFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1013,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteQueryDefinition(input: DeleteQueryDefinitionInput) async throws -> DeleteQueryDefinitionOutput
-    {
+    public func deleteQueryDefinition(input: DeleteQueryDefinitionInput) async throws -> DeleteQueryDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1061,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1130,8 +1110,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutput
-    {
+    public func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1180,8 +1159,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func deleteSubscriptionFilter(input: DeleteSubscriptionFilterInput) async throws -> DeleteSubscriptionFilterOutput
-    {
+    public func deleteSubscriptionFilter(input: DeleteSubscriptionFilterInput) async throws -> DeleteSubscriptionFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1230,8 +1208,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeAccountPolicies(input: DescribeAccountPoliciesInput) async throws -> DescribeAccountPoliciesOutput
-    {
+    public func describeAccountPolicies(input: DescribeAccountPoliciesInput) async throws -> DescribeAccountPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1257,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func describeDeliveries(input: DescribeDeliveriesInput) async throws -> DescribeDeliveriesOutput
-    {
+    public func describeDeliveries(input: DescribeDeliveriesInput) async throws -> DescribeDeliveriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1330,8 +1306,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func describeDeliveryDestinations(input: DescribeDeliveryDestinationsInput) async throws -> DescribeDeliveryDestinationsOutput
-    {
+    public func describeDeliveryDestinations(input: DescribeDeliveryDestinationsInput) async throws -> DescribeDeliveryDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1380,8 +1355,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func describeDeliverySources(input: DescribeDeliverySourcesInput) async throws -> DescribeDeliverySourcesOutput
-    {
+    public func describeDeliverySources(input: DescribeDeliverySourcesInput) async throws -> DescribeDeliverySourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1428,8 +1402,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeDestinations(input: DescribeDestinationsInput) async throws -> DescribeDestinationsOutput
-    {
+    public func describeDestinations(input: DescribeDestinationsInput) async throws -> DescribeDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1476,8 +1449,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput
-    {
+    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1524,8 +1496,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeLogGroups(input: DescribeLogGroupsInput) async throws -> DescribeLogGroupsOutput
-    {
+    public func describeLogGroups(input: DescribeLogGroupsInput) async throws -> DescribeLogGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1573,8 +1544,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeLogStreams(input: DescribeLogStreamsInput) async throws -> DescribeLogStreamsOutput
-    {
+    public func describeLogStreams(input: DescribeLogStreamsInput) async throws -> DescribeLogStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1622,8 +1592,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeMetricFilters(input: DescribeMetricFiltersInput) async throws -> DescribeMetricFiltersOutput
-    {
+    public func describeMetricFilters(input: DescribeMetricFiltersInput) async throws -> DescribeMetricFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1671,8 +1640,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeQueries(input: DescribeQueriesInput) async throws -> DescribeQueriesOutput
-    {
+    public func describeQueries(input: DescribeQueriesInput) async throws -> DescribeQueriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1719,8 +1687,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeQueryDefinitions(input: DescribeQueryDefinitionsInput) async throws -> DescribeQueryDefinitionsOutput
-    {
+    public func describeQueryDefinitions(input: DescribeQueryDefinitionsInput) async throws -> DescribeQueryDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1767,8 +1734,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeResourcePolicies(input: DescribeResourcePoliciesInput) async throws -> DescribeResourcePoliciesOutput
-    {
+    public func describeResourcePolicies(input: DescribeResourcePoliciesInput) async throws -> DescribeResourcePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1816,8 +1782,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func describeSubscriptionFilters(input: DescribeSubscriptionFiltersInput) async throws -> DescribeSubscriptionFiltersOutput
-    {
+    public func describeSubscriptionFilters(input: DescribeSubscriptionFiltersInput) async throws -> DescribeSubscriptionFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1873,8 +1838,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func disassociateKmsKey(input: DisassociateKmsKeyInput) async throws -> DisassociateKmsKeyOutput
-    {
+    public func disassociateKmsKey(input: DisassociateKmsKeyInput) async throws -> DisassociateKmsKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1922,8 +1886,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func filterLogEvents(input: FilterLogEventsInput) async throws -> FilterLogEventsOutput
-    {
+    public func filterLogEvents(input: FilterLogEventsInput) async throws -> FilterLogEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1972,8 +1935,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutput
-    {
+    public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2023,8 +1985,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func getDelivery(input: GetDeliveryInput) async throws -> GetDeliveryOutput
-    {
+    public func getDelivery(input: GetDeliveryInput) async throws -> GetDeliveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2074,8 +2035,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func getDeliveryDestination(input: GetDeliveryDestinationInput) async throws -> GetDeliveryDestinationOutput
-    {
+    public func getDeliveryDestination(input: GetDeliveryDestinationInput) async throws -> GetDeliveryDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2123,8 +2083,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func getDeliveryDestinationPolicy(input: GetDeliveryDestinationPolicyInput) async throws -> GetDeliveryDestinationPolicyOutput
-    {
+    public func getDeliveryDestinationPolicy(input: GetDeliveryDestinationPolicyInput) async throws -> GetDeliveryDestinationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2174,8 +2133,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func getDeliverySource(input: GetDeliverySourceInput) async throws -> GetDeliverySourceOutput
-    {
+    public func getDeliverySource(input: GetDeliverySourceInput) async throws -> GetDeliverySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2182,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func getLogAnomalyDetector(input: GetLogAnomalyDetectorInput) async throws -> GetLogAnomalyDetectorOutput
-    {
+    public func getLogAnomalyDetector(input: GetLogAnomalyDetectorInput) async throws -> GetLogAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2273,8 +2230,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func getLogEvents(input: GetLogEventsInput) async throws -> GetLogEventsOutput
-    {
+    public func getLogEvents(input: GetLogEventsInput) async throws -> GetLogEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2323,8 +2279,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func getLogGroupFields(input: GetLogGroupFieldsInput) async throws -> GetLogGroupFieldsOutput
-    {
+    public func getLogGroupFields(input: GetLogGroupFieldsInput) async throws -> GetLogGroupFieldsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2373,8 +2328,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func getLogRecord(input: GetLogRecordInput) async throws -> GetLogRecordOutput
-    {
+    public func getLogRecord(input: GetLogRecordInput) async throws -> GetLogRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2422,8 +2376,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
-    {
+    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2472,8 +2425,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func listAnomalies(input: ListAnomaliesInput) async throws -> ListAnomaliesOutput
-    {
+    public func listAnomalies(input: ListAnomaliesInput) async throws -> ListAnomaliesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2522,8 +2474,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func listLogAnomalyDetectors(input: ListLogAnomalyDetectorsInput) async throws -> ListLogAnomalyDetectorsOutput
-    {
+    public func listLogAnomalyDetectors(input: ListLogAnomalyDetectorsInput) async throws -> ListLogAnomalyDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2571,8 +2522,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2620,8 +2570,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func listTagsLogGroup(input: ListTagsLogGroupInput) async throws -> ListTagsLogGroupOutput
-    {
+    public func listTagsLogGroup(input: ListTagsLogGroupInput) async throws -> ListTagsLogGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2681,8 +2630,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putAccountPolicy(input: PutAccountPolicyInput) async throws -> PutAccountPolicyOutput
-    {
+    public func putAccountPolicy(input: PutAccountPolicyInput) async throws -> PutAccountPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2732,8 +2680,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutput
-    {
+    public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2795,8 +2742,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func putDeliveryDestination(input: PutDeliveryDestinationInput) async throws -> PutDeliveryDestinationOutput
-    {
+    public func putDeliveryDestination(input: PutDeliveryDestinationInput) async throws -> PutDeliveryDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2856,8 +2802,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func putDeliveryDestinationPolicy(input: PutDeliveryDestinationPolicyInput) async throws -> PutDeliveryDestinationPolicyOutput
-    {
+    public func putDeliveryDestinationPolicy(input: PutDeliveryDestinationPolicyInput) async throws -> PutDeliveryDestinationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2919,8 +2864,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func putDeliverySource(input: PutDeliverySourceInput) async throws -> PutDeliverySourceOutput
-    {
+    public func putDeliverySource(input: PutDeliverySourceInput) async throws -> PutDeliverySourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2968,8 +2912,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putDestination(input: PutDestinationInput) async throws -> PutDestinationOutput
-    {
+    public func putDestination(input: PutDestinationInput) async throws -> PutDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3017,8 +2960,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putDestinationPolicy(input: PutDestinationPolicyInput) async throws -> PutDestinationPolicyOutput
-    {
+    public func putDestinationPolicy(input: PutDestinationPolicyInput) async throws -> PutDestinationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3088,8 +3030,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `UnrecognizedClientException` : The most likely cause is an Amazon Web Services access key ID or secret key that's not valid.
-    public func putLogEvents(input: PutLogEventsInput) async throws -> PutLogEventsOutput
-    {
+    public func putLogEvents(input: PutLogEventsInput) async throws -> PutLogEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3139,8 +3080,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putMetricFilter(input: PutMetricFilterInput) async throws -> PutMetricFilterOutput
-    {
+    public func putMetricFilter(input: PutMetricFilterInput) async throws -> PutMetricFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3189,8 +3129,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putQueryDefinition(input: PutQueryDefinitionInput) async throws -> PutQueryDefinitionOutput
-    {
+    public func putQueryDefinition(input: PutQueryDefinitionInput) async throws -> PutQueryDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3239,8 +3178,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3289,8 +3227,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutput
-    {
+    public func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3351,8 +3288,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func putSubscriptionFilter(input: PutSubscriptionFilterInput) async throws -> PutSubscriptionFilterOutput
-    {
+    public func putSubscriptionFilter(input: PutSubscriptionFilterInput) async throws -> PutSubscriptionFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3413,8 +3349,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func startLiveTail(input: StartLiveTailInput) async throws -> StartLiveTailOutput
-    {
+    public func startLiveTail(input: StartLiveTailInput) async throws -> StartLiveTailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3464,8 +3399,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `MalformedQueryException` : The query string is not valid. Details about this error are displayed in a QueryCompileError object. For more information, see [QueryCompileError](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_QueryCompileError.html). For more information about valid query syntax, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput
-    {
+    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3513,8 +3447,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func stopQuery(input: StopQueryInput) async throws -> StopQueryOutput
-    {
+    public func stopQuery(input: StopQueryInput) async throws -> StopQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3562,8 +3495,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func tagLogGroup(input: TagLogGroupInput) async throws -> TagLogGroupOutput
-    {
+    public func tagLogGroup(input: TagLogGroupInput) async throws -> TagLogGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3612,8 +3544,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `TooManyTagsException` : A resource can have no more than 50 tags.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3660,8 +3591,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func testMetricFilter(input: TestMetricFilterInput) async throws -> TestMetricFilterOutput
-    {
+    public func testMetricFilter(input: TestMetricFilterInput) async throws -> TestMetricFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3708,8 +3638,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func untagLogGroup(input: UntagLogGroupInput) async throws -> UntagLogGroupOutput
-    {
+    public func untagLogGroup(input: UntagLogGroupInput) async throws -> UntagLogGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3757,8 +3686,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3807,8 +3735,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func updateAnomaly(input: UpdateAnomalyInput) async throws -> UpdateAnomalyOutput
-    {
+    public func updateAnomaly(input: UpdateAnomalyInput) async throws -> UpdateAnomalyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3857,8 +3784,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    public func updateLogAnomalyDetector(input: UpdateLogAnomalyDetectorInput) async throws -> UpdateLogAnomalyDetectorOutput
-    {
+    public func updateLogAnomalyDetector(input: UpdateLogAnomalyDetectorInput) async throws -> UpdateLogAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

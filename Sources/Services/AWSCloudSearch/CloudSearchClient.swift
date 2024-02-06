@@ -62,7 +62,7 @@ public struct CloudSearchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension CloudSearchClient: CloudSearchClientProtocol {
+extension CloudSearchClient {
     /// Performs the `BuildSuggesters` operation on the `A9SearchCloudConfigService2013` service.
     ///
     /// Indexes the search suggestions. For more information, see [Configuring Suggesters](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html#configuring-suggesters) in the Amazon CloudSearch Developer Guide.
@@ -78,8 +78,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func buildSuggesters(input: BuildSuggestersInput) async throws -> BuildSuggestersOutput
-    {
+    public func buildSuggesters(input: BuildSuggestersInput) async throws -> BuildSuggestersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    {
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineAnalysisScheme(input: DefineAnalysisSchemeInput) async throws -> DefineAnalysisSchemeOutput
-    {
+    public func defineAnalysisScheme(input: DefineAnalysisSchemeInput) async throws -> DefineAnalysisSchemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineExpression(input: DefineExpressionInput) async throws -> DefineExpressionOutput
-    {
+    public func defineExpression(input: DefineExpressionInput) async throws -> DefineExpressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineIndexField(input: DefineIndexFieldInput) async throws -> DefineIndexFieldOutput
-    {
+    public func defineIndexField(input: DefineIndexFieldInput) async throws -> DefineIndexFieldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineSuggester(input: DefineSuggesterInput) async throws -> DefineSuggesterOutput
-    {
+    public func defineSuggester(input: DefineSuggesterInput) async throws -> DefineSuggesterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteAnalysisScheme(input: DeleteAnalysisSchemeInput) async throws -> DeleteAnalysisSchemeOutput
-    {
+    public func deleteAnalysisScheme(input: DeleteAnalysisSchemeInput) async throws -> DeleteAnalysisSchemeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -429,8 +422,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteExpression(input: DeleteExpressionInput) async throws -> DeleteExpressionOutput
-    {
+    public func deleteExpression(input: DeleteExpressionInput) async throws -> DeleteExpressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -529,8 +520,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteIndexField(input: DeleteIndexFieldInput) async throws -> DeleteIndexFieldOutput
-    {
+    public func deleteIndexField(input: DeleteIndexFieldInput) async throws -> DeleteIndexFieldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -579,8 +569,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteSuggester(input: DeleteSuggesterInput) async throws -> DeleteSuggesterOutput
-    {
+    public func deleteSuggester(input: DeleteSuggesterInput) async throws -> DeleteSuggesterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -627,8 +616,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeAnalysisSchemes(input: DescribeAnalysisSchemesInput) async throws -> DescribeAnalysisSchemesOutput
-    {
+    public func describeAnalysisSchemes(input: DescribeAnalysisSchemesInput) async throws -> DescribeAnalysisSchemesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -678,8 +666,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeAvailabilityOptions(input: DescribeAvailabilityOptionsInput) async throws -> DescribeAvailabilityOptionsOutput
-    {
+    public func describeAvailabilityOptions(input: DescribeAvailabilityOptionsInput) async throws -> DescribeAvailabilityOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -728,8 +715,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeDomainEndpointOptions(input: DescribeDomainEndpointOptionsInput) async throws -> DescribeDomainEndpointOptionsOutput
-    {
+    public func describeDomainEndpointOptions(input: DescribeDomainEndpointOptionsInput) async throws -> DescribeDomainEndpointOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +761,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
-    public func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutput
-    {
+    public func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -823,8 +808,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeExpressions(input: DescribeExpressionsInput) async throws -> DescribeExpressionsOutput
-    {
+    public func describeExpressions(input: DescribeExpressionsInput) async throws -> DescribeExpressionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -871,8 +855,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeIndexFields(input: DescribeIndexFieldsInput) async throws -> DescribeIndexFieldsOutput
-    {
+    public func describeIndexFields(input: DescribeIndexFieldsInput) async throws -> DescribeIndexFieldsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -919,8 +902,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeScalingParameters(input: DescribeScalingParametersInput) async throws -> DescribeScalingParametersOutput
-    {
+    public func describeScalingParameters(input: DescribeScalingParametersInput) async throws -> DescribeScalingParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -967,8 +949,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeServiceAccessPolicies(input: DescribeServiceAccessPoliciesInput) async throws -> DescribeServiceAccessPoliciesOutput
-    {
+    public func describeServiceAccessPolicies(input: DescribeServiceAccessPoliciesInput) async throws -> DescribeServiceAccessPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1015,8 +996,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeSuggesters(input: DescribeSuggestersInput) async throws -> DescribeSuggestersOutput
-    {
+    public func describeSuggesters(input: DescribeSuggestersInput) async throws -> DescribeSuggestersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,8 +1044,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func indexDocuments(input: IndexDocumentsInput) async throws -> IndexDocumentsOutput
-    {
+    public func indexDocuments(input: IndexDocumentsInput) async throws -> IndexDocumentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1110,8 +1089,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
-    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
-    {
+    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1162,8 +1140,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateAvailabilityOptions(input: UpdateAvailabilityOptionsInput) async throws -> UpdateAvailabilityOptionsOutput
-    {
+    public func updateAvailabilityOptions(input: UpdateAvailabilityOptionsInput) async throws -> UpdateAvailabilityOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,8 +1191,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateDomainEndpointOptions(input: UpdateDomainEndpointOptionsInput) async throws -> UpdateDomainEndpointOptionsOutput
-    {
+    public func updateDomainEndpointOptions(input: UpdateDomainEndpointOptionsInput) async throws -> UpdateDomainEndpointOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1265,8 +1241,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateScalingParameters(input: UpdateScalingParametersInput) async throws -> UpdateScalingParametersOutput
-    {
+    public func updateScalingParameters(input: UpdateScalingParametersInput) async throws -> UpdateScalingParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1291,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateServiceAccessPolicies(input: UpdateServiceAccessPoliciesInput) async throws -> UpdateServiceAccessPoliciesOutput
-    {
+    public func updateServiceAccessPolicies(input: UpdateServiceAccessPoliciesInput) async throws -> UpdateServiceAccessPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

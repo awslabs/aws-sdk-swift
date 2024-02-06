@@ -66,7 +66,7 @@ public struct MarketplaceCatalogClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
+extension MarketplaceCatalogClient {
     /// Performs the `BatchDescribeEntities` operation on the `AWSMPSeymour` service.
     ///
     /// Returns metadata and content for multiple entities.
@@ -82,8 +82,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `InternalServiceException` : There was an internal service exception. HTTP status code: 500
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func batchDescribeEntities(input: BatchDescribeEntitiesInput) async throws -> BatchDescribeEntitiesOutput
-    {
+    public func batchDescribeEntities(input: BatchDescribeEntitiesInput) async throws -> BatchDescribeEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func cancelChangeSet(input: CancelChangeSetInput) async throws -> CancelChangeSetOutput
-    {
+    public func cancelChangeSet(input: CancelChangeSetInput) async throws -> CancelChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func describeChangeSet(input: DescribeChangeSetInput) async throws -> DescribeChangeSetOutput
-    {
+    public func describeChangeSet(input: DescribeChangeSetInput) async throws -> DescribeChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotSupportedException` : Currently, the specified resource is not supported.
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func describeEntity(input: DescribeEntityInput) async throws -> DescribeEntityOutput
-    {
+    public func describeEntity(input: DescribeEntityInput) async throws -> DescribeEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -373,8 +367,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `InternalServiceException` : There was an internal service exception. HTTP status code: 500
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutput
-    {
+    public func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -423,8 +416,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutput
-    {
+    public func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -523,8 +514,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -575,8 +565,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ServiceQuotaExceededException` : The maximum number of open requests per account has been exceeded.
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func startChangeSet(input: StartChangeSetInput) async throws -> StartChangeSetOutput
-    {
+    public func startChangeSet(input: StartChangeSetInput) async throws -> StartChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -626,8 +615,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -676,8 +664,7 @@ extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
     /// - `ThrottlingException` : Too many requests. HTTP status code: 429
     /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

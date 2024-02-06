@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ACMPCAClientProtocol {
+extension ACMPCAClient {
 
     static func auditReportCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput> {
         let acceptors: [WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>.Acceptor] = [

@@ -66,7 +66,7 @@ public struct EventBridgeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension EventBridgeClient: EventBridgeClientProtocol {
+extension EventBridgeClient {
     /// Performs the `ActivateEventSource` operation on the `AWSEvents` service.
     ///
     /// Activates a partner event source that has been deactivated. Once activated, your matching event bus will start receiving events from the event source.
@@ -83,8 +83,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InvalidStateException` : The specified state is not a valid state for an event source.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func activateEventSource(input: ActivateEventSourceInput) async throws -> ActivateEventSourceOutput
-    {
+    public func activateEventSource(input: ActivateEventSourceInput) async throws -> ActivateEventSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `IllegalStatusException` : An error occurred because a replay can be canceled only when the state is Running or Starting.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func cancelReplay(input: CancelReplayInput) async throws -> CancelReplayOutput
-    {
+    public func cancelReplay(input: CancelReplayInput) async throws -> CancelReplayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func createApiDestination(input: CreateApiDestinationInput) async throws -> CreateApiDestinationOutput
-    {
+    public func createApiDestination(input: CreateApiDestinationInput) async throws -> CreateApiDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func createArchive(input: CreateArchiveInput) async throws -> CreateArchiveOutput
-    {
+    public func createArchive(input: CreateArchiveInput) async throws -> CreateArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
-    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    {
+    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
-    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
-    {
+    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -386,8 +380,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func createEventBus(input: CreateEventBusInput) async throws -> CreateEventBusOutput
-    {
+    public func createEventBus(input: CreateEventBusInput) async throws -> CreateEventBusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +439,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
-    public func createPartnerEventSource(input: CreatePartnerEventSourceInput) async throws -> CreatePartnerEventSourceOutput
-    {
+    public func createPartnerEventSource(input: CreatePartnerEventSourceInput) async throws -> CreatePartnerEventSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -497,8 +489,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InvalidStateException` : The specified state is not a valid state for an event source.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deactivateEventSource(input: DeactivateEventSourceInput) async throws -> DeactivateEventSourceOutput
-    {
+    public func deactivateEventSource(input: DeactivateEventSourceInput) async throws -> DeactivateEventSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -546,8 +537,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deauthorizeConnection(input: DeauthorizeConnectionInput) async throws -> DeauthorizeConnectionOutput
-    {
+    public func deauthorizeConnection(input: DeauthorizeConnectionInput) async throws -> DeauthorizeConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -595,8 +585,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deleteApiDestination(input: DeleteApiDestinationInput) async throws -> DeleteApiDestinationOutput
-    {
+    public func deleteApiDestination(input: DeleteApiDestinationInput) async throws -> DeleteApiDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -644,8 +633,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput
-    {
+    public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -693,8 +681,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -742,8 +729,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -790,8 +776,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func deleteEventBus(input: DeleteEventBusInput) async throws -> DeleteEventBusOutput
-    {
+    public func deleteEventBus(input: DeleteEventBusInput) async throws -> DeleteEventBusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -839,8 +824,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
-    public func deletePartnerEventSource(input: DeletePartnerEventSourceInput) async throws -> DeletePartnerEventSourceOutput
-    {
+    public func deletePartnerEventSource(input: DeletePartnerEventSourceInput) async throws -> DeletePartnerEventSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -889,8 +873,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -937,8 +920,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeApiDestination(input: DescribeApiDestinationInput) async throws -> DescribeApiDestinationOutput
-    {
+    public func describeApiDestination(input: DescribeApiDestinationInput) async throws -> DescribeApiDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -986,8 +968,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeArchive(input: DescribeArchiveInput) async throws -> DescribeArchiveOutput
-    {
+    public func describeArchive(input: DescribeArchiveInput) async throws -> DescribeArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1034,8 +1015,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeConnection(input: DescribeConnectionInput) async throws -> DescribeConnectionOutput
-    {
+    public func describeConnection(input: DescribeConnectionInput) async throws -> DescribeConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1062,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
-    {
+    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1130,8 +1109,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeEventBus(input: DescribeEventBusInput) async throws -> DescribeEventBusOutput
-    {
+    public func describeEventBus(input: DescribeEventBusInput) async throws -> DescribeEventBusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1179,8 +1157,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeEventSource(input: DescribeEventSourceInput) async throws -> DescribeEventSourceOutput
-    {
+    public func describeEventSource(input: DescribeEventSourceInput) async throws -> DescribeEventSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1228,8 +1205,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describePartnerEventSource(input: DescribePartnerEventSourceInput) async throws -> DescribePartnerEventSourceOutput
-    {
+    public func describePartnerEventSource(input: DescribePartnerEventSourceInput) async throws -> DescribePartnerEventSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1276,8 +1252,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeReplay(input: DescribeReplayInput) async throws -> DescribeReplayOutput
-    {
+    public func describeReplay(input: DescribeReplayInput) async throws -> DescribeReplayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1324,8 +1299,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutput
-    {
+    public func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1374,8 +1348,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func disableRule(input: DisableRuleInput) async throws -> DisableRuleOutput
-    {
+    public func disableRule(input: DisableRuleInput) async throws -> DisableRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1424,8 +1397,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func enableRule(input: EnableRuleInput) async throws -> EnableRuleOutput
-    {
+    public func enableRule(input: EnableRuleInput) async throws -> EnableRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1471,8 +1443,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func listApiDestinations(input: ListApiDestinationsInput) async throws -> ListApiDestinationsOutput
-    {
+    public func listApiDestinations(input: ListApiDestinationsInput) async throws -> ListApiDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1519,8 +1490,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func listArchives(input: ListArchivesInput) async throws -> ListArchivesOutput
-    {
+    public func listArchives(input: ListArchivesInput) async throws -> ListArchivesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1566,8 +1536,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
-    {
+    public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1613,8 +1582,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
-    {
+    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1660,8 +1628,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func listEventBuses(input: ListEventBusesInput) async throws -> ListEventBusesOutput
-    {
+    public func listEventBuses(input: ListEventBusesInput) async throws -> ListEventBusesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1708,8 +1675,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
-    public func listEventSources(input: ListEventSourcesInput) async throws -> ListEventSourcesOutput
-    {
+    public func listEventSources(input: ListEventSourcesInput) async throws -> ListEventSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1757,8 +1723,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func listPartnerEventSourceAccounts(input: ListPartnerEventSourceAccountsInput) async throws -> ListPartnerEventSourceAccountsOutput
-    {
+    public func listPartnerEventSourceAccounts(input: ListPartnerEventSourceAccountsInput) async throws -> ListPartnerEventSourceAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1805,8 +1770,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
-    public func listPartnerEventSources(input: ListPartnerEventSourcesInput) async throws -> ListPartnerEventSourcesOutput
-    {
+    public func listPartnerEventSources(input: ListPartnerEventSourcesInput) async throws -> ListPartnerEventSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1852,8 +1816,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func listReplays(input: ListReplaysInput) async throws -> ListReplaysOutput
-    {
+    public func listReplays(input: ListReplaysInput) async throws -> ListReplaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1900,8 +1863,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func listRuleNamesByTarget(input: ListRuleNamesByTargetInput) async throws -> ListRuleNamesByTargetOutput
-    {
+    public func listRuleNamesByTarget(input: ListRuleNamesByTargetInput) async throws -> ListRuleNamesByTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1948,8 +1910,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-    {
+    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1996,8 +1957,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2044,8 +2004,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func listTargetsByRule(input: ListTargetsByRuleInput) async throws -> ListTargetsByRuleOutput
-    {
+    public func listTargetsByRule(input: ListTargetsByRuleInput) async throws -> ListTargetsByRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2091,8 +2050,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
-    public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-    {
+    public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2139,8 +2097,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
-    public func putPartnerEvents(input: PutPartnerEventsInput) async throws -> PutPartnerEventsOutput
-    {
+    public func putPartnerEvents(input: PutPartnerEventsInput) async throws -> PutPartnerEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2190,8 +2147,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `PolicyLengthExceededException` : The event bus policy is too long. For more information, see the limits.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput
-    {
+    public func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2242,8 +2198,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func putRule(input: PutRuleInput) async throws -> PutRuleOutput
-    {
+    public func putRule(input: PutRuleInput) async throws -> PutRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2322,8 +2277,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func putTargets(input: PutTargetsInput) async throws -> PutTargetsOutput
-    {
+    public func putTargets(input: PutTargetsInput) async throws -> PutTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2326,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
-    {
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2422,8 +2375,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func removeTargets(input: RemoveTargetsInput) async throws -> RemoveTargetsOutput
-    {
+    public func removeTargets(input: RemoveTargetsInput) async throws -> RemoveTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2473,8 +2425,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func startReplay(input: StartReplayInput) async throws -> StartReplayOutput
-    {
+    public func startReplay(input: StartReplayInput) async throws -> StartReplayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2523,8 +2474,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2571,8 +2521,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `InvalidEventPatternException` : The event pattern is not valid.
-    public func testEventPattern(input: TestEventPatternInput) async throws -> TestEventPatternOutput
-    {
+    public func testEventPattern(input: TestEventPatternInput) async throws -> TestEventPatternOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2621,8 +2570,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2671,8 +2619,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func updateApiDestination(input: UpdateApiDestinationInput) async throws -> UpdateApiDestinationOutput
-    {
+    public func updateApiDestination(input: UpdateApiDestinationInput) async throws -> UpdateApiDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2722,8 +2669,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InvalidEventPatternException` : The event pattern is not valid.
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func updateArchive(input: UpdateArchiveInput) async throws -> UpdateArchiveOutput
-    {
+    public func updateArchive(input: UpdateArchiveInput) async throws -> UpdateArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2772,8 +2718,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
-    {
+    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2821,8 +2766,7 @@ extension EventBridgeClient: EventBridgeClientProtocol {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
-    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput
-    {
+    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

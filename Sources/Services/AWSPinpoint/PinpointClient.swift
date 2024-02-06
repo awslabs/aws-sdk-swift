@@ -66,7 +66,7 @@ public struct PinpointClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension PinpointClient: PinpointClientProtocol {
+extension PinpointClient {
     /// Performs the `CreateApp` operation on the `Pinpoint` service.
     ///
     /// Creates an application.
@@ -85,8 +85,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput
-    {
+    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
-    {
+    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `InternalServerErrorException` : Provides information about an API request or response.
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput
-    {
+    public func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -239,8 +236,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput
-    {
+    public func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput
-    {
+    public func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `InternalServerErrorException` : Provides information about an API request or response.
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createInAppTemplate(input: CreateInAppTemplateInput) async throws -> CreateInAppTemplateOutput
-    {
+    public func createInAppTemplate(input: CreateInAppTemplateInput) async throws -> CreateInAppTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +387,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createJourney(input: CreateJourneyInput) async throws -> CreateJourneyOutput
-    {
+    public func createJourney(input: CreateJourneyInput) async throws -> CreateJourneyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -443,8 +436,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `InternalServerErrorException` : Provides information about an API request or response.
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createPushTemplate(input: CreatePushTemplateInput) async throws -> CreatePushTemplateOutput
-    {
+    public func createPushTemplate(input: CreatePushTemplateInput) async throws -> CreatePushTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -495,8 +487,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createRecommenderConfiguration(input: CreateRecommenderConfigurationInput) async throws -> CreateRecommenderConfigurationOutput
-    {
+    public func createRecommenderConfiguration(input: CreateRecommenderConfigurationInput) async throws -> CreateRecommenderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -547,8 +538,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutput
-    {
+    public func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -597,8 +587,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `InternalServerErrorException` : Provides information about an API request or response.
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createSmsTemplate(input: CreateSmsTemplateInput) async throws -> CreateSmsTemplateOutput
-    {
+    public func createSmsTemplate(input: CreateSmsTemplateInput) async throws -> CreateSmsTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -647,8 +636,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `InternalServerErrorException` : Provides information about an API request or response.
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func createVoiceTemplate(input: CreateVoiceTemplateInput) async throws -> CreateVoiceTemplateOutput
-    {
+    public func createVoiceTemplate(input: CreateVoiceTemplateInput) async throws -> CreateVoiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -699,8 +687,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteAdmChannel(input: DeleteAdmChannelInput) async throws -> DeleteAdmChannelOutput
-    {
+    public func deleteAdmChannel(input: DeleteAdmChannelInput) async throws -> DeleteAdmChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -748,8 +735,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteApnsChannel(input: DeleteApnsChannelInput) async throws -> DeleteApnsChannelOutput
-    {
+    public func deleteApnsChannel(input: DeleteApnsChannelInput) async throws -> DeleteApnsChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +783,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteApnsSandboxChannel(input: DeleteApnsSandboxChannelInput) async throws -> DeleteApnsSandboxChannelOutput
-    {
+    public func deleteApnsSandboxChannel(input: DeleteApnsSandboxChannelInput) async throws -> DeleteApnsSandboxChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -846,8 +831,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteApnsVoipChannel(input: DeleteApnsVoipChannelInput) async throws -> DeleteApnsVoipChannelOutput
-    {
+    public func deleteApnsVoipChannel(input: DeleteApnsVoipChannelInput) async throws -> DeleteApnsVoipChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -895,8 +879,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteApnsVoipSandboxChannel(input: DeleteApnsVoipSandboxChannelInput) async throws -> DeleteApnsVoipSandboxChannelOutput
-    {
+    public func deleteApnsVoipSandboxChannel(input: DeleteApnsVoipSandboxChannelInput) async throws -> DeleteApnsVoipSandboxChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -944,8 +927,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    {
+    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -993,8 +975,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteBaiduChannel(input: DeleteBaiduChannelInput) async throws -> DeleteBaiduChannelOutput
-    {
+    public func deleteBaiduChannel(input: DeleteBaiduChannelInput) async throws -> DeleteBaiduChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1042,8 +1023,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
-    {
+    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1091,8 +1071,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteEmailChannel(input: DeleteEmailChannelInput) async throws -> DeleteEmailChannelOutput
-    {
+    public func deleteEmailChannel(input: DeleteEmailChannelInput) async throws -> DeleteEmailChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1119,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput
-    {
+    public func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1190,8 +1168,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1239,8 +1216,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutput
-    {
+    public func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1288,8 +1264,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteGcmChannel(input: DeleteGcmChannelInput) async throws -> DeleteGcmChannelOutput
-    {
+    public func deleteGcmChannel(input: DeleteGcmChannelInput) async throws -> DeleteGcmChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1337,8 +1312,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteInAppTemplate(input: DeleteInAppTemplateInput) async throws -> DeleteInAppTemplateOutput
-    {
+    public func deleteInAppTemplate(input: DeleteInAppTemplateInput) async throws -> DeleteInAppTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1387,8 +1361,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteJourney(input: DeleteJourneyInput) async throws -> DeleteJourneyOutput
-    {
+    public func deleteJourney(input: DeleteJourneyInput) async throws -> DeleteJourneyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1436,8 +1409,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deletePushTemplate(input: DeletePushTemplateInput) async throws -> DeletePushTemplateOutput
-    {
+    public func deletePushTemplate(input: DeletePushTemplateInput) async throws -> DeletePushTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1458,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteRecommenderConfiguration(input: DeleteRecommenderConfigurationInput) async throws -> DeleteRecommenderConfigurationOutput
-    {
+    public func deleteRecommenderConfiguration(input: DeleteRecommenderConfigurationInput) async throws -> DeleteRecommenderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1535,8 +1506,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutput
-    {
+    public func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1584,8 +1554,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteSmsChannel(input: DeleteSmsChannelInput) async throws -> DeleteSmsChannelOutput
-    {
+    public func deleteSmsChannel(input: DeleteSmsChannelInput) async throws -> DeleteSmsChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1633,8 +1602,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteSmsTemplate(input: DeleteSmsTemplateInput) async throws -> DeleteSmsTemplateOutput
-    {
+    public func deleteSmsTemplate(input: DeleteSmsTemplateInput) async throws -> DeleteSmsTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1683,8 +1651,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteUserEndpoints(input: DeleteUserEndpointsInput) async throws -> DeleteUserEndpointsOutput
-    {
+    public func deleteUserEndpoints(input: DeleteUserEndpointsInput) async throws -> DeleteUserEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1732,8 +1699,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteVoiceChannel(input: DeleteVoiceChannelInput) async throws -> DeleteVoiceChannelOutput
-    {
+    public func deleteVoiceChannel(input: DeleteVoiceChannelInput) async throws -> DeleteVoiceChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1781,8 +1747,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func deleteVoiceTemplate(input: DeleteVoiceTemplateInput) async throws -> DeleteVoiceTemplateOutput
-    {
+    public func deleteVoiceTemplate(input: DeleteVoiceTemplateInput) async throws -> DeleteVoiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1831,8 +1796,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getAdmChannel(input: GetAdmChannelInput) async throws -> GetAdmChannelOutput
-    {
+    public func getAdmChannel(input: GetAdmChannelInput) async throws -> GetAdmChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1880,8 +1844,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApnsChannel(input: GetApnsChannelInput) async throws -> GetApnsChannelOutput
-    {
+    public func getApnsChannel(input: GetApnsChannelInput) async throws -> GetApnsChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1929,8 +1892,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApnsSandboxChannel(input: GetApnsSandboxChannelInput) async throws -> GetApnsSandboxChannelOutput
-    {
+    public func getApnsSandboxChannel(input: GetApnsSandboxChannelInput) async throws -> GetApnsSandboxChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1978,8 +1940,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApnsVoipChannel(input: GetApnsVoipChannelInput) async throws -> GetApnsVoipChannelOutput
-    {
+    public func getApnsVoipChannel(input: GetApnsVoipChannelInput) async throws -> GetApnsVoipChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2027,8 +1988,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApnsVoipSandboxChannel(input: GetApnsVoipSandboxChannelInput) async throws -> GetApnsVoipSandboxChannelOutput
-    {
+    public func getApnsVoipSandboxChannel(input: GetApnsVoipSandboxChannelInput) async throws -> GetApnsVoipSandboxChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2076,8 +2036,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApp(input: GetAppInput) async throws -> GetAppOutput
-    {
+    public func getApp(input: GetAppInput) async throws -> GetAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2125,8 +2084,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApplicationDateRangeKpi(input: GetApplicationDateRangeKpiInput) async throws -> GetApplicationDateRangeKpiOutput
-    {
+    public func getApplicationDateRangeKpi(input: GetApplicationDateRangeKpiInput) async throws -> GetApplicationDateRangeKpiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2175,8 +2133,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApplicationSettings(input: GetApplicationSettingsInput) async throws -> GetApplicationSettingsOutput
-    {
+    public func getApplicationSettings(input: GetApplicationSettingsInput) async throws -> GetApplicationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2181,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getApps(input: GetAppsInput) async throws -> GetAppsOutput
-    {
+    public func getApps(input: GetAppsInput) async throws -> GetAppsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2274,8 +2230,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getBaiduChannel(input: GetBaiduChannelInput) async throws -> GetBaiduChannelOutput
-    {
+    public func getBaiduChannel(input: GetBaiduChannelInput) async throws -> GetBaiduChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2323,8 +2278,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutput
-    {
+    public func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2326,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getCampaignActivities(input: GetCampaignActivitiesInput) async throws -> GetCampaignActivitiesOutput
-    {
+    public func getCampaignActivities(input: GetCampaignActivitiesInput) async throws -> GetCampaignActivitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2422,8 +2375,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getCampaignDateRangeKpi(input: GetCampaignDateRangeKpiInput) async throws -> GetCampaignDateRangeKpiOutput
-    {
+    public func getCampaignDateRangeKpi(input: GetCampaignDateRangeKpiInput) async throws -> GetCampaignDateRangeKpiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2472,8 +2424,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getCampaignVersion(input: GetCampaignVersionInput) async throws -> GetCampaignVersionOutput
-    {
+    public func getCampaignVersion(input: GetCampaignVersionInput) async throws -> GetCampaignVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2521,8 +2472,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getCampaignVersions(input: GetCampaignVersionsInput) async throws -> GetCampaignVersionsOutput
-    {
+    public func getCampaignVersions(input: GetCampaignVersionsInput) async throws -> GetCampaignVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2571,8 +2521,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getCampaigns(input: GetCampaignsInput) async throws -> GetCampaignsOutput
-    {
+    public func getCampaigns(input: GetCampaignsInput) async throws -> GetCampaignsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2621,8 +2570,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getChannels(input: GetChannelsInput) async throws -> GetChannelsOutput
-    {
+    public func getChannels(input: GetChannelsInput) async throws -> GetChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2670,8 +2618,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getEmailChannel(input: GetEmailChannelInput) async throws -> GetEmailChannelOutput
-    {
+    public func getEmailChannel(input: GetEmailChannelInput) async throws -> GetEmailChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2719,8 +2666,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput
-    {
+    public func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2769,8 +2715,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutput
-    {
+    public func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2818,8 +2763,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutput
-    {
+    public func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2867,8 +2811,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput
-    {
+    public func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2916,8 +2859,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getExportJobs(input: GetExportJobsInput) async throws -> GetExportJobsOutput
-    {
+    public func getExportJobs(input: GetExportJobsInput) async throws -> GetExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2966,8 +2908,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getGcmChannel(input: GetGcmChannelInput) async throws -> GetGcmChannelOutput
-    {
+    public func getGcmChannel(input: GetGcmChannelInput) async throws -> GetGcmChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3015,8 +2956,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput
-    {
+    public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3064,8 +3004,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getImportJobs(input: GetImportJobsInput) async throws -> GetImportJobsOutput
-    {
+    public func getImportJobs(input: GetImportJobsInput) async throws -> GetImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3114,8 +3053,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getInAppMessages(input: GetInAppMessagesInput) async throws -> GetInAppMessagesOutput
-    {
+    public func getInAppMessages(input: GetInAppMessagesInput) async throws -> GetInAppMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3163,8 +3101,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getInAppTemplate(input: GetInAppTemplateInput) async throws -> GetInAppTemplateOutput
-    {
+    public func getInAppTemplate(input: GetInAppTemplateInput) async throws -> GetInAppTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3213,8 +3150,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourney(input: GetJourneyInput) async throws -> GetJourneyOutput
-    {
+    public func getJourney(input: GetJourneyInput) async throws -> GetJourneyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3262,8 +3198,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourneyDateRangeKpi(input: GetJourneyDateRangeKpiInput) async throws -> GetJourneyDateRangeKpiOutput
-    {
+    public func getJourneyDateRangeKpi(input: GetJourneyDateRangeKpiInput) async throws -> GetJourneyDateRangeKpiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3312,8 +3247,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput) async throws -> GetJourneyExecutionActivityMetricsOutput
-    {
+    public func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput) async throws -> GetJourneyExecutionActivityMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3362,8 +3296,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput) async throws -> GetJourneyExecutionMetricsOutput
-    {
+    public func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput) async throws -> GetJourneyExecutionMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3412,8 +3345,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourneyRunExecutionActivityMetrics(input: GetJourneyRunExecutionActivityMetricsInput) async throws -> GetJourneyRunExecutionActivityMetricsOutput
-    {
+    public func getJourneyRunExecutionActivityMetrics(input: GetJourneyRunExecutionActivityMetricsInput) async throws -> GetJourneyRunExecutionActivityMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3462,8 +3394,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourneyRunExecutionMetrics(input: GetJourneyRunExecutionMetricsInput) async throws -> GetJourneyRunExecutionMetricsOutput
-    {
+    public func getJourneyRunExecutionMetrics(input: GetJourneyRunExecutionMetricsInput) async throws -> GetJourneyRunExecutionMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3512,8 +3443,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getJourneyRuns(input: GetJourneyRunsInput) async throws -> GetJourneyRunsOutput
-    {
+    public func getJourneyRuns(input: GetJourneyRunsInput) async throws -> GetJourneyRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3562,8 +3492,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getPushTemplate(input: GetPushTemplateInput) async throws -> GetPushTemplateOutput
-    {
+    public func getPushTemplate(input: GetPushTemplateInput) async throws -> GetPushTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3612,8 +3541,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getRecommenderConfiguration(input: GetRecommenderConfigurationInput) async throws -> GetRecommenderConfigurationOutput
-    {
+    public func getRecommenderConfiguration(input: GetRecommenderConfigurationInput) async throws -> GetRecommenderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3661,8 +3589,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getRecommenderConfigurations(input: GetRecommenderConfigurationsInput) async throws -> GetRecommenderConfigurationsOutput
-    {
+    public func getRecommenderConfigurations(input: GetRecommenderConfigurationsInput) async throws -> GetRecommenderConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3711,8 +3638,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutput
-    {
+    public func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3760,8 +3686,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSegmentExportJobs(input: GetSegmentExportJobsInput) async throws -> GetSegmentExportJobsOutput
-    {
+    public func getSegmentExportJobs(input: GetSegmentExportJobsInput) async throws -> GetSegmentExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3810,8 +3735,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSegmentImportJobs(input: GetSegmentImportJobsInput) async throws -> GetSegmentImportJobsOutput
-    {
+    public func getSegmentImportJobs(input: GetSegmentImportJobsInput) async throws -> GetSegmentImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3860,8 +3784,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSegmentVersion(input: GetSegmentVersionInput) async throws -> GetSegmentVersionOutput
-    {
+    public func getSegmentVersion(input: GetSegmentVersionInput) async throws -> GetSegmentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3909,8 +3832,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSegmentVersions(input: GetSegmentVersionsInput) async throws -> GetSegmentVersionsOutput
-    {
+    public func getSegmentVersions(input: GetSegmentVersionsInput) async throws -> GetSegmentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3959,8 +3881,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSegments(input: GetSegmentsInput) async throws -> GetSegmentsOutput
-    {
+    public func getSegments(input: GetSegmentsInput) async throws -> GetSegmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4009,8 +3930,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSmsChannel(input: GetSmsChannelInput) async throws -> GetSmsChannelOutput
-    {
+    public func getSmsChannel(input: GetSmsChannelInput) async throws -> GetSmsChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4058,8 +3978,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getSmsTemplate(input: GetSmsTemplateInput) async throws -> GetSmsTemplateOutput
-    {
+    public func getSmsTemplate(input: GetSmsTemplateInput) async throws -> GetSmsTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4108,8 +4027,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getUserEndpoints(input: GetUserEndpointsInput) async throws -> GetUserEndpointsOutput
-    {
+    public func getUserEndpoints(input: GetUserEndpointsInput) async throws -> GetUserEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4157,8 +4075,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getVoiceChannel(input: GetVoiceChannelInput) async throws -> GetVoiceChannelOutput
-    {
+    public func getVoiceChannel(input: GetVoiceChannelInput) async throws -> GetVoiceChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4206,8 +4123,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func getVoiceTemplate(input: GetVoiceTemplateInput) async throws -> GetVoiceTemplateOutput
-    {
+    public func getVoiceTemplate(input: GetVoiceTemplateInput) async throws -> GetVoiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4256,8 +4172,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func listJourneys(input: ListJourneysInput) async throws -> ListJourneysOutput
-    {
+    public func listJourneys(input: ListJourneysInput) async throws -> ListJourneysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4295,8 +4210,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4344,8 +4258,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput
-    {
+    public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4392,8 +4305,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `InternalServerErrorException` : Provides information about an API request or response.
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    {
+    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4442,8 +4354,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func phoneNumberValidate(input: PhoneNumberValidateInput) async throws -> PhoneNumberValidateOutput
-    {
+    public func phoneNumberValidate(input: PhoneNumberValidateInput) async throws -> PhoneNumberValidateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4494,8 +4405,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func putEventStream(input: PutEventStreamInput) async throws -> PutEventStreamOutput
-    {
+    public func putEventStream(input: PutEventStreamInput) async throws -> PutEventStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4546,8 +4456,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-    {
+    public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4598,8 +4507,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func removeAttributes(input: RemoveAttributesInput) async throws -> RemoveAttributesOutput
-    {
+    public func removeAttributes(input: RemoveAttributesInput) async throws -> RemoveAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4650,8 +4558,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func sendMessages(input: SendMessagesInput) async throws -> SendMessagesOutput
-    {
+    public func sendMessages(input: SendMessagesInput) async throws -> SendMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4702,8 +4609,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func sendOTPMessage(input: SendOTPMessageInput) async throws -> SendOTPMessageOutput
-    {
+    public func sendOTPMessage(input: SendOTPMessageInput) async throws -> SendOTPMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4754,8 +4660,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func sendUsersMessages(input: SendUsersMessagesInput) async throws -> SendUsersMessagesOutput
-    {
+    public func sendUsersMessages(input: SendUsersMessagesInput) async throws -> SendUsersMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4795,8 +4700,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4836,8 +4740,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4886,8 +4789,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateAdmChannel(input: UpdateAdmChannelInput) async throws -> UpdateAdmChannelOutput
-    {
+    public func updateAdmChannel(input: UpdateAdmChannelInput) async throws -> UpdateAdmChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4938,8 +4840,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateApnsChannel(input: UpdateApnsChannelInput) async throws -> UpdateApnsChannelOutput
-    {
+    public func updateApnsChannel(input: UpdateApnsChannelInput) async throws -> UpdateApnsChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4990,8 +4891,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateApnsSandboxChannel(input: UpdateApnsSandboxChannelInput) async throws -> UpdateApnsSandboxChannelOutput
-    {
+    public func updateApnsSandboxChannel(input: UpdateApnsSandboxChannelInput) async throws -> UpdateApnsSandboxChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5042,8 +4942,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateApnsVoipChannel(input: UpdateApnsVoipChannelInput) async throws -> UpdateApnsVoipChannelOutput
-    {
+    public func updateApnsVoipChannel(input: UpdateApnsVoipChannelInput) async throws -> UpdateApnsVoipChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5094,8 +4993,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateApnsVoipSandboxChannel(input: UpdateApnsVoipSandboxChannelInput) async throws -> UpdateApnsVoipSandboxChannelOutput
-    {
+    public func updateApnsVoipSandboxChannel(input: UpdateApnsVoipSandboxChannelInput) async throws -> UpdateApnsVoipSandboxChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5146,8 +5044,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput
-    {
+    public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5198,8 +5095,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateBaiduChannel(input: UpdateBaiduChannelInput) async throws -> UpdateBaiduChannelOutput
-    {
+    public func updateBaiduChannel(input: UpdateBaiduChannelInput) async throws -> UpdateBaiduChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5250,8 +5146,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput
-    {
+    public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5302,8 +5197,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateEmailChannel(input: UpdateEmailChannelInput) async throws -> UpdateEmailChannelOutput
-    {
+    public func updateEmailChannel(input: UpdateEmailChannelInput) async throws -> UpdateEmailChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5354,8 +5248,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutput
-    {
+    public func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5407,8 +5300,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput
-    {
+    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5459,8 +5351,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateEndpointsBatch(input: UpdateEndpointsBatchInput) async throws -> UpdateEndpointsBatchOutput
-    {
+    public func updateEndpointsBatch(input: UpdateEndpointsBatchInput) async throws -> UpdateEndpointsBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5511,8 +5402,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateGcmChannel(input: UpdateGcmChannelInput) async throws -> UpdateGcmChannelOutput
-    {
+    public func updateGcmChannel(input: UpdateGcmChannelInput) async throws -> UpdateGcmChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5563,8 +5453,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateInAppTemplate(input: UpdateInAppTemplateInput) async throws -> UpdateInAppTemplateOutput
-    {
+    public func updateInAppTemplate(input: UpdateInAppTemplateInput) async throws -> UpdateInAppTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5617,8 +5506,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateJourney(input: UpdateJourneyInput) async throws -> UpdateJourneyOutput
-    {
+    public func updateJourney(input: UpdateJourneyInput) async throws -> UpdateJourneyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5669,8 +5557,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateJourneyState(input: UpdateJourneyStateInput) async throws -> UpdateJourneyStateOutput
-    {
+    public func updateJourneyState(input: UpdateJourneyStateInput) async throws -> UpdateJourneyStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5721,8 +5608,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updatePushTemplate(input: UpdatePushTemplateInput) async throws -> UpdatePushTemplateOutput
-    {
+    public func updatePushTemplate(input: UpdatePushTemplateInput) async throws -> UpdatePushTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5774,8 +5660,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateRecommenderConfiguration(input: UpdateRecommenderConfigurationInput) async throws -> UpdateRecommenderConfigurationOutput
-    {
+    public func updateRecommenderConfiguration(input: UpdateRecommenderConfigurationInput) async throws -> UpdateRecommenderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5826,8 +5711,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateSegment(input: UpdateSegmentInput) async throws -> UpdateSegmentOutput
-    {
+    public func updateSegment(input: UpdateSegmentInput) async throws -> UpdateSegmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5878,8 +5762,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateSmsChannel(input: UpdateSmsChannelInput) async throws -> UpdateSmsChannelOutput
-    {
+    public func updateSmsChannel(input: UpdateSmsChannelInput) async throws -> UpdateSmsChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5930,8 +5813,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateSmsTemplate(input: UpdateSmsTemplateInput) async throws -> UpdateSmsTemplateOutput
-    {
+    public func updateSmsTemplate(input: UpdateSmsTemplateInput) async throws -> UpdateSmsTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5983,8 +5865,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateTemplateActiveVersion(input: UpdateTemplateActiveVersionInput) async throws -> UpdateTemplateActiveVersionOutput
-    {
+    public func updateTemplateActiveVersion(input: UpdateTemplateActiveVersionInput) async throws -> UpdateTemplateActiveVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6035,8 +5916,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateVoiceChannel(input: UpdateVoiceChannelInput) async throws -> UpdateVoiceChannelOutput
-    {
+    public func updateVoiceChannel(input: UpdateVoiceChannelInput) async throws -> UpdateVoiceChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6087,8 +5967,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func updateVoiceTemplate(input: UpdateVoiceTemplateInput) async throws -> UpdateVoiceTemplateOutput
-    {
+    public func updateVoiceTemplate(input: UpdateVoiceTemplateInput) async throws -> UpdateVoiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6140,8 +6019,7 @@ extension PinpointClient: PinpointClientProtocol {
     /// - `NotFoundException` : Provides information about an API request or response.
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
-    public func verifyOTPMessage(input: VerifyOTPMessageInput) async throws -> VerifyOTPMessageOutput
-    {
+    public func verifyOTPMessage(input: VerifyOTPMessageInput) async throws -> VerifyOTPMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

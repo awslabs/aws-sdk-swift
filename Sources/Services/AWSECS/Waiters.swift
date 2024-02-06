@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ECSClientProtocol {
+extension ECSClient {
 
     static func servicesInactiveWaiterConfig() throws -> WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput> {
         let acceptors: [WaiterConfiguration<DescribeServicesInput, DescribeServicesOutput>.Acceptor] = [

@@ -66,7 +66,7 @@ public struct SyntheticsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension SyntheticsClient: SyntheticsClientProtocol {
+extension SyntheticsClient {
     /// Performs the `AssociateResource` operation on the `Synthetics` service.
     ///
     /// Associates a canary with a group. Using groups can help you with managing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. You must run this operation in the Region where the canary exists.
@@ -83,8 +83,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ServiceQuotaExceededException` : The request exceeded a service quota value.
     /// - `ValidationException` : A parameter could not be validated.
-    public func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutput
-    {
+    public func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `RequestEntityTooLargeException` : One of the input resources is larger than is allowed.
     /// - `ValidationException` : A parameter could not be validated.
-    public func createCanary(input: CreateCanaryInput) async throws -> CreateCanaryOutput
-    {
+    public func createCanary(input: CreateCanaryInput) async throws -> CreateCanaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ServiceQuotaExceededException` : The request exceeded a service quota value.
     /// - `ValidationException` : A parameter could not be validated.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func deleteCanary(input: DeleteCanaryInput) async throws -> DeleteCanaryOutput
-    {
+    public func deleteCanary(input: DeleteCanaryInput) async throws -> DeleteCanaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,8 +283,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    public func describeCanaries(input: DescribeCanariesInput) async throws -> DescribeCanariesOutput
-    {
+    public func describeCanaries(input: DescribeCanariesInput) async throws -> DescribeCanariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    public func describeCanariesLastRun(input: DescribeCanariesLastRunInput) async throws -> DescribeCanariesLastRunOutput
-    {
+    public func describeCanariesLastRun(input: DescribeCanariesLastRunInput) async throws -> DescribeCanariesLastRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    public func describeRuntimeVersions(input: DescribeRuntimeVersionsInput) async throws -> DescribeRuntimeVersionsOutput
-    {
+    public func describeRuntimeVersions(input: DescribeRuntimeVersionsInput) async throws -> DescribeRuntimeVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -474,8 +466,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutput
-    {
+    public func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -521,8 +512,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    public func getCanary(input: GetCanaryInput) async throws -> GetCanaryOutput
-    {
+    public func getCanary(input: GetCanaryInput) async throws -> GetCanaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +556,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func getCanaryRuns(input: GetCanaryRunsInput) async throws -> GetCanaryRunsOutput
-    {
+    public func getCanaryRuns(input: GetCanaryRunsInput) async throws -> GetCanaryRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -660,8 +648,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func listAssociatedGroups(input: ListAssociatedGroupsInput) async throws -> ListAssociatedGroupsOutput
-    {
+    public func listAssociatedGroups(input: ListAssociatedGroupsInput) async throws -> ListAssociatedGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -709,8 +696,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput
-    {
+    public func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -756,8 +742,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -806,8 +791,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalFailureException` : An internal failure occurred. Try the operation again.
     /// - `NotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : There were too many simultaneous requests. Try the operation again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -852,8 +836,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func startCanary(input: StartCanaryInput) async throws -> StartCanaryOutput
-    {
+    public func startCanary(input: StartCanaryInput) async throws -> StartCanaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +881,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func stopCanary(input: StopCanaryInput) async throws -> StopCanaryOutput
-    {
+    public func stopCanary(input: StopCanaryInput) async throws -> StopCanaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -945,8 +927,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalFailureException` : An internal failure occurred. Try the operation again.
     /// - `NotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : There were too many simultaneous requests. Try the operation again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +976,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `InternalFailureException` : An internal failure occurred. Try the operation again.
     /// - `NotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : There were too many simultaneous requests. Try the operation again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1043,8 +1023,7 @@ extension SyntheticsClient: SyntheticsClientProtocol {
     /// - `RequestEntityTooLargeException` : One of the input resources is larger than is allowed.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    public func updateCanary(input: UpdateCanaryInput) async throws -> UpdateCanaryOutput
-    {
+    public func updateCanary(input: UpdateCanaryInput) async throws -> UpdateCanaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

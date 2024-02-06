@@ -66,7 +66,7 @@ public struct CloudSearchDomainClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
+extension CloudSearchDomainClient {
     /// Performs the `Search` operation on the `AmazonCloudSearch2013` service.
     ///
     /// Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers:
@@ -90,8 +90,7 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `SearchException` : Information about any problems encountered while processing a search request.
-    public func search(input: SearchInput) async throws -> SearchOutput
-    {
+    public func search(input: SearchInput) async throws -> SearchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `SearchException` : Information about any problems encountered while processing a search request.
-    public func suggest(input: SuggestInput) async throws -> SuggestOutput
-    {
+    public func suggest(input: SuggestInput) async throws -> SuggestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DocumentServiceException` : Information about any problems encountered while processing an upload request.
-    public func uploadDocuments(input: UploadDocumentsInput) async throws -> UploadDocumentsOutput
-    {
+    public func uploadDocuments(input: UploadDocumentsInput) async throws -> UploadDocumentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

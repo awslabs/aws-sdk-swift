@@ -66,7 +66,7 @@ public struct SecurityLakeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension SecurityLakeClient: SecurityLakeClientProtocol {
+extension SecurityLakeClient {
     /// Performs the `CreateAwsLogSource` operation on the `SecurityLake` service.
     ///
     /// Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
@@ -84,8 +84,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createAwsLogSource(input: CreateAwsLogSourceInput) async throws -> CreateAwsLogSourceOutput
-    {
+    public func createAwsLogSource(input: CreateAwsLogSourceInput) async throws -> CreateAwsLogSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createCustomLogSource(input: CreateCustomLogSourceInput) async throws -> CreateCustomLogSourceOutput
-    {
+    public func createCustomLogSource(input: CreateCustomLogSourceInput) async throws -> CreateCustomLogSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createDataLake(input: CreateDataLakeInput) async throws -> CreateDataLakeOutput
-    {
+    public func createDataLake(input: CreateDataLakeInput) async throws -> CreateDataLakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createDataLakeExceptionSubscription(input: CreateDataLakeExceptionSubscriptionInput) async throws -> CreateDataLakeExceptionSubscriptionOutput
-    {
+    public func createDataLakeExceptionSubscription(input: CreateDataLakeExceptionSubscriptionInput) async throws -> CreateDataLakeExceptionSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createDataLakeOrganizationConfiguration(input: CreateDataLakeOrganizationConfigurationInput) async throws -> CreateDataLakeOrganizationConfigurationOutput
-    {
+    public func createDataLakeOrganizationConfiguration(input: CreateDataLakeOrganizationConfigurationInput) async throws -> CreateDataLakeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -339,8 +334,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput
-    {
+    public func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -390,8 +384,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func createSubscriberNotification(input: CreateSubscriberNotificationInput) async throws -> CreateSubscriberNotificationOutput
-    {
+    public func createSubscriberNotification(input: CreateSubscriberNotificationInput) async throws -> CreateSubscriberNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteAwsLogSource(input: DeleteAwsLogSourceInput) async throws -> DeleteAwsLogSourceOutput
-    {
+    public func deleteAwsLogSource(input: DeleteAwsLogSourceInput) async throws -> DeleteAwsLogSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +484,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteCustomLogSource(input: DeleteCustomLogSourceInput) async throws -> DeleteCustomLogSourceOutput
-    {
+    public func deleteCustomLogSource(input: DeleteCustomLogSourceInput) async throws -> DeleteCustomLogSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteDataLake(input: DeleteDataLakeInput) async throws -> DeleteDataLakeOutput
-    {
+    public func deleteDataLake(input: DeleteDataLakeInput) async throws -> DeleteDataLakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -592,8 +582,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteDataLakeExceptionSubscription(input: DeleteDataLakeExceptionSubscriptionInput) async throws -> DeleteDataLakeExceptionSubscriptionOutput
-    {
+    public func deleteDataLakeExceptionSubscription(input: DeleteDataLakeExceptionSubscriptionInput) async throws -> DeleteDataLakeExceptionSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -640,8 +629,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteDataLakeOrganizationConfiguration(input: DeleteDataLakeOrganizationConfigurationInput) async throws -> DeleteDataLakeOrganizationConfigurationOutput
-    {
+    public func deleteDataLakeOrganizationConfiguration(input: DeleteDataLakeOrganizationConfigurationInput) async throws -> DeleteDataLakeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +679,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput
-    {
+    public func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -739,8 +726,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deleteSubscriberNotification(input: DeleteSubscriberNotificationInput) async throws -> DeleteSubscriberNotificationOutput
-    {
+    public func deleteSubscriberNotification(input: DeleteSubscriberNotificationInput) async throws -> DeleteSubscriberNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -787,8 +773,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func deregisterDataLakeDelegatedAdministrator(input: DeregisterDataLakeDelegatedAdministratorInput) async throws -> DeregisterDataLakeDelegatedAdministratorOutput
-    {
+    public func deregisterDataLakeDelegatedAdministrator(input: DeregisterDataLakeDelegatedAdministratorInput) async throws -> DeregisterDataLakeDelegatedAdministratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -835,8 +820,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func getDataLakeExceptionSubscription(input: GetDataLakeExceptionSubscriptionInput) async throws -> GetDataLakeExceptionSubscriptionOutput
-    {
+    public func getDataLakeExceptionSubscription(input: GetDataLakeExceptionSubscriptionInput) async throws -> GetDataLakeExceptionSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -883,8 +867,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func getDataLakeOrganizationConfiguration(input: GetDataLakeOrganizationConfigurationInput) async throws -> GetDataLakeOrganizationConfigurationOutput
-    {
+    public func getDataLakeOrganizationConfiguration(input: GetDataLakeOrganizationConfigurationInput) async throws -> GetDataLakeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -931,8 +914,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func getDataLakeSources(input: GetDataLakeSourcesInput) async throws -> GetDataLakeSourcesOutput
-    {
+    public func getDataLakeSources(input: GetDataLakeSourcesInput) async throws -> GetDataLakeSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -982,8 +964,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func getSubscriber(input: GetSubscriberInput) async throws -> GetSubscriberOutput
-    {
+    public func getSubscriber(input: GetSubscriberInput) async throws -> GetSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1011,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listDataLakeExceptions(input: ListDataLakeExceptionsInput) async throws -> ListDataLakeExceptionsOutput
-    {
+    public func listDataLakeExceptions(input: ListDataLakeExceptionsInput) async throws -> ListDataLakeExceptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1081,8 +1061,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listDataLakes(input: ListDataLakesInput) async throws -> ListDataLakesOutput
-    {
+    public func listDataLakes(input: ListDataLakesInput) async throws -> ListDataLakesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1130,8 +1109,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listLogSources(input: ListLogSourcesInput) async throws -> ListLogSourcesOutput
-    {
+    public func listLogSources(input: ListLogSourcesInput) async throws -> ListLogSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1181,8 +1159,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listSubscribers(input: ListSubscribersInput) async throws -> ListSubscribersOutput
-    {
+    public func listSubscribers(input: ListSubscribersInput) async throws -> ListSubscribersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1230,8 +1207,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1278,8 +1254,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func registerDataLakeDelegatedAdministrator(input: RegisterDataLakeDelegatedAdministratorInput) async throws -> RegisterDataLakeDelegatedAdministratorOutput
-    {
+    public func registerDataLakeDelegatedAdministrator(input: RegisterDataLakeDelegatedAdministratorInput) async throws -> RegisterDataLakeDelegatedAdministratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1329,8 +1304,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1380,8 +1354,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1429,8 +1402,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func updateDataLake(input: UpdateDataLakeInput) async throws -> UpdateDataLakeOutput
-    {
+    public func updateDataLake(input: UpdateDataLakeInput) async throws -> UpdateDataLakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1480,8 +1452,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func updateDataLakeExceptionSubscription(input: UpdateDataLakeExceptionSubscriptionInput) async throws -> UpdateDataLakeExceptionSubscriptionOutput
-    {
+    public func updateDataLakeExceptionSubscription(input: UpdateDataLakeExceptionSubscriptionInput) async throws -> UpdateDataLakeExceptionSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1531,8 +1502,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput
-    {
+    public func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1582,8 +1552,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func updateSubscriberNotification(input: UpdateSubscriberNotificationInput) async throws -> UpdateSubscriberNotificationOutput
-    {
+    public func updateSubscriberNotification(input: UpdateSubscriberNotificationInput) async throws -> UpdateSubscriberNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

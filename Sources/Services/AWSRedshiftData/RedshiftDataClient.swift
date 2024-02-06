@@ -66,7 +66,7 @@ public struct RedshiftDataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension RedshiftDataClient: RedshiftDataClientProtocol {
+extension RedshiftDataClient {
     /// Performs the `BatchExecuteStatement` operation on the `RedshiftData` service.
     ///
     /// Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters:
@@ -97,8 +97,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
     /// - `BatchExecuteStatementException` : An SQL statement encountered an environmental error while running.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
-    {
+    public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -148,8 +147,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput
-    {
+    public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -197,8 +195,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func describeStatement(input: DescribeStatementInput) async throws -> DescribeStatementOutput
-    {
+    public func describeStatement(input: DescribeStatementInput) async throws -> DescribeStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -262,8 +259,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput
-    {
+    public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +323,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
     /// - `ExecuteStatementException` : The SQL statement encountered an environmental error while running.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
-    {
+    public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +372,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func getStatementResult(input: GetStatementResultInput) async throws -> GetStatementResultOutput
-    {
+    public func getStatementResult(input: GetStatementResultInput) async throws -> GetStatementResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -442,8 +436,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
-    {
+    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -507,8 +500,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
-    {
+    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -555,8 +547,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput
-    {
+    public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +611,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// - `DatabaseConnectionException` : Connection to a database failed.
     /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
     /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
-    public func listTables(input: ListTablesInput) async throws -> ListTablesOutput
-    {
+    public func listTables(input: ListTablesInput) async throws -> ListTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

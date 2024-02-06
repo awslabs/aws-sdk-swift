@@ -66,7 +66,7 @@ public struct DataExchangeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension DataExchangeClient: DataExchangeClientProtocol {
+extension DataExchangeClient {
     /// Performs the `CancelJob` operation on the `DataExchange` service.
     ///
     /// This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
@@ -83,8 +83,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput
-    {
+    public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutput
-    {
+    public func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutput
-    {
+    public func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
-    {
+    public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,8 +374,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput
-    {
+    public func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutput
-    {
+    public func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -474,8 +466,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutput
-    {
+    public func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +511,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func getAsset(input: GetAssetInput) async throws -> GetAssetOutput
-    {
+    public func getAsset(input: GetAssetInput) async throws -> GetAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +556,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutput
-    {
+    public func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +601,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutput
-    {
+    public func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -658,8 +646,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutput
-    {
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,8 +691,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutput
-    {
+    public func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -750,8 +736,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutput
-    {
+    public func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +782,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
-    {
+    public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -844,8 +828,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutput
-    {
+    public func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -891,8 +874,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -938,8 +920,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutput
-    {
+    public func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +958,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1025,8 +1005,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutput
-    {
+    public func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1075,8 +1054,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutput
-    {
+    public func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1128,8 +1106,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func sendDataSetNotification(input: SendDataSetNotificationInput) async throws -> SendDataSetNotificationOutput
-    {
+    public func sendDataSetNotification(input: SendDataSetNotificationInput) async throws -> SendDataSetNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1180,8 +1157,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func startJob(input: StartJobInput) async throws -> StartJobOutput
-    {
+    public func startJob(input: StartJobInput) async throws -> StartJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1194,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1259,8 +1234,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1308,8 +1282,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutput
-    {
+    public func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1358,8 +1331,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput
-    {
+    public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1380,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutput
-    {
+    public func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1459,8 +1430,7 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    public func updateRevision(input: UpdateRevisionInput) async throws -> UpdateRevisionOutput
-    {
+    public func updateRevision(input: UpdateRevisionInput) async throws -> UpdateRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

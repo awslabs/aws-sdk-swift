@@ -66,7 +66,7 @@ public struct MigrationHubOrchestratorClientLogHandlerFactory: ClientRuntime.SDK
     }
 }
 
-extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol {
+extension MigrationHubOrchestratorClient {
     /// Performs the `CreateWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
     ///
     /// Create a workflow to orchestrate your migrations.
@@ -82,8 +82,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
-    {
+    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createWorkflowStep(input: CreateWorkflowStepInput) async throws -> CreateWorkflowStepOutput
-    {
+    public func createWorkflowStep(input: CreateWorkflowStepInput) async throws -> CreateWorkflowStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createWorkflowStepGroup(input: CreateWorkflowStepGroupInput) async throws -> CreateWorkflowStepGroupOutput
-    {
+    public func createWorkflowStepGroup(input: CreateWorkflowStepGroupInput) async throws -> CreateWorkflowStepGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
-    {
+    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteWorkflowStep(input: DeleteWorkflowStepInput) async throws -> DeleteWorkflowStepOutput
-    {
+    public func deleteWorkflowStep(input: DeleteWorkflowStepInput) async throws -> DeleteWorkflowStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -325,8 +320,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteWorkflowStepGroup(input: DeleteWorkflowStepGroupInput) async throws -> DeleteWorkflowStepGroupOutput
-    {
+    public func deleteWorkflowStepGroup(input: DeleteWorkflowStepGroupInput) async throws -> DeleteWorkflowStepGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -372,8 +366,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
-    {
+    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -419,8 +412,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getTemplateStep(input: GetTemplateStepInput) async throws -> GetTemplateStepOutput
-    {
+    public func getTemplateStep(input: GetTemplateStepInput) async throws -> GetTemplateStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -467,8 +459,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getTemplateStepGroup(input: GetTemplateStepGroupInput) async throws -> GetTemplateStepGroupOutput
-    {
+    public func getTemplateStepGroup(input: GetTemplateStepGroupInput) async throws -> GetTemplateStepGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +505,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
-    {
+    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -560,8 +550,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getWorkflowStep(input: GetWorkflowStepInput) async throws -> GetWorkflowStepOutput
-    {
+    public func getWorkflowStep(input: GetWorkflowStepInput) async throws -> GetWorkflowStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -608,8 +597,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getWorkflowStepGroup(input: GetWorkflowStepGroupInput) async throws -> GetWorkflowStepGroupOutput
-    {
+    public func getWorkflowStepGroup(input: GetWorkflowStepGroupInput) async throws -> GetWorkflowStepGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -654,8 +642,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutput
-    {
+    public func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -699,8 +686,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -745,8 +731,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listTemplateStepGroups(input: ListTemplateStepGroupsInput) async throws -> ListTemplateStepGroupsOutput
-    {
+    public func listTemplateStepGroups(input: ListTemplateStepGroupsInput) async throws -> ListTemplateStepGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -793,8 +778,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTemplateSteps(input: ListTemplateStepsInput) async throws -> ListTemplateStepsOutput
-    {
+    public func listTemplateSteps(input: ListTemplateStepsInput) async throws -> ListTemplateStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -839,8 +823,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    {
+    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -887,8 +870,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listWorkflowStepGroups(input: ListWorkflowStepGroupsInput) async throws -> ListWorkflowStepGroupsOutput
-    {
+    public func listWorkflowStepGroups(input: ListWorkflowStepGroupsInput) async throws -> ListWorkflowStepGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -934,8 +916,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listWorkflowSteps(input: ListWorkflowStepsInput) async throws -> ListWorkflowStepsOutput
-    {
+    public func listWorkflowSteps(input: ListWorkflowStepsInput) async throws -> ListWorkflowStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -982,8 +963,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-    {
+    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,8 +1009,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func retryWorkflowStep(input: RetryWorkflowStepInput) async throws -> RetryWorkflowStepOutput
-    {
+    public func retryWorkflowStep(input: RetryWorkflowStepInput) async throws -> RetryWorkflowStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1077,8 +1056,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startWorkflow(input: StartWorkflowInput) async throws -> StartWorkflowOutput
-    {
+    public func startWorkflow(input: StartWorkflowInput) async throws -> StartWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1124,8 +1102,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func stopWorkflow(input: StopWorkflowInput) async throws -> StopWorkflowOutput
-    {
+    public func stopWorkflow(input: StopWorkflowInput) async throws -> StopWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1168,8 +1145,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1215,8 +1191,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1263,8 +1238,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
-    {
+    public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1312,8 +1286,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateWorkflowStep(input: UpdateWorkflowStepInput) async throws -> UpdateWorkflowStepOutput
-    {
+    public func updateWorkflowStep(input: UpdateWorkflowStepInput) async throws -> UpdateWorkflowStepOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1362,8 +1335,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateWorkflowStepGroup(input: UpdateWorkflowStepGroupInput) async throws -> UpdateWorkflowStepGroupOutput
-    {
+    public func updateWorkflowStepGroup(input: UpdateWorkflowStepGroupInput) async throws -> UpdateWorkflowStepGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

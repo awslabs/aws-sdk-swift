@@ -13606,6 +13606,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum Macie2ClientTypes {}
+
 extension Macie2ClientTypes {
     /// The status of an Amazon Macie account. Valid values are:
     public enum MacieStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {

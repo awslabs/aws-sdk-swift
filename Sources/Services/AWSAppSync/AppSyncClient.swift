@@ -66,7 +66,7 @@ public struct AppSyncClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension AppSyncClient: AppSyncClientProtocol {
+extension AppSyncClient {
     /// Performs the `AssociateApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
     /// Maps an endpoint to your custom domain.
@@ -82,8 +82,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func associateApi(input: AssociateApiInput) async throws -> AssociateApiOutput
-    {
+    public func associateApi(input: AssociateApiInput) async throws -> AssociateApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func associateMergedGraphqlApi(input: AssociateMergedGraphqlApiInput) async throws -> AssociateMergedGraphqlApiOutput
-    {
+    public func associateMergedGraphqlApi(input: AssociateMergedGraphqlApiInput) async throws -> AssociateMergedGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func associateSourceGraphqlApi(input: AssociateSourceGraphqlApiInput) async throws -> AssociateSourceGraphqlApiOutput
-    {
+    public func associateSourceGraphqlApi(input: AssociateSourceGraphqlApiInput) async throws -> AssociateSourceGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createApiCache(input: CreateApiCacheInput) async throws -> CreateApiCacheOutput
-    {
+    public func createApiCache(input: CreateApiCacheInput) async throws -> CreateApiCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutput
-    {
+    public func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-    {
+    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
-    public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
-    {
+    public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -433,8 +426,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
-    {
+    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +476,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createGraphqlApi(input: CreateGraphqlApiInput) async throws -> CreateGraphqlApiOutput
-    {
+    public func createGraphqlApi(input: CreateGraphqlApiInput) async throws -> CreateGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -534,8 +525,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createResolver(input: CreateResolverInput) async throws -> CreateResolverOutput
-    {
+    public func createResolver(input: CreateResolverInput) async throws -> CreateResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -584,8 +574,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func createType(input: CreateTypeInput) async throws -> CreateTypeOutput
-    {
+    public func createType(input: CreateTypeInput) async throws -> CreateTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -634,8 +623,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteApiCache(input: DeleteApiCacheInput) async throws -> DeleteApiCacheOutput
-    {
+    public func deleteApiCache(input: DeleteApiCacheInput) async throws -> DeleteApiCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +668,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutput
-    {
+    public func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +714,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -774,8 +760,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
-    {
+    public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +805,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
-    {
+    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -868,8 +852,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteGraphqlApi(input: DeleteGraphqlApiInput) async throws -> DeleteGraphqlApiOutput
-    {
+    public func deleteGraphqlApi(input: DeleteGraphqlApiInput) async throws -> DeleteGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +898,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteResolver(input: DeleteResolverInput) async throws -> DeleteResolverOutput
-    {
+    public func deleteResolver(input: DeleteResolverInput) async throws -> DeleteResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -962,8 +944,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func deleteType(input: DeleteTypeInput) async throws -> DeleteTypeOutput
-    {
+    public func deleteType(input: DeleteTypeInput) async throws -> DeleteTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1009,8 +990,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func disassociateApi(input: DisassociateApiInput) async throws -> DisassociateApiOutput
-    {
+    public func disassociateApi(input: DisassociateApiInput) async throws -> DisassociateApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1056,8 +1036,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func disassociateMergedGraphqlApi(input: DisassociateMergedGraphqlApiInput) async throws -> DisassociateMergedGraphqlApiOutput
-    {
+    public func disassociateMergedGraphqlApi(input: DisassociateMergedGraphqlApiInput) async throws -> DisassociateMergedGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1082,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func disassociateSourceGraphqlApi(input: DisassociateSourceGraphqlApiInput) async throws -> DisassociateSourceGraphqlApiOutput
-    {
+    public func disassociateSourceGraphqlApi(input: DisassociateSourceGraphqlApiInput) async throws -> DisassociateSourceGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1126,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
-    public func evaluateCode(input: EvaluateCodeInput) async throws -> EvaluateCodeOutput
-    {
+    public func evaluateCode(input: EvaluateCodeInput) async throws -> EvaluateCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1173,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
-    public func evaluateMappingTemplate(input: EvaluateMappingTemplateInput) async throws -> EvaluateMappingTemplateOutput
-    {
+    public func evaluateMappingTemplate(input: EvaluateMappingTemplateInput) async throws -> EvaluateMappingTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1246,8 +1222,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func flushApiCache(input: FlushApiCacheInput) async throws -> FlushApiCacheOutput
-    {
+    public func flushApiCache(input: FlushApiCacheInput) async throws -> FlushApiCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1292,8 +1267,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func getApiAssociation(input: GetApiAssociationInput) async throws -> GetApiAssociationOutput
-    {
+    public func getApiAssociation(input: GetApiAssociationInput) async throws -> GetApiAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1339,8 +1313,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getApiCache(input: GetApiCacheInput) async throws -> GetApiCacheOutput
-    {
+    public func getApiCache(input: GetApiCacheInput) async throws -> GetApiCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1386,8 +1359,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
-    {
+    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1403,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func getDataSourceIntrospection(input: GetDataSourceIntrospectionInput) async throws -> GetDataSourceIntrospectionOutput
-    {
+    public func getDataSourceIntrospection(input: GetDataSourceIntrospectionInput) async throws -> GetDataSourceIntrospectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1478,8 +1449,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
-    {
+    public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1523,8 +1493,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
-    {
+    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1570,8 +1539,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getGraphqlApi(input: GetGraphqlApiInput) async throws -> GetGraphqlApiOutput
-    {
+    public func getGraphqlApi(input: GetGraphqlApiInput) async throws -> GetGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1616,8 +1584,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getIntrospectionSchema(input: GetIntrospectionSchemaInput) async throws -> GetIntrospectionSchemaOutput
-    {
+    public func getIntrospectionSchema(input: GetIntrospectionSchemaInput) async throws -> GetIntrospectionSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1662,8 +1629,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getResolver(input: GetResolverInput) async throws -> GetResolverOutput
-    {
+    public func getResolver(input: GetResolverInput) async throws -> GetResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1708,8 +1674,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getSchemaCreationStatus(input: GetSchemaCreationStatusInput) async throws -> GetSchemaCreationStatusOutput
-    {
+    public func getSchemaCreationStatus(input: GetSchemaCreationStatusInput) async throws -> GetSchemaCreationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1754,8 +1719,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getSourceApiAssociation(input: GetSourceApiAssociationInput) async throws -> GetSourceApiAssociationOutput
-    {
+    public func getSourceApiAssociation(input: GetSourceApiAssociationInput) async throws -> GetSourceApiAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1801,8 +1765,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func getType(input: GetTypeInput) async throws -> GetTypeOutput
-    {
+    public func getType(input: GetTypeInput) async throws -> GetTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1848,8 +1811,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listApiKeys(input: ListApiKeysInput) async throws -> ListApiKeysOutput
-    {
+    public func listApiKeys(input: ListApiKeysInput) async throws -> ListApiKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1895,8 +1857,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-    {
+    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1941,8 +1902,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
-    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
-    {
+    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1988,8 +1948,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
-    {
+    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2034,8 +1993,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listGraphqlApis(input: ListGraphqlApisInput) async throws -> ListGraphqlApisOutput
-    {
+    public func listGraphqlApis(input: ListGraphqlApisInput) async throws -> ListGraphqlApisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2081,8 +2039,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listResolvers(input: ListResolversInput) async throws -> ListResolversOutput
-    {
+    public func listResolvers(input: ListResolversInput) async throws -> ListResolversOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2128,8 +2085,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listResolversByFunction(input: ListResolversByFunctionInput) async throws -> ListResolversByFunctionOutput
-    {
+    public func listResolversByFunction(input: ListResolversByFunctionInput) async throws -> ListResolversByFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2175,8 +2131,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listSourceApiAssociations(input: ListSourceApiAssociationsInput) async throws -> ListSourceApiAssociationsOutput
-    {
+    public func listSourceApiAssociations(input: ListSourceApiAssociationsInput) async throws -> ListSourceApiAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2179,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2271,8 +2225,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listTypes(input: ListTypesInput) async throws -> ListTypesOutput
-    {
+    public func listTypes(input: ListTypesInput) async throws -> ListTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2319,8 +2272,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func listTypesByAssociation(input: ListTypesByAssociationInput) async throws -> ListTypesByAssociationOutput
-    {
+    public func listTypesByAssociation(input: ListTypesByAssociationInput) async throws -> ListTypesByAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2366,8 +2318,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func startDataSourceIntrospection(input: StartDataSourceIntrospectionInput) async throws -> StartDataSourceIntrospectionOutput
-    {
+    public func startDataSourceIntrospection(input: StartDataSourceIntrospectionInput) async throws -> StartDataSourceIntrospectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2416,8 +2367,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func startSchemaCreation(input: StartSchemaCreationInput) async throws -> StartSchemaCreationOutput
-    {
+    public func startSchemaCreation(input: StartSchemaCreationInput) async throws -> StartSchemaCreationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2466,8 +2416,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func startSchemaMerge(input: StartSchemaMergeInput) async throws -> StartSchemaMergeOutput
-    {
+    public func startSchemaMerge(input: StartSchemaMergeInput) async throws -> StartSchemaMergeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2514,8 +2463,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2565,8 +2513,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2613,8 +2560,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateApiCache(input: UpdateApiCacheInput) async throws -> UpdateApiCacheOutput
-    {
+    public func updateApiCache(input: UpdateApiCacheInput) async throws -> UpdateApiCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2664,8 +2610,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutput
-    {
+    public func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2714,8 +2659,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2764,8 +2708,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
-    public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
-    {
+    public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2813,8 +2756,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput
-    {
+    public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2864,8 +2806,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateGraphqlApi(input: UpdateGraphqlApiInput) async throws -> UpdateGraphqlApiOutput
-    {
+    public func updateGraphqlApi(input: UpdateGraphqlApiInput) async throws -> UpdateGraphqlApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2914,8 +2855,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateResolver(input: UpdateResolverInput) async throws -> UpdateResolverOutput
-    {
+    public func updateResolver(input: UpdateResolverInput) async throws -> UpdateResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2964,8 +2904,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateSourceApiAssociation(input: UpdateSourceApiAssociationInput) async throws -> UpdateSourceApiAssociationOutput
-    {
+    public func updateSourceApiAssociation(input: UpdateSourceApiAssociationInput) async throws -> UpdateSourceApiAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3014,8 +2953,7 @@ extension AppSyncClient: AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
-    public func updateType(input: UpdateTypeInput) async throws -> UpdateTypeOutput
-    {
+    public func updateType(input: UpdateTypeInput) async throws -> UpdateTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

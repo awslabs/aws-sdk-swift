@@ -66,7 +66,7 @@ public struct ApiGatewayV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
+extension ApiGatewayV2Client {
     /// Performs the `CreateApi` operation on the `ApiGatewayV2` service.
     ///
     /// Creates an Api resource.
@@ -82,8 +82,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createApi(input: CreateApiInput) async throws -> CreateApiOutput
-    {
+    public func createApi(input: CreateApiInput) async throws -> CreateApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createApiMapping(input: CreateApiMappingInput) async throws -> CreateApiMappingOutput
-    {
+    public func createApiMapping(input: CreateApiMappingInput) async throws -> CreateApiMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
-    {
+    public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
-    {
+    public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput
-    {
+    public func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createIntegrationResponse(input: CreateIntegrationResponseInput) async throws -> CreateIntegrationResponseOutput
-    {
+    public func createIntegrationResponse(input: CreateIntegrationResponseInput) async throws -> CreateIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    {
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
-    {
+    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -524,8 +515,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createRouteResponse(input: CreateRouteResponseInput) async throws -> CreateRouteResponseOutput
-    {
+    public func createRouteResponse(input: CreateRouteResponseInput) async throws -> CreateRouteResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createStage(input: CreateStageInput) async throws -> CreateStageOutput
-    {
+    public func createStage(input: CreateStageInput) async throws -> CreateStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +609,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput
-    {
+    public func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +655,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteAccessLogSettings(input: DeleteAccessLogSettingsInput) async throws -> DeleteAccessLogSettingsOutput
-    {
+    public func deleteAccessLogSettings(input: DeleteAccessLogSettingsInput) async throws -> DeleteAccessLogSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +698,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteApi(input: DeleteApiInput) async throws -> DeleteApiOutput
-    {
+    public func deleteApi(input: DeleteApiInput) async throws -> DeleteApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -756,8 +742,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteApiMapping(input: DeleteApiMappingInput) async throws -> DeleteApiMappingOutput
-    {
+    public func deleteApiMapping(input: DeleteApiMappingInput) async throws -> DeleteApiMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -800,8 +785,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
-    {
+    public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -844,8 +828,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteCorsConfiguration(input: DeleteCorsConfigurationInput) async throws -> DeleteCorsConfigurationOutput
-    {
+    public func deleteCorsConfiguration(input: DeleteCorsConfigurationInput) async throws -> DeleteCorsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -888,8 +871,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-    {
+    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -932,8 +914,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
-    {
+    public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -976,8 +957,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
-    {
+    public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1020,8 +1000,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput
-    {
+    public func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,8 +1043,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    {
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1086,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
-    {
+    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1152,8 +1129,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutput
-    {
+    public func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1172,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteRouteResponse(input: DeleteRouteResponseInput) async throws -> DeleteRouteResponseOutput
-    {
+    public func deleteRouteResponse(input: DeleteRouteResponseInput) async throws -> DeleteRouteResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1215,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteRouteSettings(input: DeleteRouteSettingsInput) async throws -> DeleteRouteSettingsOutput
-    {
+    public func deleteRouteSettings(input: DeleteRouteSettingsInput) async throws -> DeleteRouteSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1284,8 +1258,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
-    {
+    public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1301,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput
-    {
+    public func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1372,8 +1344,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func exportApi(input: ExportApiInput) async throws -> ExportApiOutput
-    {
+    public func exportApi(input: ExportApiInput) async throws -> ExportApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1417,8 +1388,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getApi(input: GetApiInput) async throws -> GetApiOutput
-    {
+    public func getApi(input: GetApiInput) async throws -> GetApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1462,8 +1432,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getApiMapping(input: GetApiMappingInput) async throws -> GetApiMappingOutput
-    {
+    public func getApiMapping(input: GetApiMappingInput) async throws -> GetApiMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1476,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getApiMappings(input: GetApiMappingsInput) async throws -> GetApiMappingsOutput
-    {
+    public func getApiMappings(input: GetApiMappingsInput) async throws -> GetApiMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1553,8 +1521,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getApis(input: GetApisInput) async throws -> GetApisOutput
-    {
+    public func getApis(input: GetApisInput) async throws -> GetApisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1598,8 +1565,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput
-    {
+    public func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1643,8 +1609,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput
-    {
+    public func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1688,8 +1653,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1697,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-    {
+    public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1778,8 +1741,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
-    {
+    public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1823,8 +1785,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput
-    {
+    public func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1868,8 +1829,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
-    {
+    public func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1912,8 +1872,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput
-    {
+    public func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1957,8 +1916,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getIntegrationResponses(input: GetIntegrationResponsesInput) async throws -> GetIntegrationResponsesOutput
-    {
+    public func getIntegrationResponses(input: GetIntegrationResponsesInput) async throws -> GetIntegrationResponsesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2003,8 +1961,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getIntegrations(input: GetIntegrationsInput) async throws -> GetIntegrationsOutput
-    {
+    public func getIntegrations(input: GetIntegrationsInput) async throws -> GetIntegrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2048,8 +2005,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getModel(input: GetModelInput) async throws -> GetModelOutput
-    {
+    public func getModel(input: GetModelInput) async throws -> GetModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2092,8 +2048,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput
-    {
+    public func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2137,8 +2092,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getModels(input: GetModelsInput) async throws -> GetModelsOutput
-    {
+    public func getModels(input: GetModelsInput) async throws -> GetModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2182,8 +2136,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getRoute(input: GetRouteInput) async throws -> GetRouteOutput
-    {
+    public func getRoute(input: GetRouteInput) async throws -> GetRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2226,8 +2179,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getRouteResponse(input: GetRouteResponseInput) async throws -> GetRouteResponseOutput
-    {
+    public func getRouteResponse(input: GetRouteResponseInput) async throws -> GetRouteResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2271,8 +2223,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getRouteResponses(input: GetRouteResponsesInput) async throws -> GetRouteResponsesOutput
-    {
+    public func getRouteResponses(input: GetRouteResponsesInput) async throws -> GetRouteResponsesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2317,8 +2268,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getRoutes(input: GetRoutesInput) async throws -> GetRoutesOutput
-    {
+    public func getRoutes(input: GetRoutesInput) async throws -> GetRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2362,8 +2312,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getStage(input: GetStageInput) async throws -> GetStageOutput
-    {
+    public func getStage(input: GetStageInput) async throws -> GetStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2407,8 +2356,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getStages(input: GetStagesInput) async throws -> GetStagesOutput
-    {
+    public func getStages(input: GetStagesInput) async throws -> GetStagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2454,8 +2402,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-    {
+    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2498,8 +2445,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput
-    {
+    public func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2542,8 +2488,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput
-    {
+    public func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2589,8 +2534,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func importApi(input: ImportApiInput) async throws -> ImportApiOutput
-    {
+    public func importApi(input: ImportApiInput) async throws -> ImportApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2639,8 +2583,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func reimportApi(input: ReimportApiInput) async throws -> ReimportApiOutput
-    {
+    public func reimportApi(input: ReimportApiInput) async throws -> ReimportApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2687,8 +2630,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func resetAuthorizersCache(input: ResetAuthorizersCacheInput) async throws -> ResetAuthorizersCacheOutput
-    {
+    public func resetAuthorizersCache(input: ResetAuthorizersCacheInput) async throws -> ResetAuthorizersCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2733,8 +2675,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2782,8 +2723,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2829,8 +2769,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateApi(input: UpdateApiInput) async throws -> UpdateApiOutput
-    {
+    public func updateApi(input: UpdateApiInput) async throws -> UpdateApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2878,8 +2817,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateApiMapping(input: UpdateApiMappingInput) async throws -> UpdateApiMappingOutput
-    {
+    public func updateApiMapping(input: UpdateApiMappingInput) async throws -> UpdateApiMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2927,8 +2865,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
-    {
+    public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2976,8 +2913,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput
-    {
+    public func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3025,8 +2961,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
-    {
+    public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3074,8 +3009,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput
-    {
+    public func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3123,8 +3057,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput
-    {
+    public func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3172,8 +3105,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
-    {
+    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3221,8 +3153,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
-    {
+    public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3270,8 +3201,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateRouteResponse(input: UpdateRouteResponseInput) async throws -> UpdateRouteResponseOutput
-    {
+    public func updateRouteResponse(input: UpdateRouteResponseInput) async throws -> UpdateRouteResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3319,8 +3249,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
-    {
+    public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3367,8 +3296,7 @@ extension ApiGatewayV2Client: ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    public func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutput
-    {
+    public func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

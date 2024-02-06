@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension SESClientProtocol {
+extension SESClient {
 
     static func identityExistsWaiterConfig() throws -> WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput> {
         let acceptors: [WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput>.Acceptor] = [

@@ -66,7 +66,7 @@ public struct DeviceFarmClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension DeviceFarmClient: DeviceFarmClientProtocol {
+extension DeviceFarmClient {
     /// Performs the `CreateDevicePool` operation on the `DeviceFarm_20150623` service.
     ///
     /// Creates a device pool.
@@ -82,8 +82,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createDevicePool(input: CreateDevicePoolInput) async throws -> CreateDevicePoolOutput
-    {
+    public func createDevicePool(input: CreateDevicePoolInput) async throws -> CreateDevicePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput
-    {
+    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput
-    {
+    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     /// - `TagOperationException` : The operation was not successful. Try again.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createRemoteAccessSession(input: CreateRemoteAccessSessionInput) async throws -> CreateRemoteAccessSessionOutput
-    {
+    public func createRemoteAccessSession(input: CreateRemoteAccessSessionInput) async throws -> CreateRemoteAccessSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `LimitExceededException` : A limit was exceeded.
-    public func createTestGridProject(input: CreateTestGridProjectInput) async throws -> CreateTestGridProjectOutput
-    {
+    public func createTestGridProject(input: CreateTestGridProjectInput) async throws -> CreateTestGridProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -381,8 +375,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func createTestGridUrl(input: CreateTestGridUrlInput) async throws -> CreateTestGridUrlOutput
-    {
+    public func createTestGridUrl(input: CreateTestGridUrlInput) async throws -> CreateTestGridUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -431,8 +424,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createUpload(input: CreateUploadInput) async throws -> CreateUploadOutput
-    {
+    public func createUpload(input: CreateUploadInput) async throws -> CreateUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createVPCEConfiguration(input: CreateVPCEConfigurationInput) async throws -> CreateVPCEConfigurationOutput
-    {
+    public func createVPCEConfiguration(input: CreateVPCEConfigurationInput) async throws -> CreateVPCEConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +521,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteDevicePool(input: DeleteDevicePoolInput) async throws -> DeleteDevicePoolOutput
-    {
+    public func deleteDevicePool(input: DeleteDevicePoolInput) async throws -> DeleteDevicePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -580,8 +570,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput
-    {
+    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput
-    {
+    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +668,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -730,8 +717,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput) async throws -> DeleteRemoteAccessSessionOutput
-    {
+    public func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput) async throws -> DeleteRemoteAccessSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -780,8 +766,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput
-    {
+    public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -830,8 +815,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `CannotDeleteException` : The requested object could not be deleted.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func deleteTestGridProject(input: DeleteTestGridProjectInput) async throws -> DeleteTestGridProjectOutput
-    {
+    public func deleteTestGridProject(input: DeleteTestGridProjectInput) async throws -> DeleteTestGridProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -880,8 +864,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteUpload(input: DeleteUploadInput) async throws -> DeleteUploadOutput
-    {
+    public func deleteUpload(input: DeleteUploadInput) async throws -> DeleteUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +913,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `InvalidOperationException` : There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput) async throws -> DeleteVPCEConfigurationOutput
-    {
+    public func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput) async throws -> DeleteVPCEConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -980,8 +962,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
-    {
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1011,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
-    {
+    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1060,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDeviceInstance(input: GetDeviceInstanceInput) async throws -> GetDeviceInstanceOutput
-    {
+    public func getDeviceInstance(input: GetDeviceInstanceInput) async throws -> GetDeviceInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1130,8 +1109,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDevicePool(input: GetDevicePoolInput) async throws -> GetDevicePoolOutput
-    {
+    public func getDevicePool(input: GetDevicePoolInput) async throws -> GetDevicePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1180,8 +1158,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput) async throws -> GetDevicePoolCompatibilityOutput
-    {
+    public func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput) async throws -> GetDevicePoolCompatibilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1230,8 +1207,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput
-    {
+    public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1256,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutput
-    {
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1330,8 +1305,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput
-    {
+    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1381,8 +1355,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getOfferingStatus(input: GetOfferingStatusInput) async throws -> GetOfferingStatusOutput
-    {
+    public func getOfferingStatus(input: GetOfferingStatusInput) async throws -> GetOfferingStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1404,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput
-    {
+    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1481,8 +1453,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getRemoteAccessSession(input: GetRemoteAccessSessionInput) async throws -> GetRemoteAccessSessionOutput
-    {
+    public func getRemoteAccessSession(input: GetRemoteAccessSessionInput) async throws -> GetRemoteAccessSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1531,8 +1502,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getRun(input: GetRunInput) async throws -> GetRunOutput
-    {
+    public func getRun(input: GetRunInput) async throws -> GetRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1581,8 +1551,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getSuite(input: GetSuiteInput) async throws -> GetSuiteOutput
-    {
+    public func getSuite(input: GetSuiteInput) async throws -> GetSuiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1631,8 +1600,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getTest(input: GetTestInput) async throws -> GetTestOutput
-    {
+    public func getTest(input: GetTestInput) async throws -> GetTestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1680,8 +1648,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func getTestGridProject(input: GetTestGridProjectInput) async throws -> GetTestGridProjectOutput
-    {
+    public func getTestGridProject(input: GetTestGridProjectInput) async throws -> GetTestGridProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1700,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func getTestGridSession(input: GetTestGridSessionInput) async throws -> GetTestGridSessionOutput
-    {
+    public func getTestGridSession(input: GetTestGridSessionInput) async throws -> GetTestGridSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1749,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getUpload(input: GetUploadInput) async throws -> GetUploadOutput
-    {
+    public func getUpload(input: GetUploadInput) async throws -> GetUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1832,8 +1797,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getVPCEConfiguration(input: GetVPCEConfigurationInput) async throws -> GetVPCEConfigurationOutput
-    {
+    public func getVPCEConfiguration(input: GetVPCEConfigurationInput) async throws -> GetVPCEConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1882,8 +1846,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput) async throws -> InstallToRemoteAccessSessionOutput
-    {
+    public func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput) async throws -> InstallToRemoteAccessSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1932,8 +1895,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
-    {
+    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1982,8 +1944,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listDeviceInstances(input: ListDeviceInstancesInput) async throws -> ListDeviceInstancesOutput
-    {
+    public func listDeviceInstances(input: ListDeviceInstancesInput) async throws -> ListDeviceInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2032,8 +1993,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listDevicePools(input: ListDevicePoolsInput) async throws -> ListDevicePoolsOutput
-    {
+    public func listDevicePools(input: ListDevicePoolsInput) async throws -> ListDevicePoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2082,8 +2042,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2132,8 +2091,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput
-    {
+    public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2182,8 +2140,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2232,8 +2189,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listNetworkProfiles(input: ListNetworkProfilesInput) async throws -> ListNetworkProfilesOutput
-    {
+    public func listNetworkProfiles(input: ListNetworkProfilesInput) async throws -> ListNetworkProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2283,8 +2239,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listOfferingPromotions(input: ListOfferingPromotionsInput) async throws -> ListOfferingPromotionsOutput
-    {
+    public func listOfferingPromotions(input: ListOfferingPromotionsInput) async throws -> ListOfferingPromotionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2334,8 +2289,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listOfferingTransactions(input: ListOfferingTransactionsInput) async throws -> ListOfferingTransactionsOutput
-    {
+    public func listOfferingTransactions(input: ListOfferingTransactionsInput) async throws -> ListOfferingTransactionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2385,8 +2339,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
-    {
+    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2435,8 +2388,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2485,8 +2437,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput) async throws -> ListRemoteAccessSessionsOutput
-    {
+    public func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput) async throws -> ListRemoteAccessSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2535,8 +2486,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listRuns(input: ListRunsInput) async throws -> ListRunsOutput
-    {
+    public func listRuns(input: ListRunsInput) async throws -> ListRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2585,8 +2535,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listSamples(input: ListSamplesInput) async throws -> ListSamplesOutput
-    {
+    public func listSamples(input: ListSamplesInput) async throws -> ListSamplesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2635,8 +2584,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listSuites(input: ListSuitesInput) async throws -> ListSuitesOutput
-    {
+    public func listSuites(input: ListSuitesInput) async throws -> ListSuitesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2684,8 +2632,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `TagOperationException` : The operation was not successful. Try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2732,8 +2679,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// __Possible Exceptions:__
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
-    public func listTestGridProjects(input: ListTestGridProjectsInput) async throws -> ListTestGridProjectsOutput
-    {
+    public func listTestGridProjects(input: ListTestGridProjectsInput) async throws -> ListTestGridProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2781,8 +2727,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func listTestGridSessionActions(input: ListTestGridSessionActionsInput) async throws -> ListTestGridSessionActionsOutput
-    {
+    public func listTestGridSessionActions(input: ListTestGridSessionActionsInput) async throws -> ListTestGridSessionActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2830,8 +2775,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput) async throws -> ListTestGridSessionArtifactsOutput
-    {
+    public func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput) async throws -> ListTestGridSessionArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2879,8 +2823,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func listTestGridSessions(input: ListTestGridSessionsInput) async throws -> ListTestGridSessionsOutput
-    {
+    public func listTestGridSessions(input: ListTestGridSessionsInput) async throws -> ListTestGridSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2929,8 +2872,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listTests(input: ListTestsInput) async throws -> ListTestsOutput
-    {
+    public func listTests(input: ListTestsInput) async throws -> ListTestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2979,8 +2921,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listUniqueProblems(input: ListUniqueProblemsInput) async throws -> ListUniqueProblemsOutput
-    {
+    public func listUniqueProblems(input: ListUniqueProblemsInput) async throws -> ListUniqueProblemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3029,8 +2970,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listUploads(input: ListUploadsInput) async throws -> ListUploadsOutput
-    {
+    public func listUploads(input: ListUploadsInput) async throws -> ListUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3077,8 +3017,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// __Possible Exceptions:__
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listVPCEConfigurations(input: ListVPCEConfigurationsInput) async throws -> ListVPCEConfigurationsOutput
-    {
+    public func listVPCEConfigurations(input: ListVPCEConfigurationsInput) async throws -> ListVPCEConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3128,8 +3067,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
-    {
+    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3179,8 +3117,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func renewOffering(input: RenewOfferingInput) async throws -> RenewOfferingOutput
-    {
+    public func renewOffering(input: RenewOfferingInput) async throws -> RenewOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3230,8 +3167,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func scheduleRun(input: ScheduleRunInput) async throws -> ScheduleRunOutput
-    {
+    public func scheduleRun(input: ScheduleRunInput) async throws -> ScheduleRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3280,8 +3216,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func stopJob(input: StopJobInput) async throws -> StopJobOutput
-    {
+    public func stopJob(input: StopJobInput) async throws -> StopJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3330,8 +3265,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func stopRemoteAccessSession(input: StopRemoteAccessSessionInput) async throws -> StopRemoteAccessSessionOutput
-    {
+    public func stopRemoteAccessSession(input: StopRemoteAccessSessionInput) async throws -> StopRemoteAccessSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3380,8 +3314,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func stopRun(input: StopRunInput) async throws -> StopRunOutput
-    {
+    public func stopRun(input: StopRunInput) async throws -> StopRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3431,8 +3364,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `TagOperationException` : The operation was not successful. Try again.
     /// - `TagPolicyException` : The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3480,8 +3412,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `TagOperationException` : The operation was not successful. Try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3530,8 +3461,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateDeviceInstance(input: UpdateDeviceInstanceInput) async throws -> UpdateDeviceInstanceOutput
-    {
+    public func updateDeviceInstance(input: UpdateDeviceInstanceInput) async throws -> UpdateDeviceInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3580,8 +3510,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateDevicePool(input: UpdateDevicePoolInput) async throws -> UpdateDevicePoolOutput
-    {
+    public func updateDevicePool(input: UpdateDevicePoolInput) async throws -> UpdateDevicePoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3630,8 +3559,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateInstanceProfile(input: UpdateInstanceProfileInput) async throws -> UpdateInstanceProfileOutput
-    {
+    public func updateInstanceProfile(input: UpdateInstanceProfileInput) async throws -> UpdateInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3680,8 +3608,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput
-    {
+    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3730,8 +3657,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3780,8 +3706,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
-    public func updateTestGridProject(input: UpdateTestGridProjectInput) async throws -> UpdateTestGridProjectOutput
-    {
+    public func updateTestGridProject(input: UpdateTestGridProjectInput) async throws -> UpdateTestGridProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3830,8 +3755,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateUpload(input: UpdateUploadInput) async throws -> UpdateUploadOutput
-    {
+    public func updateUpload(input: UpdateUploadInput) async throws -> UpdateUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3880,8 +3804,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `InvalidOperationException` : There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateVPCEConfiguration(input: UpdateVPCEConfigurationInput) async throws -> UpdateVPCEConfigurationOutput
-    {
+    public func updateVPCEConfiguration(input: UpdateVPCEConfigurationInput) async throws -> UpdateVPCEConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

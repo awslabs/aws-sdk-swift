@@ -66,7 +66,7 @@ public struct MediaTailorClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension MediaTailorClient: MediaTailorClientProtocol {
+extension MediaTailorClient {
     /// Performs the `ConfigureLogsForChannel` operation on the `MediaTailor` service.
     ///
     /// Configures Amazon CloudWatch log settings for a channel.
@@ -74,8 +74,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ConfigureLogsForChannelInput : [no documentation found]
     ///
     /// - Returns: `ConfigureLogsForChannelOutput` : [no documentation found]
-    public func configureLogsForChannel(input: ConfigureLogsForChannelInput) async throws -> ConfigureLogsForChannelOutput
-    {
+    public func configureLogsForChannel(input: ConfigureLogsForChannelInput) async throws -> ConfigureLogsForChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -115,8 +114,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ConfigureLogsForPlaybackConfigurationInput : Configures Amazon CloudWatch log settings for a playback configuration.
     ///
     /// - Returns: `ConfigureLogsForPlaybackConfigurationOutput` : [no documentation found]
-    public func configureLogsForPlaybackConfiguration(input: ConfigureLogsForPlaybackConfigurationInput) async throws -> ConfigureLogsForPlaybackConfigurationOutput
-    {
+    public func configureLogsForPlaybackConfiguration(input: ConfigureLogsForPlaybackConfigurationInput) async throws -> ConfigureLogsForPlaybackConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -156,8 +154,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter CreateChannelInput : [no documentation found]
     ///
     /// - Returns: `CreateChannelOutput` : [no documentation found]
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -197,8 +194,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter CreateLiveSourceInput : [no documentation found]
     ///
     /// - Returns: `CreateLiveSourceOutput` : [no documentation found]
-    public func createLiveSource(input: CreateLiveSourceInput) async throws -> CreateLiveSourceOutput
-    {
+    public func createLiveSource(input: CreateLiveSourceInput) async throws -> CreateLiveSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +234,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter CreatePrefetchScheduleInput : [no documentation found]
     ///
     /// - Returns: `CreatePrefetchScheduleOutput` : [no documentation found]
-    public func createPrefetchSchedule(input: CreatePrefetchScheduleInput) async throws -> CreatePrefetchScheduleOutput
-    {
+    public func createPrefetchSchedule(input: CreatePrefetchScheduleInput) async throws -> CreatePrefetchScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +274,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter CreateProgramInput : [no documentation found]
     ///
     /// - Returns: `CreateProgramOutput` : [no documentation found]
-    public func createProgram(input: CreateProgramInput) async throws -> CreateProgramOutput
-    {
+    public func createProgram(input: CreateProgramInput) async throws -> CreateProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -320,8 +314,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter CreateSourceLocationInput : [no documentation found]
     ///
     /// - Returns: `CreateSourceLocationOutput` : [no documentation found]
-    public func createSourceLocation(input: CreateSourceLocationInput) async throws -> CreateSourceLocationOutput
-    {
+    public func createSourceLocation(input: CreateSourceLocationInput) async throws -> CreateSourceLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -361,8 +354,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter CreateVodSourceInput : [no documentation found]
     ///
     /// - Returns: `CreateVodSourceOutput` : [no documentation found]
-    public func createVodSource(input: CreateVodSourceInput) async throws -> CreateVodSourceOutput
-    {
+    public func createVodSource(input: CreateVodSourceInput) async throws -> CreateVodSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -402,8 +394,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeleteChannelInput : [no documentation found]
     ///
     /// - Returns: `DeleteChannelOutput` : [no documentation found]
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -440,8 +431,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeleteChannelPolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteChannelPolicyOutput` : [no documentation found]
-    public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput
-    {
+    public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -478,8 +468,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeleteLiveSourceInput : [no documentation found]
     ///
     /// - Returns: `DeleteLiveSourceOutput` : [no documentation found]
-    public func deleteLiveSource(input: DeleteLiveSourceInput) async throws -> DeleteLiveSourceOutput
-    {
+    public func deleteLiveSource(input: DeleteLiveSourceInput) async throws -> DeleteLiveSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -516,8 +505,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeletePlaybackConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeletePlaybackConfigurationOutput` : [no documentation found]
-    public func deletePlaybackConfiguration(input: DeletePlaybackConfigurationInput) async throws -> DeletePlaybackConfigurationOutput
-    {
+    public func deletePlaybackConfiguration(input: DeletePlaybackConfigurationInput) async throws -> DeletePlaybackConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -554,8 +542,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeletePrefetchScheduleInput : [no documentation found]
     ///
     /// - Returns: `DeletePrefetchScheduleOutput` : [no documentation found]
-    public func deletePrefetchSchedule(input: DeletePrefetchScheduleInput) async throws -> DeletePrefetchScheduleOutput
-    {
+    public func deletePrefetchSchedule(input: DeletePrefetchScheduleInput) async throws -> DeletePrefetchScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -592,8 +579,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeleteProgramInput : [no documentation found]
     ///
     /// - Returns: `DeleteProgramOutput` : [no documentation found]
-    public func deleteProgram(input: DeleteProgramInput) async throws -> DeleteProgramOutput
-    {
+    public func deleteProgram(input: DeleteProgramInput) async throws -> DeleteProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +616,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeleteSourceLocationInput : [no documentation found]
     ///
     /// - Returns: `DeleteSourceLocationOutput` : [no documentation found]
-    public func deleteSourceLocation(input: DeleteSourceLocationInput) async throws -> DeleteSourceLocationOutput
-    {
+    public func deleteSourceLocation(input: DeleteSourceLocationInput) async throws -> DeleteSourceLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -668,8 +653,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DeleteVodSourceInput : [no documentation found]
     ///
     /// - Returns: `DeleteVodSourceOutput` : [no documentation found]
-    public func deleteVodSource(input: DeleteVodSourceInput) async throws -> DeleteVodSourceOutput
-    {
+    public func deleteVodSource(input: DeleteVodSourceInput) async throws -> DeleteVodSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +690,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DescribeChannelInput : [no documentation found]
     ///
     /// - Returns: `DescribeChannelOutput` : [no documentation found]
-    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
-    {
+    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -744,8 +727,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DescribeLiveSourceInput : [no documentation found]
     ///
     /// - Returns: `DescribeLiveSourceOutput` : [no documentation found]
-    public func describeLiveSource(input: DescribeLiveSourceInput) async throws -> DescribeLiveSourceOutput
-    {
+    public func describeLiveSource(input: DescribeLiveSourceInput) async throws -> DescribeLiveSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -782,8 +764,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DescribeProgramInput : [no documentation found]
     ///
     /// - Returns: `DescribeProgramOutput` : [no documentation found]
-    public func describeProgram(input: DescribeProgramInput) async throws -> DescribeProgramOutput
-    {
+    public func describeProgram(input: DescribeProgramInput) async throws -> DescribeProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +801,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DescribeSourceLocationInput : [no documentation found]
     ///
     /// - Returns: `DescribeSourceLocationOutput` : [no documentation found]
-    public func describeSourceLocation(input: DescribeSourceLocationInput) async throws -> DescribeSourceLocationOutput
-    {
+    public func describeSourceLocation(input: DescribeSourceLocationInput) async throws -> DescribeSourceLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -858,8 +838,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter DescribeVodSourceInput : [no documentation found]
     ///
     /// - Returns: `DescribeVodSourceOutput` : [no documentation found]
-    public func describeVodSource(input: DescribeVodSourceInput) async throws -> DescribeVodSourceOutput
-    {
+    public func describeVodSource(input: DescribeVodSourceInput) async throws -> DescribeVodSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -896,8 +875,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter GetChannelPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetChannelPolicyOutput` : [no documentation found]
-    public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput
-    {
+    public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -934,8 +912,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter GetChannelScheduleInput : [no documentation found]
     ///
     /// - Returns: `GetChannelScheduleOutput` : [no documentation found]
-    public func getChannelSchedule(input: GetChannelScheduleInput) async throws -> GetChannelScheduleOutput
-    {
+    public func getChannelSchedule(input: GetChannelScheduleInput) async throws -> GetChannelScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -973,8 +950,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter GetPlaybackConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetPlaybackConfigurationOutput` : [no documentation found]
-    public func getPlaybackConfiguration(input: GetPlaybackConfigurationInput) async throws -> GetPlaybackConfigurationOutput
-    {
+    public func getPlaybackConfiguration(input: GetPlaybackConfigurationInput) async throws -> GetPlaybackConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +987,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter GetPrefetchScheduleInput : [no documentation found]
     ///
     /// - Returns: `GetPrefetchScheduleOutput` : [no documentation found]
-    public func getPrefetchSchedule(input: GetPrefetchScheduleInput) async throws -> GetPrefetchScheduleOutput
-    {
+    public func getPrefetchSchedule(input: GetPrefetchScheduleInput) async throws -> GetPrefetchScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1049,8 +1024,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListAlertsInput : [no documentation found]
     ///
     /// - Returns: `ListAlertsOutput` : [no documentation found]
-    public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput
-    {
+    public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1088,8 +1062,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListChannelsInput : [no documentation found]
     ///
     /// - Returns: `ListChannelsOutput` : [no documentation found]
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1127,8 +1100,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListLiveSourcesInput : [no documentation found]
     ///
     /// - Returns: `ListLiveSourcesOutput` : [no documentation found]
-    public func listLiveSources(input: ListLiveSourcesInput) async throws -> ListLiveSourcesOutput
-    {
+    public func listLiveSources(input: ListLiveSourcesInput) async throws -> ListLiveSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1166,8 +1138,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListPlaybackConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListPlaybackConfigurationsOutput` : [no documentation found]
-    public func listPlaybackConfigurations(input: ListPlaybackConfigurationsInput) async throws -> ListPlaybackConfigurationsOutput
-    {
+    public func listPlaybackConfigurations(input: ListPlaybackConfigurationsInput) async throws -> ListPlaybackConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1205,8 +1176,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListPrefetchSchedulesInput : [no documentation found]
     ///
     /// - Returns: `ListPrefetchSchedulesOutput` : [no documentation found]
-    public func listPrefetchSchedules(input: ListPrefetchSchedulesInput) async throws -> ListPrefetchSchedulesOutput
-    {
+    public func listPrefetchSchedules(input: ListPrefetchSchedulesInput) async throws -> ListPrefetchSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1246,8 +1216,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListSourceLocationsInput : [no documentation found]
     ///
     /// - Returns: `ListSourceLocationsOutput` : [no documentation found]
-    public func listSourceLocations(input: ListSourceLocationsInput) async throws -> ListSourceLocationsOutput
-    {
+    public func listSourceLocations(input: ListSourceLocationsInput) async throws -> ListSourceLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1290,8 +1259,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A request contains unexpected data.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1296,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter ListVodSourcesInput : [no documentation found]
     ///
     /// - Returns: `ListVodSourcesOutput` : [no documentation found]
-    public func listVodSources(input: ListVodSourcesInput) async throws -> ListVodSourcesOutput
-    {
+    public func listVodSources(input: ListVodSourcesInput) async throws -> ListVodSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1367,8 +1334,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter PutChannelPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutChannelPolicyOutput` : [no documentation found]
-    public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput
-    {
+    public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1374,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter PutPlaybackConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutPlaybackConfigurationOutput` : [no documentation found]
-    public func putPlaybackConfiguration(input: PutPlaybackConfigurationInput) async throws -> PutPlaybackConfigurationOutput
-    {
+    public func putPlaybackConfiguration(input: PutPlaybackConfigurationInput) async throws -> PutPlaybackConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1449,8 +1414,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter StartChannelInput : [no documentation found]
     ///
     /// - Returns: `StartChannelOutput` : [no documentation found]
-    public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput
-    {
+    public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1487,8 +1451,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter StopChannelInput : [no documentation found]
     ///
     /// - Returns: `StopChannelOutput` : [no documentation found]
-    public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput
-    {
+    public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1530,8 +1493,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A request contains unexpected data.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1576,8 +1538,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A request contains unexpected data.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1615,8 +1576,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter UpdateChannelInput : [no documentation found]
     ///
     /// - Returns: `UpdateChannelOutput` : [no documentation found]
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1656,8 +1616,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter UpdateLiveSourceInput : [no documentation found]
     ///
     /// - Returns: `UpdateLiveSourceOutput` : [no documentation found]
-    public func updateLiveSource(input: UpdateLiveSourceInput) async throws -> UpdateLiveSourceOutput
-    {
+    public func updateLiveSource(input: UpdateLiveSourceInput) async throws -> UpdateLiveSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1697,8 +1656,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter UpdateProgramInput : [no documentation found]
     ///
     /// - Returns: `UpdateProgramOutput` : [no documentation found]
-    public func updateProgram(input: UpdateProgramInput) async throws -> UpdateProgramOutput
-    {
+    public func updateProgram(input: UpdateProgramInput) async throws -> UpdateProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1738,8 +1696,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter UpdateSourceLocationInput : [no documentation found]
     ///
     /// - Returns: `UpdateSourceLocationOutput` : [no documentation found]
-    public func updateSourceLocation(input: UpdateSourceLocationInput) async throws -> UpdateSourceLocationOutput
-    {
+    public func updateSourceLocation(input: UpdateSourceLocationInput) async throws -> UpdateSourceLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1779,8 +1736,7 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     /// - Parameter UpdateVodSourceInput : [no documentation found]
     ///
     /// - Returns: `UpdateVodSourceOutput` : [no documentation found]
-    public func updateVodSource(input: UpdateVodSourceInput) async throws -> UpdateVodSourceOutput
-    {
+    public func updateVodSource(input: UpdateVodSourceInput) async throws -> UpdateVodSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

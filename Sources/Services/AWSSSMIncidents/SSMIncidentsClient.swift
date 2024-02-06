@@ -66,7 +66,7 @@ public struct SSMIncidentsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension SSMIncidentsClient: SSMIncidentsClientProtocol {
+extension SSMIncidentsClient {
     /// Performs the `BatchGetIncidentFindings` operation on the `SSMIncidents` service.
     ///
     /// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident.
@@ -83,8 +83,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func batchGetIncidentFindings(input: BatchGetIncidentFindingsInput) async throws -> BatchGetIncidentFindingsOutput
-    {
+    public func batchGetIncidentFindings(input: BatchGetIncidentFindingsInput) async throws -> BatchGetIncidentFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createReplicationSet(input: CreateReplicationSetInput) async throws -> CreateReplicationSetOutput
-    {
+    public func createReplicationSet(input: CreateReplicationSetInput) async throws -> CreateReplicationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createResponsePlan(input: CreateResponsePlanInput) async throws -> CreateResponsePlanOutput
-    {
+    public func createResponsePlan(input: CreateResponsePlanInput) async throws -> CreateResponsePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createTimelineEvent(input: CreateTimelineEventInput) async throws -> CreateTimelineEventOutput
-    {
+    public func createTimelineEvent(input: CreateTimelineEventInput) async throws -> CreateTimelineEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteIncidentRecord(input: DeleteIncidentRecordInput) async throws -> DeleteIncidentRecordOutput
-    {
+    public func deleteIncidentRecord(input: DeleteIncidentRecordInput) async throws -> DeleteIncidentRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,8 +333,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteReplicationSet(input: DeleteReplicationSetInput) async throws -> DeleteReplicationSetOutput
-    {
+    public func deleteReplicationSet(input: DeleteReplicationSetInput) async throws -> DeleteReplicationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -386,8 +380,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -435,8 +428,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteResponsePlan(input: DeleteResponsePlanInput) async throws -> DeleteResponsePlanOutput
-    {
+    public func deleteResponsePlan(input: DeleteResponsePlanInput) async throws -> DeleteResponsePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +476,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteTimelineEvent(input: DeleteTimelineEventInput) async throws -> DeleteTimelineEventOutput
-    {
+    public func deleteTimelineEvent(input: DeleteTimelineEventInput) async throws -> DeleteTimelineEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -534,8 +525,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getIncidentRecord(input: GetIncidentRecordInput) async throws -> GetIncidentRecordOutput
-    {
+    public func getIncidentRecord(input: GetIncidentRecordInput) async throws -> GetIncidentRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -582,8 +572,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getReplicationSet(input: GetReplicationSetInput) async throws -> GetReplicationSetOutput
-    {
+    public func getReplicationSet(input: GetReplicationSetInput) async throws -> GetReplicationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
-    {
+    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -681,8 +669,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getResponsePlan(input: GetResponsePlanInput) async throws -> GetResponsePlanOutput
-    {
+    public func getResponsePlan(input: GetResponsePlanInput) async throws -> GetResponsePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getTimelineEvent(input: GetTimelineEventInput) async throws -> GetTimelineEventOutput
-    {
+    public func getTimelineEvent(input: GetTimelineEventInput) async throws -> GetTimelineEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -777,8 +763,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listIncidentFindings(input: ListIncidentFindingsInput) async throws -> ListIncidentFindingsOutput
-    {
+    public func listIncidentFindings(input: ListIncidentFindingsInput) async throws -> ListIncidentFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -826,8 +811,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listIncidentRecords(input: ListIncidentRecordsInput) async throws -> ListIncidentRecordsOutput
-    {
+    public func listIncidentRecords(input: ListIncidentRecordsInput) async throws -> ListIncidentRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +859,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listRelatedItems(input: ListRelatedItemsInput) async throws -> ListRelatedItemsOutput
-    {
+    public func listRelatedItems(input: ListRelatedItemsInput) async throws -> ListRelatedItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +907,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listReplicationSets(input: ListReplicationSetsInput) async throws -> ListReplicationSetsOutput
-    {
+    public func listReplicationSets(input: ListReplicationSetsInput) async throws -> ListReplicationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -973,8 +955,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listResponsePlans(input: ListResponsePlansInput) async throws -> ListResponsePlansOutput
-    {
+    public func listResponsePlans(input: ListResponsePlansInput) async throws -> ListResponsePlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,8 +1004,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1069,8 +1049,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTimelineEvents(input: ListTimelineEventsInput) async throws -> ListTimelineEventsOutput
-    {
+    public func listTimelineEvents(input: ListTimelineEventsInput) async throws -> ListTimelineEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1119,8 +1098,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1170,8 +1148,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func startIncident(input: StartIncidentInput) async throws -> StartIncidentOutput
-    {
+    public func startIncident(input: StartIncidentInput) async throws -> StartIncidentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1223,8 +1200,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1274,8 +1250,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1322,8 +1297,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateDeletionProtection(input: UpdateDeletionProtectionInput) async throws -> UpdateDeletionProtectionOutput
-    {
+    public func updateDeletionProtection(input: UpdateDeletionProtectionInput) async throws -> UpdateDeletionProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1374,8 +1348,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateIncidentRecord(input: UpdateIncidentRecordInput) async throws -> UpdateIncidentRecordOutput
-    {
+    public func updateIncidentRecord(input: UpdateIncidentRecordInput) async throws -> UpdateIncidentRecordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1426,8 +1399,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateRelatedItems(input: UpdateRelatedItemsInput) async throws -> UpdateRelatedItemsOutput
-    {
+    public func updateRelatedItems(input: UpdateRelatedItemsInput) async throws -> UpdateRelatedItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1478,8 +1450,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateReplicationSet(input: UpdateReplicationSetInput) async throws -> UpdateReplicationSetOutput
-    {
+    public func updateReplicationSet(input: UpdateReplicationSetInput) async throws -> UpdateReplicationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1530,8 +1501,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateResponsePlan(input: UpdateResponsePlanInput) async throws -> UpdateResponsePlanOutput
-    {
+    public func updateResponsePlan(input: UpdateResponsePlanInput) async throws -> UpdateResponsePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1582,8 +1552,7 @@ extension SSMIncidentsClient: SSMIncidentsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateTimelineEvent(input: UpdateTimelineEventInput) async throws -> UpdateTimelineEventOutput
-    {
+    public func updateTimelineEvent(input: UpdateTimelineEventInput) async throws -> UpdateTimelineEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

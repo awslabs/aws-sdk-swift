@@ -66,7 +66,7 @@ public struct ResourceExplorer2ClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
+extension ResourceExplorer2Client {
     /// Performs the `AssociateDefaultView` operation on the `ResourceExplorer` service.
     ///
     /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a [Search] that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
@@ -83,8 +83,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func associateDefaultView(input: AssociateDefaultViewInput) async throws -> AssociateDefaultViewOutput
-    {
+    public func associateDefaultView(input: AssociateDefaultViewInput) async throws -> AssociateDefaultViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func batchGetView(input: BatchGetViewInput) async throws -> BatchGetViewOutput
-    {
+    public func batchGetView(input: BatchGetViewInput) async throws -> BatchGetViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput
-    {
+    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func createView(input: CreateViewInput) async throws -> CreateViewOutput
-    {
+    public func createView(input: CreateViewInput) async throws -> CreateViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput
-    {
+    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutput
-    {
+    public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func disassociateDefaultView(input: DisassociateDefaultViewInput) async throws -> DisassociateDefaultViewOutput
-    {
+    public func disassociateDefaultView(input: DisassociateDefaultViewInput) async throws -> DisassociateDefaultViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -438,8 +431,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
     /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
-    public func getAccountLevelServiceConfiguration(input: GetAccountLevelServiceConfigurationInput) async throws -> GetAccountLevelServiceConfigurationOutput
-    {
+    public func getAccountLevelServiceConfiguration(input: GetAccountLevelServiceConfigurationInput) async throws -> GetAccountLevelServiceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -485,8 +477,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func getDefaultView(input: GetDefaultViewInput) async throws -> GetDefaultViewOutput
-    {
+    public func getDefaultView(input: GetDefaultViewInput) async throws -> GetDefaultViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -532,8 +523,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func getIndex(input: GetIndexInput) async throws -> GetIndexOutput
-    {
+    public func getIndex(input: GetIndexInput) async throws -> GetIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -580,8 +570,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func getView(input: GetViewInput) async throws -> GetViewOutput
-    {
+    public func getView(input: GetViewInput) async throws -> GetViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -629,8 +618,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func listIndexes(input: ListIndexesInput) async throws -> ListIndexesOutput
-    {
+    public func listIndexes(input: ListIndexesInput) async throws -> ListIndexesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -678,8 +666,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func listIndexesForMembers(input: ListIndexesForMembersInput) async throws -> ListIndexesForMembersOutput
-    {
+    public func listIndexesForMembers(input: ListIndexesForMembersInput) async throws -> ListIndexesForMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +714,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func listSupportedResourceTypes(input: ListSupportedResourceTypesInput) async throws -> ListSupportedResourceTypesOutput
-    {
+    public func listSupportedResourceTypes(input: ListSupportedResourceTypesInput) async throws -> ListSupportedResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -824,8 +809,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func listViews(input: ListViewsInput) async throws -> ListViewsOutput
-    {
+    public func listViews(input: ListViewsInput) async throws -> ListViewsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +859,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func search(input: SearchInput) async throws -> SearchOutput
-    {
+    public func search(input: SearchInput) async throws -> SearchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -926,8 +909,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +959,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1012,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because it exceeds a service quota.
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func updateIndexType(input: UpdateIndexTypeInput) async throws -> UpdateIndexTypeOutput
-    {
+    public func updateIndexType(input: UpdateIndexTypeInput) async throws -> UpdateIndexTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1062,7 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
     /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
     /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-    public func updateView(input: UpdateViewInput) async throws -> UpdateViewOutput
-    {
+    public func updateView(input: UpdateViewInput) async throws -> UpdateViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

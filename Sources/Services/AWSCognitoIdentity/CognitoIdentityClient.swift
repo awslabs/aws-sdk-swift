@@ -66,7 +66,7 @@ public struct CognitoIdentityClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension CognitoIdentityClient: CognitoIdentityClientProtocol {
+extension CognitoIdentityClient {
     /// Performs the `CreateIdentityPool` operation on the `AWSCognitoIdentityService` service.
     ///
     /// Creates a new identity pool. The identity pool is a store of user identity information that is specific to your AWS account. The keys for SupportedLoginProviders are as follows:
@@ -97,8 +97,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func createIdentityPool(input: CreateIdentityPoolInput) async throws -> CreateIdentityPoolOutput
-    {
+    public func createIdentityPool(input: CreateIdentityPoolInput) async throws -> CreateIdentityPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -146,8 +145,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `InternalErrorException` : Thrown when the service encounters an error during processing the request.
     /// - `InvalidParameterException` : Thrown for missing or bad input parameter(s).
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func deleteIdentities(input: DeleteIdentitiesInput) async throws -> DeleteIdentitiesOutput
-    {
+    public func deleteIdentities(input: DeleteIdentitiesInput) async throws -> DeleteIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -197,8 +195,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func deleteIdentityPool(input: DeleteIdentityPoolInput) async throws -> DeleteIdentityPoolOutput
-    {
+    public func deleteIdentityPool(input: DeleteIdentityPoolInput) async throws -> DeleteIdentityPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -248,8 +245,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func describeIdentity(input: DescribeIdentityInput) async throws -> DescribeIdentityOutput
-    {
+    public func describeIdentity(input: DescribeIdentityInput) async throws -> DescribeIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -299,8 +295,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func describeIdentityPool(input: DescribeIdentityPoolInput) async throws -> DescribeIdentityPoolOutput
-    {
+    public func describeIdentityPool(input: DescribeIdentityPoolInput) async throws -> DescribeIdentityPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -353,8 +348,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput) async throws -> GetCredentialsForIdentityOutput
-    {
+    public func getCredentialsForIdentity(input: GetCredentialsForIdentityInput) async throws -> GetCredentialsForIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -403,8 +397,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getId(input: GetIdInput) async throws -> GetIdOutput
-    {
+    public func getId(input: GetIdInput) async throws -> GetIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +444,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getIdentityPoolRoles(input: GetIdentityPoolRolesInput) async throws -> GetIdentityPoolRolesOutput
-    {
+    public func getIdentityPoolRoles(input: GetIdentityPoolRolesInput) async throws -> GetIdentityPoolRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -504,8 +496,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getOpenIdToken(input: GetOpenIdTokenInput) async throws -> GetOpenIdTokenOutput
-    {
+    public func getOpenIdToken(input: GetOpenIdTokenInput) async throws -> GetOpenIdTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getOpenIdTokenForDeveloperIdentity(input: GetOpenIdTokenForDeveloperIdentityInput) async throws -> GetOpenIdTokenForDeveloperIdentityOutput
-    {
+    public func getOpenIdTokenForDeveloperIdentity(input: GetOpenIdTokenForDeveloperIdentityInput) async throws -> GetOpenIdTokenForDeveloperIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +594,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func getPrincipalTagAttributeMap(input: GetPrincipalTagAttributeMapInput) async throws -> GetPrincipalTagAttributeMapOutput
-    {
+    public func getPrincipalTagAttributeMap(input: GetPrincipalTagAttributeMapInput) async throws -> GetPrincipalTagAttributeMapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -655,8 +644,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput
-    {
+    public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +694,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func listIdentityPools(input: ListIdentityPoolsInput) async throws -> ListIdentityPoolsOutput
-    {
+    public func listIdentityPools(input: ListIdentityPoolsInput) async throws -> ListIdentityPoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +744,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +795,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func lookupDeveloperIdentity(input: LookupDeveloperIdentityInput) async throws -> LookupDeveloperIdentityOutput
-    {
+    public func lookupDeveloperIdentity(input: LookupDeveloperIdentityInput) async throws -> LookupDeveloperIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -861,8 +846,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput) async throws -> MergeDeveloperIdentitiesOutput
-    {
+    public func mergeDeveloperIdentities(input: MergeDeveloperIdentitiesInput) async throws -> MergeDeveloperIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -914,8 +898,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func setIdentityPoolRoles(input: SetIdentityPoolRolesInput) async throws -> SetIdentityPoolRolesOutput
-    {
+    public func setIdentityPoolRoles(input: SetIdentityPoolRolesInput) async throws -> SetIdentityPoolRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -965,8 +948,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func setPrincipalTagAttributeMap(input: SetPrincipalTagAttributeMapInput) async throws -> SetPrincipalTagAttributeMapOutput
-    {
+    public func setPrincipalTagAttributeMap(input: SetPrincipalTagAttributeMapInput) async throws -> SetPrincipalTagAttributeMapOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1016,8 +998,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1068,8 +1049,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput) async throws -> UnlinkDeveloperIdentityOutput
-    {
+    public func unlinkDeveloperIdentity(input: UnlinkDeveloperIdentityInput) async throws -> UnlinkDeveloperIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1121,8 +1101,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func unlinkIdentity(input: UnlinkIdentityInput) async throws -> UnlinkIdentityOutput
-    {
+    public func unlinkIdentity(input: UnlinkIdentityInput) async throws -> UnlinkIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1168,8 +1147,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1222,8 +1200,7 @@ extension CognitoIdentityClient: CognitoIdentityClientProtocol {
     /// - `ResourceConflictException` : Thrown when a user tries to use a login which is already linked to another account.
     /// - `ResourceNotFoundException` : Thrown when the requested resource (for example, a dataset or record) does not exist.
     /// - `TooManyRequestsException` : Thrown when a request is throttled.
-    public func updateIdentityPool(input: UpdateIdentityPoolInput) async throws -> UpdateIdentityPoolOutput
-    {
+    public func updateIdentityPool(input: UpdateIdentityPoolInput) async throws -> UpdateIdentityPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension RedshiftClientProtocol {
+extension RedshiftClient {
 
     static func clusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput> {
         let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>.Acceptor] = [

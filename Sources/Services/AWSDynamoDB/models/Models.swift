@@ -6598,6 +6598,8 @@ extension DuplicateItemExceptionBody: Swift.Decodable {
     }
 }
 
+public enum DynamoDBClientTypes {}
+
 extension EnableKinesisStreamingDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamArn = "StreamArn"

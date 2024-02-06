@@ -66,7 +66,7 @@ public struct IoTRoboRunnerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
+extension IoTRoboRunnerClient {
     /// Performs the `CreateDestination` operation on the `IoTRoboRunner` service.
     ///
     /// Grants permission to create a destination
@@ -85,8 +85,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput
-    {
+    public func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
-    {
+    public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutput
-    {
+    public func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutput
-    {
+    public func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
-    {
+    public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -346,8 +341,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
-    {
+    public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutput
-    {
+    public func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutput
-    {
+    public func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -498,8 +490,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput
-    {
+    public func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -546,8 +537,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func getSite(input: GetSiteInput) async throws -> GetSiteOutput
-    {
+    public func getSite(input: GetSiteInput) async throws -> GetSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -594,8 +584,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutput
-    {
+    public func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -642,8 +631,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutput
-    {
+    public func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -690,8 +678,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput
-    {
+    public func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -737,8 +724,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func listSites(input: ListSitesInput) async throws -> ListSitesOutput
-    {
+    public func listSites(input: ListSitesInput) async throws -> ListSitesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -785,8 +771,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutput
-    {
+    public func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -833,8 +818,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutput
-    {
+    public func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -881,8 +865,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
-    {
+    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -931,8 +914,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
-    {
+    public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -981,8 +963,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutput
-    {
+    public func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1012,7 @@ extension IoTRoboRunnerClient: IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    public func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutput
-    {
+    public func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

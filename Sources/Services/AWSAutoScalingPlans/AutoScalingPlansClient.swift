@@ -66,7 +66,7 @@ public struct AutoScalingPlansClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
+extension AutoScalingPlansClient {
     /// Performs the `CreateScalingPlan` operation on the `AnyScaleScalingPlannerFrontendService` service.
     ///
     /// Creates a scaling plan.
@@ -82,8 +82,7 @@ extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `LimitExceededException` : Your account exceeded a limit. This exception is thrown when a per-account resource limit is exceeded.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
-    public func createScalingPlan(input: CreateScalingPlanInput) async throws -> CreateScalingPlanOutput
-    {
+    public func createScalingPlan(input: CreateScalingPlanInput) async throws -> CreateScalingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ObjectNotFoundException` : The specified object could not be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
-    public func deleteScalingPlan(input: DeleteScalingPlanInput) async throws -> DeleteScalingPlanOutput
-    {
+    public func deleteScalingPlan(input: DeleteScalingPlanInput) async throws -> DeleteScalingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `InvalidNextTokenException` : The token provided is not valid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
-    public func describeScalingPlanResources(input: DescribeScalingPlanResourcesInput) async throws -> DescribeScalingPlanResourcesOutput
-    {
+    public func describeScalingPlanResources(input: DescribeScalingPlanResourcesInput) async throws -> DescribeScalingPlanResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `InvalidNextTokenException` : The token provided is not valid.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
-    public func describeScalingPlans(input: DescribeScalingPlansInput) async throws -> DescribeScalingPlansOutput
-    {
+    public func describeScalingPlans(input: DescribeScalingPlansInput) async throws -> DescribeScalingPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -280,8 +276,7 @@ extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
-    public func getScalingPlanResourceForecastData(input: GetScalingPlanResourceForecastDataInput) async throws -> GetScalingPlanResourceForecastDataOutput
-    {
+    public func getScalingPlanResourceForecastData(input: GetScalingPlanResourceForecastDataInput) async throws -> GetScalingPlanResourceForecastDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension AutoScalingPlansClient: AutoScalingPlansClientProtocol {
     /// - `InternalServiceException` : The service encountered an internal error.
     /// - `ObjectNotFoundException` : The specified object could not be found.
     /// - `ValidationException` : An exception was thrown for a validation issue. Review the parameters provided.
-    public func updateScalingPlan(input: UpdateScalingPlanInput) async throws -> UpdateScalingPlanOutput
-    {
+    public func updateScalingPlan(input: UpdateScalingPlanInput) async throws -> UpdateScalingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

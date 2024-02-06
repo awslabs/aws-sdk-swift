@@ -1793,6 +1793,8 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+public enum SimSpaceWeaverClientTypes {}
+
 extension SimSpaceWeaverClientTypes.SimulationAppEndpointInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"

@@ -22970,6 +22970,8 @@ extension S3ClientTypes {
 
 }
 
+public enum S3ClientTypes {}
+
 extension S3ClientTypes.S3KeyFilter: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterRules = "FilterRule"

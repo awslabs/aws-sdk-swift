@@ -66,7 +66,7 @@ public struct MemoryDBClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension MemoryDBClient: MemoryDBClientProtocol {
+extension MemoryDBClient {
     /// Performs the `BatchUpdateCluster` operation on the `AmazonMemoryDB` service.
     ///
     /// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see [Applying the service updates](https://docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates).
@@ -80,8 +80,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` :
     /// - `ServiceUpdateNotFoundFault` :
-    public func batchUpdateCluster(input: BatchUpdateClusterInput) async throws -> BatchUpdateClusterOutput
-    {
+    public func batchUpdateCluster(input: BatchUpdateClusterInput) async throws -> BatchUpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SnapshotNotFoundFault` :
     /// - `SnapshotQuotaExceededFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
-    {
+    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `TagQuotaPerResourceExceeded` :
     /// - `UserNotFoundFault` :
-    public func createACL(input: CreateACLInput) async throws -> CreateACLOutput
-    {
+    public func createACL(input: CreateACLInput) async throws -> CreateACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -249,8 +246,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `ShardsPerClusterQuotaExceededFault` :
     /// - `SubnetGroupNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -302,8 +298,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `ParameterGroupQuotaExceededFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    public func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput
-    {
+    public func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -356,8 +351,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SnapshotAlreadyExistsFault` :
     /// - `SnapshotQuotaExceededFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -409,8 +403,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SubnetNotAllowedFault` :
     /// - `SubnetQuotaExceededFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput
-    {
+    public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -461,8 +454,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `TagQuotaPerResourceExceeded` :
     /// - `UserAlreadyExistsFault` :
     /// - `UserQuotaExceededFault` :
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -510,8 +502,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `ACLNotFoundFault` :
     /// - `InvalidACLStateFault` :
     /// - `InvalidParameterValueException` :
-    public func deleteACL(input: DeleteACLInput) async throws -> DeleteACLOutput
-    {
+    public func deleteACL(input: DeleteACLInput) async throws -> DeleteACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -562,8 +553,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotAlreadyExistsFault` :
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +603,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput
-    {
+    public func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +653,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidSnapshotStateFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-    {
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +701,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SubnetGroupInUseFault` :
     /// - `SubnetGroupNotFoundFault` :
-    public func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput
-    {
+    public func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +749,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `InvalidUserStateFault` :
     /// - `UserNotFoundFault` :
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -810,8 +796,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `ACLNotFoundFault` :
     /// - `InvalidParameterCombinationException` :
-    public func describeACLs(input: DescribeACLsInput) async throws -> DescribeACLsOutput
-    {
+    public func describeACLs(input: DescribeACLsInput) async throws -> DescribeACLsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -860,8 +845,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
-    {
+    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -909,8 +893,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput
-    {
+    public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -958,8 +941,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1008,8 +990,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput
-    {
+    public func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1058,8 +1039,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput
-    {
+    public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1088,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ReservedNodeNotFoundFault` : The requested node does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput
-    {
+    public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1158,8 +1137,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutput
-    {
+    public func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1206,8 +1184,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
-    public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput
-    {
+    public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1256,8 +1233,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
-    {
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1304,8 +1280,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SubnetGroupNotFoundFault` :
-    public func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput
-    {
+    public func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1352,8 +1327,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` :
     /// - `UserNotFoundFault` :
-    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
-    {
+    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1406,8 +1380,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ShardNotFoundFault` :
     /// - `TestFailoverNotAvailableFault` :
-    public func failoverShard(input: FailoverShardInput) async throws -> FailoverShardOutput
-    {
+    public func failoverShard(input: FailoverShardInput) async throws -> FailoverShardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1456,8 +1429,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutput
-    {
+    public func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1511,8 +1483,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SnapshotNotFoundFault` :
     /// - `SubnetGroupNotFoundFault` :
     /// - `UserNotFoundFault` :
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1564,8 +1535,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    public func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutput
-    {
+    public func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1615,8 +1585,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutput
-    {
+    public func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1671,8 +1640,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SubnetGroupNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
     /// - `UserNotFoundFault` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1727,8 +1695,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SubnetGroupNotFoundFault` :
     /// - `TagNotFoundFault` :
     /// - `UserNotFoundFault` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1780,8 +1747,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `UserNotFoundFault` :
-    public func updateACL(input: UpdateACLInput) async throws -> UpdateACLOutput
-    {
+    public func updateACL(input: UpdateACLInput) async throws -> UpdateACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1842,8 +1808,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `ShardsPerClusterQuotaExceededFault` :
-    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
-    {
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1893,8 +1858,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    public func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput
-    {
+    public func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1945,8 +1909,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `SubnetInUse` :
     /// - `SubnetNotAllowedFault` :
     /// - `SubnetQuotaExceededFault` :
-    public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput
-    {
+    public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1995,8 +1958,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `InvalidUserStateFault` :
     /// - `UserNotFoundFault` :
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

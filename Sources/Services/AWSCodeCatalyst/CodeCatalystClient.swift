@@ -66,7 +66,7 @@ public struct CodeCatalystClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension CodeCatalystClient: CodeCatalystClientProtocol {
+extension CodeCatalystClient {
     /// Performs the `CreateAccessToken` operation on the `CodeCatalyst` service.
     ///
     /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
@@ -84,8 +84,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutput
-    {
+    public func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutput
-    {
+    public func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -225,8 +222,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createSourceRepository(input: CreateSourceRepositoryInput) async throws -> CreateSourceRepositoryOutput
-    {
+    public func createSourceRepository(input: CreateSourceRepositoryInput) async throws -> CreateSourceRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -272,8 +268,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func createSourceRepositoryBranch(input: CreateSourceRepositoryBranchInput) async throws -> CreateSourceRepositoryBranchOutput
-    {
+    public func createSourceRepositoryBranch(input: CreateSourceRepositoryBranchInput) async throws -> CreateSourceRepositoryBranchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +314,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteAccessToken(input: DeleteAccessTokenInput) async throws -> DeleteAccessTokenOutput
-    {
+    public func deleteAccessToken(input: DeleteAccessTokenInput) async throws -> DeleteAccessTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -363,8 +357,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteDevEnvironment(input: DeleteDevEnvironmentInput) async throws -> DeleteDevEnvironmentOutput
-    {
+    public func deleteDevEnvironment(input: DeleteDevEnvironmentInput) async throws -> DeleteDevEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -407,8 +400,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +443,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteSourceRepository(input: DeleteSourceRepositoryInput) async throws -> DeleteSourceRepositoryOutput
-    {
+    public func deleteSourceRepository(input: DeleteSourceRepositoryInput) async throws -> DeleteSourceRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -495,8 +486,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput
-    {
+    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +529,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getDevEnvironment(input: GetDevEnvironmentInput) async throws -> GetDevEnvironmentOutput
-    {
+    public func getDevEnvironment(input: GetDevEnvironmentInput) async throws -> GetDevEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -583,8 +572,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput
-    {
+    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -627,8 +615,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSourceRepository(input: GetSourceRepositoryInput) async throws -> GetSourceRepositoryOutput
-    {
+    public func getSourceRepository(input: GetSourceRepositoryInput) async throws -> GetSourceRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -671,8 +658,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSourceRepositoryCloneUrls(input: GetSourceRepositoryCloneUrlsInput) async throws -> GetSourceRepositoryCloneUrlsOutput
-    {
+    public func getSourceRepositoryCloneUrls(input: GetSourceRepositoryCloneUrlsInput) async throws -> GetSourceRepositoryCloneUrlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +701,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutput
-    {
+    public func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -759,8 +744,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutput
-    {
+    public func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -803,8 +787,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getUserDetails(input: GetUserDetailsInput) async throws -> GetUserDetailsOutput
-    {
+    public func getUserDetails(input: GetUserDetailsInput) async throws -> GetUserDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -848,8 +831,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
-    {
+    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +874,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutput
-    {
+    public func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +917,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutput
-    {
+    public func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -983,8 +963,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutput
-    {
+    public func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1009,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutput
-    {
+    public func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1077,8 +1055,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutput
-    {
+    public func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1124,8 +1101,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1171,8 +1147,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listSourceRepositories(input: ListSourceRepositoriesInput) async throws -> ListSourceRepositoriesOutput
-    {
+    public func listSourceRepositories(input: ListSourceRepositoriesInput) async throws -> ListSourceRepositoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1193,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listSourceRepositoryBranches(input: ListSourceRepositoryBranchesInput) async throws -> ListSourceRepositoryBranchesOutput
-    {
+    public func listSourceRepositoryBranches(input: ListSourceRepositoryBranchesInput) async throws -> ListSourceRepositoryBranchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1265,8 +1239,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput
-    {
+    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1312,8 +1285,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listWorkflowRuns(input: ListWorkflowRunsInput) async throws -> ListWorkflowRunsOutput
-    {
+    public func listWorkflowRuns(input: ListWorkflowRunsInput) async throws -> ListWorkflowRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1360,8 +1332,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-    {
+    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1379,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func startDevEnvironment(input: StartDevEnvironmentInput) async throws -> StartDevEnvironmentOutput
-    {
+    public func startDevEnvironment(input: StartDevEnvironmentInput) async throws -> StartDevEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1455,8 +1425,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func startDevEnvironmentSession(input: StartDevEnvironmentSessionInput) async throws -> StartDevEnvironmentSessionOutput
-    {
+    public func startDevEnvironmentSession(input: StartDevEnvironmentSessionInput) async throws -> StartDevEnvironmentSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1502,8 +1471,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutput
-    {
+    public func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1551,8 +1519,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func stopDevEnvironment(input: StopDevEnvironmentInput) async throws -> StopDevEnvironmentOutput
-    {
+    public func stopDevEnvironment(input: StopDevEnvironmentInput) async throws -> StopDevEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1595,8 +1562,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutput
-    {
+    public func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1639,8 +1605,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutput
-    {
+    public func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1686,8 +1651,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1697,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput
-    {
+    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1780,8 +1743,7 @@ extension CodeCatalystClient: CodeCatalystClientProtocol {
     /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
-    public func verifySession(input: VerifySessionInput) async throws -> VerifySessionOutput
-    {
+    public func verifySession(input: VerifySessionInput) async throws -> VerifySessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

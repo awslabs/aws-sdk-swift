@@ -66,7 +66,7 @@ public struct ServiceCatalogAppRegistryClientLogHandlerFactory: ClientRuntime.SD
     }
 }
 
-extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtocol {
+extension ServiceCatalogAppRegistryClient {
     /// Performs the `AssociateAttributeGroup` operation on the `AWS242AppRegistry` service.
     ///
     /// Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
@@ -83,8 +83,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func associateAttributeGroup(input: AssociateAttributeGroupInput) async throws -> AssociateAttributeGroupOutput
-    {
+    public func associateAttributeGroup(input: AssociateAttributeGroupInput) async throws -> AssociateAttributeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -147,8 +146,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutput
-    {
+    public func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -197,8 +195,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -247,8 +244,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createAttributeGroup(input: CreateAttributeGroupInput) async throws -> CreateAttributeGroupOutput
-    {
+    public func createAttributeGroup(input: CreateAttributeGroupInput) async throws -> CreateAttributeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -296,8 +292,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAttributeGroup(input: DeleteAttributeGroupInput) async throws -> DeleteAttributeGroupOutput
-    {
+    public func deleteAttributeGroup(input: DeleteAttributeGroupInput) async throws -> DeleteAttributeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -386,8 +380,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func disassociateAttributeGroup(input: DisassociateAttributeGroupInput) async throws -> DisassociateAttributeGroupOutput
-    {
+    public func disassociateAttributeGroup(input: DisassociateAttributeGroupInput) async throws -> DisassociateAttributeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutput
-    {
+    public func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +486,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +530,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAssociatedResource(input: GetAssociatedResourceInput) async throws -> GetAssociatedResourceOutput
-    {
+    public func getAssociatedResource(input: GetAssociatedResourceInput) async throws -> GetAssociatedResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +576,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAttributeGroup(input: GetAttributeGroupInput) async throws -> GetAttributeGroupOutput
-    {
+    public func getAttributeGroup(input: GetAttributeGroupInput) async throws -> GetAttributeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -629,8 +618,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service is experiencing internal problems.
-    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput
-    {
+    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -673,8 +661,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +706,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput) async throws -> ListAssociatedAttributeGroupsOutput
-    {
+    public func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput) async throws -> ListAssociatedAttributeGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -765,8 +751,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAssociatedResources(input: ListAssociatedResourcesInput) async throws -> ListAssociatedResourcesOutput
-    {
+    public func listAssociatedResources(input: ListAssociatedResourcesInput) async throws -> ListAssociatedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -810,8 +795,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAttributeGroups(input: ListAttributeGroupsInput) async throws -> ListAttributeGroupsOutput
-    {
+    public func listAttributeGroups(input: ListAttributeGroupsInput) async throws -> ListAttributeGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -856,8 +840,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAttributeGroupsForApplication(input: ListAttributeGroupsForApplicationInput) async throws -> ListAttributeGroupsForApplicationOutput
-    {
+    public func listAttributeGroupsForApplication(input: ListAttributeGroupsForApplicationInput) async throws -> ListAttributeGroupsForApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -902,8 +885,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -947,8 +929,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func putConfiguration(input: PutConfigurationInput) async throws -> PutConfigurationOutput
-    {
+    public func putConfiguration(input: PutConfigurationInput) async throws -> PutConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -997,8 +978,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func syncResource(input: SyncResourceInput) async throws -> SyncResourceOutput
-    {
+    public func syncResource(input: SyncResourceInput) async throws -> SyncResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1042,8 +1022,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1090,8 +1069,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1138,8 +1116,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1187,8 +1164,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAttributeGroup(input: UpdateAttributeGroupInput) async throws -> UpdateAttributeGroupOutput
-    {
+    public func updateAttributeGroup(input: UpdateAttributeGroupInput) async throws -> UpdateAttributeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension SageMakerClientProtocol {
+extension SageMakerClient {
 
     static func endpointDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput> {
         let acceptors: [WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>.Acceptor] = [

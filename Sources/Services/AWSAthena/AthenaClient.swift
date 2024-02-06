@@ -66,7 +66,7 @@ public struct AthenaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension AthenaClient: AthenaClientProtocol {
+extension AthenaClient {
     /// Performs the `BatchGetNamedQuery` operation on the `AmazonAthena` service.
     ///
     /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use [ListNamedQueriesInput] to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under [UnprocessedNamedQueryId]. Named queries differ from executed queries. Use [BatchGetQueryExecutionInput] to get details about each unique query execution, and [ListQueryExecutionsInput] to get a list of query execution IDs.
@@ -80,8 +80,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func batchGetNamedQuery(input: BatchGetNamedQueryInput) async throws -> BatchGetNamedQueryOutput
-    {
+    public func batchGetNamedQuery(input: BatchGetNamedQueryInput) async throws -> BatchGetNamedQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func batchGetPreparedStatement(input: BatchGetPreparedStatementInput) async throws -> BatchGetPreparedStatementOutput
-    {
+    public func batchGetPreparedStatement(input: BatchGetPreparedStatementInput) async throws -> BatchGetPreparedStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func batchGetQueryExecution(input: BatchGetQueryExecutionInput) async throws -> BatchGetQueryExecutionOutput
-    {
+    public func batchGetQueryExecution(input: BatchGetQueryExecutionInput) async throws -> BatchGetQueryExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput
-    {
+    public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -272,8 +268,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput
-    {
+    public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -320,8 +315,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createDataCatalog(input: CreateDataCatalogInput) async throws -> CreateDataCatalogOutput
-    {
+    public func createDataCatalog(input: CreateDataCatalogInput) async throws -> CreateDataCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -368,8 +362,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createNamedQuery(input: CreateNamedQueryInput) async throws -> CreateNamedQueryOutput
-    {
+    public func createNamedQuery(input: CreateNamedQueryInput) async throws -> CreateNamedQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -418,8 +411,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func createNotebook(input: CreateNotebookInput) async throws -> CreateNotebookOutput
-    {
+    public func createNotebook(input: CreateNotebookInput) async throws -> CreateNotebookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -466,8 +458,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createPreparedStatement(input: CreatePreparedStatementInput) async throws -> CreatePreparedStatementOutput
-    {
+    public func createPreparedStatement(input: CreatePreparedStatementInput) async throws -> CreatePreparedStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -515,8 +506,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func createPresignedNotebookUrl(input: CreatePresignedNotebookUrlInput) async throws -> CreatePresignedNotebookUrlOutput
-    {
+    public func createPresignedNotebookUrl(input: CreatePresignedNotebookUrlInput) async throws -> CreatePresignedNotebookUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -563,8 +553,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func createWorkGroup(input: CreateWorkGroupInput) async throws -> CreateWorkGroupOutput
-    {
+    public func createWorkGroup(input: CreateWorkGroupInput) async throws -> CreateWorkGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -611,8 +600,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteCapacityReservation(input: DeleteCapacityReservationInput) async throws -> DeleteCapacityReservationOutput
-    {
+    public func deleteCapacityReservation(input: DeleteCapacityReservationInput) async throws -> DeleteCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -659,8 +647,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteDataCatalog(input: DeleteDataCatalogInput) async throws -> DeleteDataCatalogOutput
-    {
+    public func deleteDataCatalog(input: DeleteDataCatalogInput) async throws -> DeleteDataCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -707,8 +694,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteNamedQuery(input: DeleteNamedQueryInput) async throws -> DeleteNamedQueryOutput
-    {
+    public func deleteNamedQuery(input: DeleteNamedQueryInput) async throws -> DeleteNamedQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +743,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func deleteNotebook(input: DeleteNotebookInput) async throws -> DeleteNotebookOutput
-    {
+    public func deleteNotebook(input: DeleteNotebookInput) async throws -> DeleteNotebookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -806,8 +791,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func deletePreparedStatement(input: DeletePreparedStatementInput) async throws -> DeletePreparedStatementOutput
-    {
+    public func deletePreparedStatement(input: DeletePreparedStatementInput) async throws -> DeletePreparedStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -854,8 +838,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func deleteWorkGroup(input: DeleteWorkGroupInput) async throws -> DeleteWorkGroupOutput
-    {
+    public func deleteWorkGroup(input: DeleteWorkGroupInput) async throws -> DeleteWorkGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -903,8 +886,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func exportNotebook(input: ExportNotebookInput) async throws -> ExportNotebookOutput
-    {
+    public func exportNotebook(input: ExportNotebookInput) async throws -> ExportNotebookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -952,8 +934,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getCalculationExecution(input: GetCalculationExecutionInput) async throws -> GetCalculationExecutionOutput
-    {
+    public func getCalculationExecution(input: GetCalculationExecutionInput) async throws -> GetCalculationExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1001,8 +982,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutput
-    {
+    public func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1050,8 +1030,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutput
-    {
+    public func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1098,8 +1077,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getCapacityAssignmentConfiguration(input: GetCapacityAssignmentConfigurationInput) async throws -> GetCapacityAssignmentConfigurationOutput
-    {
+    public func getCapacityAssignmentConfiguration(input: GetCapacityAssignmentConfigurationInput) async throws -> GetCapacityAssignmentConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1124,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getCapacityReservation(input: GetCapacityReservationInput) async throws -> GetCapacityReservationOutput
-    {
+    public func getCapacityReservation(input: GetCapacityReservationInput) async throws -> GetCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1194,8 +1171,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getDataCatalog(input: GetDataCatalogInput) async throws -> GetDataCatalogOutput
-    {
+    public func getDataCatalog(input: GetDataCatalogInput) async throws -> GetDataCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1243,8 +1219,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
-    {
+    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1291,8 +1266,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getNamedQuery(input: GetNamedQueryInput) async throws -> GetNamedQueryOutput
-    {
+    public func getNamedQuery(input: GetNamedQueryInput) async throws -> GetNamedQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1340,8 +1314,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func getNotebookMetadata(input: GetNotebookMetadataInput) async throws -> GetNotebookMetadataOutput
-    {
+    public func getNotebookMetadata(input: GetNotebookMetadataInput) async throws -> GetNotebookMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1389,8 +1362,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getPreparedStatement(input: GetPreparedStatementInput) async throws -> GetPreparedStatementOutput
-    {
+    public func getPreparedStatement(input: GetPreparedStatementInput) async throws -> GetPreparedStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1437,8 +1409,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getQueryExecution(input: GetQueryExecutionInput) async throws -> GetQueryExecutionOutput
-    {
+    public func getQueryExecution(input: GetQueryExecutionInput) async throws -> GetQueryExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1457,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
-    {
+    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1534,8 +1504,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getQueryRuntimeStatistics(input: GetQueryRuntimeStatisticsInput) async throws -> GetQueryRuntimeStatisticsOutput
-    {
+    public func getQueryRuntimeStatistics(input: GetQueryRuntimeStatisticsInput) async throws -> GetQueryRuntimeStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1583,8 +1552,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput
-    {
+    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1632,8 +1600,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func getSessionStatus(input: GetSessionStatusInput) async throws -> GetSessionStatusOutput
-    {
+    public func getSessionStatus(input: GetSessionStatusInput) async throws -> GetSessionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1681,8 +1648,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func getTableMetadata(input: GetTableMetadataInput) async throws -> GetTableMetadataOutput
-    {
+    public func getTableMetadata(input: GetTableMetadataInput) async throws -> GetTableMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1729,8 +1695,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func getWorkGroup(input: GetWorkGroupInput) async throws -> GetWorkGroupOutput
-    {
+    public func getWorkGroup(input: GetWorkGroupInput) async throws -> GetWorkGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1778,8 +1743,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func importNotebook(input: ImportNotebookInput) async throws -> ImportNotebookOutput
-    {
+    public func importNotebook(input: ImportNotebookInput) async throws -> ImportNotebookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1827,8 +1791,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutput
-    {
+    public func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1876,8 +1839,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutput
-    {
+    public func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1924,8 +1886,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listCapacityReservations(input: ListCapacityReservationsInput) async throws -> ListCapacityReservationsOutput
-    {
+    public func listCapacityReservations(input: ListCapacityReservationsInput) async throws -> ListCapacityReservationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1972,8 +1933,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutput
-    {
+    public func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2021,8 +1981,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput
-    {
+    public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2069,8 +2028,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput
-    {
+    public func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2118,8 +2076,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listExecutors(input: ListExecutorsInput) async throws -> ListExecutorsOutput
-    {
+    public func listExecutors(input: ListExecutorsInput) async throws -> ListExecutorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2166,8 +2123,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listNamedQueries(input: ListNamedQueriesInput) async throws -> ListNamedQueriesOutput
-    {
+    public func listNamedQueries(input: ListNamedQueriesInput) async throws -> ListNamedQueriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2215,8 +2171,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func listNotebookMetadata(input: ListNotebookMetadataInput) async throws -> ListNotebookMetadataOutput
-    {
+    public func listNotebookMetadata(input: ListNotebookMetadataInput) async throws -> ListNotebookMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2264,8 +2219,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listNotebookSessions(input: ListNotebookSessionsInput) async throws -> ListNotebookSessionsOutput
-    {
+    public func listNotebookSessions(input: ListNotebookSessionsInput) async throws -> ListNotebookSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2312,8 +2266,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listPreparedStatements(input: ListPreparedStatementsInput) async throws -> ListPreparedStatementsOutput
-    {
+    public func listPreparedStatements(input: ListPreparedStatementsInput) async throws -> ListPreparedStatementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2360,8 +2313,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listQueryExecutions(input: ListQueryExecutionsInput) async throws -> ListQueryExecutionsOutput
-    {
+    public func listQueryExecutions(input: ListQueryExecutionsInput) async throws -> ListQueryExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2409,8 +2361,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput
-    {
+    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2458,8 +2409,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `MetadataException` : An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
-    public func listTableMetadata(input: ListTableMetadataInput) async throws -> ListTableMetadataOutput
-    {
+    public func listTableMetadata(input: ListTableMetadataInput) async throws -> ListTableMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2507,8 +2457,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2555,8 +2504,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutput
-    {
+    public func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2603,8 +2551,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func putCapacityAssignmentConfiguration(input: PutCapacityAssignmentConfigurationInput) async throws -> PutCapacityAssignmentConfigurationOutput
-    {
+    public func putCapacityAssignmentConfiguration(input: PutCapacityAssignmentConfigurationInput) async throws -> PutCapacityAssignmentConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2652,8 +2599,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutput
-    {
+    public func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2701,8 +2647,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func startQueryExecution(input: StartQueryExecutionInput) async throws -> StartQueryExecutionOutput
-    {
+    public func startQueryExecution(input: StartQueryExecutionInput) async throws -> StartQueryExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2753,8 +2698,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
     /// - `SessionAlreadyExistsException` : The specified session already exists.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func startSession(input: StartSessionInput) async throws -> StartSessionOutput
-    {
+    public func startSession(input: StartSessionInput) async throws -> StartSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2802,8 +2746,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutput
-    {
+    public func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2850,8 +2793,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutput
-    {
+    public func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2900,8 +2842,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2949,8 +2890,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput
-    {
+    public func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2998,8 +2938,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3046,8 +2985,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateCapacityReservation(input: UpdateCapacityReservationInput) async throws -> UpdateCapacityReservationOutput
-    {
+    public func updateCapacityReservation(input: UpdateCapacityReservationInput) async throws -> UpdateCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3094,8 +3032,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateDataCatalog(input: UpdateDataCatalogInput) async throws -> UpdateDataCatalogOutput
-    {
+    public func updateDataCatalog(input: UpdateDataCatalogInput) async throws -> UpdateDataCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3142,8 +3079,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateNamedQuery(input: UpdateNamedQueryInput) async throws -> UpdateNamedQueryOutput
-    {
+    public func updateNamedQuery(input: UpdateNamedQueryInput) async throws -> UpdateNamedQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3191,8 +3127,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func updateNotebook(input: UpdateNotebookInput) async throws -> UpdateNotebookOutput
-    {
+    public func updateNotebook(input: UpdateNotebookInput) async throws -> UpdateNotebookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3240,8 +3175,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request was throttled.
-    public func updateNotebookMetadata(input: UpdateNotebookMetadataInput) async throws -> UpdateNotebookMetadataOutput
-    {
+    public func updateNotebookMetadata(input: UpdateNotebookMetadataInput) async throws -> UpdateNotebookMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3289,8 +3223,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
-    public func updatePreparedStatement(input: UpdatePreparedStatementInput) async throws -> UpdatePreparedStatementOutput
-    {
+    public func updatePreparedStatement(input: UpdatePreparedStatementInput) async throws -> UpdatePreparedStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3337,8 +3270,7 @@ extension AthenaClient: AthenaClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
-    public func updateWorkGroup(input: UpdateWorkGroupInput) async throws -> UpdateWorkGroupOutput
-    {
+    public func updateWorkGroup(input: UpdateWorkGroupInput) async throws -> UpdateWorkGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

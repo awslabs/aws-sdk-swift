@@ -66,7 +66,7 @@ public struct ApplicationCostProfilerClientLogHandlerFactory: ClientRuntime.SDKL
     }
 }
 
-extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
+extension ApplicationCostProfilerClient {
     /// Performs the `DeleteReportDefinition` operation on the `AWSApplicationCostProfiler` service.
     ///
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
@@ -82,8 +82,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
-    public func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
-    {
+    public func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
-    public func getReportDefinition(input: GetReportDefinitionInput) async throws -> GetReportDefinitionOutput
-    {
+    public func getReportDefinition(input: GetReportDefinitionInput) async throws -> GetReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
-    public func importApplicationUsage(input: ImportApplicationUsageInput) async throws -> ImportApplicationUsageOutput
-    {
+    public func importApplicationUsage(input: ImportApplicationUsageInput) async throws -> ImportApplicationUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -223,8 +220,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
-    public func listReportDefinitions(input: ListReportDefinitionsInput) async throws -> ListReportDefinitionsOutput
-    {
+    public func listReportDefinitions(input: ListReportDefinitionsInput) async throws -> ListReportDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// - `ServiceQuotaExceededException` : Your request exceeds one or more of the service quotas.
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
-    public func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput
-    {
+    public func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -320,8 +315,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
-    public func updateReportDefinition(input: UpdateReportDefinitionInput) async throws -> UpdateReportDefinitionOutput
-    {
+    public func updateReportDefinition(input: UpdateReportDefinitionInput) async throws -> UpdateReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

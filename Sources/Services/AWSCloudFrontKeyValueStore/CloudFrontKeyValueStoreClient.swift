@@ -66,7 +66,7 @@ public struct CloudFrontKeyValueStoreClientLogHandlerFactory: ClientRuntime.SDKL
     }
 }
 
-extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
+extension CloudFrontKeyValueStoreClient {
     /// Performs the `DeleteKey` operation on the `CloudFrontKeyValueStore` service.
     ///
     /// Deletes the key value pair specified by the key.
@@ -84,8 +84,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ServiceQuotaExceededException` : Limit exceeded.
     /// - `ValidationException` : Validation failed.
-    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput
-    {
+    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ConflictException` : Resource is not in expected state.
     /// - `InternalServerException` : Internal server error.
     /// - `ResourceNotFoundException` : Resource was not found.
-    public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput
-    {
+    public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -177,8 +175,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ConflictException` : Resource is not in expected state.
     /// - `InternalServerException` : Internal server error.
     /// - `ResourceNotFoundException` : Resource was not found.
-    public func getKey(input: GetKeyInput) async throws -> GetKeyOutput
-    {
+    public func getKey(input: GetKeyInput) async throws -> GetKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ValidationException` : Validation failed.
-    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
-    {
+    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ServiceQuotaExceededException` : Limit exceeded.
     /// - `ValidationException` : Validation failed.
-    public func putKey(input: PutKeyInput) async throws -> PutKeyOutput
-    {
+    public func putKey(input: PutKeyInput) async throws -> PutKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -325,8 +320,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ServiceQuotaExceededException` : Limit exceeded.
     /// - `ValidationException` : Validation failed.
-    public func updateKeys(input: UpdateKeysInput) async throws -> UpdateKeysOutput
-    {
+    public func updateKeys(input: UpdateKeysInput) async throws -> UpdateKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

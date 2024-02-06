@@ -66,7 +66,7 @@ public struct PaymentCryptographyClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
+extension PaymentCryptographyClient {
     /// Performs the `CreateAlias` operation on the `PaymentCryptographyControlPlane` service.
     ///
     /// Creates an alias, or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as [EncryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_EncryptData.html) or [DecryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_DecryptData.html). You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Services Region, but you can create another alias with the same name in a different Amazon Web Services Region. To change the key that's associated with the alias, call [UpdateAlias]. To delete the alias, call [DeleteAlias]. These operations don't affect the underlying key. To get the alias that you created, call [ListAliases]. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
@@ -94,8 +94,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    {
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -154,8 +153,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput
-    {
+    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -215,8 +213,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
-    {
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -274,8 +271,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput
-    {
+    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -364,8 +360,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func exportKey(input: ExportKeyInput) async throws -> ExportKeyOutput
-    {
+    public func exportKey(input: ExportKeyInput) async throws -> ExportKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +419,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput
-    {
+    public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -482,8 +476,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func getKey(input: GetKeyInput) async throws -> GetKeyOutput
-    {
+    public func getKey(input: GetKeyInput) async throws -> GetKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +533,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func getParametersForExport(input: GetParametersForExportInput) async throws -> GetParametersForExportOutput
-    {
+    public func getParametersForExport(input: GetParametersForExportInput) async throws -> GetParametersForExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +590,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput
-    {
+    public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -650,8 +641,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func getPublicKeyCertificate(input: GetPublicKeyCertificateInput) async throws -> GetPublicKeyCertificateOutput
-    {
+    public func getPublicKeyCertificate(input: GetPublicKeyCertificateInput) async throws -> GetPublicKeyCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,8 +744,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func importKey(input: ImportKeyInput) async throws -> ImportKeyOutput
-    {
+    public func importKey(input: ImportKeyInput) async throws -> ImportKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -814,8 +803,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    {
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -872,8 +860,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
-    {
+    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -928,8 +915,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -988,8 +974,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func restoreKey(input: RestoreKeyInput) async throws -> RestoreKeyOutput
-    {
+    public func restoreKey(input: RestoreKeyInput) async throws -> RestoreKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1044,8 +1029,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func startKeyUsage(input: StartKeyUsageInput) async throws -> StartKeyUsageOutput
-    {
+    public func startKeyUsage(input: StartKeyUsageInput) async throws -> StartKeyUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1102,8 +1086,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func stopKeyUsage(input: StopKeyUsageInput) async throws -> StopKeyUsageOutput
-    {
+    public func stopKeyUsage(input: StopKeyUsageInput) async throws -> StopKeyUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1160,8 +1143,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1217,8 +1199,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1278,8 +1259,7 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
-    {
+    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

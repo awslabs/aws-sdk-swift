@@ -4517,6 +4517,8 @@ extension DrsClientTypes {
 
 }
 
+public enum DrsClientTypes {}
+
 extension DrsClientTypes {
     public enum EC2InstanceState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case notFound

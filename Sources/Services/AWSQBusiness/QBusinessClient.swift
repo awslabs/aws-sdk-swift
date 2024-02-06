@@ -66,7 +66,7 @@ public struct QBusinessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension QBusinessClient: QBusinessClientProtocol {
+extension QBusinessClient {
     /// Performs the `BatchDeleteDocument` operation on the `ExpertQ` service.
     ///
     /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
@@ -84,8 +84,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutput
-    {
+    public func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -145,8 +144,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutput
-    {
+    public func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -197,8 +195,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func chatSync(input: ChatSyncInput) async throws -> ChatSyncOutput
-    {
+    public func chatSync(input: ChatSyncInput) async throws -> ChatSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -251,8 +248,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -304,8 +300,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-    {
+    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -357,8 +352,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput
-    {
+    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +404,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createPlugin(input: CreatePluginInput) async throws -> CreatePluginOutput
-    {
+    public func createPlugin(input: CreatePluginInput) async throws -> CreatePluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +456,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createRetriever(input: CreateRetrieverInput) async throws -> CreateRetrieverOutput
-    {
+    public func createRetriever(input: CreateRetrieverInput) async throws -> CreateRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -516,8 +508,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -569,8 +560,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func createWebExperience(input: CreateWebExperienceInput) async throws -> CreateWebExperienceOutput
-    {
+    public func createWebExperience(input: CreateWebExperienceInput) async throws -> CreateWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -621,8 +611,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -668,8 +657,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteChatControlsConfiguration(input: DeleteChatControlsConfigurationInput) async throws -> DeleteChatControlsConfigurationOutput
-    {
+    public func deleteChatControlsConfiguration(input: DeleteChatControlsConfigurationInput) async throws -> DeleteChatControlsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -716,8 +704,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteConversation(input: DeleteConversationInput) async throws -> DeleteConversationOutput
-    {
+    public func deleteConversation(input: DeleteConversationInput) async throws -> DeleteConversationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -765,8 +752,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -813,8 +799,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -862,8 +847,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput
-    {
+    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -910,8 +894,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deletePlugin(input: DeletePluginInput) async throws -> DeletePluginOutput
-    {
+    public func deletePlugin(input: DeletePluginInput) async throws -> DeletePluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -958,8 +941,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteRetriever(input: DeleteRetrieverInput) async throws -> DeleteRetrieverOutput
-    {
+    public func deleteRetriever(input: DeleteRetrieverInput) async throws -> DeleteRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1006,8 +988,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1035,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func deleteWebExperience(input: DeleteWebExperienceInput) async throws -> DeleteWebExperienceOutput
-    {
+    public func deleteWebExperience(input: DeleteWebExperienceInput) async throws -> DeleteWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1081,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1127,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getChatControlsConfiguration(input: GetChatControlsConfigurationInput) async throws -> GetChatControlsConfigurationOutput
-    {
+    public func getChatControlsConfiguration(input: GetChatControlsConfigurationInput) async throws -> GetChatControlsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1174,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
-    {
+    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1244,8 +1221,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1292,8 +1268,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getIndex(input: GetIndexInput) async throws -> GetIndexOutput
-    {
+    public func getIndex(input: GetIndexInput) async throws -> GetIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1339,8 +1314,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getPlugin(input: GetPluginInput) async throws -> GetPluginOutput
-    {
+    public func getPlugin(input: GetPluginInput) async throws -> GetPluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1386,8 +1360,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getRetriever(input: GetRetrieverInput) async throws -> GetRetrieverOutput
-    {
+    public func getRetriever(input: GetRetrieverInput) async throws -> GetRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1434,8 +1407,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getUser(input: GetUserInput) async throws -> GetUserOutput
-    {
+    public func getUser(input: GetUserInput) async throws -> GetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1481,8 +1453,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func getWebExperience(input: GetWebExperienceInput) async throws -> GetWebExperienceOutput
-    {
+    public func getWebExperience(input: GetWebExperienceInput) async throws -> GetWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1527,8 +1498,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1576,8 +1546,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listConversations(input: ListConversationsInput) async throws -> ListConversationsOutput
-    {
+    public func listConversations(input: ListConversationsInput) async throws -> ListConversationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1624,8 +1593,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutput
-    {
+    public func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1672,8 +1640,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-    {
+    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1720,8 +1687,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listDocuments(input: ListDocumentsInput) async throws -> ListDocumentsOutput
-    {
+    public func listDocuments(input: ListDocumentsInput) async throws -> ListDocumentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1769,8 +1735,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1817,8 +1782,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput
-    {
+    public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1866,8 +1830,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listMessages(input: ListMessagesInput) async throws -> ListMessagesOutput
-    {
+    public func listMessages(input: ListMessagesInput) async throws -> ListMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1914,8 +1877,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutput
-    {
+    public func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1962,8 +1924,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listRetrievers(input: ListRetrieversInput) async throws -> ListRetrieversOutput
-    {
+    public func listRetrievers(input: ListRetrieversInput) async throws -> ListRetrieversOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2010,8 +1971,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2057,8 +2017,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func listWebExperiences(input: ListWebExperiencesInput) async throws -> ListWebExperiencesOutput
-    {
+    public func listWebExperiences(input: ListWebExperiencesInput) async throws -> ListWebExperiencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2105,8 +2064,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
-    {
+    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2158,8 +2116,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func putGroup(input: PutGroupInput) async throws -> PutGroupOutput
-    {
+    public func putGroup(input: PutGroupInput) async throws -> PutGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2210,8 +2167,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutput
-    {
+    public func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2257,8 +2213,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutput
-    {
+    public func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2305,8 +2260,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2355,8 +2309,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2404,8 +2357,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2456,8 +2408,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateChatControlsConfiguration(input: UpdateChatControlsConfigurationInput) async throws -> UpdateChatControlsConfigurationOutput
-    {
+    public func updateChatControlsConfiguration(input: UpdateChatControlsConfigurationInput) async throws -> UpdateChatControlsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2508,8 +2459,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2560,8 +2510,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput
-    {
+    public func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2612,8 +2561,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updatePlugin(input: UpdatePluginInput) async throws -> UpdatePluginOutput
-    {
+    public func updatePlugin(input: UpdatePluginInput) async throws -> UpdatePluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2664,8 +2612,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateRetriever(input: UpdateRetrieverInput) async throws -> UpdateRetrieverOutput
-    {
+    public func updateRetriever(input: UpdateRetrieverInput) async throws -> UpdateRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2715,8 +2662,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2766,8 +2712,7 @@ extension QBusinessClient: QBusinessClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
     /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
-    public func updateWebExperience(input: UpdateWebExperienceInput) async throws -> UpdateWebExperienceOutput
-    {
+    public func updateWebExperience(input: UpdateWebExperienceInput) async throws -> UpdateWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

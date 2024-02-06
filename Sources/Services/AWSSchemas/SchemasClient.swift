@@ -66,7 +66,7 @@ public struct SchemasClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension SchemasClient: SchemasClientProtocol {
+extension SchemasClient {
     /// Performs the `CreateDiscoverer` operation on the `schemas` service.
     ///
     /// Creates a discoverer.
@@ -84,8 +84,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutput
-    {
+    public func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput
-    {
+    public func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
-    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
-    {
+    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutput
-    {
+    public func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput
-    {
+    public func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,8 +374,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
-    {
+    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutput
-    {
+    public func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +468,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutput
-    {
+    public func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -525,8 +516,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutput
-    {
+    public func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput
-    {
+    public func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -621,8 +610,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput
-    {
+    public func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -670,8 +658,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutput
-    {
+    public func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +706,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutput
-    {
+    public func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -767,8 +753,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutput
-    {
+    public func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -818,8 +803,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -866,8 +850,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutput
-    {
+    public func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -914,8 +897,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput
-    {
+    public func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +945,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput
-    {
+    public func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +992,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
-    {
+    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1058,8 +1038,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1107,8 +1086,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutput
-    {
+    public func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1157,8 +1135,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `PreconditionFailedException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1208,8 +1185,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutput
-    {
+    public func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1257,8 +1233,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutput
-    {
+    public func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1305,8 +1280,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutput
-    {
+    public func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1351,8 +1325,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1400,8 +1373,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1449,8 +1421,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutput
-    {
+    public func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1500,8 +1471,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
-    public func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput
-    {
+    public func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1520,7 @@ extension SchemasClient: SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
-    public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
-    {
+    public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

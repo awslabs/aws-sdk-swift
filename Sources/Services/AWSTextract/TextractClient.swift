@@ -66,7 +66,7 @@ public struct TextractClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension TextractClient: TextractClientProtocol {
+extension TextractClient {
     /// Performs the `AnalyzeDocument` operation on the `Textract` service.
     ///
     /// Analyzes an input document for relationships between detected items. The types of information returned are as follows:
@@ -103,8 +103,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func analyzeDocument(input: AnalyzeDocumentInput) async throws -> AnalyzeDocumentOutput
-    {
+    public func analyzeDocument(input: AnalyzeDocumentInput) async throws -> AnalyzeDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -162,8 +161,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func analyzeExpense(input: AnalyzeExpenseInput) async throws -> AnalyzeExpenseOutput
-    {
+    public func analyzeExpense(input: AnalyzeExpenseInput) async throws -> AnalyzeExpenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -217,8 +215,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func analyzeID(input: AnalyzeIDInput) async throws -> AnalyzeIDOutput
-    {
+    public func analyzeID(input: AnalyzeIDInput) async throws -> AnalyzeIDOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +270,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func createAdapter(input: CreateAdapterInput) async throws -> CreateAdapterOutput
-    {
+    public func createAdapter(input: CreateAdapterInput) async throws -> CreateAdapterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +329,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func createAdapterVersion(input: CreateAdapterVersionInput) async throws -> CreateAdapterVersionOutput
-    {
+    public func createAdapterVersion(input: CreateAdapterVersionInput) async throws -> CreateAdapterVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -388,8 +383,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func deleteAdapter(input: DeleteAdapterInput) async throws -> DeleteAdapterOutput
-    {
+    public func deleteAdapter(input: DeleteAdapterInput) async throws -> DeleteAdapterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -442,8 +436,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func deleteAdapterVersion(input: DeleteAdapterVersionInput) async throws -> DeleteAdapterVersionOutput
-    {
+    public func deleteAdapterVersion(input: DeleteAdapterVersionInput) async throws -> DeleteAdapterVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -497,8 +490,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func detectDocumentText(input: DetectDocumentTextInput) async throws -> DetectDocumentTextOutput
-    {
+    public func detectDocumentText(input: DetectDocumentTextInput) async throws -> DetectDocumentTextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -550,8 +542,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func getAdapter(input: GetAdapterInput) async throws -> GetAdapterOutput
-    {
+    public func getAdapter(input: GetAdapterInput) async throws -> GetAdapterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -603,8 +594,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func getAdapterVersion(input: GetAdapterVersionInput) async throws -> GetAdapterVersionOutput
-    {
+    public func getAdapterVersion(input: GetAdapterVersionInput) async throws -> GetAdapterVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -670,8 +660,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
-    public func getDocumentAnalysis(input: GetDocumentAnalysisInput) async throws -> GetDocumentAnalysisOutput
-    {
+    public func getDocumentAnalysis(input: GetDocumentAnalysisInput) async throws -> GetDocumentAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -724,8 +713,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
-    public func getDocumentTextDetection(input: GetDocumentTextDetectionInput) async throws -> GetDocumentTextDetectionOutput
-    {
+    public func getDocumentTextDetection(input: GetDocumentTextDetectionInput) async throws -> GetDocumentTextDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +766,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
-    public func getExpenseAnalysis(input: GetExpenseAnalysisInput) async throws -> GetExpenseAnalysisOutput
-    {
+    public func getExpenseAnalysis(input: GetExpenseAnalysisInput) async throws -> GetExpenseAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -832,8 +819,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
-    public func getLendingAnalysis(input: GetLendingAnalysisInput) async throws -> GetLendingAnalysisOutput
-    {
+    public func getLendingAnalysis(input: GetLendingAnalysisInput) async throws -> GetLendingAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -886,8 +872,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
-    public func getLendingAnalysisSummary(input: GetLendingAnalysisSummaryInput) async throws -> GetLendingAnalysisSummaryOutput
-    {
+    public func getLendingAnalysisSummary(input: GetLendingAnalysisSummaryInput) async throws -> GetLendingAnalysisSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -939,8 +924,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func listAdapterVersions(input: ListAdapterVersionsInput) async throws -> ListAdapterVersionsOutput
-    {
+    public func listAdapterVersions(input: ListAdapterVersionsInput) async throws -> ListAdapterVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -991,8 +975,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func listAdapters(input: ListAdaptersInput) async throws -> ListAdaptersOutput
-    {
+    public func listAdapters(input: ListAdaptersInput) async throws -> ListAdaptersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1044,8 +1027,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1102,8 +1084,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func startDocumentAnalysis(input: StartDocumentAnalysisInput) async throws -> StartDocumentAnalysisOutput
-    {
+    public func startDocumentAnalysis(input: StartDocumentAnalysisInput) async throws -> StartDocumentAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1160,8 +1141,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func startDocumentTextDetection(input: StartDocumentTextDetectionInput) async throws -> StartDocumentTextDetectionOutput
-    {
+    public func startDocumentTextDetection(input: StartDocumentTextDetectionInput) async throws -> StartDocumentTextDetectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1198,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func startExpenseAnalysis(input: StartExpenseAnalysisInput) async throws -> StartExpenseAnalysisOutput
-    {
+    public func startExpenseAnalysis(input: StartExpenseAnalysisInput) async throws -> StartExpenseAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1282,8 +1261,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
-    public func startLendingAnalysis(input: StartLendingAnalysisInput) async throws -> StartLendingAnalysisOutput
-    {
+    public func startLendingAnalysis(input: StartLendingAnalysisInput) async throws -> StartLendingAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1314,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1389,8 +1366,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1443,8 +1419,7 @@ extension TextractClient: TextractClientProtocol {
     /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
-    public func updateAdapter(input: UpdateAdapterInput) async throws -> UpdateAdapterOutput
-    {
+    public func updateAdapter(input: UpdateAdapterInput) async throws -> UpdateAdapterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

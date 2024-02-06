@@ -66,7 +66,7 @@ public struct BedrockAgentClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension BedrockAgentClient: BedrockAgentClientProtocol {
+extension BedrockAgentClient {
     /// Performs the `AssociateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
     /// Associate a Knowledge Base to an existing Amazon Bedrock Agent
@@ -85,8 +85,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func associateAgentKnowledgeBase(input: AssociateAgentKnowledgeBaseInput) async throws -> AssociateAgentKnowledgeBaseOutput
-    {
+    public func associateAgentKnowledgeBase(input: AssociateAgentKnowledgeBaseInput) async throws -> AssociateAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutput
-    {
+    public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func createAgentActionGroup(input: CreateAgentActionGroupInput) async throws -> CreateAgentActionGroupOutput
-    {
+    public func createAgentActionGroup(input: CreateAgentActionGroupInput) async throws -> CreateAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func createAgentAlias(input: CreateAgentAliasInput) async throws -> CreateAgentAliasOutput
-    {
+    public func createAgentAlias(input: CreateAgentAliasInput) async throws -> CreateAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-    {
+    public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -347,8 +342,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput
-    {
+    public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -399,8 +393,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput
-    {
+    public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func deleteAgentActionGroup(input: DeleteAgentActionGroupInput) async throws -> DeleteAgentActionGroupOutput
-    {
+    public func deleteAgentActionGroup(input: DeleteAgentActionGroupInput) async throws -> DeleteAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +488,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func deleteAgentAlias(input: DeleteAgentAliasInput) async throws -> DeleteAgentAliasOutput
-    {
+    public func deleteAgentAlias(input: DeleteAgentAliasInput) async throws -> DeleteAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -544,8 +535,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func deleteAgentVersion(input: DeleteAgentVersionInput) async throws -> DeleteAgentVersionOutput
-    {
+    public func deleteAgentVersion(input: DeleteAgentVersionInput) async throws -> DeleteAgentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +583,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput
-    {
+    public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -689,8 +677,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func disassociateAgentKnowledgeBase(input: DisassociateAgentKnowledgeBaseInput) async throws -> DisassociateAgentKnowledgeBaseOutput
-    {
+    public func disassociateAgentKnowledgeBase(input: DisassociateAgentKnowledgeBaseInput) async throws -> DisassociateAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -736,8 +723,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getAgent(input: GetAgentInput) async throws -> GetAgentOutput
-    {
+    public func getAgent(input: GetAgentInput) async throws -> GetAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +769,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getAgentActionGroup(input: GetAgentActionGroupInput) async throws -> GetAgentActionGroupOutput
-    {
+    public func getAgentActionGroup(input: GetAgentActionGroupInput) async throws -> GetAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -830,8 +815,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getAgentAlias(input: GetAgentAliasInput) async throws -> GetAgentAliasOutput
-    {
+    public func getAgentAlias(input: GetAgentAliasInput) async throws -> GetAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -877,8 +861,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getAgentKnowledgeBase(input: GetAgentKnowledgeBaseInput) async throws -> GetAgentKnowledgeBaseOutput
-    {
+    public func getAgentKnowledgeBase(input: GetAgentKnowledgeBaseInput) async throws -> GetAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +907,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getAgentVersion(input: GetAgentVersionInput) async throws -> GetAgentVersionOutput
-    {
+    public func getAgentVersion(input: GetAgentVersionInput) async throws -> GetAgentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -971,8 +953,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
-    {
+    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1018,8 +999,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getIngestionJob(input: GetIngestionJobInput) async throws -> GetIngestionJobOutput
-    {
+    public func getIngestionJob(input: GetIngestionJobInput) async throws -> GetIngestionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1045,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput
-    {
+    public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1112,8 +1091,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listAgentActionGroups(input: ListAgentActionGroupsInput) async throws -> ListAgentActionGroupsOutput
-    {
+    public func listAgentActionGroups(input: ListAgentActionGroupsInput) async throws -> ListAgentActionGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1162,8 +1140,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listAgentAliases(input: ListAgentAliasesInput) async throws -> ListAgentAliasesOutput
-    {
+    public func listAgentAliases(input: ListAgentAliasesInput) async throws -> ListAgentAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1189,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listAgentKnowledgeBases(input: ListAgentKnowledgeBasesInput) async throws -> ListAgentKnowledgeBasesOutput
-    {
+    public func listAgentKnowledgeBases(input: ListAgentKnowledgeBasesInput) async throws -> ListAgentKnowledgeBasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1262,8 +1238,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listAgentVersions(input: ListAgentVersionsInput) async throws -> ListAgentVersionsOutput
-    {
+    public func listAgentVersions(input: ListAgentVersionsInput) async throws -> ListAgentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1311,8 +1286,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutput
-    {
+    public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1361,8 +1335,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-    {
+    public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1411,8 +1384,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listIngestionJobs(input: ListIngestionJobsInput) async throws -> ListIngestionJobsOutput
-    {
+    public func listIngestionJobs(input: ListIngestionJobsInput) async throws -> ListIngestionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1432,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutput
-    {
+    public func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1510,8 +1481,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1559,8 +1529,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func prepareAgent(input: PrepareAgentInput) async throws -> PrepareAgentOutput
-    {
+    public func prepareAgent(input: PrepareAgentInput) async throws -> PrepareAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1608,8 +1577,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func startIngestionJob(input: StartIngestionJobInput) async throws -> StartIngestionJobOutput
-    {
+    public func startIngestionJob(input: StartIngestionJobInput) async throws -> StartIngestionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1660,8 +1628,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1677,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1760,8 +1726,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutput
-    {
+    public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1812,8 +1777,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func updateAgentActionGroup(input: UpdateAgentActionGroupInput) async throws -> UpdateAgentActionGroupOutput
-    {
+    public func updateAgentActionGroup(input: UpdateAgentActionGroupInput) async throws -> UpdateAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1864,8 +1828,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func updateAgentAlias(input: UpdateAgentAliasInput) async throws -> UpdateAgentAliasOutput
-    {
+    public func updateAgentAlias(input: UpdateAgentAliasInput) async throws -> UpdateAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1915,8 +1878,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func updateAgentKnowledgeBase(input: UpdateAgentKnowledgeBaseInput) async throws -> UpdateAgentKnowledgeBaseOutput
-    {
+    public func updateAgentKnowledgeBase(input: UpdateAgentKnowledgeBaseInput) async throws -> UpdateAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1966,8 +1928,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2017,8 +1978,7 @@ extension BedrockAgentClient: BedrockAgentClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : This exception is thrown when the request's input validation fails
-    public func updateKnowledgeBase(input: UpdateKnowledgeBaseInput) async throws -> UpdateKnowledgeBaseOutput
-    {
+    public func updateKnowledgeBase(input: UpdateKnowledgeBaseInput) async throws -> UpdateKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

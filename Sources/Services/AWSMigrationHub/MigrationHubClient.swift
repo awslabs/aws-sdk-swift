@@ -66,7 +66,7 @@ public struct MigrationHubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension MigrationHubClient: MigrationHubClientProtocol {
+extension MigrationHubClient {
     /// Performs the `AssociateCreatedArtifact` operation on the `AWSMigrationHub` service.
     ///
     /// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits:
@@ -93,8 +93,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func associateCreatedArtifact(input: AssociateCreatedArtifactInput) async throws -> AssociateCreatedArtifactOutput
-    {
+    public func associateCreatedArtifact(input: AssociateCreatedArtifactInput) async throws -> AssociateCreatedArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -149,8 +148,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func associateDiscoveredResource(input: AssociateDiscoveredResourceInput) async throws -> AssociateDiscoveredResourceOutput
-    {
+    public func associateDiscoveredResource(input: AssociateDiscoveredResourceInput) async throws -> AssociateDiscoveredResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +201,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func createProgressUpdateStream(input: CreateProgressUpdateStreamInput) async throws -> CreateProgressUpdateStreamOutput
-    {
+    public func createProgressUpdateStream(input: CreateProgressUpdateStreamInput) async throws -> CreateProgressUpdateStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -268,8 +265,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func deleteProgressUpdateStream(input: DeleteProgressUpdateStreamInput) async throws -> DeleteProgressUpdateStreamOutput
-    {
+    public func deleteProgressUpdateStream(input: DeleteProgressUpdateStreamInput) async throws -> DeleteProgressUpdateStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -322,8 +318,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeApplicationState(input: DescribeApplicationStateInput) async throws -> DescribeApplicationStateOutput
-    {
+    public func describeApplicationState(input: DescribeApplicationStateInput) async throws -> DescribeApplicationStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +370,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeMigrationTask(input: DescribeMigrationTaskInput) async throws -> DescribeMigrationTaskOutput
-    {
+    public func describeMigrationTask(input: DescribeMigrationTaskInput) async throws -> DescribeMigrationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -436,8 +430,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func disassociateCreatedArtifact(input: DisassociateCreatedArtifactInput) async throws -> DisassociateCreatedArtifactOutput
-    {
+    public func disassociateCreatedArtifact(input: DisassociateCreatedArtifactInput) async throws -> DisassociateCreatedArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +484,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func disassociateDiscoveredResource(input: DisassociateDiscoveredResourceInput) async throws -> DisassociateDiscoveredResourceOutput
-    {
+    public func disassociateDiscoveredResource(input: DisassociateDiscoveredResourceInput) async throws -> DisassociateDiscoveredResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -546,8 +538,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func importMigrationTask(input: ImportMigrationTaskInput) async throws -> ImportMigrationTaskOutput
-    {
+    public func importMigrationTask(input: ImportMigrationTaskInput) async throws -> ImportMigrationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +589,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listApplicationStates(input: ListApplicationStatesInput) async throws -> ListApplicationStatesOutput
-    {
+    public func listApplicationStates(input: ListApplicationStatesInput) async throws -> ListApplicationStatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -657,8 +647,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listCreatedArtifacts(input: ListCreatedArtifactsInput) async throws -> ListCreatedArtifactsOutput
-    {
+    public func listCreatedArtifacts(input: ListCreatedArtifactsInput) async throws -> ListCreatedArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -710,8 +699,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
-    {
+    public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +758,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listMigrationTasks(input: ListMigrationTasksInput) async throws -> ListMigrationTasksOutput
-    {
+    public func listMigrationTasks(input: ListMigrationTasksInput) async throws -> ListMigrationTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +809,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listProgressUpdateStreams(input: ListProgressUpdateStreamsInput) async throws -> ListProgressUpdateStreamsOutput
-    {
+    public func listProgressUpdateStreams(input: ListProgressUpdateStreamsInput) async throws -> ListProgressUpdateStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -878,8 +864,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func notifyApplicationState(input: NotifyApplicationStateInput) async throws -> NotifyApplicationStateOutput
-    {
+    public func notifyApplicationState(input: NotifyApplicationStateInput) async throws -> NotifyApplicationStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -939,8 +924,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func notifyMigrationTaskState(input: NotifyMigrationTaskStateInput) async throws -> NotifyMigrationTaskStateOutput
-    {
+    public func notifyMigrationTaskState(input: NotifyMigrationTaskStateInput) async throws -> NotifyMigrationTaskStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1001,8 +985,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-    public func putResourceAttributes(input: PutResourceAttributesInput) async throws -> PutResourceAttributesOutput
-    {
+    public func putResourceAttributes(input: PutResourceAttributesInput) async throws -> PutResourceAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

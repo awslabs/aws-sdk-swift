@@ -66,7 +66,7 @@ public struct DirectoryClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension DirectoryClient: DirectoryClientProtocol {
+extension DirectoryClient {
     /// Performs the `AcceptSharedDirectory` operation on the `DirectoryService_20150416` service.
     ///
     /// Accepts a directory sharing request that was sent from the directory owner account.
@@ -83,8 +83,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func acceptSharedDirectory(input: AcceptSharedDirectoryInput) async throws -> AcceptSharedDirectoryOutput
-    {
+    public func acceptSharedDirectory(input: AcceptSharedDirectoryInput) async throws -> AcceptSharedDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `IpRouteLimitExceededException` : The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func addIpRoutes(input: AddIpRoutesInput) async throws -> AddIpRoutesOutput
-    {
+    public func addIpRoutes(input: AddIpRoutesInput) async throws -> AddIpRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `RegionLimitExceededException` : You have reached the limit for maximum number of simultaneous Region replications per directory.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func addRegion(input: AddRegionInput) async throws -> AddRegionOutput
-    {
+    public func addRegion(input: AddRegionInput) async throws -> AddRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -292,8 +288,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func cancelSchemaExtension(input: CancelSchemaExtensionInput) async throws -> CancelSchemaExtensionOutput
-    {
+    public func cancelSchemaExtension(input: CancelSchemaExtensionInput) async throws -> CancelSchemaExtensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func connectDirectory(input: ConnectDirectoryInput) async throws -> ConnectDirectoryOutput
-    {
+    public func connectDirectory(input: ConnectDirectoryInput) async throws -> ConnectDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +387,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    {
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -447,8 +440,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createComputer(input: CreateComputerInput) async throws -> CreateComputerOutput
-    {
+    public func createComputer(input: CreateComputerInput) async throws -> CreateComputerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -500,8 +492,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createConditionalForwarder(input: CreateConditionalForwarderInput) async throws -> CreateConditionalForwarderOutput
-    {
+    public func createConditionalForwarder(input: CreateConditionalForwarderInput) async throws -> CreateConditionalForwarderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -550,8 +541,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput
-    {
+    public func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +592,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createLogSubscription(input: CreateLogSubscriptionInput) async throws -> CreateLogSubscriptionOutput
-    {
+    public func createLogSubscription(input: CreateLogSubscriptionInput) async throws -> CreateLogSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -653,8 +642,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createMicrosoftAD(input: CreateMicrosoftADInput) async throws -> CreateMicrosoftADOutput
-    {
+    public func createMicrosoftAD(input: CreateMicrosoftADInput) async throws -> CreateMicrosoftADOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,8 +692,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -756,8 +743,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func createTrust(input: CreateTrustInput) async throws -> CreateTrustOutput
-    {
+    public func createTrust(input: CreateTrustInput) async throws -> CreateTrustOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -808,8 +794,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deleteConditionalForwarder(input: DeleteConditionalForwarderInput) async throws -> DeleteConditionalForwarderOutput
-    {
+    public func deleteConditionalForwarder(input: DeleteConditionalForwarderInput) async throws -> DeleteConditionalForwarderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -857,8 +842,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput
-    {
+    public func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +891,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deleteLogSubscription(input: DeleteLogSubscriptionInput) async throws -> DeleteLogSubscriptionOutput
-    {
+    public func deleteLogSubscription(input: DeleteLogSubscriptionInput) async throws -> DeleteLogSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +940,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-    {
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1008,8 +990,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deleteTrust(input: DeleteTrustInput) async throws -> DeleteTrustOutput
-    {
+    public func deleteTrust(input: DeleteTrustInput) async throws -> DeleteTrustOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1062,8 +1043,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func deregisterCertificate(input: DeregisterCertificateInput) async throws -> DeregisterCertificateOutput
-    {
+    public func deregisterCertificate(input: DeregisterCertificateInput) async throws -> DeregisterCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1112,8 +1092,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func deregisterEventTopic(input: DeregisterEventTopicInput) async throws -> DeregisterEventTopicOutput
-    {
+    public func deregisterEventTopic(input: DeregisterEventTopicInput) async throws -> DeregisterEventTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1164,8 +1143,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
-    {
+    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1216,8 +1194,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeClientAuthenticationSettings(input: DescribeClientAuthenticationSettingsInput) async throws -> DescribeClientAuthenticationSettingsOutput
-    {
+    public func describeClientAuthenticationSettings(input: DescribeClientAuthenticationSettingsInput) async throws -> DescribeClientAuthenticationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1268,8 +1245,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeConditionalForwarders(input: DescribeConditionalForwardersInput) async throws -> DescribeConditionalForwardersOutput
-    {
+    public func describeConditionalForwarders(input: DescribeConditionalForwardersInput) async throws -> DescribeConditionalForwardersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1295,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeDirectories(input: DescribeDirectoriesInput) async throws -> DescribeDirectoriesOutput
-    {
+    public func describeDirectories(input: DescribeDirectoriesInput) async throws -> DescribeDirectoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1371,8 +1346,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeDomainControllers(input: DescribeDomainControllersInput) async throws -> DescribeDomainControllersOutput
-    {
+    public func describeDomainControllers(input: DescribeDomainControllersInput) async throws -> DescribeDomainControllersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1421,8 +1395,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeEventTopics(input: DescribeEventTopicsInput) async throws -> DescribeEventTopicsOutput
-    {
+    public func describeEventTopics(input: DescribeEventTopicsInput) async throws -> DescribeEventTopicsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1473,8 +1446,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeLDAPSSettings(input: DescribeLDAPSSettingsInput) async throws -> DescribeLDAPSSettingsOutput
-    {
+    public func describeLDAPSSettings(input: DescribeLDAPSSettingsInput) async throws -> DescribeLDAPSSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1526,8 +1498,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput
-    {
+    public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1578,8 +1549,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeSettings(input: DescribeSettingsInput) async throws -> DescribeSettingsOutput
-    {
+    public func describeSettings(input: DescribeSettingsInput) async throws -> DescribeSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1630,8 +1600,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeSharedDirectories(input: DescribeSharedDirectoriesInput) async throws -> DescribeSharedDirectoriesOutput
-    {
+    public func describeSharedDirectories(input: DescribeSharedDirectoriesInput) async throws -> DescribeSharedDirectoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1681,8 +1650,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
-    {
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1701,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func describeTrusts(input: DescribeTrustsInput) async throws -> DescribeTrustsOutput
-    {
+    public func describeTrusts(input: DescribeTrustsInput) async throws -> DescribeTrustsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1785,8 +1752,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func describeUpdateDirectory(input: DescribeUpdateDirectoryInput) async throws -> DescribeUpdateDirectoryOutput
-    {
+    public func describeUpdateDirectory(input: DescribeUpdateDirectoryInput) async throws -> DescribeUpdateDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1837,8 +1803,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidClientAuthStatusException` : Client authentication is already enabled.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func disableClientAuthentication(input: DisableClientAuthenticationInput) async throws -> DisableClientAuthenticationOutput
-    {
+    public func disableClientAuthentication(input: DisableClientAuthenticationInput) async throws -> DisableClientAuthenticationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1890,8 +1855,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func disableLDAPS(input: DisableLDAPSInput) async throws -> DisableLDAPSOutput
-    {
+    public func disableLDAPS(input: DisableLDAPSInput) async throws -> DisableLDAPSOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1939,8 +1903,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func disableRadius(input: DisableRadiusInput) async throws -> DisableRadiusOutput
-    {
+    public func disableRadius(input: DisableRadiusInput) async throws -> DisableRadiusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1990,8 +1953,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func disableSso(input: DisableSsoInput) async throws -> DisableSsoOutput
-    {
+    public func disableSso(input: DisableSsoInput) async throws -> DisableSsoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2043,8 +2005,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func enableClientAuthentication(input: EnableClientAuthenticationInput) async throws -> EnableClientAuthenticationOutput
-    {
+    public func enableClientAuthentication(input: EnableClientAuthenticationInput) async throws -> EnableClientAuthenticationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2097,8 +2058,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func enableLDAPS(input: EnableLDAPSInput) async throws -> EnableLDAPSOutput
-    {
+    public func enableLDAPS(input: EnableLDAPSInput) async throws -> EnableLDAPSOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2148,8 +2108,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func enableRadius(input: EnableRadiusInput) async throws -> EnableRadiusOutput
-    {
+    public func enableRadius(input: EnableRadiusInput) async throws -> EnableRadiusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2199,8 +2158,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InsufficientPermissionsException` : The account does not have sufficient permission to perform the operation.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func enableSso(input: EnableSsoInput) async throws -> EnableSsoOutput
-    {
+    public func enableSso(input: EnableSsoInput) async throws -> EnableSsoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2248,8 +2206,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func getDirectoryLimits(input: GetDirectoryLimitsInput) async throws -> GetDirectoryLimitsOutput
-    {
+    public func getDirectoryLimits(input: GetDirectoryLimitsInput) async throws -> GetDirectoryLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2297,8 +2254,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ClientException` : A client exception has occurred.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func getSnapshotLimits(input: GetSnapshotLimitsInput) async throws -> GetSnapshotLimitsOutput
-    {
+    public func getSnapshotLimits(input: GetSnapshotLimitsInput) async throws -> GetSnapshotLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2349,8 +2305,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
-    {
+    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2400,8 +2355,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listIpRoutes(input: ListIpRoutesInput) async throws -> ListIpRoutesOutput
-    {
+    public func listIpRoutes(input: ListIpRoutesInput) async throws -> ListIpRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2450,8 +2404,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listLogSubscriptions(input: ListLogSubscriptionsInput) async throws -> ListLogSubscriptionsOutput
-    {
+    public func listLogSubscriptions(input: ListLogSubscriptionsInput) async throws -> ListLogSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2500,8 +2453,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listSchemaExtensions(input: ListSchemaExtensionsInput) async throws -> ListSchemaExtensionsOutput
-    {
+    public func listSchemaExtensions(input: ListSchemaExtensionsInput) async throws -> ListSchemaExtensionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2551,8 +2503,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2606,8 +2557,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput
-    {
+    public func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2656,8 +2606,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func registerEventTopic(input: RegisterEventTopicInput) async throws -> RegisterEventTopicOutput
-    {
+    public func registerEventTopic(input: RegisterEventTopicInput) async throws -> RegisterEventTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2707,8 +2656,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func rejectSharedDirectory(input: RejectSharedDirectoryInput) async throws -> RejectSharedDirectoryOutput
-    {
+    public func rejectSharedDirectory(input: RejectSharedDirectoryInput) async throws -> RejectSharedDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2758,8 +2706,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func removeIpRoutes(input: RemoveIpRoutesInput) async throws -> RemoveIpRoutesOutput
-    {
+    public func removeIpRoutes(input: RemoveIpRoutesInput) async throws -> RemoveIpRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2810,8 +2757,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutput
-    {
+    public func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2860,8 +2806,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2917,8 +2862,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     /// - `UserDoesNotExistException` : The user provided a username that does not exist in your directory.
-    public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput
-    {
+    public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2967,8 +2911,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput
-    {
+    public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3023,8 +2966,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `ShareLimitExceededException` : The maximum number of Amazon Web Services accounts that you can share with this directory has been reached.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func shareDirectory(input: ShareDirectoryInput) async throws -> ShareDirectoryOutput
-    {
+    public func shareDirectory(input: ShareDirectoryInput) async throws -> ShareDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3075,8 +3017,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-    public func startSchemaExtension(input: StartSchemaExtensionInput) async throws -> StartSchemaExtensionOutput
-    {
+    public func startSchemaExtension(input: StartSchemaExtensionInput) async throws -> StartSchemaExtensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3126,8 +3067,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidTargetException` : The specified shared target is not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func unshareDirectory(input: UnshareDirectoryInput) async throws -> UnshareDirectoryOutput
-    {
+    public func unshareDirectory(input: UnshareDirectoryInput) async throws -> UnshareDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3178,8 +3118,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func updateConditionalForwarder(input: UpdateConditionalForwarderInput) async throws -> UpdateConditionalForwarderOutput
-    {
+    public func updateConditionalForwarder(input: UpdateConditionalForwarderInput) async throws -> UpdateConditionalForwarderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3233,8 +3172,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func updateDirectorySetup(input: UpdateDirectorySetupInput) async throws -> UpdateDirectorySetupOutput
-    {
+    public func updateDirectorySetup(input: UpdateDirectorySetupInput) async throws -> UpdateDirectorySetupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3286,8 +3224,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput) async throws -> UpdateNumberOfDomainControllersOutput
-    {
+    public func updateNumberOfDomainControllers(input: UpdateNumberOfDomainControllersInput) async throws -> UpdateNumberOfDomainControllersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3336,8 +3273,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func updateRadius(input: UpdateRadiusInput) async throws -> UpdateRadiusOutput
-    {
+    public func updateRadius(input: UpdateRadiusInput) async throws -> UpdateRadiusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3390,8 +3326,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     /// - `UnsupportedSettingsException` : The specified directory setting is not supported.
-    public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput
-    {
+    public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3440,8 +3375,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
-    public func updateTrust(input: UpdateTrustInput) async throws -> UpdateTrustOutput
-    {
+    public func updateTrust(input: UpdateTrustInput) async throws -> UpdateTrustOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3491,8 +3425,7 @@ extension DirectoryClient: DirectoryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
-    public func verifyTrust(input: VerifyTrustInput) async throws -> VerifyTrustOutput
-    {
+    public func verifyTrust(input: VerifyTrustInput) async throws -> VerifyTrustOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct WorkSpacesWebClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
+extension WorkSpacesWebClient {
     /// Performs the `AssociateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
     /// Associates a browser settings resource with a web portal.
@@ -84,8 +84,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutput
-    {
+    public func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutput
-    {
+    public func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutput
-    {
+    public func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutput
-    {
+    public func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutput
-    {
+    public func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutput
-    {
+    public func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutput
-    {
+    public func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -431,8 +424,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput
-    {
+    public func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -483,8 +475,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutput
-    {
+    public func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -535,8 +526,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutput
-    {
+    public func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput
-    {
+    public func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -640,8 +629,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput
-    {
+    public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -692,8 +680,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutput
-    {
+    public func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -744,8 +731,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutput
-    {
+    public func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +781,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutput
-    {
+    public func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -842,8 +827,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput
-    {
+    public func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -889,8 +873,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutput
-    {
+    public func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +919,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutput
-    {
+    public func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -983,8 +965,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput
-    {
+    public func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1011,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput
-    {
+    public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1077,8 +1057,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutput
-    {
+    public func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1124,8 +1103,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutput
-    {
+    public func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1171,8 +1149,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutput
-    {
+    public func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1195,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutput
-    {
+    public func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1265,8 +1241,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutput
-    {
+    public func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1312,8 +1287,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutput
-    {
+    public func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1359,8 +1333,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutput
-    {
+    public func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1406,8 +1379,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutput
-    {
+    public func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1453,8 +1425,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutput
-    {
+    public func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1500,8 +1471,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutput
-    {
+    public func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1547,8 +1517,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutput
-    {
+    public func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1594,8 +1563,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutput
-    {
+    public func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1641,8 +1609,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getPortal(input: GetPortalInput) async throws -> GetPortalOutput
-    {
+    public func getPortal(input: GetPortalInput) async throws -> GetPortalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1688,8 +1655,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutput
-    {
+    public func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1735,8 +1701,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutput
-    {
+    public func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1782,8 +1747,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutput
-    {
+    public func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1830,8 +1794,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutput
-    {
+    public func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1877,8 +1840,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutput
-    {
+    public func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1923,8 +1885,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutput
-    {
+    public func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1970,8 +1931,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
-    {
+    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2017,8 +1977,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutput
-    {
+    public func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2064,8 +2023,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutput
-    {
+    public func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2111,8 +2069,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput
-    {
+    public func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2159,8 +2116,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2206,8 +2162,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutput
-    {
+    public func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2253,8 +2208,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutput
-    {
+    public func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2300,8 +2254,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutput
-    {
+    public func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2347,8 +2300,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `InternalServerException` : There is an internal server error.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutput
-    {
+    public func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2396,8 +2348,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `TooManyTagsException` : There are too many tags.
     /// - `ValidationException` : There is a validation error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2447,8 +2398,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2495,8 +2445,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutput
-    {
+    public func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2546,8 +2495,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput
-    {
+    public func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2597,8 +2545,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutput
-    {
+    public func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2648,8 +2595,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutput
-    {
+    public func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2700,8 +2646,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput
-    {
+    public func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2751,8 +2696,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutput
-    {
+    public func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2802,8 +2746,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutput
-    {
+    public func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2853,8 +2796,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
-    public func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutput
-    {
+    public func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

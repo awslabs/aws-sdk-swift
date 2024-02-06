@@ -66,7 +66,7 @@ public struct CloudTrailDataClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension CloudTrailDataClient: CloudTrailDataClientProtocol {
+extension CloudTrailDataClient {
     /// Performs the `PutAuditEvents` operation on the `CloudTrailDataService` service.
     ///
     /// Ingests your application events into CloudTrail Lake. A required parameter, auditEvents, accepts the JSON records (also called payload) of events that you want CloudTrail to ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request.
@@ -84,8 +84,7 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
     /// - `DuplicatedAuditEventId` : Two or more entries in the request have the same event ID.
     /// - `InvalidChannelARN` : The specified channel ARN is not a valid channel ARN.
     /// - `UnsupportedOperationException` : The operation requested is not supported in this region or account.
-    public func putAuditEvents(input: PutAuditEventsInput) async throws -> PutAuditEventsOutput
-    {
+    public func putAuditEvents(input: PutAuditEventsInput) async throws -> PutAuditEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -62,7 +62,7 @@ public struct ElasticLoadBalancingv2ClientLogHandlerFactory: ClientRuntime.SDKLo
     }
 }
 
-extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
+extension ElasticLoadBalancingv2Client {
     /// Performs the `AddListenerCertificates` operation on the `ElasticLoadBalancing_v10` service.
     ///
     /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see [HTTPS listeners](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) in the Application Load Balancers Guide or [TLS listeners](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html) in the Network Load Balancers Guide.
@@ -77,8 +77,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `CertificateNotFoundException` : The specified certificate does not exist.
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `TooManyCertificatesException` : You've reached the limit on the number of certificates per load balancer.
-    public func addListenerCertificates(input: AddListenerCertificatesInput) async throws -> AddListenerCertificatesOutput
-    {
+    public func addListenerCertificates(input: AddListenerCertificatesInput) async throws -> AddListenerCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -129,8 +128,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `RevocationContentNotFoundException` : The specified revocation file does not exist.
     /// - `TooManyTrustStoreRevocationEntriesException` : The specified trust store has too many revocation entries.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func addTrustStoreRevocations(input: AddTrustStoreRevocationsInput) async throws -> AddTrustStoreRevocationsOutput
-    {
+    public func addTrustStoreRevocations(input: AddTrustStoreRevocationsInput) async throws -> AddTrustStoreRevocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -252,8 +249,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
     /// - `TrustStoreNotReadyException` : The specified trust store is not active.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
-    public func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
-    {
+    public func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +315,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `SubnetNotFoundException` : The specified subnet does not exist.
     /// - `TooManyLoadBalancersException` : You've reached the limit on the number of load balancers for your Amazon Web Services account.
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
-    public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput
-    {
+    public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +374,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TooManyTargetsException` : You've reached the limit on the number of targets.
     /// - `TooManyUniqueTargetGroupsPerLoadBalancerException` : You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
-    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-    {
+    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,8 +431,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TooManyTargetGroupsException` : You've reached the limit on the number of target groups for your Amazon Web Services account.
-    public func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutput
-    {
+    public func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +481,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidCaCertificatesBundleException` : The specified ca certificate bundle is in an invalid format, or corrupt.
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TooManyTrustStoresException` : You've reached the limit on the number of trust stores for your Amazon Web Services account.
-    public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput
-    {
+    public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -535,8 +527,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `ResourceInUseException` : A specified resource is in use.
-    public func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
-    {
+    public func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -583,8 +574,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `ResourceInUseException` : A specified resource is in use.
-    public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput
-    {
+    public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +620,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `RuleNotFoundException` : The specified rule does not exist.
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -676,8 +665,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : A specified resource is in use.
-    public func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutput
-    {
+    public func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -723,8 +711,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `TrustStoreInUseException` : The specified trust store is currently in use.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput
-    {
+    public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -779,8 +766,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidTargetException` : The specified target does not exist, is not in the same VPC as the target group, or has an unsupported instance type.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-    public func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutput
-    {
+    public func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -826,8 +812,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - Parameter DescribeAccountLimitsInput : [no documentation found]
     ///
     /// - Returns: `DescribeAccountLimitsOutput` : [no documentation found]
-    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
-    {
+    public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -872,8 +857,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ListenerNotFoundException` : The specified listener does not exist.
-    public func describeListenerCertificates(input: DescribeListenerCertificatesInput) async throws -> DescribeListenerCertificatesOutput
-    {
+    public func describeListenerCertificates(input: DescribeListenerCertificatesInput) async throws -> DescribeListenerCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -920,8 +904,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
-    public func describeListeners(input: DescribeListenersInput) async throws -> DescribeListenersOutput
-    {
+    public func describeListeners(input: DescribeListenersInput) async throws -> DescribeListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -972,8 +955,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
-    public func describeLoadBalancerAttributes(input: DescribeLoadBalancerAttributesInput) async throws -> DescribeLoadBalancerAttributesOutput
-    {
+    public func describeLoadBalancerAttributes(input: DescribeLoadBalancerAttributesInput) async throws -> DescribeLoadBalancerAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1018,8 +1000,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
-    public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput
-    {
+    public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1066,8 +1047,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `RuleNotFoundException` : The specified rule does not exist.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
-    public func describeRules(input: DescribeRulesInput) async throws -> DescribeRulesOutput
-    {
+    public func describeRules(input: DescribeRulesInput) async throws -> DescribeRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1112,8 +1092,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `SSLPolicyNotFoundException` : The specified SSL policy does not exist.
-    public func describeSSLPolicies(input: DescribeSSLPoliciesInput) async throws -> DescribeSSLPoliciesOutput
-    {
+    public func describeSSLPolicies(input: DescribeSSLPoliciesInput) async throws -> DescribeSSLPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1162,8 +1141,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `RuleNotFoundException` : The specified rule does not exist.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,8 +1192,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-    public func describeTargetGroupAttributes(input: DescribeTargetGroupAttributesInput) async throws -> DescribeTargetGroupAttributesOutput
-    {
+    public func describeTargetGroupAttributes(input: DescribeTargetGroupAttributesInput) async throws -> DescribeTargetGroupAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1261,8 +1238,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-    public func describeTargetGroups(input: DescribeTargetGroupsInput) async throws -> DescribeTargetGroupsOutput
-    {
+    public func describeTargetGroups(input: DescribeTargetGroupsInput) async throws -> DescribeTargetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1309,8 +1285,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `HealthUnavailableException` : The health of the specified targets could not be retrieved due to an internal error.
     /// - `InvalidTargetException` : The specified target does not exist, is not in the same VPC as the target group, or has an unsupported instance type.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-    public func describeTargetHealth(input: DescribeTargetHealthInput) async throws -> DescribeTargetHealthOutput
-    {
+    public func describeTargetHealth(input: DescribeTargetHealthInput) async throws -> DescribeTargetHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1355,8 +1330,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func describeTrustStoreAssociations(input: DescribeTrustStoreAssociationsInput) async throws -> DescribeTrustStoreAssociationsOutput
-    {
+    public func describeTrustStoreAssociations(input: DescribeTrustStoreAssociationsInput) async throws -> DescribeTrustStoreAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1402,8 +1376,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `RevocationIdNotFoundException` : The specified revocation ID does not exist.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func describeTrustStoreRevocations(input: DescribeTrustStoreRevocationsInput) async throws -> DescribeTrustStoreRevocationsOutput
-    {
+    public func describeTrustStoreRevocations(input: DescribeTrustStoreRevocationsInput) async throws -> DescribeTrustStoreRevocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,8 +1421,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func describeTrustStores(input: DescribeTrustStoresInput) async throws -> DescribeTrustStoresOutput
-    {
+    public func describeTrustStores(input: DescribeTrustStoresInput) async throws -> DescribeTrustStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1494,8 +1466,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func getTrustStoreCaCertificatesBundle(input: GetTrustStoreCaCertificatesBundleInput) async throws -> GetTrustStoreCaCertificatesBundleOutput
-    {
+    public func getTrustStoreCaCertificatesBundle(input: GetTrustStoreCaCertificatesBundleInput) async throws -> GetTrustStoreCaCertificatesBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1512,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `RevocationIdNotFoundException` : The specified revocation ID does not exist.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func getTrustStoreRevocationContent(input: GetTrustStoreRevocationContentInput) async throws -> GetTrustStoreRevocationContentOutput
-    {
+    public func getTrustStoreRevocationContent(input: GetTrustStoreRevocationContentInput) async throws -> GetTrustStoreRevocationContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1575,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
     /// - `TrustStoreNotReadyException` : The specified trust store is not active.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
-    public func modifyListener(input: ModifyListenerInput) async throws -> ModifyListenerOutput
-    {
+    public func modifyListener(input: ModifyListenerInput) async throws -> ModifyListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1652,8 +1621,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
-    public func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutput
-    {
+    public func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1708,8 +1676,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TooManyTargetsException` : You've reached the limit on the number of targets.
     /// - `TooManyUniqueTargetGroupsPerLoadBalancerException` : You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
-    public func modifyRule(input: ModifyRuleInput) async throws -> ModifyRuleOutput
-    {
+    public func modifyRule(input: ModifyRuleInput) async throws -> ModifyRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1755,8 +1722,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-    public func modifyTargetGroup(input: ModifyTargetGroupInput) async throws -> ModifyTargetGroupOutput
-    {
+    public func modifyTargetGroup(input: ModifyTargetGroupInput) async throws -> ModifyTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1802,8 +1768,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-    public func modifyTargetGroupAttributes(input: ModifyTargetGroupAttributesInput) async throws -> ModifyTargetGroupAttributesOutput
-    {
+    public func modifyTargetGroupAttributes(input: ModifyTargetGroupAttributesInput) async throws -> ModifyTargetGroupAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1850,8 +1815,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `CaCertificatesBundleNotFoundException` : The specified ca certificate bundle does not exist.
     /// - `InvalidCaCertificatesBundleException` : The specified ca certificate bundle is in an invalid format, or corrupt.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func modifyTrustStore(input: ModifyTrustStoreInput) async throws -> ModifyTrustStoreOutput
-    {
+    public func modifyTrustStore(input: ModifyTrustStoreInput) async throws -> ModifyTrustStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1899,8 +1863,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     /// - `TooManyRegistrationsForTargetIdException` : You've reached the limit on the number of times a target can be registered with a load balancer.
     /// - `TooManyTargetsException` : You've reached the limit on the number of targets.
-    public func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutput
-    {
+    public func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1946,8 +1909,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `OperationNotPermittedException` : This operation is not allowed.
-    public func removeListenerCertificates(input: RemoveListenerCertificatesInput) async throws -> RemoveListenerCertificatesOutput
-    {
+    public func removeListenerCertificates(input: RemoveListenerCertificatesInput) async throws -> RemoveListenerCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1997,8 +1959,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    {
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2044,8 +2005,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `RevocationIdNotFoundException` : The specified revocation ID does not exist.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
-    public func removeTrustStoreRevocations(input: RemoveTrustStoreRevocationsInput) async throws -> RemoveTrustStoreRevocationsOutput
-    {
+    public func removeTrustStoreRevocations(input: RemoveTrustStoreRevocationsInput) async throws -> RemoveTrustStoreRevocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2092,8 +2052,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `InvalidSubnetException` : The specified subnet is out of available addresses.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
-    public func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput
-    {
+    public func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2140,8 +2099,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `PriorityInUseException` : The specified priority is in use.
     /// - `RuleNotFoundException` : The specified rule does not exist.
-    public func setRulePriorities(input: SetRulePrioritiesInput) async throws -> SetRulePrioritiesOutput
-    {
+    public func setRulePriorities(input: SetRulePrioritiesInput) async throws -> SetRulePrioritiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2188,8 +2146,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `InvalidSecurityGroupException` : The specified security group does not exist.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
-    public func setSecurityGroups(input: SetSecurityGroupsInput) async throws -> SetSecurityGroupsOutput
-    {
+    public func setSecurityGroups(input: SetSecurityGroupsInput) async throws -> SetSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2239,8 +2196,7 @@ extension ElasticLoadBalancingv2Client: ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidSubnetException` : The specified subnet is out of available addresses.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `SubnetNotFoundException` : The specified subnet does not exist.
-    public func setSubnets(input: SetSubnetsInput) async throws -> SetSubnetsOutput
-    {
+    public func setSubnets(input: SetSubnetsInput) async throws -> SetSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

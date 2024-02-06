@@ -66,7 +66,7 @@ public struct DevOpsGuruClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension DevOpsGuruClient: DevOpsGuruClientProtocol {
+extension DevOpsGuruClient {
     /// Performs the `AddNotificationChannel` operation on the `CapstoneControlPlaneService` service.
     ///
     /// Adds a notification channel to DevOps Guru. A notification channel is used to notify you about important DevOps Guru events, such as when an insight is generated. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html). If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see [Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html).
@@ -85,8 +85,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ServiceQuotaExceededException` : The request contains a value that exceeds a maximum quota.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func addNotificationChannel(input: AddNotificationChannelInput) async throws -> AddNotificationChannelOutput
-    {
+    public func addNotificationChannel(input: AddNotificationChannelInput) async throws -> AddNotificationChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput
-    {
+    public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeAccountHealth(input: DescribeAccountHealthInput) async throws -> DescribeAccountHealthOutput
-    {
+    public func describeAccountHealth(input: DescribeAccountHealthInput) async throws -> DescribeAccountHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeAccountOverview(input: DescribeAccountOverviewInput) async throws -> DescribeAccountOverviewOutput
-    {
+    public func describeAccountOverview(input: DescribeAccountOverviewInput) async throws -> DescribeAccountOverviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeAnomaly(input: DescribeAnomalyInput) async throws -> DescribeAnomalyOutput
-    {
+    public func describeAnomaly(input: DescribeAnomalyInput) async throws -> DescribeAnomalyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -325,8 +320,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeEventSourcesConfig(input: DescribeEventSourcesConfigInput) async throws -> DescribeEventSourcesConfigOutput
-    {
+    public func describeEventSourcesConfig(input: DescribeEventSourcesConfigInput) async throws -> DescribeEventSourcesConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -372,8 +366,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeFeedback(input: DescribeFeedbackInput) async throws -> DescribeFeedbackOutput
-    {
+    public func describeFeedback(input: DescribeFeedbackInput) async throws -> DescribeFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -422,8 +415,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutput
-    {
+    public func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +461,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeOrganizationHealth(input: DescribeOrganizationHealthInput) async throws -> DescribeOrganizationHealthOutput
-    {
+    public func describeOrganizationHealth(input: DescribeOrganizationHealthInput) async throws -> DescribeOrganizationHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -518,8 +509,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeOrganizationOverview(input: DescribeOrganizationOverviewInput) async throws -> DescribeOrganizationOverviewOutput
-    {
+    public func describeOrganizationOverview(input: DescribeOrganizationOverviewInput) async throws -> DescribeOrganizationOverviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -567,8 +557,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeOrganizationResourceCollectionHealth(input: DescribeOrganizationResourceCollectionHealthInput) async throws -> DescribeOrganizationResourceCollectionHealthOutput
-    {
+    public func describeOrganizationResourceCollectionHealth(input: DescribeOrganizationResourceCollectionHealthInput) async throws -> DescribeOrganizationResourceCollectionHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +605,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeResourceCollectionHealth(input: DescribeResourceCollectionHealthInput) async throws -> DescribeResourceCollectionHealthOutput
-    {
+    public func describeResourceCollectionHealth(input: DescribeResourceCollectionHealthInput) async throws -> DescribeResourceCollectionHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +652,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func describeServiceIntegration(input: DescribeServiceIntegrationInput) async throws -> DescribeServiceIntegrationOutput
-    {
+    public func describeServiceIntegration(input: DescribeServiceIntegrationInput) async throws -> DescribeServiceIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +698,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func getCostEstimation(input: GetCostEstimationInput) async throws -> GetCostEstimationOutput
-    {
+    public func getCostEstimation(input: GetCostEstimationInput) async throws -> GetCostEstimationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -759,8 +745,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func getResourceCollection(input: GetResourceCollectionInput) async throws -> GetResourceCollectionOutput
-    {
+    public func getResourceCollection(input: GetResourceCollectionInput) async throws -> GetResourceCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -807,8 +792,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listAnomaliesForInsight(input: ListAnomaliesForInsightInput) async throws -> ListAnomaliesForInsightOutput
-    {
+    public func listAnomaliesForInsight(input: ListAnomaliesForInsightInput) async throws -> ListAnomaliesForInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -857,8 +841,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listAnomalousLogGroups(input: ListAnomalousLogGroupsInput) async throws -> ListAnomalousLogGroupsOutput
-    {
+    public func listAnomalousLogGroups(input: ListAnomalousLogGroupsInput) async throws -> ListAnomalousLogGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +890,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listEvents(input: ListEventsInput) async throws -> ListEventsOutput
-    {
+    public func listEvents(input: ListEventsInput) async throws -> ListEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -956,8 +938,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutput
-    {
+    public func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1005,8 +986,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listMonitoredResources(input: ListMonitoredResourcesInput) async throws -> ListMonitoredResourcesOutput
-    {
+    public func listMonitoredResources(input: ListMonitoredResourcesInput) async throws -> ListMonitoredResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1034,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listNotificationChannels(input: ListNotificationChannelsInput) async throws -> ListNotificationChannelsOutput
-    {
+    public func listNotificationChannels(input: ListNotificationChannelsInput) async throws -> ListNotificationChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1082,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listOrganizationInsights(input: ListOrganizationInsightsInput) async throws -> ListOrganizationInsightsOutput
-    {
+    public func listOrganizationInsights(input: ListOrganizationInsightsInput) async throws -> ListOrganizationInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1153,8 +1131,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
-    {
+    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1204,8 +1181,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
-    {
+    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1255,8 +1231,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutput
-    {
+    public func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1301,8 +1276,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func searchInsights(input: SearchInsightsInput) async throws -> SearchInsightsOutput
-    {
+    public func searchInsights(input: SearchInsightsInput) async throws -> SearchInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1350,8 +1324,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func searchOrganizationInsights(input: SearchOrganizationInsightsInput) async throws -> SearchOrganizationInsightsOutput
-    {
+    public func searchOrganizationInsights(input: SearchOrganizationInsightsInput) async throws -> SearchOrganizationInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1401,8 +1374,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource could not be found
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func startCostEstimation(input: StartCostEstimationInput) async throws -> StartCostEstimationOutput
-    {
+    public func startCostEstimation(input: StartCostEstimationInput) async throws -> StartCostEstimationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1451,8 +1423,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func updateEventSourcesConfig(input: UpdateEventSourcesConfigInput) async throws -> UpdateEventSourcesConfigOutput
-    {
+    public func updateEventSourcesConfig(input: UpdateEventSourcesConfigInput) async throws -> UpdateEventSourcesConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1501,8 +1472,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func updateResourceCollection(input: UpdateResourceCollectionInput) async throws -> UpdateResourceCollectionOutput
-    {
+    public func updateResourceCollection(input: UpdateResourceCollectionInput) async throws -> UpdateResourceCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1551,8 +1521,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
     /// - `InternalServerException` : An internal failure in an Amazon service occurred.
     /// - `ThrottlingException` : The request was denied due to a request throttling.
     /// - `ValidationException` : Contains information about data passed in to a field during a request that is not valid.
-    public func updateServiceIntegration(input: UpdateServiceIntegrationInput) async throws -> UpdateServiceIntegrationOutput
-    {
+    public func updateServiceIntegration(input: UpdateServiceIntegrationInput) async throws -> UpdateServiceIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

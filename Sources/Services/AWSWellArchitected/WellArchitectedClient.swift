@@ -66,7 +66,7 @@ public struct WellArchitectedClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension WellArchitectedClient: WellArchitectedClientProtocol {
+extension WellArchitectedClient {
     /// Performs the `AssociateLenses` operation on the `WellArchitectedApiServiceLambda` service.
     ///
     /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload. Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
@@ -84,8 +84,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func associateLenses(input: AssociateLensesInput) async throws -> AssociateLensesOutput
-    {
+    public func associateLenses(input: AssociateLensesInput) async throws -> AssociateLensesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func associateProfiles(input: AssociateProfilesInput) async throws -> AssociateProfilesOutput
-    {
+    public func associateProfiles(input: AssociateProfilesInput) async throws -> AssociateProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createLensShare(input: CreateLensShareInput) async throws -> CreateLensShareOutput
-    {
+    public func createLensShare(input: CreateLensShareInput) async throws -> CreateLensShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createLensVersion(input: CreateLensVersionInput) async throws -> CreateLensVersionOutput
-    {
+    public func createLensVersion(input: CreateLensVersionInput) async throws -> CreateLensVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createMilestone(input: CreateMilestoneInput) async throws -> CreateMilestoneOutput
-    {
+    public func createMilestone(input: CreateMilestoneInput) async throws -> CreateMilestoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
-    {
+    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +392,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createProfileShare(input: CreateProfileShareInput) async throws -> CreateProfileShareOutput
-    {
+    public func createProfileShare(input: CreateProfileShareInput) async throws -> CreateProfileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +444,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createReviewTemplate(input: CreateReviewTemplateInput) async throws -> CreateReviewTemplateOutput
-    {
+    public func createReviewTemplate(input: CreateReviewTemplateInput) async throws -> CreateReviewTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -504,8 +496,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createTemplateShare(input: CreateTemplateShareInput) async throws -> CreateTemplateShareOutput
-    {
+    public func createTemplateShare(input: CreateTemplateShareInput) async throws -> CreateTemplateShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +556,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createWorkload(input: CreateWorkloadInput) async throws -> CreateWorkloadOutput
-    {
+    public func createWorkload(input: CreateWorkloadInput) async throws -> CreateWorkloadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -618,8 +608,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func createWorkloadShare(input: CreateWorkloadShareInput) async throws -> CreateWorkloadShareOutput
-    {
+    public func createWorkloadShare(input: CreateWorkloadShareInput) async throws -> CreateWorkloadShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -670,8 +659,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteLens(input: DeleteLensInput) async throws -> DeleteLensOutput
-    {
+    public func deleteLens(input: DeleteLensInput) async throws -> DeleteLensOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -720,8 +708,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteLensShare(input: DeleteLensShareInput) async throws -> DeleteLensShareOutput
-    {
+    public func deleteLensShare(input: DeleteLensShareInput) async throws -> DeleteLensShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +757,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
-    {
+    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +806,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteProfileShare(input: DeleteProfileShareInput) async throws -> DeleteProfileShareOutput
-    {
+    public func deleteProfileShare(input: DeleteProfileShareInput) async throws -> DeleteProfileShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -870,8 +855,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteReviewTemplate(input: DeleteReviewTemplateInput) async throws -> DeleteReviewTemplateOutput
-    {
+    public func deleteReviewTemplate(input: DeleteReviewTemplateInput) async throws -> DeleteReviewTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -920,8 +904,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteTemplateShare(input: DeleteTemplateShareInput) async throws -> DeleteTemplateShareOutput
-    {
+    public func deleteTemplateShare(input: DeleteTemplateShareInput) async throws -> DeleteTemplateShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -970,8 +953,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteWorkload(input: DeleteWorkloadInput) async throws -> DeleteWorkloadOutput
-    {
+    public func deleteWorkload(input: DeleteWorkloadInput) async throws -> DeleteWorkloadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1020,8 +1002,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func deleteWorkloadShare(input: DeleteWorkloadShareInput) async throws -> DeleteWorkloadShareOutput
-    {
+    public func deleteWorkloadShare(input: DeleteWorkloadShareInput) async throws -> DeleteWorkloadShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1070,8 +1051,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func disassociateLenses(input: DisassociateLensesInput) async throws -> DisassociateLensesOutput
-    {
+    public func disassociateLenses(input: DisassociateLensesInput) async throws -> DisassociateLensesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1121,8 +1101,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func disassociateProfiles(input: DisassociateProfilesInput) async throws -> DisassociateProfilesOutput
-    {
+    public func disassociateProfiles(input: DisassociateProfilesInput) async throws -> DisassociateProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1171,8 +1150,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func exportLens(input: ExportLensInput) async throws -> ExportLensOutput
-    {
+    public func exportLens(input: ExportLensInput) async throws -> ExportLensOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1219,8 +1197,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getAnswer(input: GetAnswerInput) async throws -> GetAnswerOutput
-    {
+    public func getAnswer(input: GetAnswerInput) async throws -> GetAnswerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1267,8 +1244,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutput
-    {
+    public func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1315,8 +1291,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getLens(input: GetLensInput) async throws -> GetLensOutput
-    {
+    public func getLens(input: GetLensInput) async throws -> GetLensOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1363,8 +1338,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getLensReview(input: GetLensReviewInput) async throws -> GetLensReviewOutput
-    {
+    public func getLensReview(input: GetLensReviewInput) async throws -> GetLensReviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1411,8 +1385,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getLensReviewReport(input: GetLensReviewReportInput) async throws -> GetLensReviewReportOutput
-    {
+    public func getLensReviewReport(input: GetLensReviewReportInput) async throws -> GetLensReviewReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1459,8 +1432,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getLensVersionDifference(input: GetLensVersionDifferenceInput) async throws -> GetLensVersionDifferenceOutput
-    {
+    public func getLensVersionDifference(input: GetLensVersionDifferenceInput) async throws -> GetLensVersionDifferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1479,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getMilestone(input: GetMilestoneInput) async throws -> GetMilestoneOutput
-    {
+    public func getMilestone(input: GetMilestoneInput) async throws -> GetMilestoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1554,8 +1525,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
-    {
+    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1602,8 +1572,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getProfileTemplate(input: GetProfileTemplateInput) async throws -> GetProfileTemplateOutput
-    {
+    public func getProfileTemplate(input: GetProfileTemplateInput) async throws -> GetProfileTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1649,8 +1618,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getReviewTemplate(input: GetReviewTemplateInput) async throws -> GetReviewTemplateOutput
-    {
+    public func getReviewTemplate(input: GetReviewTemplateInput) async throws -> GetReviewTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1696,8 +1664,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getReviewTemplateAnswer(input: GetReviewTemplateAnswerInput) async throws -> GetReviewTemplateAnswerOutput
-    {
+    public func getReviewTemplateAnswer(input: GetReviewTemplateAnswerInput) async throws -> GetReviewTemplateAnswerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1743,8 +1710,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getReviewTemplateLensReview(input: GetReviewTemplateLensReviewInput) async throws -> GetReviewTemplateLensReviewOutput
-    {
+    public func getReviewTemplateLensReview(input: GetReviewTemplateLensReviewInput) async throws -> GetReviewTemplateLensReviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1790,8 +1756,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutput
-    {
+    public func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1839,8 +1804,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func importLens(input: ImportLensInput) async throws -> ImportLensOutput
-    {
+    public func importLens(input: ImportLensInput) async throws -> ImportLensOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1890,8 +1854,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listAnswers(input: ListAnswersInput) async throws -> ListAnswersOutput
-    {
+    public func listAnswers(input: ListAnswersInput) async throws -> ListAnswersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1938,8 +1901,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listCheckDetails(input: ListCheckDetailsInput) async throws -> ListCheckDetailsOutput
-    {
+    public func listCheckDetails(input: ListCheckDetailsInput) async throws -> ListCheckDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1988,8 +1950,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listCheckSummaries(input: ListCheckSummariesInput) async throws -> ListCheckSummariesOutput
-    {
+    public func listCheckSummaries(input: ListCheckSummariesInput) async throws -> ListCheckSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2038,8 +1999,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listLensReviewImprovements(input: ListLensReviewImprovementsInput) async throws -> ListLensReviewImprovementsOutput
-    {
+    public func listLensReviewImprovements(input: ListLensReviewImprovementsInput) async throws -> ListLensReviewImprovementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2086,8 +2046,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listLensReviews(input: ListLensReviewsInput) async throws -> ListLensReviewsOutput
-    {
+    public func listLensReviews(input: ListLensReviewsInput) async throws -> ListLensReviewsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2134,8 +2093,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listLensShares(input: ListLensSharesInput) async throws -> ListLensSharesOutput
-    {
+    public func listLensShares(input: ListLensSharesInput) async throws -> ListLensSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2181,8 +2139,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listLenses(input: ListLensesInput) async throws -> ListLensesOutput
-    {
+    public func listLenses(input: ListLensesInput) async throws -> ListLensesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2229,8 +2186,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listMilestones(input: ListMilestonesInput) async throws -> ListMilestonesOutput
-    {
+    public func listMilestones(input: ListMilestonesInput) async throws -> ListMilestonesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2234,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput
-    {
+    public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2327,8 +2282,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listProfileNotifications(input: ListProfileNotificationsInput) async throws -> ListProfileNotificationsOutput
-    {
+    public func listProfileNotifications(input: ListProfileNotificationsInput) async throws -> ListProfileNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2375,8 +2329,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listProfileShares(input: ListProfileSharesInput) async throws -> ListProfileSharesOutput
-    {
+    public func listProfileShares(input: ListProfileSharesInput) async throws -> ListProfileSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2422,8 +2375,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput
-    {
+    public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2470,8 +2422,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listReviewTemplateAnswers(input: ListReviewTemplateAnswersInput) async throws -> ListReviewTemplateAnswersOutput
-    {
+    public func listReviewTemplateAnswers(input: ListReviewTemplateAnswersInput) async throws -> ListReviewTemplateAnswersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2517,8 +2468,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listReviewTemplates(input: ListReviewTemplatesInput) async throws -> ListReviewTemplatesOutput
-    {
+    public func listReviewTemplates(input: ListReviewTemplatesInput) async throws -> ListReviewTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2564,8 +2514,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listShareInvitations(input: ListShareInvitationsInput) async throws -> ListShareInvitationsOutput
-    {
+    public func listShareInvitations(input: ListShareInvitationsInput) async throws -> ListShareInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2609,8 +2558,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2656,8 +2604,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listTemplateShares(input: ListTemplateSharesInput) async throws -> ListTemplateSharesOutput
-    {
+    public func listTemplateShares(input: ListTemplateSharesInput) async throws -> ListTemplateSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2704,8 +2651,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listWorkloadShares(input: ListWorkloadSharesInput) async throws -> ListWorkloadSharesOutput
-    {
+    public func listWorkloadShares(input: ListWorkloadSharesInput) async throws -> ListWorkloadSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2751,8 +2697,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput
-    {
+    public func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2798,8 +2743,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2845,8 +2789,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2894,8 +2837,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateAnswer(input: UpdateAnswerInput) async throws -> UpdateAnswerOutput
-    {
+    public func updateAnswer(input: UpdateAnswerInput) async throws -> UpdateAnswerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2944,8 +2886,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
-    {
+    public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2995,8 +2936,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutput
-    {
+    public func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3046,8 +2986,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
-    {
+    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3097,8 +3036,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateReviewTemplate(input: UpdateReviewTemplateInput) async throws -> UpdateReviewTemplateOutput
-    {
+    public func updateReviewTemplate(input: UpdateReviewTemplateInput) async throws -> UpdateReviewTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3148,8 +3086,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateReviewTemplateAnswer(input: UpdateReviewTemplateAnswerInput) async throws -> UpdateReviewTemplateAnswerOutput
-    {
+    public func updateReviewTemplateAnswer(input: UpdateReviewTemplateAnswerInput) async throws -> UpdateReviewTemplateAnswerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3199,8 +3136,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateReviewTemplateLensReview(input: UpdateReviewTemplateLensReviewInput) async throws -> UpdateReviewTemplateLensReviewOutput
-    {
+    public func updateReviewTemplateLensReview(input: UpdateReviewTemplateLensReviewInput) async throws -> UpdateReviewTemplateLensReviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3250,8 +3186,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateShareInvitation(input: UpdateShareInvitationInput) async throws -> UpdateShareInvitationOutput
-    {
+    public func updateShareInvitation(input: UpdateShareInvitationInput) async throws -> UpdateShareInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3301,8 +3236,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutput
-    {
+    public func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3352,8 +3286,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func updateWorkloadShare(input: UpdateWorkloadShareInput) async throws -> UpdateWorkloadShareOutput
-    {
+    public func updateWorkloadShare(input: UpdateWorkloadShareInput) async throws -> UpdateWorkloadShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3403,8 +3336,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutput
-    {
+    public func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3454,8 +3386,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func upgradeProfileVersion(input: UpgradeProfileVersionInput) async throws -> UpgradeProfileVersionOutput
-    {
+    public func upgradeProfileVersion(input: UpgradeProfileVersionInput) async throws -> UpgradeProfileVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3506,8 +3437,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
-    public func upgradeReviewTemplateLensReview(input: UpgradeReviewTemplateLensReviewInput) async throws -> UpgradeReviewTemplateLensReviewOutput
-    {
+    public func upgradeReviewTemplateLensReview(input: UpgradeReviewTemplateLensReviewInput) async throws -> UpgradeReviewTemplateLensReviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct IoTTwinMakerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
+extension IoTTwinMakerClient {
     /// Performs the `BatchPutPropertyValues` operation on the `AWSIoTTwinMaker` service.
     ///
     /// Sets values for multiple time series properties.
@@ -82,8 +82,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutput
-    {
+    public func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func cancelMetadataTransferJob(input: CancelMetadataTransferJobInput) async throws -> CancelMetadataTransferJobOutput
-    {
+    public func cancelMetadataTransferJob(input: CancelMetadataTransferJobInput) async throws -> CancelMetadataTransferJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutput
-    {
+    public func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutput
-    {
+    public func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func createMetadataTransferJob(input: CreateMetadataTransferJobInput) async throws -> CreateMetadataTransferJobOutput
-    {
+    public func createMetadataTransferJob(input: CreateMetadataTransferJobInput) async throws -> CreateMetadataTransferJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +330,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func createScene(input: CreateSceneInput) async throws -> CreateSceneOutput
-    {
+    public func createScene(input: CreateSceneInput) async throws -> CreateSceneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -386,8 +380,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutput
-    {
+    public func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,8 +430,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput
-    {
+    public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -487,8 +479,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutput
-    {
+    public func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -534,8 +525,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutput
-    {
+    public func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -582,8 +572,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutput
-    {
+    public func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutput
-    {
+    public func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -677,8 +665,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput
-    {
+    public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -725,8 +712,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutput
-    {
+    public func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -775,8 +761,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutput
-    {
+    public func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +807,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getEntity(input: GetEntityInput) async throws -> GetEntityOutput
-    {
+    public func getEntity(input: GetEntityInput) async throws -> GetEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +853,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getMetadataTransferJob(input: GetMetadataTransferJobInput) async throws -> GetMetadataTransferJobOutput
-    {
+    public func getMetadataTransferJob(input: GetMetadataTransferJobInput) async throws -> GetMetadataTransferJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +898,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `InternalServerException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutput
-    {
+    public func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -964,8 +946,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutput
-    {
+    public func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1016,8 +997,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutput
-    {
+    public func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1066,8 +1046,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getScene(input: GetSceneInput) async throws -> GetSceneOutput
-    {
+    public func getScene(input: GetSceneInput) async throws -> GetSceneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1114,8 +1093,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutput
-    {
+    public func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1162,8 +1140,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutput
-    {
+    public func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1208,8 +1185,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `InternalServerException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutput
-    {
+    public func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1258,8 +1234,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    {
+    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1282,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutput
-    {
+    public func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1356,8 +1330,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `InternalServerException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listMetadataTransferJobs(input: ListMetadataTransferJobsInput) async throws -> ListMetadataTransferJobsOutput
-    {
+    public func listMetadataTransferJobs(input: ListMetadataTransferJobsInput) async throws -> ListMetadataTransferJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1406,8 +1379,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listProperties(input: ListPropertiesInput) async throws -> ListPropertiesOutput
-    {
+    public func listProperties(input: ListPropertiesInput) async throws -> ListPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1455,8 +1427,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `InternalServerException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listScenes(input: ListScenesInput) async throws -> ListScenesOutput
-    {
+    public func listScenes(input: ListScenesInput) async throws -> ListScenesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1505,8 +1476,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutput
-    {
+    public func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1555,8 +1525,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutput
-    {
+    public func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1602,8 +1571,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
     /// - `ResourceNotFoundException` : The resource wasn't found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1651,8 +1619,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput
-    {
+    public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1699,8 +1666,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `AccessDeniedException` : Access is denied.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `TooManyTagsException` : The number of tags exceeds the limit.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1746,8 +1712,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied.
     /// - `ResourceNotFoundException` : The resource wasn't found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1795,8 +1760,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutput
-    {
+    public func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1847,8 +1811,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutput
-    {
+    public func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1896,8 +1859,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `InternalServerException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput
-    {
+    public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1946,8 +1908,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutput
-    {
+    public func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1997,8 +1958,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota was exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
-    public func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutput
-    {
+    public func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

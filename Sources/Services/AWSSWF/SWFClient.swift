@@ -66,7 +66,7 @@ public struct SWFClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SWFClient: SWFClientProtocol {
+extension SWFClient {
     /// Performs the `CountClosedWorkflowExecutions` operation on the `SimpleWorkflowService` service.
     ///
     /// Returns the number of closed workflow executions within the given domain that meet the specified filtering criteria. This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows:
@@ -98,8 +98,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func countClosedWorkflowExecutions(input: CountClosedWorkflowExecutionsInput) async throws -> CountClosedWorkflowExecutionsOutput
-    {
+    public func countClosedWorkflowExecutions(input: CountClosedWorkflowExecutionsInput) async throws -> CountClosedWorkflowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -164,8 +163,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func countOpenWorkflowExecutions(input: CountOpenWorkflowExecutionsInput) async throws -> CountOpenWorkflowExecutionsOutput
-    {
+    public func countOpenWorkflowExecutions(input: CountOpenWorkflowExecutionsInput) async throws -> CountOpenWorkflowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -221,8 +219,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func countPendingActivityTasks(input: CountPendingActivityTasksInput) async throws -> CountPendingActivityTasksOutput
-    {
+    public func countPendingActivityTasks(input: CountPendingActivityTasksInput) async throws -> CountPendingActivityTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +275,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func countPendingDecisionTasks(input: CountPendingDecisionTasksInput) async throws -> CountPendingDecisionTasksOutput
-    {
+    public func countPendingDecisionTasks(input: CountPendingDecisionTasksInput) async throws -> CountPendingDecisionTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -343,8 +339,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func deprecateActivityType(input: DeprecateActivityTypeInput) async throws -> DeprecateActivityTypeOutput
-    {
+    public func deprecateActivityType(input: DeprecateActivityTypeInput) async throws -> DeprecateActivityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -401,8 +396,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `DomainDeprecatedFault` : Returned when the specified domain has been deprecated.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func deprecateDomain(input: DeprecateDomainInput) async throws -> DeprecateDomainOutput
-    {
+    public func deprecateDomain(input: DeprecateDomainInput) async throws -> DeprecateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -466,8 +460,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func deprecateWorkflowType(input: DeprecateWorkflowTypeInput) async throws -> DeprecateWorkflowTypeOutput
-    {
+    public func deprecateWorkflowType(input: DeprecateWorkflowTypeInput) async throws -> DeprecateWorkflowTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +523,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func describeActivityType(input: DescribeActivityTypeInput) async throws -> DescribeActivityTypeOutput
-    {
+    public func describeActivityType(input: DescribeActivityTypeInput) async throws -> DescribeActivityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +579,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
-    {
+    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -644,8 +635,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func describeWorkflowExecution(input: DescribeWorkflowExecutionInput) async throws -> DescribeWorkflowExecutionOutput
-    {
+    public func describeWorkflowExecution(input: DescribeWorkflowExecutionInput) async throws -> DescribeWorkflowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -708,8 +698,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func describeWorkflowType(input: DescribeWorkflowTypeInput) async throws -> DescribeWorkflowTypeOutput
-    {
+    public func describeWorkflowType(input: DescribeWorkflowTypeInput) async throws -> DescribeWorkflowTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -765,8 +754,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func getWorkflowExecutionHistory(input: GetWorkflowExecutionHistoryInput) async throws -> GetWorkflowExecutionHistoryOutput
-    {
+    public func getWorkflowExecutionHistory(input: GetWorkflowExecutionHistoryInput) async throws -> GetWorkflowExecutionHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +810,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func listActivityTypes(input: ListActivityTypesInput) async throws -> ListActivityTypesOutput
-    {
+    public func listActivityTypes(input: ListActivityTypesInput) async throws -> ListActivityTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -888,8 +875,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func listClosedWorkflowExecutions(input: ListClosedWorkflowExecutionsInput) async throws -> ListClosedWorkflowExecutionsOutput
-    {
+    public func listClosedWorkflowExecutions(input: ListClosedWorkflowExecutionsInput) async throws -> ListClosedWorkflowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -944,8 +930,7 @@ extension SWFClient: SWFClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1010,8 +995,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func listOpenWorkflowExecutions(input: ListOpenWorkflowExecutionsInput) async throws -> ListOpenWorkflowExecutionsOutput
-    {
+    public func listOpenWorkflowExecutions(input: ListOpenWorkflowExecutionsInput) async throws -> ListOpenWorkflowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1059,8 +1043,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1116,8 +1099,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func listWorkflowTypes(input: ListWorkflowTypesInput) async throws -> ListWorkflowTypesOutput
-    {
+    public func listWorkflowTypes(input: ListWorkflowTypesInput) async throws -> ListWorkflowTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1174,8 +1156,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func pollForActivityTask(input: PollForActivityTaskInput) async throws -> PollForActivityTaskOutput
-    {
+    public func pollForActivityTask(input: PollForActivityTaskInput) async throws -> PollForActivityTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1232,8 +1213,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func pollForDecisionTask(input: PollForDecisionTaskInput) async throws -> PollForDecisionTaskOutput
-    {
+    public func pollForDecisionTask(input: PollForDecisionTaskInput) async throws -> PollForDecisionTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1289,8 +1269,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func recordActivityTaskHeartbeat(input: RecordActivityTaskHeartbeatInput) async throws -> RecordActivityTaskHeartbeatOutput
-    {
+    public func recordActivityTaskHeartbeat(input: RecordActivityTaskHeartbeatInput) async throws -> RecordActivityTaskHeartbeatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1357,8 +1336,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func registerActivityType(input: RegisterActivityTypeInput) async throws -> RegisterActivityTypeOutput
-    {
+    public func registerActivityType(input: RegisterActivityTypeInput) async throws -> RegisterActivityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1416,8 +1394,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TooManyTagsFault` : You've exceeded the number of tags allowed for a domain.
-    public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput
-    {
+    public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1484,8 +1461,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func registerWorkflowType(input: RegisterWorkflowTypeInput) async throws -> RegisterWorkflowTypeOutput
-    {
+    public func registerWorkflowType(input: RegisterWorkflowTypeInput) async throws -> RegisterWorkflowTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1517,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func requestCancelWorkflowExecution(input: RequestCancelWorkflowExecutionInput) async throws -> RequestCancelWorkflowExecutionOutput
-    {
+    public func requestCancelWorkflowExecution(input: RequestCancelWorkflowExecutionInput) async throws -> RequestCancelWorkflowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1598,8 +1573,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func respondActivityTaskCanceled(input: RespondActivityTaskCanceledInput) async throws -> RespondActivityTaskCanceledOutput
-    {
+    public func respondActivityTaskCanceled(input: RespondActivityTaskCanceledInput) async throws -> RespondActivityTaskCanceledOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1655,8 +1629,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func respondActivityTaskCompleted(input: RespondActivityTaskCompletedInput) async throws -> RespondActivityTaskCompletedOutput
-    {
+    public func respondActivityTaskCompleted(input: RespondActivityTaskCompletedInput) async throws -> RespondActivityTaskCompletedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1712,8 +1685,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func respondActivityTaskFailed(input: RespondActivityTaskFailedInput) async throws -> RespondActivityTaskFailedOutput
-    {
+    public func respondActivityTaskFailed(input: RespondActivityTaskFailedInput) async throws -> RespondActivityTaskFailedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1760,8 +1732,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func respondDecisionTaskCompleted(input: RespondDecisionTaskCompletedInput) async throws -> RespondDecisionTaskCompletedOutput
-    {
+    public func respondDecisionTaskCompleted(input: RespondDecisionTaskCompletedInput) async throws -> RespondDecisionTaskCompletedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1817,8 +1788,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func signalWorkflowExecution(input: SignalWorkflowExecutionInput) async throws -> SignalWorkflowExecutionOutput
-    {
+    public func signalWorkflowExecution(input: SignalWorkflowExecutionInput) async throws -> SignalWorkflowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1897,8 +1867,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     /// - `WorkflowExecutionAlreadyStartedFault` : Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
-    public func startWorkflowExecution(input: StartWorkflowExecutionInput) async throws -> StartWorkflowExecutionOutput
-    {
+    public func startWorkflowExecution(input: StartWorkflowExecutionInput) async throws -> StartWorkflowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1947,8 +1916,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TooManyTagsFault` : You've exceeded the number of tags allowed for a domain.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2004,8 +1972,7 @@ extension SWFClient: SWFClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func terminateWorkflowExecution(input: TerminateWorkflowExecutionInput) async throws -> TerminateWorkflowExecutionOutput
-    {
+    public func terminateWorkflowExecution(input: TerminateWorkflowExecutionInput) async throws -> TerminateWorkflowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2069,8 +2036,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func undeprecateActivityType(input: UndeprecateActivityTypeInput) async throws -> UndeprecateActivityTypeOutput
-    {
+    public func undeprecateActivityType(input: UndeprecateActivityTypeInput) async throws -> UndeprecateActivityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2127,8 +2093,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `DomainAlreadyExistsFault` : Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func undeprecateDomain(input: UndeprecateDomainInput) async throws -> UndeprecateDomainOutput
-    {
+    public func undeprecateDomain(input: UndeprecateDomainInput) async throws -> UndeprecateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2192,8 +2157,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func undeprecateWorkflowType(input: UndeprecateWorkflowTypeInput) async throws -> UndeprecateWorkflowTypeOutput
-    {
+    public func undeprecateWorkflowType(input: UndeprecateWorkflowTypeInput) async throws -> UndeprecateWorkflowTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2241,8 +2205,7 @@ extension SWFClient: SWFClientProtocol {
     /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

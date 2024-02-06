@@ -66,7 +66,7 @@ public struct MediaLiveClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension MediaLiveClient: MediaLiveClientProtocol {
+extension MediaLiveClient {
     /// Performs the `AcceptInputDeviceTransfer` operation on the `MediaLive` service.
     ///
     /// Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
@@ -87,8 +87,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutput
-    {
+    public func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutput
-    {
+    public func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func batchStart(input: BatchStartInput) async throws -> BatchStartOutput
-    {
+    public func batchStart(input: BatchStartInput) async throws -> BatchStartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func batchStop(input: BatchStopInput) async throws -> BatchStopOutput
-    {
+    public func batchStop(input: BatchStopInput) async throws -> BatchStopOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -296,8 +292,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutput
-    {
+    public func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -350,8 +345,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutput
-    {
+    public func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +394,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutput
-    {
+    public func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -453,8 +446,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -505,8 +497,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func createInput(input: CreateInputInput) async throws -> CreateInputOutput
-    {
+    public func createInput(input: CreateInputInput) async throws -> CreateInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +548,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutput
-    {
+    public func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -610,8 +600,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutput
-    {
+    public func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +653,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutput
-    {
+    public func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -716,8 +704,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutput
-    {
+    public func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -766,8 +753,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +805,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +854,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput
-    {
+    public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +902,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutput
-    {
+    public func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -968,8 +951,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutput
-    {
+    public func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1018,8 +1000,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutput
-    {
+    public func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1068,8 +1049,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutput
-    {
+    public func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1117,8 +1097,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
-    {
+    public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1163,8 +1142,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1190,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutput
-    {
+    public func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1261,8 +1238,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
-    {
+    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1310,8 +1286,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput
-    {
+    public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1359,8 +1334,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutput
-    {
+    public func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1382,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutput
-    {
+    public func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1458,8 +1431,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutput
-    {
+    public func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1479,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutput
-    {
+    public func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1556,8 +1527,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutput
-    {
+    public func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1575,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput
-    {
+    public func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1654,8 +1623,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput
-    {
+    public func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1703,8 +1671,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput
-    {
+    public func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1754,8 +1721,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutput
-    {
+    public func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1803,8 +1769,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1853,8 +1818,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutput
-    {
+    public func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1902,8 +1866,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutput
-    {
+    public func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1951,8 +1914,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutput
-    {
+    public func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2000,8 +1962,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listInputs(input: ListInputsInput) async throws -> ListInputsOutput
-    {
+    public func listInputs(input: ListInputsInput) async throws -> ListInputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2050,8 +2011,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutput
-    {
+    public func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2099,8 +2059,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutput
-    {
+    public func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2148,8 +2107,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
-    {
+    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2197,8 +2155,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput
-    {
+    public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2244,8 +2201,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2294,8 +2250,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
-    {
+    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2348,8 +2303,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutput
-    {
+    public func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2402,8 +2356,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutput
-    {
+    public func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2452,8 +2405,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput
-    {
+    public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2502,8 +2454,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutput
-    {
+    public func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2552,8 +2503,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutput
-    {
+    public func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2602,8 +2552,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutput
-    {
+    public func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2652,8 +2601,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput
-    {
+    public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2702,8 +2650,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutput
-    {
+    public func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2752,8 +2699,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutput
-    {
+    public func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2803,8 +2749,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutput
-    {
+    public func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2855,8 +2800,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput
-    {
+    public func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2907,8 +2851,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2961,8 +2904,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutput
-    {
+    public func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3013,8 +2955,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput
-    {
+    public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3066,8 +3007,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutput
-    {
+    public func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3118,8 +3058,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutput
-    {
+    public func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3171,8 +3110,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutput
-    {
+    public func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3224,8 +3162,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutput
-    {
+    public func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3277,8 +3214,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutput
-    {
+    public func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

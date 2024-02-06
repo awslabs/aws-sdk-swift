@@ -66,7 +66,7 @@ public struct ECRPUBLICClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension ECRPUBLICClient: ECRPUBLICClientProtocol {
+extension ECRPUBLICClient {
     /// Performs the `BatchCheckLayerAvailability` operation on the `SpencerFrontendService` service.
     ///
     /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
@@ -83,8 +83,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput
-    {
+    public func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput
-    {
+    public func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
-    public func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput
-    {
+    public func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
-    {
+    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
-    {
+    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination doesn't have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput
-    {
+    public func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +388,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func describeImageTags(input: DescribeImageTagsInput) async throws -> DescribeImageTagsOutput
-    {
+    public func describeImageTags(input: DescribeImageTagsInput) async throws -> DescribeImageTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -445,8 +438,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
-    {
+    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +486,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func describeRegistries(input: DescribeRegistriesInput) async throws -> DescribeRegistriesOutput
-    {
+    public func describeRegistries(input: DescribeRegistriesInput) async throws -> DescribeRegistriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -544,8 +535,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput
-    {
+    public func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +583,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
-    {
+    public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// __Possible Exceptions:__
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func getRegistryCatalogData(input: GetRegistryCatalogDataInput) async throws -> GetRegistryCatalogDataOutput
-    {
+    public func getRegistryCatalogData(input: GetRegistryCatalogDataInput) async throws -> GetRegistryCatalogDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -692,8 +680,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func getRepositoryCatalogData(input: GetRepositoryCatalogDataInput) async throws -> GetRepositoryCatalogDataOutput
-    {
+    public func getRepositoryCatalogData(input: GetRepositoryCatalogDataInput) async throws -> GetRepositoryCatalogDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -743,8 +730,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination doesn't have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput
-    {
+    public func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -794,8 +780,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput
-    {
+    public func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -844,8 +829,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -901,8 +885,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func putImage(input: PutImageInput) async throws -> PutImageOutput
-    {
+    public func putImage(input: PutImageInput) async throws -> PutImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -950,8 +933,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func putRegistryCatalogData(input: PutRegistryCatalogDataInput) async throws -> PutRegistryCatalogDataOutput
-    {
+    public func putRegistryCatalogData(input: PutRegistryCatalogDataInput) async throws -> PutRegistryCatalogDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1000,8 +982,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func putRepositoryCatalogData(input: PutRepositoryCatalogDataInput) async throws -> PutRepositoryCatalogDataOutput
-    {
+    public func putRepositoryCatalogData(input: PutRepositoryCatalogDataInput) async throws -> PutRepositoryCatalogDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1050,8 +1031,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput
-    {
+    public func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1102,8 +1082,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1154,8 +1133,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1208,8 +1186,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
-    public func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput
-    {
+    public func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

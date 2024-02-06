@@ -66,7 +66,7 @@ public struct ACMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension ACMClient: ACMClientProtocol {
+extension ACMClient {
     /// Performs the `AddTagsToCertificate` operation on the `CertificateManager` service.
     ///
     /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see [Tagging ACM certificates](https://docs.aws.amazon.com/acm/latest/userguide/tags.html). To remove one or more tags, use the [RemoveTagsFromCertificate] action. To view all of the tags that have been applied to the certificate, use the [ListTagsForCertificate] action.
@@ -85,8 +85,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
-    public func addTagsToCertificate(input: AddTagsToCertificateInput) async throws -> AddTagsToCertificateOutput
-    {
+    public func addTagsToCertificate(input: AddTagsToCertificateInput) async throws -> AddTagsToCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `ResourceInUseException` : The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
-    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
-    {
+    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension ACMClient: ACMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
-    {
+    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func exportCertificate(input: ExportCertificateInput) async throws -> ExportCertificateOutput
-    {
+    public func exportCertificate(input: ExportCertificateInput) async throws -> ExportCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension ACMClient: ACMClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have access required to perform this action.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
-    public func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutput
-    {
+    public func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func getCertificate(input: GetCertificateInput) async throws -> GetCertificateOutput
-    {
+    public func getCertificate(input: GetCertificateInput) async throws -> GetCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +407,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
-    public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput
-    {
+    public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -461,8 +454,7 @@ extension ACMClient: ACMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgsException` : One or more of of request parameters specified is not valid.
     /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
-    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
-    {
+    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension ACMClient: ACMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func listTagsForCertificate(input: ListTagsForCertificateInput) async throws -> ListTagsForCertificateOutput
-    {
+    public func listTagsForCertificate(input: ListTagsForCertificateInput) async throws -> ListTagsForCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -559,8 +550,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `ConflictException` : You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
-    public func putAccountConfiguration(input: PutAccountConfigurationInput) async throws -> PutAccountConfigurationOutput
-    {
+    public func putAccountConfiguration(input: PutAccountConfigurationInput) async throws -> PutAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -611,8 +601,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
-    public func removeTagsFromCertificate(input: RemoveTagsFromCertificateInput) async throws -> RemoveTagsFromCertificateOutput
-    {
+    public func removeTagsFromCertificate(input: RemoveTagsFromCertificateInput) async throws -> RemoveTagsFromCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -659,8 +648,7 @@ extension ACMClient: ACMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func renewCertificate(input: RenewCertificateInput) async throws -> RenewCertificateOutput
-    {
+    public func renewCertificate(input: RenewCertificateInput) async throws -> RenewCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -712,8 +700,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `LimitExceededException` : An ACM quota has been exceeded.
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
-    public func requestCertificate(input: RequestCertificateInput) async throws -> RequestCertificateOutput
-    {
+    public func requestCertificate(input: RequestCertificateInput) async throws -> RequestCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +749,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `InvalidDomainValidationOptionsException` : One or more values in the [DomainValidationOption] structure is incorrect.
     /// - `InvalidStateException` : Processing has reached an invalid state.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func resendValidationEmail(input: ResendValidationEmailInput) async throws -> ResendValidationEmailOutput
-    {
+    public func resendValidationEmail(input: ResendValidationEmailInput) async throws -> ResendValidationEmailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -812,8 +798,7 @@ extension ACMClient: ACMClientProtocol {
     /// - `InvalidStateException` : Processing has reached an invalid state.
     /// - `LimitExceededException` : An ACM quota has been exceeded.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-    public func updateCertificateOptions(input: UpdateCertificateOptionsInput) async throws -> UpdateCertificateOptionsOutput
-    {
+    public func updateCertificateOptions(input: UpdateCertificateOptionsInput) async throws -> UpdateCertificateOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

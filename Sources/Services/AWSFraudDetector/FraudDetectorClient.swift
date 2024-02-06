@@ -66,7 +66,7 @@ public struct FraudDetectorClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension FraudDetectorClient: FraudDetectorClientProtocol {
+extension FraudDetectorClient {
     /// Performs the `BatchCreateVariable` operation on the `AWSHawksNestServiceFacade` service.
     ///
     /// Creates a batch of variables.
@@ -82,8 +82,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func batchCreateVariable(input: BatchCreateVariableInput) async throws -> BatchCreateVariableOutput
-    {
+    public func batchCreateVariable(input: BatchCreateVariableInput) async throws -> BatchCreateVariableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func batchGetVariable(input: BatchGetVariableInput) async throws -> BatchGetVariableOutput
-    {
+    public func batchGetVariable(input: BatchGetVariableInput) async throws -> BatchGetVariableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func cancelBatchImportJob(input: CancelBatchImportJobInput) async throws -> CancelBatchImportJobOutput
-    {
+    public func cancelBatchImportJob(input: CancelBatchImportJobInput) async throws -> CancelBatchImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func cancelBatchPredictionJob(input: CancelBatchPredictionJobInput) async throws -> CancelBatchPredictionJobOutput
-    {
+    public func cancelBatchPredictionJob(input: CancelBatchPredictionJobInput) async throws -> CancelBatchPredictionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -285,8 +281,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createBatchImportJob(input: CreateBatchImportJobInput) async throws -> CreateBatchImportJobOutput
-    {
+    public func createBatchImportJob(input: CreateBatchImportJobInput) async throws -> CreateBatchImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createBatchPredictionJob(input: CreateBatchPredictionJobInput) async throws -> CreateBatchPredictionJobOutput
-    {
+    public func createBatchPredictionJob(input: CreateBatchPredictionJobInput) async throws -> CreateBatchPredictionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -387,8 +381,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createDetectorVersion(input: CreateDetectorVersionInput) async throws -> CreateDetectorVersionOutput
-    {
+    public func createDetectorVersion(input: CreateDetectorVersionInput) async throws -> CreateDetectorVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,8 +430,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createList(input: CreateListInput) async throws -> CreateListOutput
-    {
+    public func createList(input: CreateListInput) async throws -> CreateListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -487,8 +479,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    {
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +529,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createModelVersion(input: CreateModelVersionInput) async throws -> CreateModelVersionOutput
-    {
+    public func createModelVersion(input: CreateModelVersionInput) async throws -> CreateModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-    {
+    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -638,8 +627,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func createVariable(input: CreateVariableInput) async throws -> CreateVariableOutput
-    {
+    public func createVariable(input: CreateVariableInput) async throws -> CreateVariableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -688,8 +676,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteBatchImportJob(input: DeleteBatchImportJobInput) async throws -> DeleteBatchImportJobOutput
-    {
+    public func deleteBatchImportJob(input: DeleteBatchImportJobInput) async throws -> DeleteBatchImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -738,8 +725,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteBatchPredictionJob(input: DeleteBatchPredictionJobInput) async throws -> DeleteBatchPredictionJobOutput
-    {
+    public func deleteBatchPredictionJob(input: DeleteBatchPredictionJobInput) async throws -> DeleteBatchPredictionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -789,8 +775,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutput
-    {
+    public func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +826,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteDetectorVersion(input: DeleteDetectorVersionInput) async throws -> DeleteDetectorVersionOutput
-    {
+    public func deleteDetectorVersion(input: DeleteDetectorVersionInput) async throws -> DeleteDetectorVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +876,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteEntityType(input: DeleteEntityTypeInput) async throws -> DeleteEntityTypeOutput
-    {
+    public func deleteEntityType(input: DeleteEntityTypeInput) async throws -> DeleteEntityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -942,8 +925,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteEvent(input: DeleteEventInput) async throws -> DeleteEventOutput
-    {
+    public func deleteEvent(input: DeleteEventInput) async throws -> DeleteEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -993,8 +975,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteEventType(input: DeleteEventTypeInput) async throws -> DeleteEventTypeOutput
-    {
+    public func deleteEventType(input: DeleteEventTypeInput) async throws -> DeleteEventTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1045,8 +1026,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteEventsByEventType(input: DeleteEventsByEventTypeInput) async throws -> DeleteEventsByEventTypeOutput
-    {
+    public func deleteEventsByEventType(input: DeleteEventsByEventTypeInput) async throws -> DeleteEventsByEventTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1096,8 +1076,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteExternalModel(input: DeleteExternalModelInput) async throws -> DeleteExternalModelOutput
-    {
+    public func deleteExternalModel(input: DeleteExternalModelInput) async throws -> DeleteExternalModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1125,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput
-    {
+    public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1197,8 +1175,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteList(input: DeleteListInput) async throws -> DeleteListOutput
-    {
+    public func deleteList(input: DeleteListInput) async throws -> DeleteListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1248,8 +1225,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    {
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1299,8 +1275,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteModelVersion(input: DeleteModelVersionInput) async throws -> DeleteModelVersionOutput
-    {
+    public func deleteModelVersion(input: DeleteModelVersionInput) async throws -> DeleteModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1350,8 +1325,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteOutcome(input: DeleteOutcomeInput) async throws -> DeleteOutcomeOutput
-    {
+    public func deleteOutcome(input: DeleteOutcomeInput) async throws -> DeleteOutcomeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1401,8 +1375,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1452,8 +1425,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func deleteVariable(input: DeleteVariableInput) async throws -> DeleteVariableOutput
-    {
+    public func deleteVariable(input: DeleteVariableInput) async throws -> DeleteVariableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1503,8 +1475,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput
-    {
+    public func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1554,8 +1525,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func describeModelVersions(input: DescribeModelVersionsInput) async throws -> DescribeModelVersionsOutput
-    {
+    public func describeModelVersions(input: DescribeModelVersionsInput) async throws -> DescribeModelVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1575,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getBatchImportJobs(input: GetBatchImportJobsInput) async throws -> GetBatchImportJobsOutput
-    {
+    public func getBatchImportJobs(input: GetBatchImportJobsInput) async throws -> GetBatchImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1656,8 +1625,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getBatchPredictionJobs(input: GetBatchPredictionJobsInput) async throws -> GetBatchPredictionJobsOutput
-    {
+    public func getBatchPredictionJobs(input: GetBatchPredictionJobsInput) async throws -> GetBatchPredictionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1707,8 +1675,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getDeleteEventsByEventTypeStatus(input: GetDeleteEventsByEventTypeStatusInput) async throws -> GetDeleteEventsByEventTypeStatusOutput
-    {
+    public func getDeleteEventsByEventTypeStatus(input: GetDeleteEventsByEventTypeStatusInput) async throws -> GetDeleteEventsByEventTypeStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1758,8 +1725,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getDetectorVersion(input: GetDetectorVersionInput) async throws -> GetDetectorVersionOutput
-    {
+    public func getDetectorVersion(input: GetDetectorVersionInput) async throws -> GetDetectorVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1809,8 +1775,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getDetectors(input: GetDetectorsInput) async throws -> GetDetectorsOutput
-    {
+    public func getDetectors(input: GetDetectorsInput) async throws -> GetDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1860,8 +1825,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getEntityTypes(input: GetEntityTypesInput) async throws -> GetEntityTypesOutput
-    {
+    public func getEntityTypes(input: GetEntityTypesInput) async throws -> GetEntityTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1911,8 +1875,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getEvent(input: GetEventInput) async throws -> GetEventOutput
-    {
+    public func getEvent(input: GetEventInput) async throws -> GetEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1964,8 +1927,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceUnavailableException` : An exception indicating that the attached customer-owned (external) model threw an exception when Amazon Fraud Detector invoked the model.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getEventPrediction(input: GetEventPredictionInput) async throws -> GetEventPredictionOutput
-    {
+    public func getEventPrediction(input: GetEventPredictionInput) async throws -> GetEventPredictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2015,8 +1977,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getEventPredictionMetadata(input: GetEventPredictionMetadataInput) async throws -> GetEventPredictionMetadataOutput
-    {
+    public func getEventPredictionMetadata(input: GetEventPredictionMetadataInput) async throws -> GetEventPredictionMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2066,8 +2027,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getEventTypes(input: GetEventTypesInput) async throws -> GetEventTypesOutput
-    {
+    public func getEventTypes(input: GetEventTypesInput) async throws -> GetEventTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2117,8 +2077,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getExternalModels(input: GetExternalModelsInput) async throws -> GetExternalModelsOutput
-    {
+    public func getExternalModels(input: GetExternalModelsInput) async throws -> GetExternalModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2167,8 +2126,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
-    public func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput) async throws -> GetKMSEncryptionKeyOutput
-    {
+    public func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput) async throws -> GetKMSEncryptionKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2218,8 +2176,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getLabels(input: GetLabelsInput) async throws -> GetLabelsOutput
-    {
+    public func getLabels(input: GetLabelsInput) async throws -> GetLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2269,8 +2226,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getListElements(input: GetListElementsInput) async throws -> GetListElementsOutput
-    {
+    public func getListElements(input: GetListElementsInput) async throws -> GetListElementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2320,8 +2276,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getListsMetadata(input: GetListsMetadataInput) async throws -> GetListsMetadataOutput
-    {
+    public func getListsMetadata(input: GetListsMetadataInput) async throws -> GetListsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2371,8 +2326,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getModelVersion(input: GetModelVersionInput) async throws -> GetModelVersionOutput
-    {
+    public func getModelVersion(input: GetModelVersionInput) async throws -> GetModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2422,8 +2376,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getModels(input: GetModelsInput) async throws -> GetModelsOutput
-    {
+    public func getModels(input: GetModelsInput) async throws -> GetModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2473,8 +2426,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getOutcomes(input: GetOutcomesInput) async throws -> GetOutcomesOutput
-    {
+    public func getOutcomes(input: GetOutcomesInput) async throws -> GetOutcomesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2524,8 +2476,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getRules(input: GetRulesInput) async throws -> GetRulesOutput
-    {
+    public func getRules(input: GetRulesInput) async throws -> GetRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2575,8 +2526,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func getVariables(input: GetVariablesInput) async throws -> GetVariablesOutput
-    {
+    public func getVariables(input: GetVariablesInput) async throws -> GetVariablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2625,8 +2575,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func listEventPredictions(input: ListEventPredictionsInput) async throws -> ListEventPredictionsOutput
-    {
+    public func listEventPredictions(input: ListEventPredictionsInput) async throws -> ListEventPredictionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2675,8 +2624,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2726,8 +2674,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putDetector(input: PutDetectorInput) async throws -> PutDetectorOutput
-    {
+    public func putDetector(input: PutDetectorInput) async throws -> PutDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2777,8 +2724,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putEntityType(input: PutEntityTypeInput) async throws -> PutEntityTypeOutput
-    {
+    public func putEntityType(input: PutEntityTypeInput) async throws -> PutEntityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2828,8 +2774,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putEventType(input: PutEventTypeInput) async throws -> PutEventTypeOutput
-    {
+    public func putEventType(input: PutEventTypeInput) async throws -> PutEventTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2879,8 +2824,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putExternalModel(input: PutExternalModelInput) async throws -> PutExternalModelOutput
-    {
+    public func putExternalModel(input: PutExternalModelInput) async throws -> PutExternalModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2931,8 +2875,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putKMSEncryptionKey(input: PutKMSEncryptionKeyInput) async throws -> PutKMSEncryptionKeyOutput
-    {
+    public func putKMSEncryptionKey(input: PutKMSEncryptionKeyInput) async throws -> PutKMSEncryptionKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2982,8 +2925,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putLabel(input: PutLabelInput) async throws -> PutLabelOutput
-    {
+    public func putLabel(input: PutLabelInput) async throws -> PutLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3033,8 +2975,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func putOutcome(input: PutOutcomeInput) async throws -> PutOutcomeOutput
-    {
+    public func putOutcome(input: PutOutcomeInput) async throws -> PutOutcomeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3085,8 +3026,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func sendEvent(input: SendEventInput) async throws -> SendEventOutput
-    {
+    public func sendEvent(input: SendEventInput) async throws -> SendEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3135,8 +3075,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3185,8 +3124,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3237,8 +3175,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateDetectorVersion(input: UpdateDetectorVersionInput) async throws -> UpdateDetectorVersionOutput
-    {
+    public func updateDetectorVersion(input: UpdateDetectorVersionInput) async throws -> UpdateDetectorVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3288,8 +3225,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataInput) async throws -> UpdateDetectorVersionMetadataOutput
-    {
+    public func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataInput) async throws -> UpdateDetectorVersionMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3340,8 +3276,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput) async throws -> UpdateDetectorVersionStatusOutput
-    {
+    public func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput) async throws -> UpdateDetectorVersionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3392,8 +3327,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateEventLabel(input: UpdateEventLabelInput) async throws -> UpdateEventLabelOutput
-    {
+    public func updateEventLabel(input: UpdateEventLabelInput) async throws -> UpdateEventLabelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3444,8 +3378,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateList(input: UpdateListInput) async throws -> UpdateListOutput
-    {
+    public func updateList(input: UpdateListInput) async throws -> UpdateListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3496,8 +3429,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
-    {
+    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3548,8 +3480,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateModelVersion(input: UpdateModelVersionInput) async throws -> UpdateModelVersionOutput
-    {
+    public func updateModelVersion(input: UpdateModelVersionInput) async throws -> UpdateModelVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3606,8 +3537,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateModelVersionStatus(input: UpdateModelVersionStatusInput) async throws -> UpdateModelVersionStatusOutput
-    {
+    public func updateModelVersionStatus(input: UpdateModelVersionStatusInput) async throws -> UpdateModelVersionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3658,8 +3588,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateRuleMetadata(input: UpdateRuleMetadataInput) async throws -> UpdateRuleMetadataOutput
-    {
+    public func updateRuleMetadata(input: UpdateRuleMetadataInput) async throws -> UpdateRuleMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3710,8 +3639,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateRuleVersion(input: UpdateRuleVersionInput) async throws -> UpdateRuleVersionOutput
-    {
+    public func updateRuleVersion(input: UpdateRuleVersionInput) async throws -> UpdateRuleVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3762,8 +3690,7 @@ extension FraudDetectorClient: FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    public func updateVariable(input: UpdateVariableInput) async throws -> UpdateVariableOutput
-    {
+    public func updateVariable(input: UpdateVariableInput) async throws -> UpdateVariableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

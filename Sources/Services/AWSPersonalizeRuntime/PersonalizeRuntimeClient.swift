@@ -66,7 +66,7 @@ public struct PersonalizeRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
+extension PersonalizeRuntimeClient {
     /// Performs the `GetActionRecommendations` operation on the `AmazonPersonalizeRuntime` service.
     ///
     /// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see [PERSONALIZED_ACTIONS recipes](https://docs.aws.amazon.com/personalize/latest/dg/nexts-best-action-recipes.html). For more information about getting action recommendations, see [Getting action recommendations](https://docs.aws.amazon.com/personalize/latest/dg/get-action-recommendations.html).
@@ -80,8 +80,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func getActionRecommendations(input: GetActionRecommendationsInput) async throws -> GetActionRecommendationsOutput
-    {
+    public func getActionRecommendations(input: GetActionRecommendationsInput) async throws -> GetActionRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func getPersonalizedRanking(input: GetPersonalizedRankingInput) async throws -> GetPersonalizedRankingOutput
-    {
+    public func getPersonalizedRanking(input: GetPersonalizedRankingInput) async throws -> GetPersonalizedRankingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput
-    {
+    public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

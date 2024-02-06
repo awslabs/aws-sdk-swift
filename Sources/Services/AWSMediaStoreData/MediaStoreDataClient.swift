@@ -66,7 +66,7 @@ public struct MediaStoreDataClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension MediaStoreDataClient: MediaStoreDataClientProtocol {
+extension MediaStoreDataClient {
     /// Performs the `DeleteObject` operation on the `MediaStoreObject_20170901` service.
     ///
     /// Deletes an object at the specified path.
@@ -81,8 +81,7 @@ extension MediaStoreDataClient: MediaStoreDataClientProtocol {
     /// - `ContainerNotFoundException` : The specified container was not found for the specified account.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `ObjectNotFoundException` : Could not perform an operation on an object that does not exist.
-    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
-    {
+    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension MediaStoreDataClient: MediaStoreDataClientProtocol {
     /// - `ContainerNotFoundException` : The specified container was not found for the specified account.
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `ObjectNotFoundException` : Could not perform an operation on an object that does not exist.
-    public func describeObject(input: DescribeObjectInput) async throws -> DescribeObjectOutput
-    {
+    public func describeObject(input: DescribeObjectInput) async throws -> DescribeObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension MediaStoreDataClient: MediaStoreDataClientProtocol {
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `ObjectNotFoundException` : Could not perform an operation on an object that does not exist.
     /// - `RequestedRangeNotSatisfiableException` : The requested content range is not valid.
-    public func getObject(input: GetObjectInput) async throws -> GetObjectOutput
-    {
+    public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -217,8 +214,7 @@ extension MediaStoreDataClient: MediaStoreDataClientProtocol {
     /// __Possible Exceptions:__
     /// - `ContainerNotFoundException` : The specified container was not found for the specified account.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func listItems(input: ListItemsInput) async throws -> ListItemsOutput
-    {
+    public func listItems(input: ListItemsInput) async throws -> ListItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -262,8 +258,7 @@ extension MediaStoreDataClient: MediaStoreDataClientProtocol {
     /// __Possible Exceptions:__
     /// - `ContainerNotFoundException` : The specified container was not found for the specified account.
     /// - `InternalServerError` : The service is temporarily unavailable.
-    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput
-    {
+    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
