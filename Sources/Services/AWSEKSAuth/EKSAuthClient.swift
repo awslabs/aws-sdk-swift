@@ -66,7 +66,7 @@ public struct EKSAuthClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension EKSAuthClient: EKSAuthClientProtocol {
+extension EKSAuthClient {
     /// Performs the `AssumeRoleForPodIdentity` operation on the `EKSAuthFrontend` service.
     ///
     /// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically.
@@ -87,8 +87,7 @@ extension EKSAuthClient: EKSAuthClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     /// - `ThrottlingException` : The request was denied because your request rate is too high. Reduce the frequency of requests.
-    public func assumeRoleForPodIdentity(input: AssumeRoleForPodIdentityInput) async throws -> AssumeRoleForPodIdentityOutput
-    {
+    public func assumeRoleForPodIdentity(input: AssumeRoleForPodIdentityInput) async throws -> AssumeRoleForPodIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

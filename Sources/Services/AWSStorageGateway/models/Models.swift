@@ -14132,6 +14132,8 @@ enum StartGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum StorageGatewayClientTypes {}
+
 extension StorageGatewayClientTypes.StorageGatewayError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode

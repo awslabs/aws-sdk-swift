@@ -66,7 +66,7 @@ public struct IoT1ClickDevicesClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
+extension IoT1ClickDevicesClient {
     /// Performs the `ClaimDevicesByClaimCode` operation on the `IoT1ClickDevicesService` service.
     ///
     /// Adds device(s) to your account (i.e., claim one or more devices) if and only if you received a claim code with the device(s).
@@ -81,8 +81,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
-    public func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput) async throws -> ClaimDevicesByClaimCodeOutput
-    {
+    public func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput) async throws -> ClaimDevicesByClaimCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
-    {
+    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -173,8 +171,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `PreconditionFailedException` : [no documentation found]
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func finalizeDeviceClaim(input: FinalizeDeviceClaimInput) async throws -> FinalizeDeviceClaimOutput
-    {
+    public func finalizeDeviceClaim(input: FinalizeDeviceClaimInput) async throws -> FinalizeDeviceClaimOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -221,8 +218,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func getDeviceMethods(input: GetDeviceMethodsInput) async throws -> GetDeviceMethodsOutput
-    {
+    public func getDeviceMethods(input: GetDeviceMethodsInput) async throws -> GetDeviceMethodsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -267,8 +263,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func initiateDeviceClaim(input: InitiateDeviceClaimInput) async throws -> InitiateDeviceClaimOutput
-    {
+    public func initiateDeviceClaim(input: InitiateDeviceClaimInput) async throws -> InitiateDeviceClaimOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -315,8 +310,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `RangeNotSatisfiableException` : [no documentation found]
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func invokeDeviceMethod(input: InvokeDeviceMethodInput) async throws -> InvokeDeviceMethodOutput
-    {
+    public func invokeDeviceMethod(input: InvokeDeviceMethodInput) async throws -> InvokeDeviceMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -364,8 +358,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `RangeNotSatisfiableException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput
-    {
+    public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +403,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `RangeNotSatisfiableException` : [no documentation found]
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -455,8 +447,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalFailureException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -500,8 +491,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -548,8 +538,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func unclaimDevice(input: UnclaimDeviceInput) async throws -> UnclaimDeviceOutput
-    {
+    public func unclaimDevice(input: UnclaimDeviceInput) async throws -> UnclaimDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +582,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -639,8 +627,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    public func updateDeviceState(input: UpdateDeviceStateInput) async throws -> UpdateDeviceStateOutput
-    {
+    public func updateDeviceState(input: UpdateDeviceStateInput) async throws -> UpdateDeviceStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

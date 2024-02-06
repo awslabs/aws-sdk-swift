@@ -66,7 +66,7 @@ public struct LakeFormationClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension LakeFormationClient: LakeFormationClientProtocol {
+extension LakeFormationClient {
     /// Performs the `AddLFTagsToResource` operation on the `AWSLakeFormation` service.
     ///
     /// Attaches one or more LF-tags to an existing resource.
@@ -84,8 +84,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func addLFTagsToResource(input: AddLFTagsToResourceInput) async throws -> AddLFTagsToResourceOutput
-    {
+    public func addLFTagsToResource(input: AddLFTagsToResourceInput) async throws -> AddLFTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func assumeDecoratedRoleWithSAML(input: AssumeDecoratedRoleWithSAMLInput) async throws -> AssumeDecoratedRoleWithSAMLOutput
-    {
+    public func assumeDecoratedRoleWithSAML(input: AssumeDecoratedRoleWithSAMLInput) async throws -> AssumeDecoratedRoleWithSAMLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGrantPermissions(input: BatchGrantPermissionsInput) async throws -> BatchGrantPermissionsOutput
-    {
+    public func batchGrantPermissions(input: BatchGrantPermissionsInput) async throws -> BatchGrantPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchRevokePermissions(input: BatchRevokePermissionsInput) async throws -> BatchRevokePermissionsOutput
-    {
+    public func batchRevokePermissions(input: BatchRevokePermissionsInput) async throws -> BatchRevokePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -280,8 +276,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    public func cancelTransaction(input: CancelTransactionInput) async throws -> CancelTransactionOutput
-    {
+    public func cancelTransaction(input: CancelTransactionInput) async throws -> CancelTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
-    public func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
-    {
+    public func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +377,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createDataCellsFilter(input: CreateDataCellsFilterInput) async throws -> CreateDataCellsFilterOutput
-    {
+    public func createDataCellsFilter(input: CreateDataCellsFilterInput) async throws -> CreateDataCellsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -434,8 +427,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createLFTag(input: CreateLFTagInput) async throws -> CreateLFTagOutput
-    {
+    public func createLFTag(input: CreateLFTagInput) async throws -> CreateLFTagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -485,8 +477,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func createLakeFormationIdentityCenterConfiguration(input: CreateLakeFormationIdentityCenterConfigurationInput) async throws -> CreateLakeFormationIdentityCenterConfigurationOutput
-    {
+    public func createLakeFormationIdentityCenterConfiguration(input: CreateLakeFormationIdentityCenterConfigurationInput) async throws -> CreateLakeFormationIdentityCenterConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -536,8 +527,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutput
-    {
+    public func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +576,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteDataCellsFilter(input: DeleteDataCellsFilterInput) async throws -> DeleteDataCellsFilterOutput
-    {
+    public func deleteDataCellsFilter(input: DeleteDataCellsFilterInput) async throws -> DeleteDataCellsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -636,8 +625,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteLFTag(input: DeleteLFTagInput) async throws -> DeleteLFTagOutput
-    {
+    public func deleteLFTag(input: DeleteLFTagInput) async throws -> DeleteLFTagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -687,8 +675,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteLakeFormationIdentityCenterConfiguration(input: DeleteLakeFormationIdentityCenterConfigurationInput) async throws -> DeleteLakeFormationIdentityCenterConfigurationOutput
-    {
+    public func deleteLakeFormationIdentityCenterConfiguration(input: DeleteLakeFormationIdentityCenterConfigurationInput) async throws -> DeleteLakeFormationIdentityCenterConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -738,8 +725,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutput
-    {
+    public func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -791,8 +777,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `ResourceNotReadyException` : Contains details about an error related to a resource which is not ready for a transaction.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    public func deleteObjectsOnCancel(input: DeleteObjectsOnCancelInput) async throws -> DeleteObjectsOnCancelOutput
-    {
+    public func deleteObjectsOnCancel(input: DeleteObjectsOnCancelInput) async throws -> DeleteObjectsOnCancelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -840,8 +825,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deregisterResource(input: DeregisterResourceInput) async throws -> DeregisterResourceOutput
-    {
+    public func deregisterResource(input: DeregisterResourceInput) async throws -> DeregisterResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -890,8 +874,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func describeLakeFormationIdentityCenterConfiguration(input: DescribeLakeFormationIdentityCenterConfigurationInput) async throws -> DescribeLakeFormationIdentityCenterConfigurationOutput
-    {
+    public func describeLakeFormationIdentityCenterConfiguration(input: DescribeLakeFormationIdentityCenterConfigurationInput) async throws -> DescribeLakeFormationIdentityCenterConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -939,8 +922,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput
-    {
+    public func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -988,8 +970,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func describeTransaction(input: DescribeTransactionInput) async throws -> DescribeTransactionOutput
-    {
+    public func describeTransaction(input: DescribeTransactionInput) async throws -> DescribeTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1040,8 +1021,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    public func extendTransaction(input: ExtendTransactionInput) async throws -> ExtendTransactionOutput
-    {
+    public func extendTransaction(input: ExtendTransactionInput) async throws -> ExtendTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1090,8 +1070,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataCellsFilter(input: GetDataCellsFilterInput) async throws -> GetDataCellsFilterOutput
-    {
+    public func getDataCellsFilter(input: GetDataCellsFilterInput) async throws -> GetDataCellsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1138,8 +1117,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getDataLakeSettings(input: GetDataLakeSettingsInput) async throws -> GetDataLakeSettingsOutput
-    {
+    public func getDataLakeSettings(input: GetDataLakeSettingsInput) async throws -> GetDataLakeSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1187,8 +1165,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput) async throws -> GetEffectivePermissionsForPathOutput
-    {
+    public func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput) async throws -> GetEffectivePermissionsForPathOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1237,8 +1214,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getLFTag(input: GetLFTagInput) async throws -> GetLFTagOutput
-    {
+    public func getLFTag(input: GetLFTagInput) async throws -> GetLFTagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1285,8 +1261,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getQueryState(input: GetQueryStateInput) async throws -> GetQueryStateOutput
-    {
+    public func getQueryState(input: GetQueryStateInput) async throws -> GetQueryStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1311,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `StatisticsNotReadyYetException` : Contains details about an error related to statistics not being ready.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
-    public func getQueryStatistics(input: GetQueryStatisticsInput) async throws -> GetQueryStatisticsOutput
-    {
+    public func getQueryStatistics(input: GetQueryStatisticsInput) async throws -> GetQueryStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1387,8 +1361,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getResourceLFTags(input: GetResourceLFTagsInput) async throws -> GetResourceLFTagsOutput
-    {
+    public func getResourceLFTags(input: GetResourceLFTagsInput) async throws -> GetResourceLFTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1439,8 +1412,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `ResourceNotReadyException` : Contains details about an error related to a resource which is not ready for a transaction.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    public func getTableObjects(input: GetTableObjectsInput) async throws -> GetTableObjectsOutput
-    {
+    public func getTableObjects(input: GetTableObjectsInput) async throws -> GetTableObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1490,8 +1462,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
-    public func getTemporaryGluePartitionCredentials(input: GetTemporaryGluePartitionCredentialsInput) async throws -> GetTemporaryGluePartitionCredentialsOutput
-    {
+    public func getTemporaryGluePartitionCredentials(input: GetTemporaryGluePartitionCredentialsInput) async throws -> GetTemporaryGluePartitionCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1512,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
-    public func getTemporaryGlueTableCredentials(input: GetTemporaryGlueTableCredentialsInput) async throws -> GetTemporaryGlueTableCredentialsOutput
-    {
+    public func getTemporaryGlueTableCredentials(input: GetTemporaryGlueTableCredentialsInput) async throws -> GetTemporaryGlueTableCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1591,8 +1561,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
-    public func getWorkUnitResults(input: GetWorkUnitResultsInput) async throws -> GetWorkUnitResultsOutput
-    {
+    public func getWorkUnitResults(input: GetWorkUnitResultsInput) async throws -> GetWorkUnitResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1641,8 +1610,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `WorkUnitsNotReadyYetException` : Contains details about an error related to work units not being ready.
-    public func getWorkUnits(input: GetWorkUnitsInput) async throws -> GetWorkUnitsOutput
-    {
+    public func getWorkUnits(input: GetWorkUnitsInput) async throws -> GetWorkUnitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1689,8 +1657,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func grantPermissions(input: GrantPermissionsInput) async throws -> GrantPermissionsOutput
-    {
+    public func grantPermissions(input: GrantPermissionsInput) async throws -> GrantPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1738,8 +1705,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listDataCellsFilter(input: ListDataCellsFilterInput) async throws -> ListDataCellsFilterOutput
-    {
+    public func listDataCellsFilter(input: ListDataCellsFilterInput) async throws -> ListDataCellsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1788,8 +1754,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listLFTags(input: ListLFTagsInput) async throws -> ListLFTagsOutput
-    {
+    public func listLFTags(input: ListLFTagsInput) async throws -> ListLFTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1837,8 +1802,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutput
-    {
+    public func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1885,8 +1849,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
-    {
+    public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1933,8 +1896,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-    {
+    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1982,8 +1944,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func listTableStorageOptimizers(input: ListTableStorageOptimizersInput) async throws -> ListTableStorageOptimizersOutput
-    {
+    public func listTableStorageOptimizers(input: ListTableStorageOptimizersInput) async throws -> ListTableStorageOptimizersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2030,8 +1991,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput
-    {
+    public func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2077,8 +2037,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func putDataLakeSettings(input: PutDataLakeSettingsInput) async throws -> PutDataLakeSettingsOutput
-    {
+    public func putDataLakeSettings(input: PutDataLakeSettingsInput) async throws -> PutDataLakeSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2129,8 +2088,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func registerResource(input: RegisterResourceInput) async throws -> RegisterResourceOutput
-    {
+    public func registerResource(input: RegisterResourceInput) async throws -> RegisterResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2181,8 +2139,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func removeLFTagsFromResource(input: RemoveLFTagsFromResourceInput) async throws -> RemoveLFTagsFromResourceOutput
-    {
+    public func removeLFTagsFromResource(input: RemoveLFTagsFromResourceInput) async throws -> RemoveLFTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2229,8 +2186,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func revokePermissions(input: RevokePermissionsInput) async throws -> RevokePermissionsOutput
-    {
+    public func revokePermissions(input: RevokePermissionsInput) async throws -> RevokePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2280,8 +2236,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func searchDatabasesByLFTags(input: SearchDatabasesByLFTagsInput) async throws -> SearchDatabasesByLFTagsOutput
-    {
+    public func searchDatabasesByLFTags(input: SearchDatabasesByLFTagsInput) async throws -> SearchDatabasesByLFTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2331,8 +2286,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func searchTablesByLFTags(input: SearchTablesByLFTagsInput) async throws -> SearchTablesByLFTagsOutput
-    {
+    public func searchTablesByLFTags(input: SearchTablesByLFTagsInput) async throws -> SearchTablesByLFTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2380,8 +2334,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
-    public func startQueryPlanning(input: StartQueryPlanningInput) async throws -> StartQueryPlanningOutput
-    {
+    public func startQueryPlanning(input: StartQueryPlanningInput) async throws -> StartQueryPlanningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2427,8 +2380,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startTransaction(input: StartTransactionInput) async throws -> StartTransactionOutput
-    {
+    public func startTransaction(input: StartTransactionInput) async throws -> StartTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2478,8 +2430,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateDataCellsFilter(input: UpdateDataCellsFilterInput) async throws -> UpdateDataCellsFilterOutput
-    {
+    public func updateDataCellsFilter(input: UpdateDataCellsFilterInput) async throws -> UpdateDataCellsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2529,8 +2480,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateLFTag(input: UpdateLFTagInput) async throws -> UpdateLFTagOutput
-    {
+    public func updateLFTag(input: UpdateLFTagInput) async throws -> UpdateLFTagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2580,8 +2530,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateLakeFormationIdentityCenterConfiguration(input: UpdateLakeFormationIdentityCenterConfigurationInput) async throws -> UpdateLakeFormationIdentityCenterConfigurationOutput
-    {
+    public func updateLakeFormationIdentityCenterConfiguration(input: UpdateLakeFormationIdentityCenterConfigurationInput) async throws -> UpdateLakeFormationIdentityCenterConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2629,8 +2578,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
-    {
+    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2683,8 +2631,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    public func updateTableObjects(input: UpdateTableObjectsInput) async throws -> UpdateTableObjectsOutput
-    {
+    public func updateTableObjects(input: UpdateTableObjectsInput) async throws -> UpdateTableObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2732,8 +2679,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func updateTableStorageOptimizer(input: UpdateTableStorageOptimizerInput) async throws -> UpdateTableStorageOptimizerOutput
-    {
+    public func updateTableStorageOptimizer(input: UpdateTableStorageOptimizerInput) async throws -> UpdateTableStorageOptimizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

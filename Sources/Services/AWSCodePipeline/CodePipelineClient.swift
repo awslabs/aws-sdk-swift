@@ -66,7 +66,7 @@ public struct CodePipelineClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension CodePipelineClient: CodePipelineClientProtocol {
+extension CodePipelineClient {
     /// Performs the `AcknowledgeJob` operation on the `CodePipeline_20150709` service.
     ///
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
@@ -81,8 +81,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidNonceException` : The nonce was specified in an invalid format.
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func acknowledgeJob(input: AcknowledgeJobInput) async throws -> AcknowledgeJobOutput
-    {
+    public func acknowledgeJob(input: AcknowledgeJobInput) async throws -> AcknowledgeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidNonceException` : The nonce was specified in an invalid format.
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func acknowledgeThirdPartyJob(input: AcknowledgeThirdPartyJobInput) async throws -> AcknowledgeThirdPartyJobOutput
-    {
+    public func acknowledgeThirdPartyJob(input: AcknowledgeThirdPartyJobInput) async throws -> AcknowledgeThirdPartyJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `LimitExceededException` : The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func createCustomActionType(input: CreateCustomActionTypeInput) async throws -> CreateCustomActionTypeOutput
-    {
+    public func createCustomActionType(input: CreateCustomActionTypeInput) async throws -> CreateCustomActionTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNameInUseException` : The specified pipeline name is already in use.
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
-    {
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func deleteCustomActionType(input: DeleteCustomActionTypeInput) async throws -> DeleteCustomActionTypeOutput
-    {
+    public func deleteCustomActionType(input: DeleteCustomActionTypeInput) async throws -> DeleteCustomActionTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
-    {
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
-    {
+    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The validation was specified in an invalid format.
     /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
-    public func deregisterWebhookWithThirdParty(input: DeregisterWebhookWithThirdPartyInput) async throws -> DeregisterWebhookWithThirdPartyOutput
-    {
+    public func deregisterWebhookWithThirdParty(input: DeregisterWebhookWithThirdPartyInput) async throws -> DeregisterWebhookWithThirdPartyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func disableStageTransition(input: DisableStageTransitionInput) async throws -> DisableStageTransitionOutput
-    {
+    public func disableStageTransition(input: DisableStageTransitionInput) async throws -> DisableStageTransitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func enableStageTransition(input: EnableStageTransitionInput) async throws -> EnableStageTransitionOutput
-    {
+    public func enableStageTransition(input: EnableStageTransitionInput) async throws -> EnableStageTransitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +566,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func getActionType(input: GetActionTypeInput) async throws -> GetActionTypeOutput
-    {
+    public func getActionType(input: GetActionTypeInput) async throws -> GetActionTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +613,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func getJobDetails(input: GetJobDetailsInput) async throws -> GetJobDetailsOutput
-    {
+    public func getJobDetails(input: GetJobDetailsInput) async throws -> GetJobDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -673,8 +661,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `PipelineVersionNotFoundException` : The pipeline version was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput
-    {
+    public func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -722,8 +709,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineExecutionNotFoundException` : The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func getPipelineExecution(input: GetPipelineExecutionInput) async throws -> GetPipelineExecutionOutput
-    {
+    public func getPipelineExecution(input: GetPipelineExecutionInput) async throws -> GetPipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +756,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func getPipelineState(input: GetPipelineStateInput) async throws -> GetPipelineStateOutput
-    {
+    public func getPipelineState(input: GetPipelineStateInput) async throws -> GetPipelineStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +805,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidJobException` : The job was specified in an invalid format or cannot be found.
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func getThirdPartyJobDetails(input: GetThirdPartyJobDetailsInput) async throws -> GetThirdPartyJobDetailsOutput
-    {
+    public func getThirdPartyJobDetails(input: GetThirdPartyJobDetailsInput) async throws -> GetThirdPartyJobDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -870,8 +854,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineExecutionNotFoundException` : The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func listActionExecutions(input: ListActionExecutionsInput) async throws -> ListActionExecutionsOutput
-    {
+    public func listActionExecutions(input: ListActionExecutionsInput) async throws -> ListActionExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +901,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func listActionTypes(input: ListActionTypesInput) async throws -> ListActionTypesOutput
-    {
+    public func listActionTypes(input: ListActionTypesInput) async throws -> ListActionTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -967,8 +949,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput
-    {
+    public func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1015,8 +996,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
-    {
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1045,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1113,8 +1092,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput
-    {
+    public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1161,8 +1139,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func pollForJobs(input: PollForJobsInput) async throws -> PollForJobsOutput
-    {
+    public func pollForJobs(input: PollForJobsInput) async throws -> PollForJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1209,8 +1186,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func pollForThirdPartyJobs(input: PollForThirdPartyJobsInput) async throws -> PollForThirdPartyJobsOutput
-    {
+    public func pollForThirdPartyJobs(input: PollForThirdPartyJobsInput) async throws -> PollForThirdPartyJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1259,8 +1235,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putActionRevision(input: PutActionRevisionInput) async throws -> PutActionRevisionOutput
-    {
+    public func putActionRevision(input: PutActionRevisionInput) async throws -> PutActionRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1311,8 +1286,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putApprovalResult(input: PutApprovalResultInput) async throws -> PutApprovalResultOutput
-    {
+    public func putApprovalResult(input: PutApprovalResultInput) async throws -> PutApprovalResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1360,8 +1334,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidJobStateException` : The job state was specified in an invalid format.
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putJobFailureResult(input: PutJobFailureResultInput) async throws -> PutJobFailureResultOutput
-    {
+    public func putJobFailureResult(input: PutJobFailureResultInput) async throws -> PutJobFailureResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1410,8 +1383,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `OutputVariablesSizeExceededException` : Exceeded the total size limit for all variables in the pipeline.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putJobSuccessResult(input: PutJobSuccessResultInput) async throws -> PutJobSuccessResultOutput
-    {
+    public func putJobSuccessResult(input: PutJobSuccessResultInput) async throws -> PutJobSuccessResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1432,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidJobStateException` : The job state was specified in an invalid format.
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putThirdPartyJobFailureResult(input: PutThirdPartyJobFailureResultInput) async throws -> PutThirdPartyJobFailureResultOutput
-    {
+    public func putThirdPartyJobFailureResult(input: PutThirdPartyJobFailureResultInput) async throws -> PutThirdPartyJobFailureResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1510,8 +1481,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidJobStateException` : The job state was specified in an invalid format.
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putThirdPartyJobSuccessResult(input: PutThirdPartyJobSuccessResultInput) async throws -> PutThirdPartyJobSuccessResultOutput
-    {
+    public func putThirdPartyJobSuccessResult(input: PutThirdPartyJobSuccessResultInput) async throws -> PutThirdPartyJobSuccessResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1564,8 +1534,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func putWebhook(input: PutWebhookInput) async throws -> PutWebhookOutput
-    {
+    public func putWebhook(input: PutWebhookInput) async throws -> PutWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1612,8 +1581,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The validation was specified in an invalid format.
     /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
-    public func registerWebhookWithThirdParty(input: RegisterWebhookWithThirdPartyInput) async throws -> RegisterWebhookWithThirdPartyOutput
-    {
+    public func registerWebhookWithThirdParty(input: RegisterWebhookWithThirdPartyInput) async throws -> RegisterWebhookWithThirdPartyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1664,8 +1632,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `StageNotRetryableException` : Unable to retry. The pipeline structure or stage state might have changed while actions awaited retry, or the stage contains no failed actions.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func retryStageExecution(input: RetryStageExecutionInput) async throws -> RetryStageExecutionOutput
-    {
+    public func retryStageExecution(input: RetryStageExecutionInput) async throws -> RetryStageExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1713,8 +1680,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput
-    {
+    public func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1765,8 +1731,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `PipelineExecutionNotStoppableException` : Unable to stop the pipeline execution. The execution might already be in a Stopped state, or it might no longer be in progress.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput
-    {
+    public func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1817,8 +1782,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1868,8 +1832,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidTagsException` : The specified resource tags are invalid.
     /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1917,8 +1880,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `RequestFailedException` : The request failed because of an unknown error, exception, or failure.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func updateActionType(input: UpdateActionTypeInput) async throws -> UpdateActionTypeOutput
-    {
+    public func updateActionType(input: UpdateActionTypeInput) async throws -> UpdateActionTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1969,8 +1931,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
     /// - `InvalidStructureException` : The structure was specified in an invalid format.
     /// - `LimitExceededException` : The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
     /// - `ValidationException` : The validation was specified in an invalid format.
-    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
-    {
+    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

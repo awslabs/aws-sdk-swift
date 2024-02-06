@@ -39,6 +39,8 @@ extension AppMeshClientTypes {
 
 }
 
+public enum AppMeshClientTypes {}
+
 extension AppMeshClientTypes.AwsCloudMapInstanceAttribute: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key

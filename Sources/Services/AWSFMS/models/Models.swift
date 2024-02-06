@@ -2878,6 +2878,8 @@ extension FMSClientTypes {
 
 }
 
+public enum FMSClientTypes {}
+
 extension FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"

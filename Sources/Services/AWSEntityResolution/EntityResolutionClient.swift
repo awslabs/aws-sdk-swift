@@ -66,7 +66,7 @@ public struct EntityResolutionClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension EntityResolutionClient: EntityResolutionClientProtocol {
+extension EntityResolutionClient {
     /// Performs the `CreateIdMappingWorkflow` operation on the `AWSVeniceService` service.
     ///
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
@@ -84,8 +84,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func createIdMappingWorkflow(input: CreateIdMappingWorkflowInput) async throws -> CreateIdMappingWorkflowOutput
-    {
+    public func createIdMappingWorkflow(input: CreateIdMappingWorkflowInput) async throws -> CreateIdMappingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func createMatchingWorkflow(input: CreateMatchingWorkflowInput) async throws -> CreateMatchingWorkflowOutput
-    {
+    public func createMatchingWorkflow(input: CreateMatchingWorkflowInput) async throws -> CreateMatchingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func createSchemaMapping(input: CreateSchemaMappingInput) async throws -> CreateSchemaMappingOutput
-    {
+    public func createSchemaMapping(input: CreateSchemaMappingInput) async throws -> CreateSchemaMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func deleteIdMappingWorkflow(input: DeleteIdMappingWorkflowInput) async throws -> DeleteIdMappingWorkflowOutput
-    {
+    public func deleteIdMappingWorkflow(input: DeleteIdMappingWorkflowInput) async throws -> DeleteIdMappingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutput
-    {
+    public func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutput
-    {
+    public func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +369,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getIdMappingJob(input: GetIdMappingJobInput) async throws -> GetIdMappingJobOutput
-    {
+    public func getIdMappingJob(input: GetIdMappingJobInput) async throws -> GetIdMappingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -422,8 +415,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getIdMappingWorkflow(input: GetIdMappingWorkflowInput) async throws -> GetIdMappingWorkflowOutput
-    {
+    public func getIdMappingWorkflow(input: GetIdMappingWorkflowInput) async throws -> GetIdMappingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +461,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutput
-    {
+    public func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -519,8 +510,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutput
-    {
+    public func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +556,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutput
-    {
+    public func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +602,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getProviderService(input: GetProviderServiceInput) async throws -> GetProviderServiceOutput
-    {
+    public func getProviderService(input: GetProviderServiceInput) async throws -> GetProviderServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -660,8 +648,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutput
-    {
+    public func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -707,8 +694,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listIdMappingJobs(input: ListIdMappingJobsInput) async throws -> ListIdMappingJobsOutput
-    {
+    public func listIdMappingJobs(input: ListIdMappingJobsInput) async throws -> ListIdMappingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,8 +740,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listIdMappingWorkflows(input: ListIdMappingWorkflowsInput) async throws -> ListIdMappingWorkflowsOutput
-    {
+    public func listIdMappingWorkflows(input: ListIdMappingWorkflowsInput) async throws -> ListIdMappingWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -802,8 +787,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutput
-    {
+    public func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -849,8 +833,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listMatchingWorkflows(input: ListMatchingWorkflowsInput) async throws -> ListMatchingWorkflowsOutput
-    {
+    public func listMatchingWorkflows(input: ListMatchingWorkflowsInput) async throws -> ListMatchingWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -896,8 +879,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listProviderServices(input: ListProviderServicesInput) async throws -> ListProviderServicesOutput
-    {
+    public func listProviderServices(input: ListProviderServicesInput) async throws -> ListProviderServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -943,8 +925,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listSchemaMappings(input: ListSchemaMappingsInput) async throws -> ListSchemaMappingsOutput
-    {
+    public func listSchemaMappings(input: ListSchemaMappingsInput) async throws -> ListSchemaMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -989,8 +970,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1038,8 +1018,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func startIdMappingJob(input: StartIdMappingJobInput) async throws -> StartIdMappingJobOutput
-    {
+    public func startIdMappingJob(input: StartIdMappingJobInput) async throws -> StartIdMappingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1087,8 +1066,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutput
-    {
+    public func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1132,8 +1110,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1179,8 +1156,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1227,8 +1203,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func updateIdMappingWorkflow(input: UpdateIdMappingWorkflowInput) async throws -> UpdateIdMappingWorkflowOutput
-    {
+    public func updateIdMappingWorkflow(input: UpdateIdMappingWorkflowInput) async throws -> UpdateIdMappingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1277,8 +1252,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutput
-    {
+    public func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1302,7 @@ extension EntityResolutionClient: EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    public func updateSchemaMapping(input: UpdateSchemaMappingInput) async throws -> UpdateSchemaMappingOutput
-    {
+    public func updateSchemaMapping(input: UpdateSchemaMappingInput) async throws -> UpdateSchemaMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

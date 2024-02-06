@@ -66,7 +66,7 @@ public struct AccessAnalyzerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
+extension AccessAnalyzerClient {
     /// Performs the `ApplyArchiveRule` operation on the `AccessAnalyzer` service.
     ///
     /// Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
@@ -83,8 +83,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func applyArchiveRule(input: ApplyArchiveRuleInput) async throws -> ApplyArchiveRuleOutput
-    {
+    public func applyArchiveRule(input: ApplyArchiveRuleInput) async throws -> ApplyArchiveRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func cancelPolicyGeneration(input: CancelPolicyGenerationInput) async throws -> CancelPolicyGenerationOutput
-    {
+    public func cancelPolicyGeneration(input: CancelPolicyGenerationInput) async throws -> CancelPolicyGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `UnprocessableEntityException` : The specified entity could not be processed.
     /// - `ValidationException` : Validation exception error.
-    public func checkAccessNotGranted(input: CheckAccessNotGrantedInput) async throws -> CheckAccessNotGrantedOutput
-    {
+    public func checkAccessNotGranted(input: CheckAccessNotGrantedInput) async throws -> CheckAccessNotGrantedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `UnprocessableEntityException` : The specified entity could not be processed.
     /// - `ValidationException` : Validation exception error.
-    public func checkNoNewAccess(input: CheckNoNewAccessInput) async throws -> CheckNoNewAccessOutput
-    {
+    public func checkNoNewAccess(input: CheckNoNewAccessInput) async throws -> CheckNoNewAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func createAccessPreview(input: CreateAccessPreviewInput) async throws -> CreateAccessPreviewOutput
-    {
+    public func createAccessPreview(input: CreateAccessPreviewInput) async throws -> CreateAccessPreviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func createAnalyzer(input: CreateAnalyzerInput) async throws -> CreateAnalyzerOutput
-    {
+    public func createAnalyzer(input: CreateAnalyzerInput) async throws -> CreateAnalyzerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -389,8 +383,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func createArchiveRule(input: CreateArchiveRuleInput) async throws -> CreateArchiveRuleOutput
-    {
+    public func createArchiveRule(input: CreateArchiveRuleInput) async throws -> CreateArchiveRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -440,8 +433,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func deleteAnalyzer(input: DeleteAnalyzerInput) async throws -> DeleteAnalyzerOutput
-    {
+    public func deleteAnalyzer(input: DeleteAnalyzerInput) async throws -> DeleteAnalyzerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -489,8 +481,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func deleteArchiveRule(input: DeleteArchiveRuleInput) async throws -> DeleteArchiveRuleOutput
-    {
+    public func deleteArchiveRule(input: DeleteArchiveRuleInput) async throws -> DeleteArchiveRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +529,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getAccessPreview(input: GetAccessPreviewInput) async throws -> GetAccessPreviewOutput
-    {
+    public func getAccessPreview(input: GetAccessPreviewInput) async throws -> GetAccessPreviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +576,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getAnalyzedResource(input: GetAnalyzedResourceInput) async throws -> GetAnalyzedResourceOutput
-    {
+    public func getAnalyzedResource(input: GetAnalyzedResourceInput) async throws -> GetAnalyzedResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -634,8 +623,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getAnalyzer(input: GetAnalyzerInput) async throws -> GetAnalyzerOutput
-    {
+    public func getAnalyzer(input: GetAnalyzerInput) async throws -> GetAnalyzerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -681,8 +669,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getArchiveRule(input: GetArchiveRuleInput) async throws -> GetArchiveRuleOutput
-    {
+    public func getArchiveRule(input: GetArchiveRuleInput) async throws -> GetArchiveRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -728,8 +715,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getFinding(input: GetFindingInput) async throws -> GetFindingOutput
-    {
+    public func getFinding(input: GetFindingInput) async throws -> GetFindingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -776,8 +762,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getFindingV2(input: GetFindingV2Input) async throws -> GetFindingV2Output
-    {
+    public func getFindingV2(input: GetFindingV2Input) async throws -> GetFindingV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -823,8 +808,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func getGeneratedPolicy(input: GetGeneratedPolicyInput) async throws -> GetGeneratedPolicyOutput
-    {
+    public func getGeneratedPolicy(input: GetGeneratedPolicyInput) async throws -> GetGeneratedPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -872,8 +856,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listAccessPreviewFindings(input: ListAccessPreviewFindingsInput) async throws -> ListAccessPreviewFindingsOutput
-    {
+    public func listAccessPreviewFindings(input: ListAccessPreviewFindingsInput) async throws -> ListAccessPreviewFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -922,8 +905,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listAccessPreviews(input: ListAccessPreviewsInput) async throws -> ListAccessPreviewsOutput
-    {
+    public func listAccessPreviews(input: ListAccessPreviewsInput) async throws -> ListAccessPreviewsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -970,8 +952,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listAnalyzedResources(input: ListAnalyzedResourcesInput) async throws -> ListAnalyzedResourcesOutput
-    {
+    public func listAnalyzedResources(input: ListAnalyzedResourcesInput) async throws -> ListAnalyzedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1019,8 +1000,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listAnalyzers(input: ListAnalyzersInput) async throws -> ListAnalyzersOutput
-    {
+    public func listAnalyzers(input: ListAnalyzersInput) async throws -> ListAnalyzersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1066,8 +1046,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listArchiveRules(input: ListArchiveRulesInput) async throws -> ListArchiveRulesOutput
-    {
+    public func listArchiveRules(input: ListArchiveRulesInput) async throws -> ListArchiveRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1114,8 +1093,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
-    {
+    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1164,8 +1142,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listFindingsV2(input: ListFindingsV2Input) async throws -> ListFindingsV2Output
-    {
+    public func listFindingsV2(input: ListFindingsV2Input) async throws -> ListFindingsV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1213,8 +1190,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listPolicyGenerations(input: ListPolicyGenerationsInput) async throws -> ListPolicyGenerationsOutput
-    {
+    public func listPolicyGenerations(input: ListPolicyGenerationsInput) async throws -> ListPolicyGenerationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1261,8 +1237,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1309,8 +1284,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func startPolicyGeneration(input: StartPolicyGenerationInput) async throws -> StartPolicyGenerationOutput
-    {
+    public func startPolicyGeneration(input: StartPolicyGenerationInput) async throws -> StartPolicyGenerationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1360,8 +1334,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func startResourceScan(input: StartResourceScanInput) async throws -> StartResourceScanOutput
-    {
+    public func startResourceScan(input: StartResourceScanInput) async throws -> StartResourceScanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1410,8 +1383,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1432,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1508,8 +1479,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func updateArchiveRule(input: UpdateArchiveRuleInput) async throws -> UpdateArchiveRuleOutput
-    {
+    public func updateArchiveRule(input: UpdateArchiveRuleInput) async throws -> UpdateArchiveRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1559,8 +1529,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput
-    {
+    public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1609,8 +1578,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    public func validatePolicy(input: ValidatePolicyInput) async throws -> ValidatePolicyOutput
-    {
+    public func validatePolicy(input: ValidatePolicyInput) async throws -> ValidatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

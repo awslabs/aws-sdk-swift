@@ -3532,6 +3532,8 @@ extension SupportClientTypes {
 
 }
 
+public enum SupportClientTypes {}
+
 extension SupportClientTypes.SupportedHour: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime

@@ -66,7 +66,7 @@ public struct SageMakerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension SageMakerClient: SageMakerClientProtocol {
+extension SageMakerClient {
     /// Performs the `AddAssociation` operation on the `SageMaker` service.
     ///
     /// Creates an association between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
@@ -80,8 +80,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func addAssociation(input: AddAssociationInput) async throws -> AddAssociationOutput
-    {
+    public func addAssociation(input: AddAssociationInput) async throws -> AddAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -122,8 +121,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter AddTagsInput : [no documentation found]
     ///
     /// - Returns: `AddTagsOutput` : [no documentation found]
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -170,8 +168,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func associateTrialComponent(input: AssociateTrialComponentInput) async throws -> AssociateTrialComponentOutput
-    {
+    public func associateTrialComponent(input: AssociateTrialComponentInput) async throws -> AssociateTrialComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -212,8 +209,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter BatchDescribeModelPackageInput : [no documentation found]
     ///
     /// - Returns: `BatchDescribeModelPackageOutput` : [no documentation found]
-    public func batchDescribeModelPackage(input: BatchDescribeModelPackageInput) async throws -> BatchDescribeModelPackageOutput
-    {
+    public func batchDescribeModelPackage(input: BatchDescribeModelPackageInput) async throws -> BatchDescribeModelPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -259,8 +255,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createAction(input: CreateActionInput) async throws -> CreateActionOutput
-    {
+    public func createAction(input: CreateActionInput) async throws -> CreateActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -301,8 +296,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter CreateAlgorithmInput : [no documentation found]
     ///
     /// - Returns: `CreateAlgorithmOutput` : [no documentation found]
-    public func createAlgorithm(input: CreateAlgorithmInput) async throws -> CreateAlgorithmOutput
-    {
+    public func createAlgorithm(input: CreateAlgorithmInput) async throws -> CreateAlgorithmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -349,8 +343,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput
-    {
+    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -396,8 +389,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func createAppImageConfig(input: CreateAppImageConfigInput) async throws -> CreateAppImageConfigOutput
-    {
+    public func createAppImageConfig(input: CreateAppImageConfigInput) async throws -> CreateAppImageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -443,8 +435,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createArtifact(input: CreateArtifactInput) async throws -> CreateArtifactOutput
-    {
+    public func createArtifact(input: CreateArtifactInput) async throws -> CreateArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +482,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createAutoMLJob(input: CreateAutoMLJobInput) async throws -> CreateAutoMLJobOutput
-    {
+    public func createAutoMLJob(input: CreateAutoMLJobInput) async throws -> CreateAutoMLJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +529,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createAutoMLJobV2(input: CreateAutoMLJobV2Input) async throws -> CreateAutoMLJobV2Output
-    {
+    public func createAutoMLJobV2(input: CreateAutoMLJobV2Input) async throws -> CreateAutoMLJobV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +576,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -629,8 +617,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter CreateCodeRepositoryInput : [no documentation found]
     ///
     /// - Returns: `CreateCodeRepositoryOutput` : [no documentation found]
-    public func createCodeRepository(input: CreateCodeRepositoryInput) async throws -> CreateCodeRepositoryOutput
-    {
+    public func createCodeRepository(input: CreateCodeRepositoryInput) async throws -> CreateCodeRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -688,8 +675,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createCompilationJob(input: CreateCompilationJobInput) async throws -> CreateCompilationJobOutput
-    {
+    public func createCompilationJob(input: CreateCompilationJobInput) async throws -> CreateCompilationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -735,8 +721,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createContext(input: CreateContextInput) async throws -> CreateContextOutput
-    {
+    public func createContext(input: CreateContextInput) async throws -> CreateContextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +768,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createDataQualityJobDefinition(input: CreateDataQualityJobDefinitionInput) async throws -> CreateDataQualityJobDefinitionOutput
-    {
+    public func createDataQualityJobDefinition(input: CreateDataQualityJobDefinitionInput) async throws -> CreateDataQualityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -831,8 +815,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createDeviceFleet(input: CreateDeviceFleetInput) async throws -> CreateDeviceFleetOutput
-    {
+    public func createDeviceFleet(input: CreateDeviceFleetInput) async throws -> CreateDeviceFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -886,8 +869,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    {
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -933,8 +915,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createEdgeDeploymentPlan(input: CreateEdgeDeploymentPlanInput) async throws -> CreateEdgeDeploymentPlanOutput
-    {
+    public func createEdgeDeploymentPlan(input: CreateEdgeDeploymentPlanInput) async throws -> CreateEdgeDeploymentPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -980,8 +961,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createEdgeDeploymentStage(input: CreateEdgeDeploymentStageInput) async throws -> CreateEdgeDeploymentStageOutput
-    {
+    public func createEdgeDeploymentStage(input: CreateEdgeDeploymentStageInput) async throws -> CreateEdgeDeploymentStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1027,8 +1007,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createEdgePackagingJob(input: CreateEdgePackagingJobInput) async throws -> CreateEdgePackagingJobOutput
-    {
+    public func createEdgePackagingJob(input: CreateEdgePackagingJobInput) async throws -> CreateEdgePackagingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1078,8 +1057,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
-    {
+    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1125,8 +1103,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createEndpointConfig(input: CreateEndpointConfigInput) async throws -> CreateEndpointConfigOutput
-    {
+    public func createEndpointConfig(input: CreateEndpointConfigInput) async throws -> CreateEndpointConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1172,8 +1149,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutput
-    {
+    public func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1220,8 +1196,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createFeatureGroup(input: CreateFeatureGroupInput) async throws -> CreateFeatureGroupOutput
-    {
+    public func createFeatureGroup(input: CreateFeatureGroupInput) async throws -> CreateFeatureGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1268,8 +1243,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createFlowDefinition(input: CreateFlowDefinitionInput) async throws -> CreateFlowDefinitionOutput
-    {
+    public func createFlowDefinition(input: CreateFlowDefinitionInput) async throws -> CreateFlowDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1290,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createHub(input: CreateHubInput) async throws -> CreateHubOutput
-    {
+    public func createHub(input: CreateHubInput) async throws -> CreateHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1364,8 +1337,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createHumanTaskUi(input: CreateHumanTaskUiInput) async throws -> CreateHumanTaskUiOutput
-    {
+    public func createHumanTaskUi(input: CreateHumanTaskUiInput) async throws -> CreateHumanTaskUiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1412,8 +1384,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createHyperParameterTuningJob(input: CreateHyperParameterTuningJobInput) async throws -> CreateHyperParameterTuningJobOutput
-    {
+    public func createHyperParameterTuningJob(input: CreateHyperParameterTuningJobInput) async throws -> CreateHyperParameterTuningJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1431,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createImage(input: CreateImageInput) async throws -> CreateImageOutput
-    {
+    public func createImage(input: CreateImageInput) async throws -> CreateImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1509,8 +1479,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createImageVersion(input: CreateImageVersionInput) async throws -> CreateImageVersionOutput
-    {
+    public func createImageVersion(input: CreateImageVersionInput) async throws -> CreateImageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1557,8 +1526,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createInferenceComponent(input: CreateInferenceComponentInput) async throws -> CreateInferenceComponentOutput
-    {
+    public func createInferenceComponent(input: CreateInferenceComponentInput) async throws -> CreateInferenceComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1573,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createInferenceExperiment(input: CreateInferenceExperimentInput) async throws -> CreateInferenceExperimentOutput
-    {
+    public func createInferenceExperiment(input: CreateInferenceExperimentInput) async throws -> CreateInferenceExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1653,8 +1620,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createInferenceRecommendationsJob(input: CreateInferenceRecommendationsJobInput) async throws -> CreateInferenceRecommendationsJobOutput
-    {
+    public func createInferenceRecommendationsJob(input: CreateInferenceRecommendationsJobInput) async throws -> CreateInferenceRecommendationsJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1676,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createLabelingJob(input: CreateLabelingJobInput) async throws -> CreateLabelingJobOutput
-    {
+    public func createLabelingJob(input: CreateLabelingJobInput) async throws -> CreateLabelingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1757,8 +1722,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    {
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1805,8 +1769,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModelBiasJobDefinition(input: CreateModelBiasJobDefinitionInput) async throws -> CreateModelBiasJobDefinitionOutput
-    {
+    public func createModelBiasJobDefinition(input: CreateModelBiasJobDefinitionInput) async throws -> CreateModelBiasJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1853,8 +1816,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModelCard(input: CreateModelCardInput) async throws -> CreateModelCardOutput
-    {
+    public func createModelCard(input: CreateModelCardInput) async throws -> CreateModelCardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1902,8 +1864,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createModelCardExportJob(input: CreateModelCardExportJobInput) async throws -> CreateModelCardExportJobOutput
-    {
+    public func createModelCardExportJob(input: CreateModelCardExportJobInput) async throws -> CreateModelCardExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1950,8 +1911,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModelExplainabilityJobDefinition(input: CreateModelExplainabilityJobDefinitionInput) async throws -> CreateModelExplainabilityJobDefinitionOutput
-    {
+    public func createModelExplainabilityJobDefinition(input: CreateModelExplainabilityJobDefinitionInput) async throws -> CreateModelExplainabilityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2002,8 +1962,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModelPackage(input: CreateModelPackageInput) async throws -> CreateModelPackageOutput
-    {
+    public func createModelPackage(input: CreateModelPackageInput) async throws -> CreateModelPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2050,8 +2009,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModelPackageGroup(input: CreateModelPackageGroupInput) async throws -> CreateModelPackageGroupOutput
-    {
+    public func createModelPackageGroup(input: CreateModelPackageGroupInput) async throws -> CreateModelPackageGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2098,8 +2056,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createModelQualityJobDefinition(input: CreateModelQualityJobDefinitionInput) async throws -> CreateModelQualityJobDefinitionOutput
-    {
+    public func createModelQualityJobDefinition(input: CreateModelQualityJobDefinitionInput) async throws -> CreateModelQualityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2146,8 +2103,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createMonitoringSchedule(input: CreateMonitoringScheduleInput) async throws -> CreateMonitoringScheduleOutput
-    {
+    public func createMonitoringSchedule(input: CreateMonitoringScheduleInput) async throws -> CreateMonitoringScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2202,8 +2158,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createNotebookInstance(input: CreateNotebookInstanceInput) async throws -> CreateNotebookInstanceOutput
-    {
+    public func createNotebookInstance(input: CreateNotebookInstanceInput) async throws -> CreateNotebookInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2249,8 +2204,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createNotebookInstanceLifecycleConfig(input: CreateNotebookInstanceLifecycleConfigInput) async throws -> CreateNotebookInstanceLifecycleConfigOutput
-    {
+    public func createNotebookInstanceLifecycleConfig(input: CreateNotebookInstanceLifecycleConfigInput) async throws -> CreateNotebookInstanceLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2298,8 +2252,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
-    {
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2346,8 +2299,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createPresignedDomainUrl(input: CreatePresignedDomainUrlInput) async throws -> CreatePresignedDomainUrlOutput
-    {
+    public func createPresignedDomainUrl(input: CreatePresignedDomainUrlInput) async throws -> CreatePresignedDomainUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2388,8 +2340,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter CreatePresignedNotebookInstanceUrlInput : [no documentation found]
     ///
     /// - Returns: `CreatePresignedNotebookInstanceUrlOutput` : [no documentation found]
-    public func createPresignedNotebookInstanceUrl(input: CreatePresignedNotebookInstanceUrlInput) async throws -> CreatePresignedNotebookInstanceUrlOutput
-    {
+    public func createPresignedNotebookInstanceUrl(input: CreatePresignedNotebookInstanceUrlInput) async throws -> CreatePresignedNotebookInstanceUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2437,8 +2388,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createProcessingJob(input: CreateProcessingJobInput) async throws -> CreateProcessingJobOutput
-    {
+    public func createProcessingJob(input: CreateProcessingJobInput) async throws -> CreateProcessingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2484,8 +2434,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2532,8 +2481,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutput
-    {
+    public func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2579,8 +2527,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func createStudioLifecycleConfig(input: CreateStudioLifecycleConfigInput) async throws -> CreateStudioLifecycleConfigOutput
-    {
+    public func createStudioLifecycleConfig(input: CreateStudioLifecycleConfigInput) async throws -> CreateStudioLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2651,8 +2598,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createTrainingJob(input: CreateTrainingJobInput) async throws -> CreateTrainingJobOutput
-    {
+    public func createTrainingJob(input: CreateTrainingJobInput) async throws -> CreateTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2713,8 +2659,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createTransformJob(input: CreateTransformJobInput) async throws -> CreateTransformJobOutput
-    {
+    public func createTransformJob(input: CreateTransformJobInput) async throws -> CreateTransformJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2761,8 +2706,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func createTrial(input: CreateTrialInput) async throws -> CreateTrialOutput
-    {
+    public func createTrial(input: CreateTrialInput) async throws -> CreateTrialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2808,8 +2752,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createTrialComponent(input: CreateTrialComponentInput) async throws -> CreateTrialComponentOutput
-    {
+    public func createTrialComponent(input: CreateTrialComponentInput) async throws -> CreateTrialComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2856,8 +2799,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
-    {
+    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2898,8 +2840,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter CreateWorkforceInput : [no documentation found]
     ///
     /// - Returns: `CreateWorkforceOutput` : [no documentation found]
-    public func createWorkforce(input: CreateWorkforceInput) async throws -> CreateWorkforceOutput
-    {
+    public func createWorkforce(input: CreateWorkforceInput) async throws -> CreateWorkforceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2946,8 +2887,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func createWorkteam(input: CreateWorkteamInput) async throws -> CreateWorkteamOutput
-    {
+    public func createWorkteam(input: CreateWorkteamInput) async throws -> CreateWorkteamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2993,8 +2933,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteAction(input: DeleteActionInput) async throws -> DeleteActionOutput
-    {
+    public func deleteAction(input: DeleteActionInput) async throws -> DeleteActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3040,8 +2979,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func deleteAlgorithm(input: DeleteAlgorithmInput) async throws -> DeleteAlgorithmOutput
-    {
+    public func deleteAlgorithm(input: DeleteAlgorithmInput) async throws -> DeleteAlgorithmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3088,8 +3026,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    {
+    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3135,8 +3072,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteAppImageConfig(input: DeleteAppImageConfigInput) async throws -> DeleteAppImageConfigOutput
-    {
+    public func deleteAppImageConfig(input: DeleteAppImageConfigInput) async throws -> DeleteAppImageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3182,8 +3118,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteArtifact(input: DeleteArtifactInput) async throws -> DeleteArtifactOutput
-    {
+    public func deleteArtifact(input: DeleteArtifactInput) async throws -> DeleteArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3229,8 +3164,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput
-    {
+    public func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3277,8 +3211,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3319,8 +3252,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteCodeRepositoryInput : [no documentation found]
     ///
     /// - Returns: `DeleteCodeRepositoryOutput` : [no documentation found]
-    public func deleteCodeRepository(input: DeleteCodeRepositoryInput) async throws -> DeleteCodeRepositoryOutput
-    {
+    public func deleteCodeRepository(input: DeleteCodeRepositoryInput) async throws -> DeleteCodeRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3366,8 +3298,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteCompilationJob(input: DeleteCompilationJobInput) async throws -> DeleteCompilationJobOutput
-    {
+    public func deleteCompilationJob(input: DeleteCompilationJobInput) async throws -> DeleteCompilationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3413,8 +3344,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteContext(input: DeleteContextInput) async throws -> DeleteContextOutput
-    {
+    public func deleteContext(input: DeleteContextInput) async throws -> DeleteContextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3460,8 +3390,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteDataQualityJobDefinition(input: DeleteDataQualityJobDefinitionInput) async throws -> DeleteDataQualityJobDefinitionOutput
-    {
+    public func deleteDataQualityJobDefinition(input: DeleteDataQualityJobDefinitionInput) async throws -> DeleteDataQualityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3507,8 +3436,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func deleteDeviceFleet(input: DeleteDeviceFleetInput) async throws -> DeleteDeviceFleetOutput
-    {
+    public func deleteDeviceFleet(input: DeleteDeviceFleetInput) async throws -> DeleteDeviceFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3555,8 +3483,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3602,8 +3529,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func deleteEdgeDeploymentPlan(input: DeleteEdgeDeploymentPlanInput) async throws -> DeleteEdgeDeploymentPlanOutput
-    {
+    public func deleteEdgeDeploymentPlan(input: DeleteEdgeDeploymentPlanInput) async throws -> DeleteEdgeDeploymentPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3649,8 +3575,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func deleteEdgeDeploymentStage(input: DeleteEdgeDeploymentStageInput) async throws -> DeleteEdgeDeploymentStageOutput
-    {
+    public func deleteEdgeDeploymentStage(input: DeleteEdgeDeploymentStageInput) async throws -> DeleteEdgeDeploymentStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3691,8 +3616,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteEndpointInput : [no documentation found]
     ///
     /// - Returns: `DeleteEndpointOutput` : [no documentation found]
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3733,8 +3657,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteEndpointConfigInput : [no documentation found]
     ///
     /// - Returns: `DeleteEndpointConfigOutput` : [no documentation found]
-    public func deleteEndpointConfig(input: DeleteEndpointConfigInput) async throws -> DeleteEndpointConfigOutput
-    {
+    public func deleteEndpointConfig(input: DeleteEndpointConfigInput) async throws -> DeleteEndpointConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3780,8 +3703,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutput
-    {
+    public func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3827,8 +3749,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteFeatureGroup(input: DeleteFeatureGroupInput) async throws -> DeleteFeatureGroupOutput
-    {
+    public func deleteFeatureGroup(input: DeleteFeatureGroupInput) async throws -> DeleteFeatureGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3875,8 +3796,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteFlowDefinition(input: DeleteFlowDefinitionInput) async throws -> DeleteFlowDefinitionOutput
-    {
+    public func deleteFlowDefinition(input: DeleteFlowDefinitionInput) async throws -> DeleteFlowDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3923,8 +3843,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteHub(input: DeleteHubInput) async throws -> DeleteHubOutput
-    {
+    public func deleteHub(input: DeleteHubInput) async throws -> DeleteHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3971,8 +3890,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteHubContent(input: DeleteHubContentInput) async throws -> DeleteHubContentOutput
-    {
+    public func deleteHubContent(input: DeleteHubContentInput) async throws -> DeleteHubContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4018,8 +3936,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteHumanTaskUi(input: DeleteHumanTaskUiInput) async throws -> DeleteHumanTaskUiOutput
-    {
+    public func deleteHumanTaskUi(input: DeleteHumanTaskUiInput) async throws -> DeleteHumanTaskUiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4066,8 +3983,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
-    {
+    public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4114,8 +4030,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteImageVersion(input: DeleteImageVersionInput) async throws -> DeleteImageVersionOutput
-    {
+    public func deleteImageVersion(input: DeleteImageVersionInput) async throws -> DeleteImageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4156,8 +4071,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteInferenceComponentInput : [no documentation found]
     ///
     /// - Returns: `DeleteInferenceComponentOutput` : [no documentation found]
-    public func deleteInferenceComponent(input: DeleteInferenceComponentInput) async throws -> DeleteInferenceComponentOutput
-    {
+    public func deleteInferenceComponent(input: DeleteInferenceComponentInput) async throws -> DeleteInferenceComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4204,8 +4118,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteInferenceExperiment(input: DeleteInferenceExperimentInput) async throws -> DeleteInferenceExperimentOutput
-    {
+    public func deleteInferenceExperiment(input: DeleteInferenceExperimentInput) async throws -> DeleteInferenceExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4246,8 +4159,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
     /// - Returns: `DeleteModelOutput` : [no documentation found]
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    {
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4293,8 +4205,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteModelBiasJobDefinition(input: DeleteModelBiasJobDefinitionInput) async throws -> DeleteModelBiasJobDefinitionOutput
-    {
+    public func deleteModelBiasJobDefinition(input: DeleteModelBiasJobDefinitionInput) async throws -> DeleteModelBiasJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4341,8 +4252,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteModelCard(input: DeleteModelCardInput) async throws -> DeleteModelCardOutput
-    {
+    public func deleteModelCard(input: DeleteModelCardInput) async throws -> DeleteModelCardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4388,8 +4298,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteModelExplainabilityJobDefinition(input: DeleteModelExplainabilityJobDefinitionInput) async throws -> DeleteModelExplainabilityJobDefinitionOutput
-    {
+    public func deleteModelExplainabilityJobDefinition(input: DeleteModelExplainabilityJobDefinitionInput) async throws -> DeleteModelExplainabilityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4435,8 +4344,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func deleteModelPackage(input: DeleteModelPackageInput) async throws -> DeleteModelPackageOutput
-    {
+    public func deleteModelPackage(input: DeleteModelPackageInput) async throws -> DeleteModelPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4482,8 +4390,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func deleteModelPackageGroup(input: DeleteModelPackageGroupInput) async throws -> DeleteModelPackageGroupOutput
-    {
+    public func deleteModelPackageGroup(input: DeleteModelPackageGroupInput) async throws -> DeleteModelPackageGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4524,8 +4431,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteModelPackageGroupPolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteModelPackageGroupPolicyOutput` : [no documentation found]
-    public func deleteModelPackageGroupPolicy(input: DeleteModelPackageGroupPolicyInput) async throws -> DeleteModelPackageGroupPolicyOutput
-    {
+    public func deleteModelPackageGroupPolicy(input: DeleteModelPackageGroupPolicyInput) async throws -> DeleteModelPackageGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4571,8 +4477,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteModelQualityJobDefinition(input: DeleteModelQualityJobDefinitionInput) async throws -> DeleteModelQualityJobDefinitionOutput
-    {
+    public func deleteModelQualityJobDefinition(input: DeleteModelQualityJobDefinitionInput) async throws -> DeleteModelQualityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4618,8 +4523,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteMonitoringSchedule(input: DeleteMonitoringScheduleInput) async throws -> DeleteMonitoringScheduleOutput
-    {
+    public func deleteMonitoringSchedule(input: DeleteMonitoringScheduleInput) async throws -> DeleteMonitoringScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4660,8 +4564,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteNotebookInstanceInput : [no documentation found]
     ///
     /// - Returns: `DeleteNotebookInstanceOutput` : [no documentation found]
-    public func deleteNotebookInstance(input: DeleteNotebookInstanceInput) async throws -> DeleteNotebookInstanceOutput
-    {
+    public func deleteNotebookInstance(input: DeleteNotebookInstanceInput) async throws -> DeleteNotebookInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4702,8 +4605,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteNotebookInstanceLifecycleConfigInput : [no documentation found]
     ///
     /// - Returns: `DeleteNotebookInstanceLifecycleConfigOutput` : [no documentation found]
-    public func deleteNotebookInstanceLifecycleConfig(input: DeleteNotebookInstanceLifecycleConfigInput) async throws -> DeleteNotebookInstanceLifecycleConfigOutput
-    {
+    public func deleteNotebookInstanceLifecycleConfig(input: DeleteNotebookInstanceLifecycleConfigInput) async throws -> DeleteNotebookInstanceLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4750,8 +4652,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
-    {
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4798,8 +4699,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4846,8 +4746,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput
-    {
+    public func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4894,8 +4793,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteStudioLifecycleConfig(input: DeleteStudioLifecycleConfigInput) async throws -> DeleteStudioLifecycleConfigOutput
-    {
+    public func deleteStudioLifecycleConfig(input: DeleteStudioLifecycleConfigInput) async throws -> DeleteStudioLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4936,8 +4834,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteTagsInput : [no documentation found]
     ///
     /// - Returns: `DeleteTagsOutput` : [no documentation found]
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4983,8 +4880,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteTrial(input: DeleteTrialInput) async throws -> DeleteTrialOutput
-    {
+    public func deleteTrial(input: DeleteTrialInput) async throws -> DeleteTrialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5030,8 +4926,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteTrialComponent(input: DeleteTrialComponentInput) async throws -> DeleteTrialComponentOutput
-    {
+    public func deleteTrialComponent(input: DeleteTrialComponentInput) async throws -> DeleteTrialComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5078,8 +4973,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput
-    {
+    public func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5120,8 +5014,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteWorkforceInput : [no documentation found]
     ///
     /// - Returns: `DeleteWorkforceOutput` : [no documentation found]
-    public func deleteWorkforce(input: DeleteWorkforceInput) async throws -> DeleteWorkforceOutput
-    {
+    public func deleteWorkforce(input: DeleteWorkforceInput) async throws -> DeleteWorkforceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5167,8 +5060,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func deleteWorkteam(input: DeleteWorkteamInput) async throws -> DeleteWorkteamOutput
-    {
+    public func deleteWorkteam(input: DeleteWorkteamInput) async throws -> DeleteWorkteamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5209,8 +5101,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeregisterDevicesInput : [no documentation found]
     ///
     /// - Returns: `DeregisterDevicesOutput` : [no documentation found]
-    public func deregisterDevices(input: DeregisterDevicesInput) async throws -> DeregisterDevicesOutput
-    {
+    public func deregisterDevices(input: DeregisterDevicesInput) async throws -> DeregisterDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5256,8 +5147,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeAction(input: DescribeActionInput) async throws -> DescribeActionOutput
-    {
+    public func describeAction(input: DescribeActionInput) async throws -> DescribeActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5298,8 +5188,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeAlgorithmInput : [no documentation found]
     ///
     /// - Returns: `DescribeAlgorithmOutput` : [no documentation found]
-    public func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput
-    {
+    public func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5345,8 +5234,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
-    {
+    public func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5392,8 +5280,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeAppImageConfig(input: DescribeAppImageConfigInput) async throws -> DescribeAppImageConfigOutput
-    {
+    public func describeAppImageConfig(input: DescribeAppImageConfigInput) async throws -> DescribeAppImageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5439,8 +5326,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeArtifact(input: DescribeArtifactInput) async throws -> DescribeArtifactOutput
-    {
+    public func describeArtifact(input: DescribeArtifactInput) async throws -> DescribeArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5486,8 +5372,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeAutoMLJob(input: DescribeAutoMLJobInput) async throws -> DescribeAutoMLJobOutput
-    {
+    public func describeAutoMLJob(input: DescribeAutoMLJobInput) async throws -> DescribeAutoMLJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5533,8 +5418,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeAutoMLJobV2(input: DescribeAutoMLJobV2Input) async throws -> DescribeAutoMLJobV2Output
-    {
+    public func describeAutoMLJobV2(input: DescribeAutoMLJobV2Input) async throws -> DescribeAutoMLJobV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5580,8 +5464,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
-    {
+    public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5627,8 +5510,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeClusterNode(input: DescribeClusterNodeInput) async throws -> DescribeClusterNodeOutput
-    {
+    public func describeClusterNode(input: DescribeClusterNodeInput) async throws -> DescribeClusterNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5669,8 +5551,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeCodeRepositoryInput : [no documentation found]
     ///
     /// - Returns: `DescribeCodeRepositoryOutput` : [no documentation found]
-    public func describeCodeRepository(input: DescribeCodeRepositoryInput) async throws -> DescribeCodeRepositoryOutput
-    {
+    public func describeCodeRepository(input: DescribeCodeRepositoryInput) async throws -> DescribeCodeRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5716,8 +5597,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeCompilationJob(input: DescribeCompilationJobInput) async throws -> DescribeCompilationJobOutput
-    {
+    public func describeCompilationJob(input: DescribeCompilationJobInput) async throws -> DescribeCompilationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5763,8 +5643,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeContext(input: DescribeContextInput) async throws -> DescribeContextOutput
-    {
+    public func describeContext(input: DescribeContextInput) async throws -> DescribeContextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5810,8 +5689,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeDataQualityJobDefinition(input: DescribeDataQualityJobDefinitionInput) async throws -> DescribeDataQualityJobDefinitionOutput
-    {
+    public func describeDataQualityJobDefinition(input: DescribeDataQualityJobDefinitionInput) async throws -> DescribeDataQualityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5857,8 +5735,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
-    {
+    public func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5904,8 +5781,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeDeviceFleet(input: DescribeDeviceFleetInput) async throws -> DescribeDeviceFleetOutput
-    {
+    public func describeDeviceFleet(input: DescribeDeviceFleetInput) async throws -> DescribeDeviceFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5951,8 +5827,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
-    {
+    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5998,8 +5873,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeEdgeDeploymentPlan(input: DescribeEdgeDeploymentPlanInput) async throws -> DescribeEdgeDeploymentPlanOutput
-    {
+    public func describeEdgeDeploymentPlan(input: DescribeEdgeDeploymentPlanInput) async throws -> DescribeEdgeDeploymentPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6045,8 +5919,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeEdgePackagingJob(input: DescribeEdgePackagingJobInput) async throws -> DescribeEdgePackagingJobOutput
-    {
+    public func describeEdgePackagingJob(input: DescribeEdgePackagingJobInput) async throws -> DescribeEdgePackagingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6087,8 +5960,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeEndpointInput : [no documentation found]
     ///
     /// - Returns: `DescribeEndpointOutput` : [no documentation found]
-    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
-    {
+    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6129,8 +6001,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeEndpointConfigInput : [no documentation found]
     ///
     /// - Returns: `DescribeEndpointConfigOutput` : [no documentation found]
-    public func describeEndpointConfig(input: DescribeEndpointConfigInput) async throws -> DescribeEndpointConfigOutput
-    {
+    public func describeEndpointConfig(input: DescribeEndpointConfigInput) async throws -> DescribeEndpointConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6176,8 +6047,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeExperiment(input: DescribeExperimentInput) async throws -> DescribeExperimentOutput
-    {
+    public func describeExperiment(input: DescribeExperimentInput) async throws -> DescribeExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6223,8 +6093,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeFeatureGroup(input: DescribeFeatureGroupInput) async throws -> DescribeFeatureGroupOutput
-    {
+    public func describeFeatureGroup(input: DescribeFeatureGroupInput) async throws -> DescribeFeatureGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6270,8 +6139,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeFeatureMetadata(input: DescribeFeatureMetadataInput) async throws -> DescribeFeatureMetadataOutput
-    {
+    public func describeFeatureMetadata(input: DescribeFeatureMetadataInput) async throws -> DescribeFeatureMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6317,8 +6185,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeFlowDefinition(input: DescribeFlowDefinitionInput) async throws -> DescribeFlowDefinitionOutput
-    {
+    public func describeFlowDefinition(input: DescribeFlowDefinitionInput) async throws -> DescribeFlowDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6364,8 +6231,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput
-    {
+    public func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6411,8 +6277,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutput
-    {
+    public func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6458,8 +6323,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutput
-    {
+    public func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6505,8 +6369,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeHyperParameterTuningJob(input: DescribeHyperParameterTuningJobInput) async throws -> DescribeHyperParameterTuningJobOutput
-    {
+    public func describeHyperParameterTuningJob(input: DescribeHyperParameterTuningJobInput) async throws -> DescribeHyperParameterTuningJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6552,8 +6415,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeImage(input: DescribeImageInput) async throws -> DescribeImageOutput
-    {
+    public func describeImage(input: DescribeImageInput) async throws -> DescribeImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6599,8 +6461,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeImageVersion(input: DescribeImageVersionInput) async throws -> DescribeImageVersionOutput
-    {
+    public func describeImageVersion(input: DescribeImageVersionInput) async throws -> DescribeImageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6641,8 +6502,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeInferenceComponentInput : [no documentation found]
     ///
     /// - Returns: `DescribeInferenceComponentOutput` : [no documentation found]
-    public func describeInferenceComponent(input: DescribeInferenceComponentInput) async throws -> DescribeInferenceComponentOutput
-    {
+    public func describeInferenceComponent(input: DescribeInferenceComponentInput) async throws -> DescribeInferenceComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6688,8 +6548,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeInferenceExperiment(input: DescribeInferenceExperimentInput) async throws -> DescribeInferenceExperimentOutput
-    {
+    public func describeInferenceExperiment(input: DescribeInferenceExperimentInput) async throws -> DescribeInferenceExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6735,8 +6594,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeInferenceRecommendationsJob(input: DescribeInferenceRecommendationsJobInput) async throws -> DescribeInferenceRecommendationsJobOutput
-    {
+    public func describeInferenceRecommendationsJob(input: DescribeInferenceRecommendationsJobInput) async throws -> DescribeInferenceRecommendationsJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6782,8 +6640,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeLabelingJob(input: DescribeLabelingJobInput) async throws -> DescribeLabelingJobOutput
-    {
+    public func describeLabelingJob(input: DescribeLabelingJobInput) async throws -> DescribeLabelingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6829,8 +6686,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeLineageGroup(input: DescribeLineageGroupInput) async throws -> DescribeLineageGroupOutput
-    {
+    public func describeLineageGroup(input: DescribeLineageGroupInput) async throws -> DescribeLineageGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6871,8 +6727,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeModelInput : [no documentation found]
     ///
     /// - Returns: `DescribeModelOutput` : [no documentation found]
-    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput
-    {
+    public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6918,8 +6773,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeModelBiasJobDefinition(input: DescribeModelBiasJobDefinitionInput) async throws -> DescribeModelBiasJobDefinitionOutput
-    {
+    public func describeModelBiasJobDefinition(input: DescribeModelBiasJobDefinitionInput) async throws -> DescribeModelBiasJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6965,8 +6819,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeModelCard(input: DescribeModelCardInput) async throws -> DescribeModelCardOutput
-    {
+    public func describeModelCard(input: DescribeModelCardInput) async throws -> DescribeModelCardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7012,8 +6865,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeModelCardExportJob(input: DescribeModelCardExportJobInput) async throws -> DescribeModelCardExportJobOutput
-    {
+    public func describeModelCardExportJob(input: DescribeModelCardExportJobInput) async throws -> DescribeModelCardExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7059,8 +6911,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeModelExplainabilityJobDefinition(input: DescribeModelExplainabilityJobDefinitionInput) async throws -> DescribeModelExplainabilityJobDefinitionOutput
-    {
+    public func describeModelExplainabilityJobDefinition(input: DescribeModelExplainabilityJobDefinitionInput) async throws -> DescribeModelExplainabilityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7101,8 +6952,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeModelPackageInput : [no documentation found]
     ///
     /// - Returns: `DescribeModelPackageOutput` : [no documentation found]
-    public func describeModelPackage(input: DescribeModelPackageInput) async throws -> DescribeModelPackageOutput
-    {
+    public func describeModelPackage(input: DescribeModelPackageInput) async throws -> DescribeModelPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7143,8 +6993,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeModelPackageGroupInput : [no documentation found]
     ///
     /// - Returns: `DescribeModelPackageGroupOutput` : [no documentation found]
-    public func describeModelPackageGroup(input: DescribeModelPackageGroupInput) async throws -> DescribeModelPackageGroupOutput
-    {
+    public func describeModelPackageGroup(input: DescribeModelPackageGroupInput) async throws -> DescribeModelPackageGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7190,8 +7039,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeModelQualityJobDefinition(input: DescribeModelQualityJobDefinitionInput) async throws -> DescribeModelQualityJobDefinitionOutput
-    {
+    public func describeModelQualityJobDefinition(input: DescribeModelQualityJobDefinitionInput) async throws -> DescribeModelQualityJobDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7237,8 +7085,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeMonitoringSchedule(input: DescribeMonitoringScheduleInput) async throws -> DescribeMonitoringScheduleOutput
-    {
+    public func describeMonitoringSchedule(input: DescribeMonitoringScheduleInput) async throws -> DescribeMonitoringScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7279,8 +7126,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeNotebookInstanceInput : [no documentation found]
     ///
     /// - Returns: `DescribeNotebookInstanceOutput` : [no documentation found]
-    public func describeNotebookInstance(input: DescribeNotebookInstanceInput) async throws -> DescribeNotebookInstanceOutput
-    {
+    public func describeNotebookInstance(input: DescribeNotebookInstanceInput) async throws -> DescribeNotebookInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7321,8 +7167,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeNotebookInstanceLifecycleConfigInput : [no documentation found]
     ///
     /// - Returns: `DescribeNotebookInstanceLifecycleConfigOutput` : [no documentation found]
-    public func describeNotebookInstanceLifecycleConfig(input: DescribeNotebookInstanceLifecycleConfigInput) async throws -> DescribeNotebookInstanceLifecycleConfigOutput
-    {
+    public func describeNotebookInstanceLifecycleConfig(input: DescribeNotebookInstanceLifecycleConfigInput) async throws -> DescribeNotebookInstanceLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7368,8 +7213,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutput
-    {
+    public func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7415,8 +7259,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describePipelineDefinitionForExecution(input: DescribePipelineDefinitionForExecutionInput) async throws -> DescribePipelineDefinitionForExecutionOutput
-    {
+    public func describePipelineDefinitionForExecution(input: DescribePipelineDefinitionForExecutionInput) async throws -> DescribePipelineDefinitionForExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7462,8 +7305,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describePipelineExecution(input: DescribePipelineExecutionInput) async throws -> DescribePipelineExecutionOutput
-    {
+    public func describePipelineExecution(input: DescribePipelineExecutionInput) async throws -> DescribePipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7509,8 +7351,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeProcessingJob(input: DescribeProcessingJobInput) async throws -> DescribeProcessingJobOutput
-    {
+    public func describeProcessingJob(input: DescribeProcessingJobInput) async throws -> DescribeProcessingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7551,8 +7392,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeProjectInput : [no documentation found]
     ///
     /// - Returns: `DescribeProjectOutput` : [no documentation found]
-    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
-    {
+    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7598,8 +7438,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeSpace(input: DescribeSpaceInput) async throws -> DescribeSpaceOutput
-    {
+    public func describeSpace(input: DescribeSpaceInput) async throws -> DescribeSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7645,8 +7484,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeStudioLifecycleConfig(input: DescribeStudioLifecycleConfigInput) async throws -> DescribeStudioLifecycleConfigOutput
-    {
+    public func describeStudioLifecycleConfig(input: DescribeStudioLifecycleConfigInput) async throws -> DescribeStudioLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7687,8 +7525,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeSubscribedWorkteamInput : [no documentation found]
     ///
     /// - Returns: `DescribeSubscribedWorkteamOutput` : [no documentation found]
-    public func describeSubscribedWorkteam(input: DescribeSubscribedWorkteamInput) async throws -> DescribeSubscribedWorkteamOutput
-    {
+    public func describeSubscribedWorkteam(input: DescribeSubscribedWorkteamInput) async throws -> DescribeSubscribedWorkteamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7734,8 +7571,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeTrainingJob(input: DescribeTrainingJobInput) async throws -> DescribeTrainingJobOutput
-    {
+    public func describeTrainingJob(input: DescribeTrainingJobInput) async throws -> DescribeTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7781,8 +7617,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeTransformJob(input: DescribeTransformJobInput) async throws -> DescribeTransformJobOutput
-    {
+    public func describeTransformJob(input: DescribeTransformJobInput) async throws -> DescribeTransformJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7828,8 +7663,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeTrial(input: DescribeTrialInput) async throws -> DescribeTrialOutput
-    {
+    public func describeTrial(input: DescribeTrialInput) async throws -> DescribeTrialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7875,8 +7709,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeTrialComponent(input: DescribeTrialComponentInput) async throws -> DescribeTrialComponentOutput
-    {
+    public func describeTrialComponent(input: DescribeTrialComponentInput) async throws -> DescribeTrialComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7923,8 +7756,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput
-    {
+    public func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7965,8 +7797,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeWorkforceInput : [no documentation found]
     ///
     /// - Returns: `DescribeWorkforceOutput` : [no documentation found]
-    public func describeWorkforce(input: DescribeWorkforceInput) async throws -> DescribeWorkforceOutput
-    {
+    public func describeWorkforce(input: DescribeWorkforceInput) async throws -> DescribeWorkforceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8007,8 +7838,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DescribeWorkteamInput : [no documentation found]
     ///
     /// - Returns: `DescribeWorkteamOutput` : [no documentation found]
-    public func describeWorkteam(input: DescribeWorkteamInput) async throws -> DescribeWorkteamOutput
-    {
+    public func describeWorkteam(input: DescribeWorkteamInput) async throws -> DescribeWorkteamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8049,8 +7879,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DisableSagemakerServicecatalogPortfolioInput : [no documentation found]
     ///
     /// - Returns: `DisableSagemakerServicecatalogPortfolioOutput` : [no documentation found]
-    public func disableSagemakerServicecatalogPortfolio(input: DisableSagemakerServicecatalogPortfolioInput) async throws -> DisableSagemakerServicecatalogPortfolioOutput
-    {
+    public func disableSagemakerServicecatalogPortfolio(input: DisableSagemakerServicecatalogPortfolioInput) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8096,8 +7925,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func disassociateTrialComponent(input: DisassociateTrialComponentInput) async throws -> DisassociateTrialComponentOutput
-    {
+    public func disassociateTrialComponent(input: DisassociateTrialComponentInput) async throws -> DisassociateTrialComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8138,8 +7966,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter EnableSagemakerServicecatalogPortfolioInput : [no documentation found]
     ///
     /// - Returns: `EnableSagemakerServicecatalogPortfolioOutput` : [no documentation found]
-    public func enableSagemakerServicecatalogPortfolio(input: EnableSagemakerServicecatalogPortfolioInput) async throws -> EnableSagemakerServicecatalogPortfolioOutput
-    {
+    public func enableSagemakerServicecatalogPortfolio(input: EnableSagemakerServicecatalogPortfolioInput) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8180,8 +8007,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter GetDeviceFleetReportInput : [no documentation found]
     ///
     /// - Returns: `GetDeviceFleetReportOutput` : [no documentation found]
-    public func getDeviceFleetReport(input: GetDeviceFleetReportInput) async throws -> GetDeviceFleetReportOutput
-    {
+    public func getDeviceFleetReport(input: GetDeviceFleetReportInput) async throws -> GetDeviceFleetReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8227,8 +8053,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func getLineageGroupPolicy(input: GetLineageGroupPolicyInput) async throws -> GetLineageGroupPolicyOutput
-    {
+    public func getLineageGroupPolicy(input: GetLineageGroupPolicyInput) async throws -> GetLineageGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8269,8 +8094,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter GetModelPackageGroupPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetModelPackageGroupPolicyOutput` : [no documentation found]
-    public func getModelPackageGroupPolicy(input: GetModelPackageGroupPolicyInput) async throws -> GetModelPackageGroupPolicyOutput
-    {
+    public func getModelPackageGroupPolicy(input: GetModelPackageGroupPolicyInput) async throws -> GetModelPackageGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8311,8 +8135,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter GetSagemakerServicecatalogPortfolioStatusInput : [no documentation found]
     ///
     /// - Returns: `GetSagemakerServicecatalogPortfolioStatusOutput` : [no documentation found]
-    public func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput
-    {
+    public func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8358,8 +8181,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutput
-    {
+    public func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8400,8 +8222,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter GetSearchSuggestionsInput : [no documentation found]
     ///
     /// - Returns: `GetSearchSuggestionsOutput` : [no documentation found]
-    public func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutput
-    {
+    public func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8449,8 +8270,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func importHubContent(input: ImportHubContentInput) async throws -> ImportHubContentOutput
-    {
+    public func importHubContent(input: ImportHubContentInput) async throws -> ImportHubContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8496,8 +8316,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listActions(input: ListActionsInput) async throws -> ListActionsOutput
-    {
+    public func listActions(input: ListActionsInput) async throws -> ListActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8538,8 +8357,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListAlgorithmsInput : [no documentation found]
     ///
     /// - Returns: `ListAlgorithmsOutput` : [no documentation found]
-    public func listAlgorithms(input: ListAlgorithmsInput) async throws -> ListAlgorithmsOutput
-    {
+    public func listAlgorithms(input: ListAlgorithmsInput) async throws -> ListAlgorithmsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8585,8 +8403,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    {
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8627,8 +8444,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListAppImageConfigsInput : [no documentation found]
     ///
     /// - Returns: `ListAppImageConfigsOutput` : [no documentation found]
-    public func listAppImageConfigs(input: ListAppImageConfigsInput) async throws -> ListAppImageConfigsOutput
-    {
+    public func listAppImageConfigs(input: ListAppImageConfigsInput) async throws -> ListAppImageConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8669,8 +8485,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListAppsInput : [no documentation found]
     ///
     /// - Returns: `ListAppsOutput` : [no documentation found]
-    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput
-    {
+    public func listApps(input: ListAppsInput) async throws -> ListAppsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8716,8 +8531,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
-    {
+    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8763,8 +8577,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput
-    {
+    public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8805,8 +8618,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListAutoMLJobsInput : [no documentation found]
     ///
     /// - Returns: `ListAutoMLJobsOutput` : [no documentation found]
-    public func listAutoMLJobs(input: ListAutoMLJobsInput) async throws -> ListAutoMLJobsOutput
-    {
+    public func listAutoMLJobs(input: ListAutoMLJobsInput) async throws -> ListAutoMLJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8852,8 +8664,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listCandidatesForAutoMLJob(input: ListCandidatesForAutoMLJobInput) async throws -> ListCandidatesForAutoMLJobOutput
-    {
+    public func listCandidatesForAutoMLJob(input: ListCandidatesForAutoMLJobInput) async throws -> ListCandidatesForAutoMLJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8899,8 +8710,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listClusterNodes(input: ListClusterNodesInput) async throws -> ListClusterNodesOutput
-    {
+    public func listClusterNodes(input: ListClusterNodesInput) async throws -> ListClusterNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8941,8 +8751,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListClustersInput : [no documentation found]
     ///
     /// - Returns: `ListClustersOutput` : [no documentation found]
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8983,8 +8792,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListCodeRepositoriesInput : [no documentation found]
     ///
     /// - Returns: `ListCodeRepositoriesOutput` : [no documentation found]
-    public func listCodeRepositories(input: ListCodeRepositoriesInput) async throws -> ListCodeRepositoriesOutput
-    {
+    public func listCodeRepositories(input: ListCodeRepositoriesInput) async throws -> ListCodeRepositoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9025,8 +8833,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListCompilationJobsInput : [no documentation found]
     ///
     /// - Returns: `ListCompilationJobsOutput` : [no documentation found]
-    public func listCompilationJobs(input: ListCompilationJobsInput) async throws -> ListCompilationJobsOutput
-    {
+    public func listCompilationJobs(input: ListCompilationJobsInput) async throws -> ListCompilationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9072,8 +8879,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listContexts(input: ListContextsInput) async throws -> ListContextsOutput
-    {
+    public func listContexts(input: ListContextsInput) async throws -> ListContextsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9114,8 +8920,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListDataQualityJobDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListDataQualityJobDefinitionsOutput` : [no documentation found]
-    public func listDataQualityJobDefinitions(input: ListDataQualityJobDefinitionsInput) async throws -> ListDataQualityJobDefinitionsOutput
-    {
+    public func listDataQualityJobDefinitions(input: ListDataQualityJobDefinitionsInput) async throws -> ListDataQualityJobDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9156,8 +8961,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListDeviceFleetsInput : [no documentation found]
     ///
     /// - Returns: `ListDeviceFleetsOutput` : [no documentation found]
-    public func listDeviceFleets(input: ListDeviceFleetsInput) async throws -> ListDeviceFleetsOutput
-    {
+    public func listDeviceFleets(input: ListDeviceFleetsInput) async throws -> ListDeviceFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9198,8 +9002,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListDevicesInput : [no documentation found]
     ///
     /// - Returns: `ListDevicesOutput` : [no documentation found]
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-    {
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9240,8 +9043,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListDomainsInput : [no documentation found]
     ///
     /// - Returns: `ListDomainsOutput` : [no documentation found]
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9282,8 +9084,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListEdgeDeploymentPlansInput : [no documentation found]
     ///
     /// - Returns: `ListEdgeDeploymentPlansOutput` : [no documentation found]
-    public func listEdgeDeploymentPlans(input: ListEdgeDeploymentPlansInput) async throws -> ListEdgeDeploymentPlansOutput
-    {
+    public func listEdgeDeploymentPlans(input: ListEdgeDeploymentPlansInput) async throws -> ListEdgeDeploymentPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9324,8 +9125,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListEdgePackagingJobsInput : [no documentation found]
     ///
     /// - Returns: `ListEdgePackagingJobsOutput` : [no documentation found]
-    public func listEdgePackagingJobs(input: ListEdgePackagingJobsInput) async throws -> ListEdgePackagingJobsOutput
-    {
+    public func listEdgePackagingJobs(input: ListEdgePackagingJobsInput) async throws -> ListEdgePackagingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9366,8 +9166,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListEndpointConfigsInput : [no documentation found]
     ///
     /// - Returns: `ListEndpointConfigsOutput` : [no documentation found]
-    public func listEndpointConfigs(input: ListEndpointConfigsInput) async throws -> ListEndpointConfigsOutput
-    {
+    public func listEndpointConfigs(input: ListEndpointConfigsInput) async throws -> ListEndpointConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9408,8 +9207,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListEndpointsInput : [no documentation found]
     ///
     /// - Returns: `ListEndpointsOutput` : [no documentation found]
-    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
-    {
+    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9450,8 +9248,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListExperimentsInput : [no documentation found]
     ///
     /// - Returns: `ListExperimentsOutput` : [no documentation found]
-    public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput
-    {
+    public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9492,8 +9289,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListFeatureGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListFeatureGroupsOutput` : [no documentation found]
-    public func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutput
-    {
+    public func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9534,8 +9330,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListFlowDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListFlowDefinitionsOutput` : [no documentation found]
-    public func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutput
-    {
+    public func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9581,8 +9376,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listHubContentVersions(input: ListHubContentVersionsInput) async throws -> ListHubContentVersionsOutput
-    {
+    public func listHubContentVersions(input: ListHubContentVersionsInput) async throws -> ListHubContentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9628,8 +9422,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listHubContents(input: ListHubContentsInput) async throws -> ListHubContentsOutput
-    {
+    public func listHubContents(input: ListHubContentsInput) async throws -> ListHubContentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9670,8 +9463,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListHubsInput : [no documentation found]
     ///
     /// - Returns: `ListHubsOutput` : [no documentation found]
-    public func listHubs(input: ListHubsInput) async throws -> ListHubsOutput
-    {
+    public func listHubs(input: ListHubsInput) async throws -> ListHubsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9712,8 +9504,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListHumanTaskUisInput : [no documentation found]
     ///
     /// - Returns: `ListHumanTaskUisOutput` : [no documentation found]
-    public func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutput
-    {
+    public func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9754,8 +9545,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListHyperParameterTuningJobsInput : [no documentation found]
     ///
     /// - Returns: `ListHyperParameterTuningJobsOutput` : [no documentation found]
-    public func listHyperParameterTuningJobs(input: ListHyperParameterTuningJobsInput) async throws -> ListHyperParameterTuningJobsOutput
-    {
+    public func listHyperParameterTuningJobs(input: ListHyperParameterTuningJobsInput) async throws -> ListHyperParameterTuningJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9801,8 +9591,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listImageVersions(input: ListImageVersionsInput) async throws -> ListImageVersionsOutput
-    {
+    public func listImageVersions(input: ListImageVersionsInput) async throws -> ListImageVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9843,8 +9632,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListImagesInput : [no documentation found]
     ///
     /// - Returns: `ListImagesOutput` : [no documentation found]
-    public func listImages(input: ListImagesInput) async throws -> ListImagesOutput
-    {
+    public func listImages(input: ListImagesInput) async throws -> ListImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9885,8 +9673,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListInferenceComponentsInput : [no documentation found]
     ///
     /// - Returns: `ListInferenceComponentsOutput` : [no documentation found]
-    public func listInferenceComponents(input: ListInferenceComponentsInput) async throws -> ListInferenceComponentsOutput
-    {
+    public func listInferenceComponents(input: ListInferenceComponentsInput) async throws -> ListInferenceComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9927,8 +9714,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListInferenceExperimentsInput : [no documentation found]
     ///
     /// - Returns: `ListInferenceExperimentsOutput` : [no documentation found]
-    public func listInferenceExperiments(input: ListInferenceExperimentsInput) async throws -> ListInferenceExperimentsOutput
-    {
+    public func listInferenceExperiments(input: ListInferenceExperimentsInput) async throws -> ListInferenceExperimentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9974,8 +9760,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listInferenceRecommendationsJobSteps(input: ListInferenceRecommendationsJobStepsInput) async throws -> ListInferenceRecommendationsJobStepsOutput
-    {
+    public func listInferenceRecommendationsJobSteps(input: ListInferenceRecommendationsJobStepsInput) async throws -> ListInferenceRecommendationsJobStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10016,8 +9801,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListInferenceRecommendationsJobsInput : [no documentation found]
     ///
     /// - Returns: `ListInferenceRecommendationsJobsOutput` : [no documentation found]
-    public func listInferenceRecommendationsJobs(input: ListInferenceRecommendationsJobsInput) async throws -> ListInferenceRecommendationsJobsOutput
-    {
+    public func listInferenceRecommendationsJobs(input: ListInferenceRecommendationsJobsInput) async throws -> ListInferenceRecommendationsJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10058,8 +9842,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListLabelingJobsInput : [no documentation found]
     ///
     /// - Returns: `ListLabelingJobsOutput` : [no documentation found]
-    public func listLabelingJobs(input: ListLabelingJobsInput) async throws -> ListLabelingJobsOutput
-    {
+    public func listLabelingJobs(input: ListLabelingJobsInput) async throws -> ListLabelingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10105,8 +9888,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listLabelingJobsForWorkteam(input: ListLabelingJobsForWorkteamInput) async throws -> ListLabelingJobsForWorkteamOutput
-    {
+    public func listLabelingJobsForWorkteam(input: ListLabelingJobsForWorkteamInput) async throws -> ListLabelingJobsForWorkteamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10147,8 +9929,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListLineageGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListLineageGroupsOutput` : [no documentation found]
-    public func listLineageGroups(input: ListLineageGroupsInput) async throws -> ListLineageGroupsOutput
-    {
+    public func listLineageGroups(input: ListLineageGroupsInput) async throws -> ListLineageGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10189,8 +9970,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelBiasJobDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListModelBiasJobDefinitionsOutput` : [no documentation found]
-    public func listModelBiasJobDefinitions(input: ListModelBiasJobDefinitionsInput) async throws -> ListModelBiasJobDefinitionsOutput
-    {
+    public func listModelBiasJobDefinitions(input: ListModelBiasJobDefinitionsInput) async throws -> ListModelBiasJobDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10231,8 +10011,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelCardExportJobsInput : [no documentation found]
     ///
     /// - Returns: `ListModelCardExportJobsOutput` : [no documentation found]
-    public func listModelCardExportJobs(input: ListModelCardExportJobsInput) async throws -> ListModelCardExportJobsOutput
-    {
+    public func listModelCardExportJobs(input: ListModelCardExportJobsInput) async throws -> ListModelCardExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10278,8 +10057,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listModelCardVersions(input: ListModelCardVersionsInput) async throws -> ListModelCardVersionsOutput
-    {
+    public func listModelCardVersions(input: ListModelCardVersionsInput) async throws -> ListModelCardVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10320,8 +10098,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelCardsInput : [no documentation found]
     ///
     /// - Returns: `ListModelCardsOutput` : [no documentation found]
-    public func listModelCards(input: ListModelCardsInput) async throws -> ListModelCardsOutput
-    {
+    public func listModelCards(input: ListModelCardsInput) async throws -> ListModelCardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10362,8 +10139,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelExplainabilityJobDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListModelExplainabilityJobDefinitionsOutput` : [no documentation found]
-    public func listModelExplainabilityJobDefinitions(input: ListModelExplainabilityJobDefinitionsInput) async throws -> ListModelExplainabilityJobDefinitionsOutput
-    {
+    public func listModelExplainabilityJobDefinitions(input: ListModelExplainabilityJobDefinitionsInput) async throws -> ListModelExplainabilityJobDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10404,8 +10180,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelMetadataInput : [no documentation found]
     ///
     /// - Returns: `ListModelMetadataOutput` : [no documentation found]
-    public func listModelMetadata(input: ListModelMetadataInput) async throws -> ListModelMetadataOutput
-    {
+    public func listModelMetadata(input: ListModelMetadataInput) async throws -> ListModelMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10446,8 +10221,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelPackageGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListModelPackageGroupsOutput` : [no documentation found]
-    public func listModelPackageGroups(input: ListModelPackageGroupsInput) async throws -> ListModelPackageGroupsOutput
-    {
+    public func listModelPackageGroups(input: ListModelPackageGroupsInput) async throws -> ListModelPackageGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10488,8 +10262,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelPackagesInput : [no documentation found]
     ///
     /// - Returns: `ListModelPackagesOutput` : [no documentation found]
-    public func listModelPackages(input: ListModelPackagesInput) async throws -> ListModelPackagesOutput
-    {
+    public func listModelPackages(input: ListModelPackagesInput) async throws -> ListModelPackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10530,8 +10303,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelQualityJobDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListModelQualityJobDefinitionsOutput` : [no documentation found]
-    public func listModelQualityJobDefinitions(input: ListModelQualityJobDefinitionsInput) async throws -> ListModelQualityJobDefinitionsOutput
-    {
+    public func listModelQualityJobDefinitions(input: ListModelQualityJobDefinitionsInput) async throws -> ListModelQualityJobDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10572,8 +10344,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListModelsInput : [no documentation found]
     ///
     /// - Returns: `ListModelsOutput` : [no documentation found]
-    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput
-    {
+    public func listModels(input: ListModelsInput) async throws -> ListModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10619,8 +10390,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listMonitoringAlertHistory(input: ListMonitoringAlertHistoryInput) async throws -> ListMonitoringAlertHistoryOutput
-    {
+    public func listMonitoringAlertHistory(input: ListMonitoringAlertHistoryInput) async throws -> ListMonitoringAlertHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10666,8 +10436,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listMonitoringAlerts(input: ListMonitoringAlertsInput) async throws -> ListMonitoringAlertsOutput
-    {
+    public func listMonitoringAlerts(input: ListMonitoringAlertsInput) async throws -> ListMonitoringAlertsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10708,8 +10477,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListMonitoringExecutionsInput : [no documentation found]
     ///
     /// - Returns: `ListMonitoringExecutionsOutput` : [no documentation found]
-    public func listMonitoringExecutions(input: ListMonitoringExecutionsInput) async throws -> ListMonitoringExecutionsOutput
-    {
+    public func listMonitoringExecutions(input: ListMonitoringExecutionsInput) async throws -> ListMonitoringExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10750,8 +10518,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListMonitoringSchedulesInput : [no documentation found]
     ///
     /// - Returns: `ListMonitoringSchedulesOutput` : [no documentation found]
-    public func listMonitoringSchedules(input: ListMonitoringSchedulesInput) async throws -> ListMonitoringSchedulesOutput
-    {
+    public func listMonitoringSchedules(input: ListMonitoringSchedulesInput) async throws -> ListMonitoringSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10792,8 +10559,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListNotebookInstanceLifecycleConfigsInput : [no documentation found]
     ///
     /// - Returns: `ListNotebookInstanceLifecycleConfigsOutput` : [no documentation found]
-    public func listNotebookInstanceLifecycleConfigs(input: ListNotebookInstanceLifecycleConfigsInput) async throws -> ListNotebookInstanceLifecycleConfigsOutput
-    {
+    public func listNotebookInstanceLifecycleConfigs(input: ListNotebookInstanceLifecycleConfigsInput) async throws -> ListNotebookInstanceLifecycleConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10834,8 +10600,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListNotebookInstancesInput : [no documentation found]
     ///
     /// - Returns: `ListNotebookInstancesOutput` : [no documentation found]
-    public func listNotebookInstances(input: ListNotebookInstancesInput) async throws -> ListNotebookInstancesOutput
-    {
+    public func listNotebookInstances(input: ListNotebookInstancesInput) async throws -> ListNotebookInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10881,8 +10646,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listPipelineExecutionSteps(input: ListPipelineExecutionStepsInput) async throws -> ListPipelineExecutionStepsOutput
-    {
+    public func listPipelineExecutionSteps(input: ListPipelineExecutionStepsInput) async throws -> ListPipelineExecutionStepsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10928,8 +10692,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput
-    {
+    public func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10975,8 +10738,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listPipelineParametersForExecution(input: ListPipelineParametersForExecutionInput) async throws -> ListPipelineParametersForExecutionOutput
-    {
+    public func listPipelineParametersForExecution(input: ListPipelineParametersForExecutionInput) async throws -> ListPipelineParametersForExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11017,8 +10779,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListPipelinesInput : [no documentation found]
     ///
     /// - Returns: `ListPipelinesOutput` : [no documentation found]
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
-    {
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11059,8 +10820,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListProcessingJobsInput : [no documentation found]
     ///
     /// - Returns: `ListProcessingJobsOutput` : [no documentation found]
-    public func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutput
-    {
+    public func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11101,8 +10861,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListProjectsInput : [no documentation found]
     ///
     /// - Returns: `ListProjectsOutput` : [no documentation found]
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11143,8 +10902,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListResourceCatalogsInput : [no documentation found]
     ///
     /// - Returns: `ListResourceCatalogsOutput` : [no documentation found]
-    public func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutput
-    {
+    public func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11185,8 +10943,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListSpacesInput : [no documentation found]
     ///
     /// - Returns: `ListSpacesOutput` : [no documentation found]
-    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput
-    {
+    public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11227,8 +10984,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListStageDevicesInput : [no documentation found]
     ///
     /// - Returns: `ListStageDevicesOutput` : [no documentation found]
-    public func listStageDevices(input: ListStageDevicesInput) async throws -> ListStageDevicesOutput
-    {
+    public func listStageDevices(input: ListStageDevicesInput) async throws -> ListStageDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11274,8 +11030,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func listStudioLifecycleConfigs(input: ListStudioLifecycleConfigsInput) async throws -> ListStudioLifecycleConfigsOutput
-    {
+    public func listStudioLifecycleConfigs(input: ListStudioLifecycleConfigsInput) async throws -> ListStudioLifecycleConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11316,8 +11071,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListSubscribedWorkteamsInput : [no documentation found]
     ///
     /// - Returns: `ListSubscribedWorkteamsOutput` : [no documentation found]
-    public func listSubscribedWorkteams(input: ListSubscribedWorkteamsInput) async throws -> ListSubscribedWorkteamsOutput
-    {
+    public func listSubscribedWorkteams(input: ListSubscribedWorkteamsInput) async throws -> ListSubscribedWorkteamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11358,8 +11112,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListTagsInput : [no documentation found]
     ///
     /// - Returns: `ListTagsOutput` : [no documentation found]
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11400,8 +11153,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListTrainingJobsInput : [no documentation found]
     ///
     /// - Returns: `ListTrainingJobsOutput` : [no documentation found]
-    public func listTrainingJobs(input: ListTrainingJobsInput) async throws -> ListTrainingJobsOutput
-    {
+    public func listTrainingJobs(input: ListTrainingJobsInput) async throws -> ListTrainingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11447,8 +11199,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listTrainingJobsForHyperParameterTuningJob(input: ListTrainingJobsForHyperParameterTuningJobInput) async throws -> ListTrainingJobsForHyperParameterTuningJobOutput
-    {
+    public func listTrainingJobsForHyperParameterTuningJob(input: ListTrainingJobsForHyperParameterTuningJobInput) async throws -> ListTrainingJobsForHyperParameterTuningJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11489,8 +11240,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListTransformJobsInput : [no documentation found]
     ///
     /// - Returns: `ListTransformJobsOutput` : [no documentation found]
-    public func listTransformJobs(input: ListTransformJobsInput) async throws -> ListTransformJobsOutput
-    {
+    public func listTransformJobs(input: ListTransformJobsInput) async throws -> ListTransformJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11542,8 +11292,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listTrialComponents(input: ListTrialComponentsInput) async throws -> ListTrialComponentsOutput
-    {
+    public func listTrialComponents(input: ListTrialComponentsInput) async throws -> ListTrialComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11589,8 +11338,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func listTrials(input: ListTrialsInput) async throws -> ListTrialsOutput
-    {
+    public func listTrials(input: ListTrialsInput) async throws -> ListTrialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11631,8 +11379,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListUserProfilesInput : [no documentation found]
     ///
     /// - Returns: `ListUserProfilesOutput` : [no documentation found]
-    public func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput
-    {
+    public func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11673,8 +11420,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListWorkforcesInput : [no documentation found]
     ///
     /// - Returns: `ListWorkforcesOutput` : [no documentation found]
-    public func listWorkforces(input: ListWorkforcesInput) async throws -> ListWorkforcesOutput
-    {
+    public func listWorkforces(input: ListWorkforcesInput) async throws -> ListWorkforcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11715,8 +11461,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter ListWorkteamsInput : [no documentation found]
     ///
     /// - Returns: `ListWorkteamsOutput` : [no documentation found]
-    public func listWorkteams(input: ListWorkteamsInput) async throws -> ListWorkteamsOutput
-    {
+    public func listWorkteams(input: ListWorkteamsInput) async throws -> ListWorkteamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11762,8 +11507,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func putModelPackageGroupPolicy(input: PutModelPackageGroupPolicyInput) async throws -> PutModelPackageGroupPolicyOutput
-    {
+    public func putModelPackageGroupPolicy(input: PutModelPackageGroupPolicyInput) async throws -> PutModelPackageGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11809,8 +11553,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func queryLineage(input: QueryLineageInput) async throws -> QueryLineageOutput
-    {
+    public func queryLineage(input: QueryLineageInput) async throws -> QueryLineageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11856,8 +11599,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func registerDevices(input: RegisterDevicesInput) async throws -> RegisterDevicesOutput
-    {
+    public func registerDevices(input: RegisterDevicesInput) async throws -> RegisterDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11903,8 +11645,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func renderUiTemplate(input: RenderUiTemplateInput) async throws -> RenderUiTemplateOutput
-    {
+    public func renderUiTemplate(input: RenderUiTemplateInput) async throws -> RenderUiTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11952,8 +11693,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func retryPipelineExecution(input: RetryPipelineExecutionInput) async throws -> RetryPipelineExecutionOutput
-    {
+    public func retryPipelineExecution(input: RetryPipelineExecutionInput) async throws -> RetryPipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11995,8 +11735,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter SearchInput : [no documentation found]
     ///
     /// - Returns: `SearchOutput` : [no documentation found]
-    public func search(input: SearchInput) async throws -> SearchOutput
-    {
+    public func search(input: SearchInput) async throws -> SearchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12044,8 +11783,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func sendPipelineExecutionStepFailure(input: SendPipelineExecutionStepFailureInput) async throws -> SendPipelineExecutionStepFailureOutput
-    {
+    public func sendPipelineExecutionStepFailure(input: SendPipelineExecutionStepFailureInput) async throws -> SendPipelineExecutionStepFailureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12094,8 +11832,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func sendPipelineExecutionStepSuccess(input: SendPipelineExecutionStepSuccessInput) async throws -> SendPipelineExecutionStepSuccessOutput
-    {
+    public func sendPipelineExecutionStepSuccess(input: SendPipelineExecutionStepSuccessInput) async throws -> SendPipelineExecutionStepSuccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12137,8 +11874,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter StartEdgeDeploymentStageInput : [no documentation found]
     ///
     /// - Returns: `StartEdgeDeploymentStageOutput` : [no documentation found]
-    public func startEdgeDeploymentStage(input: StartEdgeDeploymentStageInput) async throws -> StartEdgeDeploymentStageOutput
-    {
+    public func startEdgeDeploymentStage(input: StartEdgeDeploymentStageInput) async throws -> StartEdgeDeploymentStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12185,8 +11921,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func startInferenceExperiment(input: StartInferenceExperimentInput) async throws -> StartInferenceExperimentOutput
-    {
+    public func startInferenceExperiment(input: StartInferenceExperimentInput) async throws -> StartInferenceExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12232,8 +11967,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func startMonitoringSchedule(input: StartMonitoringScheduleInput) async throws -> StartMonitoringScheduleOutput
-    {
+    public func startMonitoringSchedule(input: StartMonitoringScheduleInput) async throws -> StartMonitoringScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12279,8 +12013,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func startNotebookInstance(input: StartNotebookInstanceInput) async throws -> StartNotebookInstanceOutput
-    {
+    public func startNotebookInstance(input: StartNotebookInstanceInput) async throws -> StartNotebookInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12328,8 +12061,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput
-    {
+    public func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12376,8 +12108,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopAutoMLJob(input: StopAutoMLJobInput) async throws -> StopAutoMLJobOutput
-    {
+    public func stopAutoMLJob(input: StopAutoMLJobInput) async throws -> StopAutoMLJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12423,8 +12154,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopCompilationJob(input: StopCompilationJobInput) async throws -> StopCompilationJobOutput
-    {
+    public func stopCompilationJob(input: StopCompilationJobInput) async throws -> StopCompilationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12465,8 +12195,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter StopEdgeDeploymentStageInput : [no documentation found]
     ///
     /// - Returns: `StopEdgeDeploymentStageOutput` : [no documentation found]
-    public func stopEdgeDeploymentStage(input: StopEdgeDeploymentStageInput) async throws -> StopEdgeDeploymentStageOutput
-    {
+    public func stopEdgeDeploymentStage(input: StopEdgeDeploymentStageInput) async throws -> StopEdgeDeploymentStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12507,8 +12236,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter StopEdgePackagingJobInput : [no documentation found]
     ///
     /// - Returns: `StopEdgePackagingJobOutput` : [no documentation found]
-    public func stopEdgePackagingJob(input: StopEdgePackagingJobInput) async throws -> StopEdgePackagingJobOutput
-    {
+    public func stopEdgePackagingJob(input: StopEdgePackagingJobInput) async throws -> StopEdgePackagingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12554,8 +12282,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopHyperParameterTuningJob(input: StopHyperParameterTuningJobInput) async throws -> StopHyperParameterTuningJobOutput
-    {
+    public func stopHyperParameterTuningJob(input: StopHyperParameterTuningJobInput) async throws -> StopHyperParameterTuningJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12602,8 +12329,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopInferenceExperiment(input: StopInferenceExperimentInput) async throws -> StopInferenceExperimentOutput
-    {
+    public func stopInferenceExperiment(input: StopInferenceExperimentInput) async throws -> StopInferenceExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12649,8 +12375,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopInferenceRecommendationsJob(input: StopInferenceRecommendationsJobInput) async throws -> StopInferenceRecommendationsJobOutput
-    {
+    public func stopInferenceRecommendationsJob(input: StopInferenceRecommendationsJobInput) async throws -> StopInferenceRecommendationsJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12696,8 +12421,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopLabelingJob(input: StopLabelingJobInput) async throws -> StopLabelingJobOutput
-    {
+    public func stopLabelingJob(input: StopLabelingJobInput) async throws -> StopLabelingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12743,8 +12467,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopMonitoringSchedule(input: StopMonitoringScheduleInput) async throws -> StopMonitoringScheduleOutput
-    {
+    public func stopMonitoringSchedule(input: StopMonitoringScheduleInput) async throws -> StopMonitoringScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12785,8 +12508,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter StopNotebookInstanceInput : [no documentation found]
     ///
     /// - Returns: `StopNotebookInstanceOutput` : [no documentation found]
-    public func stopNotebookInstance(input: StopNotebookInstanceInput) async throws -> StopNotebookInstanceOutput
-    {
+    public func stopNotebookInstance(input: StopNotebookInstanceInput) async throws -> StopNotebookInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12833,8 +12555,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput
-    {
+    public func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12881,8 +12602,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopProcessingJob(input: StopProcessingJobInput) async throws -> StopProcessingJobOutput
-    {
+    public func stopProcessingJob(input: StopProcessingJobInput) async throws -> StopProcessingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12928,8 +12648,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopTrainingJob(input: StopTrainingJobInput) async throws -> StopTrainingJobOutput
-    {
+    public func stopTrainingJob(input: StopTrainingJobInput) async throws -> StopTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12975,8 +12694,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func stopTransformJob(input: StopTransformJobInput) async throws -> StopTransformJobOutput
-    {
+    public func stopTransformJob(input: StopTransformJobInput) async throws -> StopTransformJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13023,8 +12741,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateAction(input: UpdateActionInput) async throws -> UpdateActionOutput
-    {
+    public func updateAction(input: UpdateActionInput) async throws -> UpdateActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13070,8 +12787,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateAppImageConfig(input: UpdateAppImageConfigInput) async throws -> UpdateAppImageConfigOutput
-    {
+    public func updateAppImageConfig(input: UpdateAppImageConfigInput) async throws -> UpdateAppImageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13118,8 +12834,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateArtifact(input: UpdateArtifactInput) async throws -> UpdateArtifactOutput
-    {
+    public func updateArtifact(input: UpdateArtifactInput) async throws -> UpdateArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13167,8 +12882,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
-    {
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13214,8 +12928,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func updateCodeRepository(input: UpdateCodeRepositoryInput) async throws -> UpdateCodeRepositoryOutput
-    {
+    public func updateCodeRepository(input: UpdateCodeRepositoryInput) async throws -> UpdateCodeRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13262,8 +12975,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateContext(input: UpdateContextInput) async throws -> UpdateContextOutput
-    {
+    public func updateContext(input: UpdateContextInput) async throws -> UpdateContextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13309,8 +13021,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    public func updateDeviceFleet(input: UpdateDeviceFleetInput) async throws -> UpdateDeviceFleetOutput
-    {
+    public func updateDeviceFleet(input: UpdateDeviceFleetInput) async throws -> UpdateDeviceFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13351,8 +13062,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter UpdateDevicesInput : [no documentation found]
     ///
     /// - Returns: `UpdateDevicesOutput` : [no documentation found]
-    public func updateDevices(input: UpdateDevicesInput) async throws -> UpdateDevicesOutput
-    {
+    public func updateDevices(input: UpdateDevicesInput) async throws -> UpdateDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13400,8 +13110,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput
-    {
+    public func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13447,8 +13156,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput
-    {
+    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13494,8 +13202,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateEndpointWeightsAndCapacities(input: UpdateEndpointWeightsAndCapacitiesInput) async throws -> UpdateEndpointWeightsAndCapacitiesOutput
-    {
+    public func updateEndpointWeightsAndCapacities(input: UpdateEndpointWeightsAndCapacitiesInput) async throws -> UpdateEndpointWeightsAndCapacitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13542,8 +13249,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutput
-    {
+    public func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13590,8 +13296,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutput
-    {
+    public func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13637,8 +13342,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutput
-    {
+    public func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13684,8 +13388,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateHub(input: UpdateHubInput) async throws -> UpdateHubOutput
-    {
+    public func updateHub(input: UpdateHubInput) async throws -> UpdateHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13732,8 +13435,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateImage(input: UpdateImageInput) async throws -> UpdateImageOutput
-    {
+    public func updateImage(input: UpdateImageInput) async throws -> UpdateImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13780,8 +13482,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateImageVersion(input: UpdateImageVersionInput) async throws -> UpdateImageVersionOutput
-    {
+    public func updateImageVersion(input: UpdateImageVersionInput) async throws -> UpdateImageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13827,8 +13528,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateInferenceComponent(input: UpdateInferenceComponentInput) async throws -> UpdateInferenceComponentOutput
-    {
+    public func updateInferenceComponent(input: UpdateInferenceComponentInput) async throws -> UpdateInferenceComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13874,8 +13574,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateInferenceComponentRuntimeConfig(input: UpdateInferenceComponentRuntimeConfigInput) async throws -> UpdateInferenceComponentRuntimeConfigOutput
-    {
+    public func updateInferenceComponentRuntimeConfig(input: UpdateInferenceComponentRuntimeConfigInput) async throws -> UpdateInferenceComponentRuntimeConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13922,8 +13621,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateInferenceExperiment(input: UpdateInferenceExperimentInput) async throws -> UpdateInferenceExperimentOutput
-    {
+    public func updateInferenceExperiment(input: UpdateInferenceExperimentInput) async throws -> UpdateInferenceExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13971,8 +13669,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateModelCard(input: UpdateModelCardInput) async throws -> UpdateModelCardOutput
-    {
+    public func updateModelCard(input: UpdateModelCardInput) async throws -> UpdateModelCardOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14018,8 +13715,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func updateModelPackage(input: UpdateModelPackageInput) async throws -> UpdateModelPackageOutput
-    {
+    public func updateModelPackage(input: UpdateModelPackageInput) async throws -> UpdateModelPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14066,8 +13762,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateMonitoringAlert(input: UpdateMonitoringAlertInput) async throws -> UpdateMonitoringAlertOutput
-    {
+    public func updateMonitoringAlert(input: UpdateMonitoringAlertInput) async throws -> UpdateMonitoringAlertOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14114,8 +13809,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateMonitoringSchedule(input: UpdateMonitoringScheduleInput) async throws -> UpdateMonitoringScheduleOutput
-    {
+    public func updateMonitoringSchedule(input: UpdateMonitoringScheduleInput) async throws -> UpdateMonitoringScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14161,8 +13855,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateNotebookInstance(input: UpdateNotebookInstanceInput) async throws -> UpdateNotebookInstanceOutput
-    {
+    public func updateNotebookInstance(input: UpdateNotebookInstanceInput) async throws -> UpdateNotebookInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14208,8 +13901,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateNotebookInstanceLifecycleConfig(input: UpdateNotebookInstanceLifecycleConfigInput) async throws -> UpdateNotebookInstanceLifecycleConfigOutput
-    {
+    public func updateNotebookInstanceLifecycleConfig(input: UpdateNotebookInstanceLifecycleConfigInput) async throws -> UpdateNotebookInstanceLifecycleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14256,8 +13948,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
-    {
+    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14304,8 +13995,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updatePipelineExecution(input: UpdatePipelineExecutionInput) async throws -> UpdatePipelineExecutionOutput
-    {
+    public func updatePipelineExecution(input: UpdatePipelineExecutionInput) async throws -> UpdatePipelineExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14351,8 +14041,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14400,8 +14089,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput
-    {
+    public func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14448,8 +14136,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateTrainingJob(input: UpdateTrainingJobInput) async throws -> UpdateTrainingJobOutput
-    {
+    public func updateTrainingJob(input: UpdateTrainingJobInput) async throws -> UpdateTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14496,8 +14183,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateTrial(input: UpdateTrialInput) async throws -> UpdateTrialOutput
-    {
+    public func updateTrial(input: UpdateTrialInput) async throws -> UpdateTrialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14544,8 +14230,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateTrialComponent(input: UpdateTrialComponentInput) async throws -> UpdateTrialComponentOutput
-    {
+    public func updateTrialComponent(input: UpdateTrialComponentInput) async throws -> UpdateTrialComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14593,8 +14278,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput
-    {
+    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14640,8 +14324,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    public func updateWorkforce(input: UpdateWorkforceInput) async throws -> UpdateWorkforceOutput
-    {
+    public func updateWorkforce(input: UpdateWorkforceInput) async throws -> UpdateWorkforceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14687,8 +14370,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    public func updateWorkteam(input: UpdateWorkteamInput) async throws -> UpdateWorkteamOutput
-    {
+    public func updateWorkteam(input: UpdateWorkteamInput) async throws -> UpdateWorkteamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

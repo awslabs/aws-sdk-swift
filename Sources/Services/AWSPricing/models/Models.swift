@@ -1354,6 +1354,8 @@ extension PricingClientTypes {
 
 }
 
+public enum PricingClientTypes {}
+
 extension PricingClientTypes.Service: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeNames = "AttributeNames"

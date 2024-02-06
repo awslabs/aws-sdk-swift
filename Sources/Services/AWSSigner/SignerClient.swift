@@ -66,7 +66,7 @@ public struct SignerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension SignerClient: SignerClientProtocol {
+extension SignerClient {
     /// Performs the `AddProfilePermission` operation on the `WallabyService` service.
     ///
     /// Adds cross-account permissions to a signing profile.
@@ -85,8 +85,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ServiceLimitExceededException` : The client is making a request that exceeds service limits.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func addProfilePermission(input: AddProfilePermissionInput) async throws -> AddProfilePermissionOutput
-    {
+    public func addProfilePermission(input: AddProfilePermissionInput) async throws -> AddProfilePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func cancelSigningProfile(input: CancelSigningProfileInput) async throws -> CancelSigningProfileOutput
-    {
+    public func cancelSigningProfile(input: CancelSigningProfileInput) async throws -> CancelSigningProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func describeSigningJob(input: DescribeSigningJobInput) async throws -> DescribeSigningJobOutput
-    {
+    public func describeSigningJob(input: DescribeSigningJobInput) async throws -> DescribeSigningJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func getRevocationStatus(input: GetRevocationStatusInput) async throws -> GetRevocationStatusOutput
-    {
+    public func getRevocationStatus(input: GetRevocationStatusInput) async throws -> GetRevocationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func getSigningPlatform(input: GetSigningPlatformInput) async throws -> GetSigningPlatformOutput
-    {
+    public func getSigningPlatform(input: GetSigningPlatformInput) async throws -> GetSigningPlatformOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +314,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func getSigningProfile(input: GetSigningProfileInput) async throws -> GetSigningProfileOutput
-    {
+    public func getSigningProfile(input: GetSigningProfileInput) async throws -> GetSigningProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +361,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func listProfilePermissions(input: ListProfilePermissionsInput) async throws -> ListProfilePermissionsOutput
-    {
+    public func listProfilePermissions(input: ListProfilePermissionsInput) async throws -> ListProfilePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func listSigningJobs(input: ListSigningJobsInput) async throws -> ListSigningJobsOutput
-    {
+    public func listSigningJobs(input: ListSigningJobsInput) async throws -> ListSigningJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -461,8 +453,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func listSigningPlatforms(input: ListSigningPlatformsInput) async throws -> ListSigningPlatformsOutput
-    {
+    public func listSigningPlatforms(input: ListSigningPlatformsInput) async throws -> ListSigningPlatformsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -507,8 +498,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func listSigningProfiles(input: ListSigningProfilesInput) async throws -> ListSigningProfilesOutput
-    {
+    public func listSigningProfiles(input: ListSigningProfilesInput) async throws -> ListSigningProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -554,8 +544,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -601,8 +590,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func putSigningProfile(input: PutSigningProfileInput) async throws -> PutSigningProfileOutput
-    {
+    public func putSigningProfile(input: PutSigningProfileInput) async throws -> PutSigningProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +640,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func removeProfilePermission(input: RemoveProfilePermissionInput) async throws -> RemoveProfilePermissionOutput
-    {
+    public func removeProfilePermission(input: RemoveProfilePermissionInput) async throws -> RemoveProfilePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +687,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func revokeSignature(input: RevokeSignatureInput) async throws -> RevokeSignatureOutput
-    {
+    public func revokeSignature(input: RevokeSignatureInput) async throws -> RevokeSignatureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -750,8 +736,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func revokeSigningProfile(input: RevokeSigningProfileInput) async throws -> RevokeSigningProfileOutput
-    {
+    public func revokeSigningProfile(input: RevokeSigningProfileInput) async throws -> RevokeSigningProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -800,8 +785,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func signPayload(input: SignPayloadInput) async throws -> SignPayloadOutput
-    {
+    public func signPayload(input: SignPayloadInput) async throws -> SignPayloadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +848,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Instead of this error, TooManyRequestsException should be used.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
-    public func startSigningJob(input: StartSigningJobInput) async throws -> StartSigningJobOutput
-    {
+    public func startSigningJob(input: StartSigningJobInput) async throws -> StartSigningJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -914,8 +897,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +945,7 @@ extension SignerClient: SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

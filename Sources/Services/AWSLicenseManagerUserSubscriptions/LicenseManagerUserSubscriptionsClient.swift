@@ -66,7 +66,7 @@ public struct LicenseManagerUserSubscriptionsClientLogHandlerFactory: ClientRunt
     }
 }
 
-extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptionsClientProtocol {
+extension LicenseManagerUserSubscriptionsClient {
     /// Performs the `AssociateUser` operation on the `LicenseManagerUserSubscriptions` service.
     ///
     /// Associates the user to an EC2 instance to utilize user-based subscriptions. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
@@ -85,8 +85,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutput
-    {
+    public func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutput
-    {
+    public func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutput
-    {
+    public func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
-    {
+    public func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
-    {
+    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutput
-    {
+    public func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutput
-    {
+    public func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -449,8 +442,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutput
-    {
+    public func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -501,8 +493,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutput
-    {
+    public func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutput
-    {
+    public func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +592,7 @@ extension LicenseManagerUserSubscriptionsClient: LicenseManagerUserSubscriptions
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    public func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutput
-    {
+    public func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

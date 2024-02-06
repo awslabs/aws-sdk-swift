@@ -66,7 +66,7 @@ public struct HoneycodeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension HoneycodeClient: HoneycodeClientProtocol {
+extension HoneycodeClient {
     /// Performs the `BatchCreateTableRows` operation on the `SheetsPublicApiService` service.
     ///
     /// The BatchCreateTableRows API allows you to create one or more rows at the end of a table in a workbook. The API allows you to specify the values to set in some or all of the columns in the new rows. If a column is not explicitly set in a specific row, then the column level formula specified in the table will be applied to the new row. If there is no column level formula but the last row of the table has a formula, then that formula will be copied down to the new row. If there is no column level formula and no formula in the last row of the table, then that column will be left blank for the new rows.
@@ -86,8 +86,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func batchCreateTableRows(input: BatchCreateTableRowsInput) async throws -> BatchCreateTableRowsOutput
-    {
+    public func batchCreateTableRows(input: BatchCreateTableRowsInput) async throws -> BatchCreateTableRowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func batchDeleteTableRows(input: BatchDeleteTableRowsInput) async throws -> BatchDeleteTableRowsOutput
-    {
+    public func batchDeleteTableRows(input: BatchDeleteTableRowsInput) async throws -> BatchDeleteTableRowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func batchUpdateTableRows(input: BatchUpdateTableRowsInput) async throws -> BatchUpdateTableRowsOutput
-    {
+    public func batchUpdateTableRows(input: BatchUpdateTableRowsInput) async throws -> BatchUpdateTableRowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func batchUpsertTableRows(input: BatchUpsertTableRowsInput) async throws -> BatchUpsertTableRowsOutput
-    {
+    public func batchUpsertTableRows(input: BatchUpsertTableRowsInput) async throws -> BatchUpsertTableRowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func describeTableDataImportJob(input: DescribeTableDataImportJobInput) async throws -> DescribeTableDataImportJobOutput
-    {
+    public func describeTableDataImportJob(input: DescribeTableDataImportJobInput) async throws -> DescribeTableDataImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func getScreenData(input: GetScreenDataInput) async throws -> GetScreenDataOutput
-    {
+    public func getScreenData(input: GetScreenDataInput) async throws -> GetScreenDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -399,8 +393,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func invokeScreenAutomation(input: InvokeScreenAutomationInput) async throws -> InvokeScreenAutomationOutput
-    {
+    public func invokeScreenAutomation(input: InvokeScreenAutomationInput) async throws -> InvokeScreenAutomationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +444,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func listTableColumns(input: ListTableColumnsInput) async throws -> ListTableColumnsOutput
-    {
+    public func listTableColumns(input: ListTableColumnsInput) async throws -> ListTableColumnsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -501,8 +493,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func listTableRows(input: ListTableRowsInput) async throws -> ListTableRowsOutput
-    {
+    public func listTableRows(input: ListTableRowsInput) async throws -> ListTableRowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func listTables(input: ListTablesInput) async throws -> ListTablesOutput
-    {
+    public func listTables(input: ListTablesInput) async throws -> ListTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -603,8 +593,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +641,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func queryTableRows(input: QueryTableRowsInput) async throws -> QueryTableRowsOutput
-    {
+    public func queryTableRows(input: QueryTableRowsInput) async throws -> QueryTableRowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -705,8 +693,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func startTableDataImportJob(input: StartTableDataImportJobInput) async throws -> StartTableDataImportJobOutput
-    {
+    public func startTableDataImportJob(input: StartTableDataImportJobInput) async throws -> StartTableDataImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +744,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +795,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
     /// - `ServiceUnavailableException` : Remote service is unreachable.
     /// - `ThrottlingException` : Tps(transactions per second) rate reached.
     /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

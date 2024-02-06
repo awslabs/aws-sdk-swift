@@ -66,7 +66,7 @@ public struct ElasticTranscoderClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
+extension ElasticTranscoderClient {
     /// Performs the `CancelJob` operation on the `EtsCustomerService` service.
     ///
     /// The CancelJob operation cancels an unfinished job. You can only cancel a job that has a status of Submitted. To prevent a pipeline from starting to process a job while you're getting the job identifier, use [UpdatePipelineStatus] to temporarily pause the pipeline.
@@ -84,8 +84,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `LimitExceededException` : Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `LimitExceededException` : Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
-    {
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `LimitExceededException` : Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput
-    {
+    public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
-    {
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput
-    {
+    public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listJobsByPipeline(input: ListJobsByPipelineInput) async throws -> ListJobsByPipelineOutput
-    {
+    public func listJobsByPipeline(input: ListJobsByPipelineInput) async throws -> ListJobsByPipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listJobsByStatus(input: ListJobsByStatusInput) async throws -> ListJobsByStatusOutput
-    {
+    public func listJobsByStatus(input: ListJobsByStatusInput) async throws -> ListJobsByStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `IncompatibleVersionException` : [no documentation found]
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
-    {
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +511,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `IncompatibleVersionException` : [no documentation found]
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput
-    {
+    public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +558,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func readJob(input: ReadJobInput) async throws -> ReadJobOutput
-    {
+    public func readJob(input: ReadJobInput) async throws -> ReadJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func readPipeline(input: ReadPipelineInput) async throws -> ReadPipelineOutput
-    {
+    public func readPipeline(input: ReadPipelineInput) async throws -> ReadPipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -662,8 +650,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func readPreset(input: ReadPresetInput) async throws -> ReadPresetOutput
-    {
+    public func readPreset(input: ReadPresetInput) async throws -> ReadPresetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -710,8 +697,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `InternalServiceException` : Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func testRole(input: TestRoleInput) async throws -> TestRoleOutput
-    {
+    public func testRole(input: TestRoleInput) async throws -> TestRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -761,8 +747,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
-    {
+    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -812,8 +797,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func updatePipelineNotifications(input: UpdatePipelineNotificationsInput) async throws -> UpdatePipelineNotificationsOutput
-    {
+    public func updatePipelineNotifications(input: UpdatePipelineNotificationsInput) async throws -> UpdatePipelineNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -863,8 +847,7 @@ extension ElasticTranscoderClient: ElasticTranscoderClientProtocol {
     /// - `ResourceInUseException` : The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
     /// - `ResourceNotFoundException` : The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
     /// - `ValidationException` : One or more required parameter values were not provided in the request.
-    public func updatePipelineStatus(input: UpdatePipelineStatusInput) async throws -> UpdatePipelineStatusOutput
-    {
+    public func updatePipelineStatus(input: UpdatePipelineStatusInput) async throws -> UpdatePipelineStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

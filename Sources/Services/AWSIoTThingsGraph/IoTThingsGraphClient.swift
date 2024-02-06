@@ -66,7 +66,7 @@ public struct IoTThingsGraphClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
+extension IoTThingsGraphClient {
     /// Performs the `AssociateEntityToThing` operation on the `IotThingsGraphFrontEndService` service.
     ///
     /// Associates a device with a concrete thing that is in the user's registry. A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
@@ -83,8 +83,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func associateEntityToThing(input: AssociateEntityToThingInput) async throws -> AssociateEntityToThingOutput
-    {
+    public func associateEntityToThing(input: AssociateEntityToThingInput) async throws -> AssociateEntityToThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `LimitExceededException` :
     /// - `ResourceAlreadyExistsException` :
     /// - `ThrottlingException` :
-    public func createFlowTemplate(input: CreateFlowTemplateInput) async throws -> CreateFlowTemplateOutput
-    {
+    public func createFlowTemplate(input: CreateFlowTemplateInput) async throws -> CreateFlowTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `LimitExceededException` :
     /// - `ResourceAlreadyExistsException` :
     /// - `ThrottlingException` :
-    public func createSystemInstance(input: CreateSystemInstanceInput) async throws -> CreateSystemInstanceOutput
-    {
+    public func createSystemInstance(input: CreateSystemInstanceInput) async throws -> CreateSystemInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceAlreadyExistsException` :
     /// - `ThrottlingException` :
-    public func createSystemTemplate(input: CreateSystemTemplateInput) async throws -> CreateSystemTemplateOutput
-    {
+    public func createSystemTemplate(input: CreateSystemTemplateInput) async throws -> CreateSystemTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceInUseException` :
     /// - `ThrottlingException` :
-    public func deleteFlowTemplate(input: DeleteFlowTemplateInput) async throws -> DeleteFlowTemplateOutput
-    {
+    public func deleteFlowTemplate(input: DeleteFlowTemplateInput) async throws -> DeleteFlowTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,8 +333,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalFailureException` :
     /// - `ThrottlingException` :
-    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
-    {
+    public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -389,8 +383,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceInUseException` :
     /// - `ThrottlingException` :
-    public func deleteSystemInstance(input: DeleteSystemInstanceInput) async throws -> DeleteSystemInstanceOutput
-    {
+    public func deleteSystemInstance(input: DeleteSystemInstanceInput) async throws -> DeleteSystemInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -440,8 +433,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceInUseException` :
     /// - `ThrottlingException` :
-    public func deleteSystemTemplate(input: DeleteSystemTemplateInput) async throws -> DeleteSystemTemplateOutput
-    {
+    public func deleteSystemTemplate(input: DeleteSystemTemplateInput) async throws -> DeleteSystemTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +484,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `ResourceInUseException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func deploySystemInstance(input: DeploySystemInstanceInput) async throws -> DeploySystemInstanceOutput
-    {
+    public func deploySystemInstance(input: DeploySystemInstanceInput) async throws -> DeploySystemInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -543,8 +534,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func deprecateFlowTemplate(input: DeprecateFlowTemplateInput) async throws -> DeprecateFlowTemplateOutput
-    {
+    public func deprecateFlowTemplate(input: DeprecateFlowTemplateInput) async throws -> DeprecateFlowTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -594,8 +584,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func deprecateSystemTemplate(input: DeprecateSystemTemplateInput) async throws -> DeprecateSystemTemplateOutput
-    {
+    public func deprecateSystemTemplate(input: DeprecateSystemTemplateInput) async throws -> DeprecateSystemTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -645,8 +634,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutput
-    {
+    public func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -696,8 +684,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func dissociateEntityFromThing(input: DissociateEntityFromThingInput) async throws -> DissociateEntityFromThingOutput
-    {
+    public func dissociateEntityFromThing(input: DissociateEntityFromThingInput) async throws -> DissociateEntityFromThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getEntities(input: GetEntitiesInput) async throws -> GetEntitiesOutput
-    {
+    public func getEntities(input: GetEntitiesInput) async throws -> GetEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +805,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getFlowTemplate(input: GetFlowTemplateInput) async throws -> GetFlowTemplateOutput
-    {
+    public func getFlowTemplate(input: GetFlowTemplateInput) async throws -> GetFlowTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -870,8 +855,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getFlowTemplateRevisions(input: GetFlowTemplateRevisionsInput) async throws -> GetFlowTemplateRevisionsOutput
-    {
+    public func getFlowTemplateRevisions(input: GetFlowTemplateRevisionsInput) async throws -> GetFlowTemplateRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -920,8 +904,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ThrottlingException` :
-    public func getNamespaceDeletionStatus(input: GetNamespaceDeletionStatusInput) async throws -> GetNamespaceDeletionStatusOutput
-    {
+    public func getNamespaceDeletionStatus(input: GetNamespaceDeletionStatusInput) async throws -> GetNamespaceDeletionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -971,8 +954,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getSystemInstance(input: GetSystemInstanceInput) async throws -> GetSystemInstanceOutput
-    {
+    public func getSystemInstance(input: GetSystemInstanceInput) async throws -> GetSystemInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1022,8 +1004,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getSystemTemplate(input: GetSystemTemplateInput) async throws -> GetSystemTemplateOutput
-    {
+    public func getSystemTemplate(input: GetSystemTemplateInput) async throws -> GetSystemTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1073,8 +1054,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getSystemTemplateRevisions(input: GetSystemTemplateRevisionsInput) async throws -> GetSystemTemplateRevisionsOutput
-    {
+    public func getSystemTemplateRevisions(input: GetSystemTemplateRevisionsInput) async throws -> GetSystemTemplateRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1124,8 +1104,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func getUploadStatus(input: GetUploadStatusInput) async throws -> GetUploadStatusOutput
-    {
+    public func getUploadStatus(input: GetUploadStatusInput) async throws -> GetUploadStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1175,8 +1154,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func listFlowExecutionMessages(input: ListFlowExecutionMessagesInput) async throws -> ListFlowExecutionMessagesOutput
-    {
+    public func listFlowExecutionMessages(input: ListFlowExecutionMessagesInput) async throws -> ListFlowExecutionMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1226,8 +1204,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceAlreadyExistsException` :
     /// - `ThrottlingException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1276,8 +1253,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ThrottlingException` :
-    public func searchEntities(input: SearchEntitiesInput) async throws -> SearchEntitiesOutput
-    {
+    public func searchEntities(input: SearchEntitiesInput) async throws -> SearchEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1327,8 +1303,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func searchFlowExecutions(input: SearchFlowExecutionsInput) async throws -> SearchFlowExecutionsOutput
-    {
+    public func searchFlowExecutions(input: SearchFlowExecutionsInput) async throws -> SearchFlowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1352,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ThrottlingException` :
-    public func searchFlowTemplates(input: SearchFlowTemplatesInput) async throws -> SearchFlowTemplatesOutput
-    {
+    public func searchFlowTemplates(input: SearchFlowTemplatesInput) async throws -> SearchFlowTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1427,8 +1401,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ThrottlingException` :
-    public func searchSystemInstances(input: SearchSystemInstancesInput) async throws -> SearchSystemInstancesOutput
-    {
+    public func searchSystemInstances(input: SearchSystemInstancesInput) async throws -> SearchSystemInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1477,8 +1450,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ThrottlingException` :
-    public func searchSystemTemplates(input: SearchSystemTemplatesInput) async throws -> SearchSystemTemplatesOutput
-    {
+    public func searchSystemTemplates(input: SearchSystemTemplatesInput) async throws -> SearchSystemTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1528,8 +1500,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func searchThings(input: SearchThingsInput) async throws -> SearchThingsOutput
-    {
+    public func searchThings(input: SearchThingsInput) async throws -> SearchThingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1579,8 +1550,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceAlreadyExistsException` :
     /// - `ThrottlingException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1631,8 +1601,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `ResourceInUseException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func undeploySystemInstance(input: UndeploySystemInstanceInput) async throws -> UndeploySystemInstanceOutput
-    {
+    public func undeploySystemInstance(input: UndeploySystemInstanceInput) async throws -> UndeploySystemInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1682,8 +1651,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceAlreadyExistsException` :
     /// - `ThrottlingException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1701,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func updateFlowTemplate(input: UpdateFlowTemplateInput) async throws -> UpdateFlowTemplateOutput
-    {
+    public func updateFlowTemplate(input: UpdateFlowTemplateInput) async throws -> UpdateFlowTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1784,8 +1751,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
-    public func updateSystemTemplate(input: UpdateSystemTemplateInput) async throws -> UpdateSystemTemplateOutput
-    {
+    public func updateSystemTemplate(input: UpdateSystemTemplateInput) async throws -> UpdateSystemTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1834,8 +1800,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ThrottlingException` :
-    public func uploadEntityDefinitions(input: UploadEntityDefinitionsInput) async throws -> UploadEntityDefinitionsOutput
-    {
+    public func uploadEntityDefinitions(input: UploadEntityDefinitionsInput) async throws -> UploadEntityDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

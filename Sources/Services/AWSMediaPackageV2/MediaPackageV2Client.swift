@@ -66,7 +66,7 @@ public struct MediaPackageV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
+extension MediaPackageV2Client {
     /// Performs the `CreateChannel` operation on the `mediapackagev2` service.
     ///
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
@@ -85,8 +85,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createChannelGroup(input: CreateChannelGroupInput) async throws -> CreateChannelGroupOutput
-    {
+    public func createChannelGroup(input: CreateChannelGroupInput) async throws -> CreateChannelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutput
-    {
+    public func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -245,8 +242,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -292,8 +288,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteChannelGroup(input: DeleteChannelGroupInput) async throws -> DeleteChannelGroupOutput
-    {
+    public func deleteChannelGroup(input: DeleteChannelGroupInput) async throws -> DeleteChannelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -339,8 +334,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput
-    {
+    public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -385,8 +379,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutput
-    {
+    public func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func deleteOriginEndpointPolicy(input: DeleteOriginEndpointPolicyInput) async throws -> DeleteOriginEndpointPolicyOutput
-    {
+    public func deleteOriginEndpointPolicy(input: DeleteOriginEndpointPolicyInput) async throws -> DeleteOriginEndpointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
-    {
+    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -526,8 +517,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getChannelGroup(input: GetChannelGroupInput) async throws -> GetChannelGroupOutput
-    {
+    public func getChannelGroup(input: GetChannelGroupInput) async throws -> GetChannelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput
-    {
+    public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +609,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getOriginEndpoint(input: GetOriginEndpointInput) async throws -> GetOriginEndpointOutput
-    {
+    public func getOriginEndpoint(input: GetOriginEndpointInput) async throws -> GetOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +655,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func getOriginEndpointPolicy(input: GetOriginEndpointPolicyInput) async throws -> GetOriginEndpointPolicyOutput
-    {
+    public func getOriginEndpointPolicy(input: GetOriginEndpointPolicyInput) async throws -> GetOriginEndpointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +700,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listChannelGroups(input: ListChannelGroupsInput) async throws -> ListChannelGroupsOutput
-    {
+    public func listChannelGroups(input: ListChannelGroupsInput) async throws -> ListChannelGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -761,8 +747,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +794,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutput
-    {
+    public func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -901,8 +884,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput
-    {
+    public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -952,8 +934,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func putOriginEndpointPolicy(input: PutOriginEndpointPolicyInput) async throws -> PutOriginEndpointPolicyOutput
-    {
+    public func putOriginEndpointPolicy(input: PutOriginEndpointPolicyInput) async throws -> PutOriginEndpointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -998,8 +979,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1044,8 +1024,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1093,8 +1072,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1144,8 +1122,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateChannelGroup(input: UpdateChannelGroupInput) async throws -> UpdateChannelGroupOutput
-    {
+    public func updateChannelGroup(input: UpdateChannelGroupInput) async throws -> UpdateChannelGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1173,7 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    public func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutput
-    {
+    public func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

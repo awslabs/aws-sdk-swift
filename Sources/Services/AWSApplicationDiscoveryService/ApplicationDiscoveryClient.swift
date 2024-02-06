@@ -66,7 +66,7 @@ public struct ApplicationDiscoveryClientLogHandlerFactory: ClientRuntime.SDKLogH
     }
 }
 
-extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
+extension ApplicationDiscoveryClient {
     /// Performs the `AssociateConfigurationItemsToApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
     /// Associates one or more configuration items with an application.
@@ -83,8 +83,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func associateConfigurationItemsToApplication(input: AssociateConfigurationItemsToApplicationInput) async throws -> AssociateConfigurationItemsToApplicationOutput
-    {
+    public func associateConfigurationItemsToApplication(input: AssociateConfigurationItemsToApplicationInput) async throws -> AssociateConfigurationItemsToApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func batchDeleteAgents(input: BatchDeleteAgentsInput) async throws -> BatchDeleteAgentsOutput
-    {
+    public func batchDeleteAgents(input: BatchDeleteAgentsInput) async throws -> BatchDeleteAgentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func batchDeleteImportData(input: BatchDeleteImportDataInput) async throws -> BatchDeleteImportDataOutput
-    {
+    public func batchDeleteImportData(input: BatchDeleteImportDataInput) async throws -> BatchDeleteImportDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,8 +283,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,8 +333,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func deleteApplications(input: DeleteApplicationsInput) async throws -> DeleteApplicationsOutput
-    {
+    public func deleteApplications(input: DeleteApplicationsInput) async throws -> DeleteApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -390,8 +384,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeAgents(input: DescribeAgentsInput) async throws -> DescribeAgentsOutput
-    {
+    public func describeAgents(input: DescribeAgentsInput) async throws -> DescribeAgentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeBatchDeleteConfigurationTask(input: DescribeBatchDeleteConfigurationTaskInput) async throws -> DescribeBatchDeleteConfigurationTaskOutput
-    {
+    public func describeBatchDeleteConfigurationTask(input: DescribeBatchDeleteConfigurationTaskInput) async throws -> DescribeBatchDeleteConfigurationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeConfigurations(input: DescribeConfigurationsInput) async throws -> DescribeConfigurationsOutput
-    {
+    public func describeConfigurations(input: DescribeConfigurationsInput) async throws -> DescribeConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +596,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeContinuousExports(input: DescribeContinuousExportsInput) async throws -> DescribeContinuousExportsOutput
-    {
+    public func describeContinuousExports(input: DescribeContinuousExportsInput) async throws -> DescribeContinuousExportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -659,8 +648,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeExportConfigurations(input: DescribeExportConfigurationsInput) async throws -> DescribeExportConfigurationsOutput
-    {
+    public func describeExportConfigurations(input: DescribeExportConfigurationsInput) async throws -> DescribeExportConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -710,8 +698,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput
-    {
+    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -761,8 +748,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeImportTasks(input: DescribeImportTasksInput) async throws -> DescribeImportTasksOutput
-    {
+    public func describeImportTasks(input: DescribeImportTasksInput) async throws -> DescribeImportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +808,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +858,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func disassociateConfigurationItemsFromApplication(input: DisassociateConfigurationItemsFromApplicationInput) async throws -> DisassociateConfigurationItemsFromApplicationOutput
-    {
+    public func disassociateConfigurationItemsFromApplication(input: DisassociateConfigurationItemsFromApplicationInput) async throws -> DisassociateConfigurationItemsFromApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -926,8 +910,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func exportConfigurations(input: ExportConfigurationsInput) async throws -> ExportConfigurationsOutput
-    {
+    public func exportConfigurations(input: ExportConfigurationsInput) async throws -> ExportConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +960,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func getDiscoverySummary(input: GetDiscoverySummaryInput) async throws -> GetDiscoverySummaryOutput
-    {
+    public func getDiscoverySummary(input: GetDiscoverySummaryInput) async throws -> GetDiscoverySummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,8 +1011,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput
-    {
+    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1061,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func listServerNeighbors(input: ListServerNeighborsInput) async throws -> ListServerNeighborsOutput
-    {
+    public func listServerNeighbors(input: ListServerNeighborsInput) async throws -> ListServerNeighborsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1132,8 +1112,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `LimitExceededException` : The limit of 200 configuration IDs per request has been exceeded.
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func startBatchDeleteConfigurationTask(input: StartBatchDeleteConfigurationTaskInput) async throws -> StartBatchDeleteConfigurationTaskOutput
-    {
+    public func startBatchDeleteConfigurationTask(input: StartBatchDeleteConfigurationTaskInput) async throws -> StartBatchDeleteConfigurationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1186,8 +1165,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func startContinuousExport(input: StartContinuousExportInput) async throws -> StartContinuousExportOutput
-    {
+    public func startContinuousExport(input: StartContinuousExportInput) async throws -> StartContinuousExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1237,8 +1215,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func startDataCollectionByAgentIds(input: StartDataCollectionByAgentIdsInput) async throws -> StartDataCollectionByAgentIdsOutput
-    {
+    public func startDataCollectionByAgentIds(input: StartDataCollectionByAgentIdsInput) async throws -> StartDataCollectionByAgentIdsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1289,8 +1266,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutput
-    {
+    public func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1352,8 +1328,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func startImportTask(input: StartImportTaskInput) async throws -> StartImportTaskOutput
-    {
+    public func startImportTask(input: StartImportTaskInput) async throws -> StartImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1407,8 +1382,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func stopContinuousExport(input: StopContinuousExportInput) async throws -> StopContinuousExportOutput
-    {
+    public func stopContinuousExport(input: StopContinuousExportInput) async throws -> StopContinuousExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1458,8 +1432,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func stopDataCollectionByAgentIds(input: StopDataCollectionByAgentIdsInput) async throws -> StopDataCollectionByAgentIdsOutput
-    {
+    public func stopDataCollectionByAgentIds(input: StopDataCollectionByAgentIdsInput) async throws -> StopDataCollectionByAgentIdsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1509,8 +1482,7 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

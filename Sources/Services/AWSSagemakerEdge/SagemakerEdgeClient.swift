@@ -66,7 +66,7 @@ public struct SagemakerEdgeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
+extension SagemakerEdgeClient {
     /// Performs the `GetDeployments` operation on the `AmazonSageMakerEdge` service.
     ///
     /// Use to get the active deployments from a device.
@@ -79,8 +79,7 @@ extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-    public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-    {
+    public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -125,8 +124,7 @@ extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-    public func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutput
-    {
+    public func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -171,8 +169,7 @@ extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-    public func sendHeartbeat(input: SendHeartbeatInput) async throws -> SendHeartbeatOutput
-    {
+    public func sendHeartbeat(input: SendHeartbeatInput) async throws -> SendHeartbeatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

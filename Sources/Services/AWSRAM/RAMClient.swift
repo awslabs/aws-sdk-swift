@@ -66,7 +66,7 @@ public struct RAMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension RAMClient: RAMClientProtocol {
+extension RAMClient {
     /// Performs the `AcceptResourceShareInvitation` operation on the `AmazonResourceSharing` service.
     ///
     /// Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools.
@@ -88,8 +88,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ResourceShareInvitationExpiredException` : The operation failed because the specified invitation is past its expiration date and time.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func acceptResourceShareInvitation(input: AcceptResourceShareInvitationInput) async throws -> AcceptResourceShareInvitationOutput
-    {
+    public func acceptResourceShareInvitation(input: AcceptResourceShareInvitationInput) async throws -> AcceptResourceShareInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -144,8 +143,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func associateResourceShare(input: AssociateResourceShareInput) async throws -> AssociateResourceShareOutput
-    {
+    public func associateResourceShare(input: AssociateResourceShareInput) async throws -> AssociateResourceShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -196,8 +194,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func associateResourceSharePermission(input: AssociateResourceSharePermissionInput) async throws -> AssociateResourceSharePermissionOutput
-    {
+    public func associateResourceSharePermission(input: AssociateResourceSharePermissionInput) async throws -> AssociateResourceSharePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -251,8 +248,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `PermissionLimitExceededException` : The operation failed because it would exceed the maximum number of permissions you can create in each Amazon Web Services Region. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func createPermission(input: CreatePermissionInput) async throws -> CreatePermissionOutput
-    {
+    public func createPermission(input: CreatePermissionInput) async throws -> CreatePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -306,8 +302,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func createPermissionVersion(input: CreatePermissionVersionInput) async throws -> CreatePermissionVersionOutput
-    {
+    public func createPermissionVersion(input: CreatePermissionVersionInput) async throws -> CreatePermissionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -363,8 +358,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `TagLimitExceededException` : The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
     /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutput
-    {
+    public func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -415,8 +409,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func deletePermission(input: DeletePermissionInput) async throws -> DeletePermissionOutput
-    {
+    public func deletePermission(input: DeletePermissionInput) async throws -> DeletePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -466,8 +459,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func deletePermissionVersion(input: DeletePermissionVersionInput) async throws -> DeletePermissionVersionOutput
-    {
+    public func deletePermissionVersion(input: DeletePermissionVersionInput) async throws -> DeletePermissionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -518,8 +510,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func deleteResourceShare(input: DeleteResourceShareInput) async throws -> DeleteResourceShareOutput
-    {
+    public func deleteResourceShare(input: DeleteResourceShareInput) async throws -> DeleteResourceShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -571,8 +562,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func disassociateResourceShare(input: DisassociateResourceShareInput) async throws -> DisassociateResourceShareOutput
-    {
+    public func disassociateResourceShare(input: DisassociateResourceShareInput) async throws -> DisassociateResourceShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +614,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func disassociateResourceSharePermission(input: DisassociateResourceSharePermissionInput) async throws -> DisassociateResourceSharePermissionOutput
-    {
+    public func disassociateResourceSharePermission(input: DisassociateResourceSharePermissionInput) async throws -> DisassociateResourceSharePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -672,8 +661,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func enableSharingWithAwsOrganization(input: EnableSharingWithAwsOrganizationInput) async throws -> EnableSharingWithAwsOrganizationOutput
-    {
+    public func enableSharingWithAwsOrganization(input: EnableSharingWithAwsOrganizationInput) async throws -> EnableSharingWithAwsOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -720,8 +708,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func getPermission(input: GetPermissionInput) async throws -> GetPermissionOutput
-    {
+    public func getPermission(input: GetPermissionInput) async throws -> GetPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -771,8 +758,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ResourceArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) was not found.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
-    {
+    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -823,8 +809,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func getResourceShareAssociations(input: GetResourceShareAssociationsInput) async throws -> GetResourceShareAssociationsOutput
-    {
+    public func getResourceShareAssociations(input: GetResourceShareAssociationsInput) async throws -> GetResourceShareAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -876,8 +861,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func getResourceShareInvitations(input: GetResourceShareInvitationsInput) async throws -> GetResourceShareInvitationsOutput
-    {
+    public func getResourceShareInvitations(input: GetResourceShareInvitationsInput) async throws -> GetResourceShareInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -927,8 +911,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func getResourceShares(input: GetResourceSharesInput) async throws -> GetResourceSharesOutput
-    {
+    public func getResourceShares(input: GetResourceSharesInput) async throws -> GetResourceSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -981,8 +964,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ResourceShareInvitationExpiredException` : The operation failed because the specified invitation is past its expiration date and time.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func listPendingInvitationResources(input: ListPendingInvitationResourcesInput) async throws -> ListPendingInvitationResourcesOutput
-    {
+    public func listPendingInvitationResources(input: ListPendingInvitationResourcesInput) async throws -> ListPendingInvitationResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1013,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func listPermissionAssociations(input: ListPermissionAssociationsInput) async throws -> ListPermissionAssociationsOutput
-    {
+    public func listPermissionAssociations(input: ListPermissionAssociationsInput) async throws -> ListPermissionAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1083,8 +1064,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func listPermissionVersions(input: ListPermissionVersionsInput) async throws -> ListPermissionVersionsOutput
-    {
+    public func listPermissionVersions(input: ListPermissionVersionsInput) async throws -> ListPermissionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1133,8 +1113,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
-    {
+    public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1184,8 +1163,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func listPrincipals(input: ListPrincipalsInput) async throws -> ListPrincipalsOutput
-    {
+    public func listPrincipals(input: ListPrincipalsInput) async throws -> ListPrincipalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1233,8 +1211,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func listReplacePermissionAssociationsWork(input: ListReplacePermissionAssociationsWorkInput) async throws -> ListReplacePermissionAssociationsWorkOutput
-    {
+    public func listReplacePermissionAssociationsWork(input: ListReplacePermissionAssociationsWorkInput) async throws -> ListReplacePermissionAssociationsWorkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1285,8 +1262,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func listResourceSharePermissions(input: ListResourceSharePermissionsInput) async throws -> ListResourceSharePermissionsOutput
-    {
+    public func listResourceSharePermissions(input: ListResourceSharePermissionsInput) async throws -> ListResourceSharePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1334,8 +1310,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func listResourceTypes(input: ListResourceTypesInput) async throws -> ListResourceTypesOutput
-    {
+    public func listResourceTypes(input: ListResourceTypesInput) async throws -> ListResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1386,8 +1361,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-    {
+    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1444,8 +1418,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func promotePermissionCreatedFromPolicy(input: PromotePermissionCreatedFromPolicyInput) async throws -> PromotePermissionCreatedFromPolicyOutput
-    {
+    public func promotePermissionCreatedFromPolicy(input: PromotePermissionCreatedFromPolicyInput) async throws -> PromotePermissionCreatedFromPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1499,8 +1472,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     /// - `UnmatchedPolicyPermissionException` : There isn't an existing managed permission defined in RAM that has the same IAM permissions as the resource-based policy attached to the resource. You should first run [PromotePermissionCreatedFromPolicy] to create that managed permission.
-    public func promoteResourceShareCreatedFromPolicy(input: PromoteResourceShareCreatedFromPolicyInput) async throws -> PromoteResourceShareCreatedFromPolicyOutput
-    {
+    public func promoteResourceShareCreatedFromPolicy(input: PromoteResourceShareCreatedFromPolicyInput) async throws -> PromoteResourceShareCreatedFromPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1552,8 +1524,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ResourceShareInvitationExpiredException` : The operation failed because the specified invitation is past its expiration date and time.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
-    public func rejectResourceShareInvitation(input: RejectResourceShareInvitationInput) async throws -> RejectResourceShareInvitationOutput
-    {
+    public func rejectResourceShareInvitation(input: RejectResourceShareInvitationInput) async throws -> RejectResourceShareInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1576,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func replacePermissionAssociations(input: ReplacePermissionAssociationsInput) async throws -> ReplacePermissionAssociationsOutput
-    {
+    public func replacePermissionAssociations(input: ReplacePermissionAssociationsInput) async throws -> ReplacePermissionAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1627,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func setDefaultPermissionVersion(input: SetDefaultPermissionVersionInput) async throws -> SetDefaultPermissionVersionOutput
-    {
+    public func setDefaultPermissionVersion(input: SetDefaultPermissionVersionInput) async throws -> SetDefaultPermissionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1679,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `TagLimitExceededException` : The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
     /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1760,8 +1728,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1814,8 +1781,7 @@ extension RAMClient: RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
-    public func updateResourceShare(input: UpdateResourceShareInput) async throws -> UpdateResourceShareOutput
-    {
+    public func updateResourceShare(input: UpdateResourceShareInput) async throws -> UpdateResourceShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

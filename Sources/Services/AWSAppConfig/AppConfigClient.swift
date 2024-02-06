@@ -66,7 +66,7 @@ public struct AppConfigClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension AppConfigClient: AppConfigClientProtocol {
+extension AppConfigClient {
     /// Performs the `CreateApplication` operation on the `AmazonAppConfig` service.
     ///
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
@@ -81,8 +81,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -154,8 +153,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createConfigurationProfile(input: CreateConfigurationProfileInput) async throws -> CreateConfigurationProfileOutput
-    {
+    public func createConfigurationProfile(input: CreateConfigurationProfileInput) async throws -> CreateConfigurationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -202,8 +200,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createDeploymentStrategy(input: CreateDeploymentStrategyInput) async throws -> CreateDeploymentStrategyOutput
-    {
+    public func createDeploymentStrategy(input: CreateDeploymentStrategyInput) async throws -> CreateDeploymentStrategyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -251,8 +248,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -309,8 +305,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createExtension(input: CreateExtensionInput) async throws -> CreateExtensionOutput
-    {
+    public func createExtension(input: CreateExtensionInput) async throws -> CreateExtensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -359,8 +354,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createExtensionAssociation(input: CreateExtensionAssociationInput) async throws -> CreateExtensionAssociationOutput
-    {
+    public func createExtensionAssociation(input: CreateExtensionAssociationInput) async throws -> CreateExtensionAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +404,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `PayloadTooLargeException` : The configuration size is too large.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-    public func createHostedConfigurationVersion(input: CreateHostedConfigurationVersionInput) async throws -> CreateHostedConfigurationVersionOutput
-    {
+    public func createHostedConfigurationVersion(input: CreateHostedConfigurationVersionInput) async throws -> CreateHostedConfigurationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +452,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -505,8 +497,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteConfigurationProfile(input: DeleteConfigurationProfileInput) async throws -> DeleteConfigurationProfileOutput
-    {
+    public func deleteConfigurationProfile(input: DeleteConfigurationProfileInput) async throws -> DeleteConfigurationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -550,8 +541,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteDeploymentStrategy(input: DeleteDeploymentStrategyInput) async throws -> DeleteDeploymentStrategyOutput
-    {
+    public func deleteDeploymentStrategy(input: DeleteDeploymentStrategyInput) async throws -> DeleteDeploymentStrategyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +586,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteExtension(input: DeleteExtensionInput) async throws -> DeleteExtensionOutput
-    {
+    public func deleteExtension(input: DeleteExtensionInput) async throws -> DeleteExtensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -687,8 +675,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteExtensionAssociation(input: DeleteExtensionAssociationInput) async throws -> DeleteExtensionAssociationOutput
-    {
+    public func deleteExtensionAssociation(input: DeleteExtensionAssociationInput) async throws -> DeleteExtensionAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -732,8 +719,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func deleteHostedConfigurationVersion(input: DeleteHostedConfigurationVersionInput) async throws -> DeleteHostedConfigurationVersionOutput
-    {
+    public func deleteHostedConfigurationVersion(input: DeleteHostedConfigurationVersionInput) async throws -> DeleteHostedConfigurationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -777,8 +763,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -827,8 +812,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput
-    {
+    public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +857,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getConfigurationProfile(input: GetConfigurationProfileInput) async throws -> GetConfigurationProfileOutput
-    {
+    public func getConfigurationProfile(input: GetConfigurationProfileInput) async throws -> GetConfigurationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +901,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +945,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getDeploymentStrategy(input: GetDeploymentStrategyInput) async throws -> GetDeploymentStrategyOutput
-    {
+    public func getDeploymentStrategy(input: GetDeploymentStrategyInput) async throws -> GetDeploymentStrategyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1008,8 +989,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-    {
+    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1033,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getExtension(input: GetExtensionInput) async throws -> GetExtensionOutput
-    {
+    public func getExtension(input: GetExtensionInput) async throws -> GetExtensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1078,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getExtensionAssociation(input: GetExtensionAssociationInput) async throws -> GetExtensionAssociationOutput
-    {
+    public func getExtensionAssociation(input: GetExtensionAssociationInput) async throws -> GetExtensionAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1144,8 +1122,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func getHostedConfigurationVersion(input: GetHostedConfigurationVersionInput) async throws -> GetHostedConfigurationVersionOutput
-    {
+    public func getHostedConfigurationVersion(input: GetHostedConfigurationVersionInput) async throws -> GetHostedConfigurationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1165,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1234,8 +1210,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func listConfigurationProfiles(input: ListConfigurationProfilesInput) async throws -> ListConfigurationProfilesOutput
-    {
+    public func listConfigurationProfiles(input: ListConfigurationProfilesInput) async throws -> ListConfigurationProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1279,8 +1254,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
-    public func listDeploymentStrategies(input: ListDeploymentStrategiesInput) async throws -> ListDeploymentStrategiesOutput
-    {
+    public func listDeploymentStrategies(input: ListDeploymentStrategiesInput) async throws -> ListDeploymentStrategiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1325,8 +1299,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-    {
+    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1371,8 +1344,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1416,8 +1388,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
-    public func listExtensionAssociations(input: ListExtensionAssociationsInput) async throws -> ListExtensionAssociationsOutput
-    {
+    public func listExtensionAssociations(input: ListExtensionAssociationsInput) async throws -> ListExtensionAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1461,8 +1432,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
-    public func listExtensions(input: ListExtensionsInput) async throws -> ListExtensionsOutput
-    {
+    public func listExtensions(input: ListExtensionsInput) async throws -> ListExtensionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1477,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func listHostedConfigurationVersions(input: ListHostedConfigurationVersionsInput) async throws -> ListHostedConfigurationVersionsOutput
-    {
+    public func listHostedConfigurationVersions(input: ListHostedConfigurationVersionsInput) async throws -> ListHostedConfigurationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1553,8 +1522,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1599,8 +1567,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput
-    {
+    public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1647,8 +1614,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutput
-    {
+    public func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1692,8 +1658,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1740,8 +1705,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1786,8 +1750,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1834,8 +1797,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func updateConfigurationProfile(input: UpdateConfigurationProfileInput) async throws -> UpdateConfigurationProfileOutput
-    {
+    public func updateConfigurationProfile(input: UpdateConfigurationProfileInput) async throws -> UpdateConfigurationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1882,8 +1844,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func updateDeploymentStrategy(input: UpdateDeploymentStrategyInput) async throws -> UpdateDeploymentStrategyOutput
-    {
+    public func updateDeploymentStrategy(input: UpdateDeploymentStrategyInput) async throws -> UpdateDeploymentStrategyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1930,8 +1891,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1979,8 +1939,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func updateExtension(input: UpdateExtensionInput) async throws -> UpdateExtensionOutput
-    {
+    public func updateExtension(input: UpdateExtensionInput) async throws -> UpdateExtensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2027,8 +1986,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func updateExtensionAssociation(input: UpdateExtensionAssociationInput) async throws -> UpdateExtensionAssociationOutput
-    {
+    public func updateExtensionAssociation(input: UpdateExtensionAssociationInput) async throws -> UpdateExtensionAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2075,8 +2033,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    public func validateConfiguration(input: ValidateConfigurationInput) async throws -> ValidateConfigurationOutput
-    {
+    public func validateConfiguration(input: ValidateConfigurationInput) async throws -> ValidateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

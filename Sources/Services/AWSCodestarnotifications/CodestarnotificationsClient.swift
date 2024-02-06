@@ -66,7 +66,7 @@ public struct CodestarnotificationsClientLogHandlerFactory: ClientRuntime.SDKLog
     }
 }
 
-extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
+extension CodestarnotificationsClient {
     /// Performs the `CreateNotificationRule` operation on the `CodeStarNotifications_20191015` service.
     ///
     /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Chatbot topics or Chatbot clients configured for Slack) where you want to receive them.
@@ -84,8 +84,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     /// - `ResourceAlreadyExistsException` : A resource with the same name or ID already exists. Notification rule names must be unique in your Amazon Web Services account.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func createNotificationRule(input: CreateNotificationRuleInput) async throws -> CreateNotificationRuleOutput
-    {
+    public func createNotificationRule(input: CreateNotificationRuleInput) async throws -> CreateNotificationRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - `ConcurrentModificationException` : CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
     /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func deleteNotificationRule(input: DeleteNotificationRuleInput) async throws -> DeleteNotificationRuleOutput
-    {
+    public func deleteNotificationRule(input: DeleteNotificationRuleInput) async throws -> DeleteNotificationRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func deleteTarget(input: DeleteTargetInput) async throws -> DeleteTargetOutput
-    {
+    public func deleteTarget(input: DeleteTargetInput) async throws -> DeleteTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func describeNotificationRule(input: DescribeNotificationRuleInput) async throws -> DescribeNotificationRuleOutput
-    {
+    public func describeNotificationRule(input: DescribeNotificationRuleInput) async throws -> DescribeNotificationRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The value for the enumeration token used in the request to return the next batch of the results is not valid.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func listEventTypes(input: ListEventTypesInput) async throws -> ListEventTypesOutput
-    {
+    public func listEventTypes(input: ListEventTypesInput) async throws -> ListEventTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -320,8 +315,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The value for the enumeration token used in the request to return the next batch of the results is not valid.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func listNotificationRules(input: ListNotificationRulesInput) async throws -> ListNotificationRulesOutput
-    {
+    public func listNotificationRules(input: ListNotificationRulesInput) async throws -> ListNotificationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +361,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -414,8 +407,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The value for the enumeration token used in the request to return the next batch of the results is not valid.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func listTargets(input: ListTargetsInput) async throws -> ListTargetsOutput
-    {
+    public func listTargets(input: ListTargetsInput) async throws -> ListTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -462,8 +454,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - `ConfigurationException` : Some or all of the configuration is incomplete, missing, or not valid.
     /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput
-    {
+    public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,8 +502,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +547,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutput
-    {
+    public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -606,8 +595,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +640,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - `ConfigurationException` : Some or all of the configuration is incomplete, missing, or not valid.
     /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
-    public func updateNotificationRule(input: UpdateNotificationRuleInput) async throws -> UpdateNotificationRuleOutput
-    {
+    public func updateNotificationRule(input: UpdateNotificationRuleInput) async throws -> UpdateNotificationRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct IoTEventsDataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension IoTEventsDataClient: IoTEventsDataClientProtocol {
+extension IoTEventsDataClient {
     /// Performs the `BatchAcknowledgeAlarm` operation on the `IotColumboDataService` service.
     ///
     /// Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state after you acknowledge them.
@@ -82,8 +82,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchAcknowledgeAlarm(input: BatchAcknowledgeAlarmInput) async throws -> BatchAcknowledgeAlarmOutput
-    {
+    public func batchAcknowledgeAlarm(input: BatchAcknowledgeAlarmInput) async throws -> BatchAcknowledgeAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchDeleteDetector(input: BatchDeleteDetectorInput) async throws -> BatchDeleteDetectorOutput
-    {
+    public func batchDeleteDetector(input: BatchDeleteDetectorInput) async throws -> BatchDeleteDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchDisableAlarm(input: BatchDisableAlarmInput) async throws -> BatchDisableAlarmOutput
-    {
+    public func batchDisableAlarm(input: BatchDisableAlarmInput) async throws -> BatchDisableAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchEnableAlarm(input: BatchEnableAlarmInput) async throws -> BatchEnableAlarmOutput
-    {
+    public func batchEnableAlarm(input: BatchEnableAlarmInput) async throws -> BatchEnableAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutput
-    {
+    public func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +322,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchResetAlarm(input: BatchResetAlarmInput) async throws -> BatchResetAlarmOutput
-    {
+    public func batchResetAlarm(input: BatchResetAlarmInput) async throws -> BatchResetAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchSnoozeAlarm(input: BatchSnoozeAlarmInput) async throws -> BatchSnoozeAlarmOutput
-    {
+    public func batchSnoozeAlarm(input: BatchSnoozeAlarmInput) async throws -> BatchSnoozeAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func batchUpdateDetector(input: BatchUpdateDetectorInput) async throws -> BatchUpdateDetectorOutput
-    {
+    public func batchUpdateDetector(input: BatchUpdateDetectorInput) async throws -> BatchUpdateDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func describeAlarm(input: DescribeAlarmInput) async throws -> DescribeAlarmOutput
-    {
+    public func describeAlarm(input: DescribeAlarmInput) async throws -> DescribeAlarmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -523,8 +514,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput
-    {
+    public func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -571,8 +561,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listAlarms(input: ListAlarmsInput) async throws -> ListAlarmsOutput
-    {
+    public func listAlarms(input: ListAlarmsInput) async throws -> ListAlarmsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -619,8 +608,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listDetectors(input: ListDetectorsInput) async throws -> ListDetectorsOutput
-    {
+    public func listDetectors(input: ListDetectorsInput) async throws -> ListDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

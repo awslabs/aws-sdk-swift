@@ -66,7 +66,7 @@ public struct BackupClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension BackupClient: BackupClientProtocol {
+extension BackupClient {
     /// Performs the `CancelLegalHold` operation on the `CryoControllerUserManager` service.
     ///
     /// This action removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions.
@@ -83,8 +83,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func cancelLegalHold(input: CancelLegalHoldInput) async throws -> CancelLegalHoldOutput
-    {
+    public func cancelLegalHold(input: CancelLegalHoldInput) async throws -> CancelLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createBackupPlan(input: CreateBackupPlanInput) async throws -> CreateBackupPlanOutput
-    {
+    public func createBackupPlan(input: CreateBackupPlanInput) async throws -> CreateBackupPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createBackupSelection(input: CreateBackupSelectionInput) async throws -> CreateBackupSelectionOutput
-    {
+    public func createBackupSelection(input: CreateBackupSelectionInput) async throws -> CreateBackupSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createBackupVault(input: CreateBackupVaultInput) async throws -> CreateBackupVaultOutput
-    {
+    public func createBackupVault(input: CreateBackupVaultInput) async throws -> CreateBackupVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createFramework(input: CreateFrameworkInput) async throws -> CreateFrameworkOutput
-    {
+    public func createFramework(input: CreateFrameworkInput) async throws -> CreateFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createLegalHold(input: CreateLegalHoldInput) async throws -> CreateLegalHoldOutput
-    {
+    public func createLegalHold(input: CreateLegalHoldInput) async throws -> CreateLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createLogicallyAirGappedBackupVault(input: CreateLogicallyAirGappedBackupVaultInput) async throws -> CreateLogicallyAirGappedBackupVaultOutput
-    {
+    public func createLogicallyAirGappedBackupVault(input: CreateLogicallyAirGappedBackupVaultInput) async throws -> CreateLogicallyAirGappedBackupVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createReportPlan(input: CreateReportPlanInput) async throws -> CreateReportPlanOutput
-    {
+    public func createReportPlan(input: CreateReportPlanInput) async throws -> CreateReportPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +476,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createRestoreTestingPlan(input: CreateRestoreTestingPlanInput) async throws -> CreateRestoreTestingPlanOutput
-    {
+    public func createRestoreTestingPlan(input: CreateRestoreTestingPlanInput) async throws -> CreateRestoreTestingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -542,8 +533,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func createRestoreTestingSelection(input: CreateRestoreTestingSelectionInput) async throws -> CreateRestoreTestingSelectionOutput
-    {
+    public func createRestoreTestingSelection(input: CreateRestoreTestingSelectionInput) async throws -> CreateRestoreTestingSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -592,8 +582,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteBackupPlan(input: DeleteBackupPlanInput) async throws -> DeleteBackupPlanOutput
-    {
+    public func deleteBackupPlan(input: DeleteBackupPlanInput) async throws -> DeleteBackupPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -638,8 +627,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteBackupSelection(input: DeleteBackupSelectionInput) async throws -> DeleteBackupSelectionOutput
-    {
+    public func deleteBackupSelection(input: DeleteBackupSelectionInput) async throws -> DeleteBackupSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +673,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteBackupVault(input: DeleteBackupVaultInput) async throws -> DeleteBackupVaultOutput
-    {
+    public func deleteBackupVault(input: DeleteBackupVaultInput) async throws -> DeleteBackupVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -731,8 +718,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteBackupVaultAccessPolicy(input: DeleteBackupVaultAccessPolicyInput) async throws -> DeleteBackupVaultAccessPolicyOutput
-    {
+    public func deleteBackupVaultAccessPolicy(input: DeleteBackupVaultAccessPolicyInput) async throws -> DeleteBackupVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteBackupVaultLockConfiguration(input: DeleteBackupVaultLockConfigurationInput) async throws -> DeleteBackupVaultLockConfigurationOutput
-    {
+    public func deleteBackupVaultLockConfiguration(input: DeleteBackupVaultLockConfigurationInput) async throws -> DeleteBackupVaultLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -824,8 +809,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteBackupVaultNotifications(input: DeleteBackupVaultNotificationsInput) async throws -> DeleteBackupVaultNotificationsOutput
-    {
+    public func deleteBackupVaultNotifications(input: DeleteBackupVaultNotificationsInput) async throws -> DeleteBackupVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -871,8 +855,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteFramework(input: DeleteFrameworkInput) async throws -> DeleteFrameworkOutput
-    {
+    public func deleteFramework(input: DeleteFrameworkInput) async throws -> DeleteFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -919,8 +902,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteRecoveryPoint(input: DeleteRecoveryPointInput) async throws -> DeleteRecoveryPointOutput
-    {
+    public func deleteRecoveryPoint(input: DeleteRecoveryPointInput) async throws -> DeleteRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -966,8 +948,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteReportPlan(input: DeleteReportPlanInput) async throws -> DeleteReportPlanOutput
-    {
+    public func deleteReportPlan(input: DeleteReportPlanInput) async throws -> DeleteReportPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1010,8 +991,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteRestoreTestingPlan(input: DeleteRestoreTestingPlanInput) async throws -> DeleteRestoreTestingPlanOutput
-    {
+    public func deleteRestoreTestingPlan(input: DeleteRestoreTestingPlanInput) async throws -> DeleteRestoreTestingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1034,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func deleteRestoreTestingSelection(input: DeleteRestoreTestingSelectionInput) async throws -> DeleteRestoreTestingSelectionOutput
-    {
+    public func deleteRestoreTestingSelection(input: DeleteRestoreTestingSelectionInput) async throws -> DeleteRestoreTestingSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1080,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeBackupJob(input: DescribeBackupJobInput) async throws -> DescribeBackupJobOutput
-    {
+    public func describeBackupJob(input: DescribeBackupJobInput) async throws -> DescribeBackupJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1147,8 +1125,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeBackupVault(input: DescribeBackupVaultInput) async throws -> DescribeBackupVaultOutput
-    {
+    public func describeBackupVault(input: DescribeBackupVaultInput) async throws -> DescribeBackupVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1194,8 +1171,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeCopyJob(input: DescribeCopyJobInput) async throws -> DescribeCopyJobOutput
-    {
+    public func describeCopyJob(input: DescribeCopyJobInput) async throws -> DescribeCopyJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1216,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeFramework(input: DescribeFrameworkInput) async throws -> DescribeFrameworkOutput
-    {
+    public func describeFramework(input: DescribeFrameworkInput) async throws -> DescribeFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1284,8 +1259,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeGlobalSettings(input: DescribeGlobalSettingsInput) async throws -> DescribeGlobalSettingsOutput
-    {
+    public func describeGlobalSettings(input: DescribeGlobalSettingsInput) async throws -> DescribeGlobalSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1330,8 +1304,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeProtectedResource(input: DescribeProtectedResourceInput) async throws -> DescribeProtectedResourceOutput
-    {
+    public func describeProtectedResource(input: DescribeProtectedResourceInput) async throws -> DescribeProtectedResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1376,8 +1349,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeRecoveryPoint(input: DescribeRecoveryPointInput) async throws -> DescribeRecoveryPointOutput
-    {
+    public func describeRecoveryPoint(input: DescribeRecoveryPointInput) async throws -> DescribeRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1420,8 +1392,7 @@ extension BackupClient: BackupClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeRegionSettings(input: DescribeRegionSettingsInput) async throws -> DescribeRegionSettingsOutput
-    {
+    public func describeRegionSettings(input: DescribeRegionSettingsInput) async throws -> DescribeRegionSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1465,8 +1436,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeReportJob(input: DescribeReportJobInput) async throws -> DescribeReportJobOutput
-    {
+    public func describeReportJob(input: DescribeReportJobInput) async throws -> DescribeReportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1511,8 +1481,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeReportPlan(input: DescribeReportPlanInput) async throws -> DescribeReportPlanOutput
-    {
+    public func describeReportPlan(input: DescribeReportPlanInput) async throws -> DescribeReportPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1558,8 +1527,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func describeRestoreJob(input: DescribeRestoreJobInput) async throws -> DescribeRestoreJobOutput
-    {
+    public func describeRestoreJob(input: DescribeRestoreJobInput) async throws -> DescribeRestoreJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1606,8 +1574,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func disassociateRecoveryPoint(input: DisassociateRecoveryPointInput) async throws -> DisassociateRecoveryPointOutput
-    {
+    public func disassociateRecoveryPoint(input: DisassociateRecoveryPointInput) async throws -> DisassociateRecoveryPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1653,8 +1620,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func disassociateRecoveryPointFromParent(input: DisassociateRecoveryPointFromParentInput) async throws -> DisassociateRecoveryPointFromParentOutput
-    {
+    public func disassociateRecoveryPointFromParent(input: DisassociateRecoveryPointFromParentInput) async throws -> DisassociateRecoveryPointFromParentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1699,8 +1665,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func exportBackupPlanTemplate(input: ExportBackupPlanTemplateInput) async throws -> ExportBackupPlanTemplateOutput
-    {
+    public func exportBackupPlanTemplate(input: ExportBackupPlanTemplateInput) async throws -> ExportBackupPlanTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1745,8 +1710,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getBackupPlan(input: GetBackupPlanInput) async throws -> GetBackupPlanOutput
-    {
+    public func getBackupPlan(input: GetBackupPlanInput) async throws -> GetBackupPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1793,8 +1757,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getBackupPlanFromJSON(input: GetBackupPlanFromJSONInput) async throws -> GetBackupPlanFromJSONOutput
-    {
+    public func getBackupPlanFromJSON(input: GetBackupPlanFromJSONInput) async throws -> GetBackupPlanFromJSONOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1842,8 +1805,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getBackupPlanFromTemplate(input: GetBackupPlanFromTemplateInput) async throws -> GetBackupPlanFromTemplateOutput
-    {
+    public func getBackupPlanFromTemplate(input: GetBackupPlanFromTemplateInput) async throws -> GetBackupPlanFromTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1888,8 +1850,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getBackupSelection(input: GetBackupSelectionInput) async throws -> GetBackupSelectionOutput
-    {
+    public func getBackupSelection(input: GetBackupSelectionInput) async throws -> GetBackupSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1934,8 +1895,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getBackupVaultAccessPolicy(input: GetBackupVaultAccessPolicyInput) async throws -> GetBackupVaultAccessPolicyOutput
-    {
+    public func getBackupVaultAccessPolicy(input: GetBackupVaultAccessPolicyInput) async throws -> GetBackupVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1980,8 +1940,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getBackupVaultNotifications(input: GetBackupVaultNotificationsInput) async throws -> GetBackupVaultNotificationsOutput
-    {
+    public func getBackupVaultNotifications(input: GetBackupVaultNotificationsInput) async throws -> GetBackupVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2026,8 +1985,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getLegalHold(input: GetLegalHoldInput) async throws -> GetLegalHoldOutput
-    {
+    public func getLegalHold(input: GetLegalHoldInput) async throws -> GetLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2072,8 +2030,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getRecoveryPointRestoreMetadata(input: GetRecoveryPointRestoreMetadataInput) async throws -> GetRecoveryPointRestoreMetadataOutput
-    {
+    public func getRecoveryPointRestoreMetadata(input: GetRecoveryPointRestoreMetadataInput) async throws -> GetRecoveryPointRestoreMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2119,8 +2076,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getRestoreJobMetadata(input: GetRestoreJobMetadataInput) async throws -> GetRestoreJobMetadataOutput
-    {
+    public func getRestoreJobMetadata(input: GetRestoreJobMetadataInput) async throws -> GetRestoreJobMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2165,8 +2121,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getRestoreTestingInferredMetadata(input: GetRestoreTestingInferredMetadataInput) async throws -> GetRestoreTestingInferredMetadataOutput
-    {
+    public func getRestoreTestingInferredMetadata(input: GetRestoreTestingInferredMetadataInput) async throws -> GetRestoreTestingInferredMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2210,8 +2165,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getRestoreTestingPlan(input: GetRestoreTestingPlanInput) async throws -> GetRestoreTestingPlanOutput
-    {
+    public func getRestoreTestingPlan(input: GetRestoreTestingPlanInput) async throws -> GetRestoreTestingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2254,8 +2208,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getRestoreTestingSelection(input: GetRestoreTestingSelectionInput) async throws -> GetRestoreTestingSelectionOutput
-    {
+    public func getRestoreTestingSelection(input: GetRestoreTestingSelectionInput) async throws -> GetRestoreTestingSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2297,8 +2250,7 @@ extension BackupClient: BackupClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func getSupportedResourceTypes(input: GetSupportedResourceTypesInput) async throws -> GetSupportedResourceTypesOutput
-    {
+    public func getSupportedResourceTypes(input: GetSupportedResourceTypesInput) async throws -> GetSupportedResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2341,8 +2293,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupJobSummaries(input: ListBackupJobSummariesInput) async throws -> ListBackupJobSummariesOutput
-    {
+    public func listBackupJobSummaries(input: ListBackupJobSummariesInput) async throws -> ListBackupJobSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2386,8 +2337,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupJobs(input: ListBackupJobsInput) async throws -> ListBackupJobsOutput
-    {
+    public func listBackupJobs(input: ListBackupJobsInput) async throws -> ListBackupJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2433,8 +2383,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupPlanTemplates(input: ListBackupPlanTemplatesInput) async throws -> ListBackupPlanTemplatesOutput
-    {
+    public func listBackupPlanTemplates(input: ListBackupPlanTemplatesInput) async throws -> ListBackupPlanTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2480,8 +2429,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupPlanVersions(input: ListBackupPlanVersionsInput) async throws -> ListBackupPlanVersionsOutput
-    {
+    public func listBackupPlanVersions(input: ListBackupPlanVersionsInput) async throws -> ListBackupPlanVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2527,8 +2475,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupPlans(input: ListBackupPlansInput) async throws -> ListBackupPlansOutput
-    {
+    public func listBackupPlans(input: ListBackupPlansInput) async throws -> ListBackupPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2574,8 +2521,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupSelections(input: ListBackupSelectionsInput) async throws -> ListBackupSelectionsOutput
-    {
+    public func listBackupSelections(input: ListBackupSelectionsInput) async throws -> ListBackupSelectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2621,8 +2567,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listBackupVaults(input: ListBackupVaultsInput) async throws -> ListBackupVaultsOutput
-    {
+    public func listBackupVaults(input: ListBackupVaultsInput) async throws -> ListBackupVaultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2666,8 +2611,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listCopyJobSummaries(input: ListCopyJobSummariesInput) async throws -> ListCopyJobSummariesOutput
-    {
+    public func listCopyJobSummaries(input: ListCopyJobSummariesInput) async throws -> ListCopyJobSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2711,8 +2655,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listCopyJobs(input: ListCopyJobsInput) async throws -> ListCopyJobsOutput
-    {
+    public func listCopyJobs(input: ListCopyJobsInput) async throws -> ListCopyJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2756,8 +2699,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listFrameworks(input: ListFrameworksInput) async throws -> ListFrameworksOutput
-    {
+    public func listFrameworks(input: ListFrameworksInput) async throws -> ListFrameworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2801,8 +2743,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listLegalHolds(input: ListLegalHoldsInput) async throws -> ListLegalHoldsOutput
-    {
+    public func listLegalHolds(input: ListLegalHoldsInput) async throws -> ListLegalHoldsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2846,8 +2787,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listProtectedResources(input: ListProtectedResourcesInput) async throws -> ListProtectedResourcesOutput
-    {
+    public func listProtectedResources(input: ListProtectedResourcesInput) async throws -> ListProtectedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2892,8 +2832,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listProtectedResourcesByBackupVault(input: ListProtectedResourcesByBackupVaultInput) async throws -> ListProtectedResourcesByBackupVaultOutput
-    {
+    public func listProtectedResourcesByBackupVault(input: ListProtectedResourcesByBackupVaultInput) async throws -> ListProtectedResourcesByBackupVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2939,8 +2878,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRecoveryPointsByBackupVault(input: ListRecoveryPointsByBackupVaultInput) async throws -> ListRecoveryPointsByBackupVaultOutput
-    {
+    public func listRecoveryPointsByBackupVault(input: ListRecoveryPointsByBackupVaultInput) async throws -> ListRecoveryPointsByBackupVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2985,8 +2923,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRecoveryPointsByLegalHold(input: ListRecoveryPointsByLegalHoldInput) async throws -> ListRecoveryPointsByLegalHoldOutput
-    {
+    public func listRecoveryPointsByLegalHold(input: ListRecoveryPointsByLegalHoldInput) async throws -> ListRecoveryPointsByLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3032,8 +2969,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRecoveryPointsByResource(input: ListRecoveryPointsByResourceInput) async throws -> ListRecoveryPointsByResourceOutput
-    {
+    public func listRecoveryPointsByResource(input: ListRecoveryPointsByResourceInput) async throws -> ListRecoveryPointsByResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3078,8 +3014,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listReportJobs(input: ListReportJobsInput) async throws -> ListReportJobsOutput
-    {
+    public func listReportJobs(input: ListReportJobsInput) async throws -> ListReportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3123,8 +3058,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listReportPlans(input: ListReportPlansInput) async throws -> ListReportPlansOutput
-    {
+    public func listReportPlans(input: ListReportPlansInput) async throws -> ListReportPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3168,8 +3102,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRestoreJobSummaries(input: ListRestoreJobSummariesInput) async throws -> ListRestoreJobSummariesOutput
-    {
+    public func listRestoreJobSummaries(input: ListRestoreJobSummariesInput) async throws -> ListRestoreJobSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3215,8 +3148,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRestoreJobs(input: ListRestoreJobsInput) async throws -> ListRestoreJobsOutput
-    {
+    public func listRestoreJobs(input: ListRestoreJobsInput) async throws -> ListRestoreJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3262,8 +3194,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRestoreJobsByProtectedResource(input: ListRestoreJobsByProtectedResourceInput) async throws -> ListRestoreJobsByProtectedResourceOutput
-    {
+    public func listRestoreJobsByProtectedResource(input: ListRestoreJobsByProtectedResourceInput) async throws -> ListRestoreJobsByProtectedResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3307,8 +3238,7 @@ extension BackupClient: BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRestoreTestingPlans(input: ListRestoreTestingPlansInput) async throws -> ListRestoreTestingPlansOutput
-    {
+    public func listRestoreTestingPlans(input: ListRestoreTestingPlansInput) async throws -> ListRestoreTestingPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3353,8 +3283,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listRestoreTestingSelections(input: ListRestoreTestingSelectionsInput) async throws -> ListRestoreTestingSelectionsOutput
-    {
+    public func listRestoreTestingSelections(input: ListRestoreTestingSelectionsInput) async throws -> ListRestoreTestingSelectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3400,8 +3329,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3447,8 +3375,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func putBackupVaultAccessPolicy(input: PutBackupVaultAccessPolicyInput) async throws -> PutBackupVaultAccessPolicyOutput
-    {
+    public func putBackupVaultAccessPolicy(input: PutBackupVaultAccessPolicyInput) async throws -> PutBackupVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3497,8 +3424,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func putBackupVaultLockConfiguration(input: PutBackupVaultLockConfigurationInput) async throws -> PutBackupVaultLockConfigurationOutput
-    {
+    public func putBackupVaultLockConfiguration(input: PutBackupVaultLockConfigurationInput) async throws -> PutBackupVaultLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3546,8 +3472,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func putBackupVaultNotifications(input: PutBackupVaultNotificationsInput) async throws -> PutBackupVaultNotificationsOutput
-    {
+    public func putBackupVaultNotifications(input: PutBackupVaultNotificationsInput) async throws -> PutBackupVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3596,8 +3521,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func putRestoreValidationResult(input: PutRestoreValidationResultInput) async throws -> PutRestoreValidationResultOutput
-    {
+    public func putRestoreValidationResult(input: PutRestoreValidationResultInput) async throws -> PutRestoreValidationResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3647,8 +3571,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func startBackupJob(input: StartBackupJobInput) async throws -> StartBackupJobOutput
-    {
+    public func startBackupJob(input: StartBackupJobInput) async throws -> StartBackupJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3698,8 +3621,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func startCopyJob(input: StartCopyJobInput) async throws -> StartCopyJobOutput
-    {
+    public func startCopyJob(input: StartCopyJobInput) async throws -> StartCopyJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3747,8 +3669,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func startReportJob(input: StartReportJobInput) async throws -> StartReportJobOutput
-    {
+    public func startReportJob(input: StartReportJobInput) async throws -> StartReportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3798,8 +3719,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func startRestoreJob(input: StartRestoreJobInput) async throws -> StartRestoreJobOutput
-    {
+    public func startRestoreJob(input: StartRestoreJobInput) async throws -> StartRestoreJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3848,8 +3768,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func stopBackupJob(input: StopBackupJobInput) async throws -> StopBackupJobOutput
-    {
+    public func stopBackupJob(input: StopBackupJobInput) async throws -> StopBackupJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3895,8 +3814,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3944,8 +3862,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3993,8 +3910,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateBackupPlan(input: UpdateBackupPlanInput) async throws -> UpdateBackupPlanOutput
-    {
+    public func updateBackupPlan(input: UpdateBackupPlanInput) async throws -> UpdateBackupPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4045,8 +3961,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateFramework(input: UpdateFrameworkInput) async throws -> UpdateFrameworkOutput
-    {
+    public func updateFramework(input: UpdateFrameworkInput) async throws -> UpdateFrameworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4095,8 +4010,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
-    {
+    public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4145,8 +4059,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateRecoveryPointLifecycle(input: UpdateRecoveryPointLifecycleInput) async throws -> UpdateRecoveryPointLifecycleOutput
-    {
+    public func updateRecoveryPointLifecycle(input: UpdateRecoveryPointLifecycleInput) async throws -> UpdateRecoveryPointLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4193,8 +4106,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateRegionSettings(input: UpdateRegionSettingsInput) async throws -> UpdateRegionSettingsOutput
-    {
+    public func updateRegionSettings(input: UpdateRegionSettingsInput) async throws -> UpdateRegionSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4243,8 +4155,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateReportPlan(input: UpdateReportPlanInput) async throws -> UpdateReportPlanOutput
-    {
+    public func updateReportPlan(input: UpdateReportPlanInput) async throws -> UpdateReportPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4304,8 +4215,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateRestoreTestingPlan(input: UpdateRestoreTestingPlanInput) async throws -> UpdateRestoreTestingPlanOutput
-    {
+    public func updateRestoreTestingPlan(input: UpdateRestoreTestingPlanInput) async throws -> UpdateRestoreTestingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4354,8 +4264,7 @@ extension BackupClient: BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    public func updateRestoreTestingSelection(input: UpdateRestoreTestingSelectionInput) async throws -> UpdateRestoreTestingSelectionOutput
-    {
+    public func updateRestoreTestingSelection(input: UpdateRestoreTestingSelectionInput) async throws -> UpdateRestoreTestingSelectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

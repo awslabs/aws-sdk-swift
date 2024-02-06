@@ -66,7 +66,7 @@ public struct WorkDocsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension WorkDocsClient: WorkDocsClientProtocol {
+extension WorkDocsClient {
     /// Performs the `AbortDocumentVersionUpload` operation on the `AWSGorillaBoyService` service.
     ///
     /// Aborts the upload of the specified document version that was previously initiated by [InitiateDocumentVersionUpload]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
@@ -85,8 +85,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput) async throws -> AbortDocumentVersionUploadOutput
-    {
+    public func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput) async throws -> AbortDocumentVersionUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func activateUser(input: ActivateUserInput) async throws -> ActivateUserOutput
-    {
+    public func activateUser(input: ActivateUserInput) async throws -> ActivateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func addResourcePermissions(input: AddResourcePermissionsInput) async throws -> AddResourcePermissionsOutput
-    {
+    public func addResourcePermissions(input: AddResourcePermissionsInput) async throws -> AddResourcePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func createComment(input: CreateCommentInput) async throws -> CreateCommentOutput
-    {
+    public func createComment(input: CreateCommentInput) async throws -> CreateCommentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func createCustomMetadata(input: CreateCustomMetadataInput) async throws -> CreateCustomMetadataOutput
-    {
+    public func createCustomMetadata(input: CreateCustomMetadataInput) async throws -> CreateCustomMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput
-    {
+    public func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `TooManyLabelsException` : The limit has been reached on the number of labels for the specified resource.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func createLabels(input: CreateLabelsInput) async throws -> CreateLabelsOutput
-    {
+    public func createLabels(input: CreateLabelsInput) async throws -> CreateLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -447,8 +440,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `TooManySubscriptionsException` : You've reached the limit on the number of subscriptions for the WorkDocs instance.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func createNotificationSubscription(input: CreateNotificationSubscriptionInput) async throws -> CreateNotificationSubscriptionOutput
-    {
+    public func createNotificationSubscription(input: CreateNotificationSubscriptionInput) async throws -> CreateNotificationSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -497,8 +489,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -548,8 +539,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deactivateUser(input: DeactivateUserInput) async throws -> DeactivateUserOutput
-    {
+    public func deactivateUser(input: DeactivateUserInput) async throws -> DeactivateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +588,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteComment(input: DeleteCommentInput) async throws -> DeleteCommentOutput
-    {
+    public func deleteComment(input: DeleteCommentInput) async throws -> DeleteCommentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -647,8 +636,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutput
-    {
+    public func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +688,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput
-    {
+    public func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -751,8 +738,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutput
-    {
+    public func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -804,8 +790,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput
-    {
+    public func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -854,8 +839,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteFolderContents(input: DeleteFolderContentsInput) async throws -> DeleteFolderContentsOutput
-    {
+    public func deleteFolderContents(input: DeleteFolderContentsInput) async throws -> DeleteFolderContentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -903,8 +887,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteLabels(input: DeleteLabelsInput) async throws -> DeleteLabelsOutput
-    {
+    public func deleteLabels(input: DeleteLabelsInput) async throws -> DeleteLabelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -951,8 +934,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteNotificationSubscription(input: DeleteNotificationSubscriptionInput) async throws -> DeleteNotificationSubscriptionOutput
-    {
+    public func deleteNotificationSubscription(input: DeleteNotificationSubscriptionInput) async throws -> DeleteNotificationSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -998,8 +980,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1046,8 +1027,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeActivities(input: DescribeActivitiesInput) async throws -> DescribeActivitiesOutput
-    {
+    public func describeActivities(input: DescribeActivitiesInput) async throws -> DescribeActivitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1096,8 +1076,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeComments(input: DescribeCommentsInput) async throws -> DescribeCommentsOutput
-    {
+    public func describeComments(input: DescribeCommentsInput) async throws -> DescribeCommentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1127,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeDocumentVersions(input: DescribeDocumentVersionsInput) async throws -> DescribeDocumentVersionsOutput
-    {
+    public func describeDocumentVersions(input: DescribeDocumentVersionsInput) async throws -> DescribeDocumentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1198,8 +1176,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeFolderContents(input: DescribeFolderContentsInput) async throws -> DescribeFolderContentsOutput
-    {
+    public func describeFolderContents(input: DescribeFolderContentsInput) async throws -> DescribeFolderContentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1246,8 +1223,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeGroups(input: DescribeGroupsInput) async throws -> DescribeGroupsOutput
-    {
+    public func describeGroups(input: DescribeGroupsInput) async throws -> DescribeGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1293,8 +1269,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `EntityNotExistsException` : The resource does not exist.
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeNotificationSubscriptions(input: DescribeNotificationSubscriptionsInput) async throws -> DescribeNotificationSubscriptionsOutput
-    {
+    public func describeNotificationSubscriptions(input: DescribeNotificationSubscriptionsInput) async throws -> DescribeNotificationSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1341,8 +1316,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeResourcePermissions(input: DescribeResourcePermissionsInput) async throws -> DescribeResourcePermissionsOutput
-    {
+    public func describeResourcePermissions(input: DescribeResourcePermissionsInput) async throws -> DescribeResourcePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1390,8 +1364,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeRootFolders(input: DescribeRootFoldersInput) async throws -> DescribeRootFoldersOutput
-    {
+    public func describeRootFolders(input: DescribeRootFoldersInput) async throws -> DescribeRootFoldersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1441,8 +1414,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
-    {
+    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1490,8 +1462,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getCurrentUser(input: GetCurrentUserInput) async throws -> GetCurrentUserOutput
-    {
+    public func getCurrentUser(input: GetCurrentUserInput) async throws -> GetCurrentUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1540,8 +1511,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutput
-    {
+    public func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1559,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getDocumentPath(input: GetDocumentPathInput) async throws -> GetDocumentPathOutput
-    {
+    public func getDocumentPath(input: GetDocumentPathInput) async throws -> GetDocumentPathOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1640,8 +1609,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getDocumentVersion(input: GetDocumentVersionInput) async throws -> GetDocumentVersionOutput
-    {
+    public func getDocumentVersion(input: GetDocumentVersionInput) async throws -> GetDocumentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1691,8 +1659,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getFolder(input: GetFolderInput) async throws -> GetFolderOutput
-    {
+    public func getFolder(input: GetFolderInput) async throws -> GetFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1740,8 +1707,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getFolderPath(input: GetFolderPathInput) async throws -> GetFolderPathOutput
-    {
+    public func getFolderPath(input: GetFolderPathInput) async throws -> GetFolderPathOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1789,8 +1755,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput
-    {
+    public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1847,8 +1812,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `StorageLimitWillExceedException` : The storage limit will be exceeded.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func initiateDocumentVersionUpload(input: InitiateDocumentVersionUploadInput) async throws -> InitiateDocumentVersionUploadOutput
-    {
+    public func initiateDocumentVersionUpload(input: InitiateDocumentVersionUploadInput) async throws -> InitiateDocumentVersionUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1897,8 +1861,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInput) async throws -> RemoveAllResourcePermissionsOutput
-    {
+    public func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInput) async throws -> RemoveAllResourcePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1944,8 +1907,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutput
-    {
+    public func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1996,8 +1958,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutput
-    {
+    public func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2043,8 +2004,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
-    {
+    public func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2099,8 +2059,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutput
-    {
+    public func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2153,8 +2112,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func updateDocumentVersion(input: UpdateDocumentVersionInput) async throws -> UpdateDocumentVersionOutput
-    {
+    public func updateDocumentVersion(input: UpdateDocumentVersionInput) async throws -> UpdateDocumentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2209,8 +2167,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput
-    {
+    public func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2264,8 +2221,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

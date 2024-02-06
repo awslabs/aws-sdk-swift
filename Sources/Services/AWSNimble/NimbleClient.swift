@@ -66,7 +66,7 @@ public struct NimbleClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension NimbleClient: NimbleClientProtocol {
+extension NimbleClient {
     /// Performs the `AcceptEulas` operation on the `nimble` service.
     ///
     /// Accept EULAs.
@@ -85,8 +85,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func acceptEulas(input: AcceptEulasInput) async throws -> AcceptEulasOutput
-    {
+    public func acceptEulas(input: AcceptEulasInput) async throws -> AcceptEulasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func createLaunchProfile(input: CreateLaunchProfileInput) async throws -> CreateLaunchProfileOutput
-    {
+    public func createLaunchProfile(input: CreateLaunchProfileInput) async throws -> CreateLaunchProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func createStreamingImage(input: CreateStreamingImageInput) async throws -> CreateStreamingImageOutput
-    {
+    public func createStreamingImage(input: CreateStreamingImageInput) async throws -> CreateStreamingImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -247,8 +244,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func createStreamingSession(input: CreateStreamingSessionInput) async throws -> CreateStreamingSessionOutput
-    {
+    public func createStreamingSession(input: CreateStreamingSessionInput) async throws -> CreateStreamingSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -301,8 +297,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func createStreamingSessionStream(input: CreateStreamingSessionStreamInput) async throws -> CreateStreamingSessionStreamOutput
-    {
+    public func createStreamingSessionStream(input: CreateStreamingSessionStreamInput) async throws -> CreateStreamingSessionStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -355,8 +350,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutput
-    {
+    public func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -409,8 +403,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func createStudioComponent(input: CreateStudioComponentInput) async throws -> CreateStudioComponentOutput
-    {
+    public func createStudioComponent(input: CreateStudioComponentInput) async throws -> CreateStudioComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +456,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteLaunchProfile(input: DeleteLaunchProfileInput) async throws -> DeleteLaunchProfileOutput
-    {
+    public func deleteLaunchProfile(input: DeleteLaunchProfileInput) async throws -> DeleteLaunchProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +506,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteLaunchProfileMember(input: DeleteLaunchProfileMemberInput) async throws -> DeleteLaunchProfileMemberOutput
-    {
+    public func deleteLaunchProfileMember(input: DeleteLaunchProfileMemberInput) async throws -> DeleteLaunchProfileMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +556,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteStreamingImage(input: DeleteStreamingImageInput) async throws -> DeleteStreamingImageOutput
-    {
+    public func deleteStreamingImage(input: DeleteStreamingImageInput) async throws -> DeleteStreamingImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +606,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteStreamingSession(input: DeleteStreamingSessionInput) async throws -> DeleteStreamingSessionOutput
-    {
+    public func deleteStreamingSession(input: DeleteStreamingSessionInput) async throws -> DeleteStreamingSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +656,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutput
-    {
+    public func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +706,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteStudioComponent(input: DeleteStudioComponentInput) async throws -> DeleteStudioComponentOutput
-    {
+    public func deleteStudioComponent(input: DeleteStudioComponentInput) async throws -> DeleteStudioComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,8 +756,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func deleteStudioMember(input: DeleteStudioMemberInput) async throws -> DeleteStudioMemberOutput
-    {
+    public func deleteStudioMember(input: DeleteStudioMemberInput) async throws -> DeleteStudioMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +806,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getEula(input: GetEulaInput) async throws -> GetEulaOutput
-    {
+    public func getEula(input: GetEulaInput) async throws -> GetEulaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +854,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getLaunchProfile(input: GetLaunchProfileInput) async throws -> GetLaunchProfileOutput
-    {
+    public func getLaunchProfile(input: GetLaunchProfileInput) async throws -> GetLaunchProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +902,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getLaunchProfileDetails(input: GetLaunchProfileDetailsInput) async throws -> GetLaunchProfileDetailsOutput
-    {
+    public func getLaunchProfileDetails(input: GetLaunchProfileDetailsInput) async throws -> GetLaunchProfileDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -967,8 +950,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getLaunchProfileInitialization(input: GetLaunchProfileInitializationInput) async throws -> GetLaunchProfileInitializationOutput
-    {
+    public func getLaunchProfileInitialization(input: GetLaunchProfileInitializationInput) async throws -> GetLaunchProfileInitializationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1017,8 +999,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getLaunchProfileMember(input: GetLaunchProfileMemberInput) async throws -> GetLaunchProfileMemberOutput
-    {
+    public func getLaunchProfileMember(input: GetLaunchProfileMemberInput) async throws -> GetLaunchProfileMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1066,8 +1047,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStreamingImage(input: GetStreamingImageInput) async throws -> GetStreamingImageOutput
-    {
+    public func getStreamingImage(input: GetStreamingImageInput) async throws -> GetStreamingImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1115,8 +1095,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStreamingSession(input: GetStreamingSessionInput) async throws -> GetStreamingSessionOutput
-    {
+    public func getStreamingSession(input: GetStreamingSessionInput) async throws -> GetStreamingSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1163,8 +1142,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStreamingSessionBackup(input: GetStreamingSessionBackupInput) async throws -> GetStreamingSessionBackupOutput
-    {
+    public func getStreamingSessionBackup(input: GetStreamingSessionBackupInput) async throws -> GetStreamingSessionBackupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1190,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStreamingSessionStream(input: GetStreamingSessionStreamInput) async throws -> GetStreamingSessionStreamOutput
-    {
+    public func getStreamingSessionStream(input: GetStreamingSessionStreamInput) async throws -> GetStreamingSessionStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1261,8 +1238,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStudio(input: GetStudioInput) async throws -> GetStudioOutput
-    {
+    public func getStudio(input: GetStudioInput) async throws -> GetStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1310,8 +1286,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStudioComponent(input: GetStudioComponentInput) async throws -> GetStudioComponentOutput
-    {
+    public func getStudioComponent(input: GetStudioComponentInput) async throws -> GetStudioComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1359,8 +1334,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func getStudioMember(input: GetStudioMemberInput) async throws -> GetStudioMemberOutput
-    {
+    public func getStudioMember(input: GetStudioMemberInput) async throws -> GetStudioMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1382,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listEulaAcceptances(input: ListEulaAcceptancesInput) async throws -> ListEulaAcceptancesOutput
-    {
+    public func listEulaAcceptances(input: ListEulaAcceptancesInput) async throws -> ListEulaAcceptancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1458,8 +1431,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listEulas(input: ListEulasInput) async throws -> ListEulasOutput
-    {
+    public func listEulas(input: ListEulasInput) async throws -> ListEulasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1508,8 +1480,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listLaunchProfileMembers(input: ListLaunchProfileMembersInput) async throws -> ListLaunchProfileMembersOutput
-    {
+    public func listLaunchProfileMembers(input: ListLaunchProfileMembersInput) async throws -> ListLaunchProfileMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1558,8 +1529,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listLaunchProfiles(input: ListLaunchProfilesInput) async throws -> ListLaunchProfilesOutput
-    {
+    public func listLaunchProfiles(input: ListLaunchProfilesInput) async throws -> ListLaunchProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1608,8 +1578,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listStreamingImages(input: ListStreamingImagesInput) async throws -> ListStreamingImagesOutput
-    {
+    public func listStreamingImages(input: ListStreamingImagesInput) async throws -> ListStreamingImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1626,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listStreamingSessionBackups(input: ListStreamingSessionBackupsInput) async throws -> ListStreamingSessionBackupsOutput
-    {
+    public func listStreamingSessionBackups(input: ListStreamingSessionBackupsInput) async throws -> ListStreamingSessionBackupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1707,8 +1675,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listStreamingSessions(input: ListStreamingSessionsInput) async throws -> ListStreamingSessionsOutput
-    {
+    public func listStreamingSessions(input: ListStreamingSessionsInput) async throws -> ListStreamingSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1757,8 +1724,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listStudioComponents(input: ListStudioComponentsInput) async throws -> ListStudioComponentsOutput
-    {
+    public func listStudioComponents(input: ListStudioComponentsInput) async throws -> ListStudioComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1807,8 +1773,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listStudioMembers(input: ListStudioMembersInput) async throws -> ListStudioMembersOutput
-    {
+    public func listStudioMembers(input: ListStudioMembersInput) async throws -> ListStudioMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1857,8 +1822,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutput
-    {
+    public func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1907,8 +1871,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1956,8 +1919,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func putLaunchProfileMembers(input: PutLaunchProfileMembersInput) async throws -> PutLaunchProfileMembersOutput
-    {
+    public func putLaunchProfileMembers(input: PutLaunchProfileMembersInput) async throws -> PutLaunchProfileMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2010,8 +1972,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func putStudioMembers(input: PutStudioMembersInput) async throws -> PutStudioMembersOutput
-    {
+    public func putStudioMembers(input: PutStudioMembersInput) async throws -> PutStudioMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2064,8 +2025,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func startStreamingSession(input: StartStreamingSessionInput) async throws -> StartStreamingSessionOutput
-    {
+    public func startStreamingSession(input: StartStreamingSessionInput) async throws -> StartStreamingSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2118,8 +2078,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func startStudioSSOConfigurationRepair(input: StartStudioSSOConfigurationRepairInput) async throws -> StartStudioSSOConfigurationRepairOutput
-    {
+    public func startStudioSSOConfigurationRepair(input: StartStudioSSOConfigurationRepairInput) async throws -> StartStudioSSOConfigurationRepairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2169,8 +2128,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func stopStreamingSession(input: StopStreamingSessionInput) async throws -> StopStreamingSessionOutput
-    {
+    public func stopStreamingSession(input: StopStreamingSessionInput) async throws -> StopStreamingSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2223,8 +2181,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2275,8 +2232,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2325,8 +2281,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func updateLaunchProfile(input: UpdateLaunchProfileInput) async throws -> UpdateLaunchProfileOutput
-    {
+    public func updateLaunchProfile(input: UpdateLaunchProfileInput) async throws -> UpdateLaunchProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2379,8 +2334,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func updateLaunchProfileMember(input: UpdateLaunchProfileMemberInput) async throws -> UpdateLaunchProfileMemberOutput
-    {
+    public func updateLaunchProfileMember(input: UpdateLaunchProfileMemberInput) async throws -> UpdateLaunchProfileMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2433,8 +2387,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func updateStreamingImage(input: UpdateStreamingImageInput) async throws -> UpdateStreamingImageOutput
-    {
+    public func updateStreamingImage(input: UpdateStreamingImageInput) async throws -> UpdateStreamingImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2487,8 +2440,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutput
-    {
+    public func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2541,8 +2493,7 @@ extension NimbleClient: NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    public func updateStudioComponent(input: UpdateStudioComponentInput) async throws -> UpdateStudioComponentOutput
-    {
+    public func updateStudioComponent(input: UpdateStudioComponentInput) async throws -> UpdateStudioComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

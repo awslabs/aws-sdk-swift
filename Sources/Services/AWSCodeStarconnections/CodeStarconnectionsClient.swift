@@ -66,7 +66,7 @@ public struct CodeStarconnectionsClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
+extension CodeStarconnectionsClient {
     /// Performs the `CreateConnection` operation on the `CodeStar_connections_20191201` service.
     ///
     /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
@@ -81,8 +81,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    {
+    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
-    public func createHost(input: CreateHostInput) async throws -> CreateHostOutput
-    {
+    public func createHost(input: CreateHostInput) async throws -> CreateHostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceAlreadyExistsException` : Unable to create resource. Resource already exists.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createRepositoryLink(input: CreateRepositoryLinkInput) async throws -> CreateRepositoryLinkOutput
-    {
+    public func createRepositoryLink(input: CreateRepositoryLinkInput) async throws -> CreateRepositoryLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceAlreadyExistsException` : Unable to create resource. Resource already exists.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createSyncConfiguration(input: CreateSyncConfigurationInput) async throws -> CreateSyncConfigurationOutput
-    {
+    public func createSyncConfiguration(input: CreateSyncConfigurationInput) async throws -> CreateSyncConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    public func deleteHost(input: DeleteHostInput) async throws -> DeleteHostOutput
-    {
+    public func deleteHost(input: DeleteHostInput) async throws -> DeleteHostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +377,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `SyncConfigurationStillExistsException` : Unable to continue. The sync blocker still exists.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnsupportedProviderTypeException` : The specified provider type is not supported for connections.
-    public func deleteRepositoryLink(input: DeleteRepositoryLinkInput) async throws -> DeleteRepositoryLinkOutput
-    {
+    public func deleteRepositoryLink(input: DeleteRepositoryLinkInput) async throws -> DeleteRepositoryLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -435,8 +428,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteSyncConfiguration(input: DeleteSyncConfigurationInput) async throws -> DeleteSyncConfigurationOutput
-    {
+    public func deleteSyncConfiguration(input: DeleteSyncConfigurationInput) async throws -> DeleteSyncConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -483,8 +475,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
-    {
+    public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -531,8 +522,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    public func getHost(input: GetHostInput) async throws -> GetHostOutput
-    {
+    public func getHost(input: GetHostInput) async throws -> GetHostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -583,8 +573,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getRepositoryLink(input: GetRepositoryLinkInput) async throws -> GetRepositoryLinkOutput
-    {
+    public func getRepositoryLink(input: GetRepositoryLinkInput) async throws -> GetRepositoryLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -634,8 +623,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput
-    {
+    public func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +673,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getResourceSyncStatus(input: GetResourceSyncStatusInput) async throws -> GetResourceSyncStatusOutput
-    {
+    public func getResourceSyncStatus(input: GetResourceSyncStatusInput) async throws -> GetResourceSyncStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -736,8 +723,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getSyncBlockerSummary(input: GetSyncBlockerSummaryInput) async throws -> GetSyncBlockerSummaryOutput
-    {
+    public func getSyncBlockerSummary(input: GetSyncBlockerSummaryInput) async throws -> GetSyncBlockerSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -787,8 +773,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getSyncConfiguration(input: GetSyncConfigurationInput) async throws -> GetSyncConfigurationOutput
-    {
+    public func getSyncConfiguration(input: GetSyncConfigurationInput) async throws -> GetSyncConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -834,8 +819,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
-    {
+    public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -876,8 +860,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - Parameter ListHostsInput : [no documentation found]
     ///
     /// - Returns: `ListHostsOutput` : [no documentation found]
-    public func listHosts(input: ListHostsInput) async throws -> ListHostsOutput
-    {
+    public func listHosts(input: ListHostsInput) async throws -> ListHostsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -928,8 +911,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listRepositoryLinks(input: ListRepositoryLinksInput) async throws -> ListRepositoryLinksOutput
-    {
+    public func listRepositoryLinks(input: ListRepositoryLinksInput) async throws -> ListRepositoryLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +961,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput
-    {
+    public func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1011,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listSyncConfigurations(input: ListSyncConfigurationsInput) async throws -> ListSyncConfigurationsOutput
-    {
+    public func listSyncConfigurations(input: ListSyncConfigurationsInput) async throws -> ListSyncConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1077,8 +1057,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1125,8 +1104,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1172,8 +1150,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1222,8 +1199,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     /// - `UnsupportedOperationException` : The operation is not supported. Check the connection status and try again.
-    public func updateHost(input: UpdateHostInput) async throws -> UpdateHostOutput
-    {
+    public func updateHost(input: UpdateHostInput) async throws -> UpdateHostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1275,8 +1251,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UpdateOutOfSyncException` : The update is out of sync. Try syncing again.
-    public func updateRepositoryLink(input: UpdateRepositoryLinkInput) async throws -> UpdateRepositoryLinkOutput
-    {
+    public func updateRepositoryLink(input: UpdateRepositoryLinkInput) async throws -> UpdateRepositoryLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1303,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `RetryLatestCommitFailedException` : Retrying the latest commit failed. Try again later.
     /// - `SyncBlockerDoesNotExistException` : Unable to continue. The sync blocker does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateSyncBlocker(input: UpdateSyncBlockerInput) async throws -> UpdateSyncBlockerOutput
-    {
+    public func updateSyncBlocker(input: UpdateSyncBlockerInput) async throws -> UpdateSyncBlockerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1381,8 +1355,7 @@ extension CodeStarconnectionsClient: CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UpdateOutOfSyncException` : The update is out of sync. Try syncing again.
-    public func updateSyncConfiguration(input: UpdateSyncConfigurationInput) async throws -> UpdateSyncConfigurationOutput
-    {
+    public func updateSyncConfiguration(input: UpdateSyncConfigurationInput) async throws -> UpdateSyncConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

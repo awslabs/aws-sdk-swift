@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension DocDBClientProtocol {
+extension DocDBClient {
 
     static func dbInstanceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
         let acceptors: [WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>.Acceptor] = [

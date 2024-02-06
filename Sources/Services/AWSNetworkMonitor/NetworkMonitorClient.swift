@@ -66,7 +66,7 @@ public struct NetworkMonitorClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension NetworkMonitorClient: NetworkMonitorClientProtocol {
+extension NetworkMonitorClient {
     /// Performs the `CreateMonitor` operation on the `NetworkMonitor` service.
     ///
     /// Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch.
@@ -84,8 +84,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput
-    {
+    public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func createProbe(input: CreateProbeInput) async throws -> CreateProbeOutput
-    {
+    public func createProbe(input: CreateProbeInput) async throws -> CreateProbeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput
-    {
+    public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func deleteProbe(input: DeleteProbeInput) async throws -> DeleteProbeOutput
-    {
+    public func deleteProbe(input: DeleteProbeInput) async throws -> DeleteProbeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutput
-    {
+    public func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func getProbe(input: GetProbeInput) async throws -> GetProbeOutput
-    {
+    public func getProbe(input: GetProbeInput) async throws -> GetProbeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +369,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput
-    {
+    public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +417,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -472,8 +464,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -523,8 +514,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +562,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutput
-    {
+    public func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -623,8 +612,7 @@ extension NetworkMonitorClient: NetworkMonitorClientProtocol {
     /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling
     /// - `ValidationException` : One of the parameters for the request is not valid.
-    public func updateProbe(input: UpdateProbeInput) async throws -> UpdateProbeOutput
-    {
+    public func updateProbe(input: UpdateProbeInput) async throws -> UpdateProbeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

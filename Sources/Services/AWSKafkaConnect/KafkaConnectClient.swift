@@ -66,7 +66,7 @@ public struct KafkaConnectClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension KafkaConnectClient: KafkaConnectClientProtocol {
+extension KafkaConnectClient {
     /// Performs the `CreateConnector` operation on the `KafkaConnect` service.
     ///
     /// Creates a connector using the specified properties.
@@ -86,8 +86,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
-    {
+    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func createCustomPlugin(input: CreateCustomPluginInput) async throws -> CreateCustomPluginOutput
-    {
+    public func createCustomPlugin(input: CreateCustomPluginInput) async throws -> CreateCustomPluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func createWorkerConfiguration(input: CreateWorkerConfigurationInput) async throws -> CreateWorkerConfigurationOutput
-    {
+    public func createWorkerConfiguration(input: CreateWorkerConfigurationInput) async throws -> CreateWorkerConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -244,8 +241,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
-    {
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -294,8 +290,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func deleteCustomPlugin(input: DeleteCustomPluginInput) async throws -> DeleteCustomPluginOutput
-    {
+    public func deleteCustomPlugin(input: DeleteCustomPluginInput) async throws -> DeleteCustomPluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -343,8 +338,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput
-    {
+    public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func describeCustomPlugin(input: DescribeCustomPluginInput) async throws -> DescribeCustomPluginOutput
-    {
+    public func describeCustomPlugin(input: DescribeCustomPluginInput) async throws -> DescribeCustomPluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func describeWorkerConfiguration(input: DescribeWorkerConfigurationInput) async throws -> DescribeWorkerConfigurationOutput
-    {
+    public func describeWorkerConfiguration(input: DescribeWorkerConfigurationInput) async throws -> DescribeWorkerConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -490,8 +482,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
-    {
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +531,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func listCustomPlugins(input: ListCustomPluginsInput) async throws -> ListCustomPluginsOutput
-    {
+    public func listCustomPlugins(input: ListCustomPluginsInput) async throws -> ListCustomPluginsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -590,8 +580,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func listWorkerConfigurations(input: ListWorkerConfigurationsInput) async throws -> ListWorkerConfigurationsOutput
-    {
+    public func listWorkerConfigurations(input: ListWorkerConfigurationsInput) async throws -> ListWorkerConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -640,8 +629,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
     /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
     /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
     /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
-    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput
-    {
+    public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

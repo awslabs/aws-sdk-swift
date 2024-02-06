@@ -66,7 +66,7 @@ public struct SupportClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension SupportClient: SupportClientProtocol {
+extension SupportClient {
     /// Performs the `AddAttachmentsToSet` operation on the `AWSSupport_20130415` service.
     ///
     /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires.
@@ -87,8 +87,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `AttachmentSetSizeLimitExceeded` : A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
     /// - `InternalServerError` : An internal server error occurred.
-    public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutput
-    {
+    public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -141,8 +140,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutput
-    {
+    public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -202,8 +200,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `CaseCreationLimitExceeded` : The case creation limit for the account has been exceeded.
     /// - `InternalServerError` : An internal server error occurred.
-    public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput
-    {
+    public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -255,8 +252,7 @@ extension SupportClient: SupportClientProtocol {
     /// - `AttachmentIdNotFound` : An attachment with the specified ID could not be found.
     /// - `DescribeAttachmentLimitExceeded` : The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutput
-    {
+    public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -314,8 +310,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutput
-    {
+    public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +361,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutput
-    {
+    public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -418,8 +412,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutput
-    {
+    public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +462,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput
-    {
+    public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +512,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
-    public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutput
-    {
+    public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +563,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutput
-    {
+    public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -627,8 +617,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutput
-    {
+    public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,8 +689,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutput
-    {
+    public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +743,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutput
-    {
+    public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -812,8 +799,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-    public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutput
-    {
+    public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -866,8 +852,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
-    public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutput
-    {
+    public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +903,7 @@ extension SupportClient: SupportClientProtocol {
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
-    public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutput
-    {
+    public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

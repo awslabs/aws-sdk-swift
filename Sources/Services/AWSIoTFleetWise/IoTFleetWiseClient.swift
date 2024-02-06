@@ -66,7 +66,7 @@ public struct IoTFleetWiseClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
+extension IoTFleetWiseClient {
     /// Performs the `AssociateVehicleFleet` operation on the `IoTAutobahnControlPlane` service.
     ///
     /// Adds, or associates, a vehicle with a fleet.
@@ -84,8 +84,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func associateVehicleFleet(input: AssociateVehicleFleetInput) async throws -> AssociateVehicleFleetOutput
-    {
+    public func associateVehicleFleet(input: AssociateVehicleFleetInput) async throws -> AssociateVehicleFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func batchCreateVehicle(input: BatchCreateVehicleInput) async throws -> BatchCreateVehicleOutput
-    {
+    public func batchCreateVehicle(input: BatchCreateVehicleInput) async throws -> BatchCreateVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func batchUpdateVehicle(input: BatchUpdateVehicleInput) async throws -> BatchUpdateVehicleOutput
-    {
+    public func batchUpdateVehicle(input: BatchUpdateVehicleInput) async throws -> BatchUpdateVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
-    {
+    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -300,8 +296,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createDecoderManifest(input: CreateDecoderManifestInput) async throws -> CreateDecoderManifestOutput
-    {
+    public func createDecoderManifest(input: CreateDecoderManifestInput) async throws -> CreateDecoderManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -353,8 +348,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
-    {
+    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -407,8 +401,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createModelManifest(input: CreateModelManifestInput) async throws -> CreateModelManifestOutput
-    {
+    public func createModelManifest(input: CreateModelManifestInput) async throws -> CreateModelManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -461,8 +454,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createSignalCatalog(input: CreateSignalCatalogInput) async throws -> CreateSignalCatalogOutput
-    {
+    public func createSignalCatalog(input: CreateSignalCatalogInput) async throws -> CreateSignalCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +506,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createVehicle(input: CreateVehicleInput) async throws -> CreateVehicleOutput
-    {
+    public func createVehicle(input: CreateVehicleInput) async throws -> CreateVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +556,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
-    {
+    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +606,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteDecoderManifest(input: DeleteDecoderManifestInput) async throws -> DeleteDecoderManifestOutput
-    {
+    public func deleteDecoderManifest(input: DeleteDecoderManifestInput) async throws -> DeleteDecoderManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +655,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
-    {
+    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -717,8 +705,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteModelManifest(input: DeleteModelManifestInput) async throws -> DeleteModelManifestOutput
-    {
+    public func deleteModelManifest(input: DeleteModelManifestInput) async throws -> DeleteModelManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteSignalCatalog(input: DeleteSignalCatalogInput) async throws -> DeleteSignalCatalogOutput
-    {
+    public func deleteSignalCatalog(input: DeleteSignalCatalogInput) async throws -> DeleteSignalCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -818,8 +804,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteVehicle(input: DeleteVehicleInput) async throws -> DeleteVehicleOutput
-    {
+    public func deleteVehicle(input: DeleteVehicleInput) async throws -> DeleteVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +854,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func disassociateVehicleFleet(input: DisassociateVehicleFleetInput) async throws -> DisassociateVehicleFleetOutput
-    {
+    public func disassociateVehicleFleet(input: DisassociateVehicleFleetInput) async throws -> DisassociateVehicleFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -920,8 +904,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutput
-    {
+    public func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -971,8 +954,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getDecoderManifest(input: GetDecoderManifestInput) async throws -> GetDecoderManifestOutput
-    {
+    public func getDecoderManifest(input: GetDecoderManifestInput) async throws -> GetDecoderManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1022,8 +1004,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getEncryptionConfiguration(input: GetEncryptionConfigurationInput) async throws -> GetEncryptionConfigurationOutput
-    {
+    public func getEncryptionConfiguration(input: GetEncryptionConfigurationInput) async throws -> GetEncryptionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1073,8 +1054,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getFleet(input: GetFleetInput) async throws -> GetFleetOutput
-    {
+    public func getFleet(input: GetFleetInput) async throws -> GetFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1122,8 +1102,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
-    public func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput
-    {
+    public func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1173,8 +1152,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getModelManifest(input: GetModelManifestInput) async throws -> GetModelManifestOutput
-    {
+    public func getModelManifest(input: GetModelManifestInput) async throws -> GetModelManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1224,8 +1202,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getRegisterAccountStatus(input: GetRegisterAccountStatusInput) async throws -> GetRegisterAccountStatusOutput
-    {
+    public func getRegisterAccountStatus(input: GetRegisterAccountStatusInput) async throws -> GetRegisterAccountStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1275,8 +1252,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getSignalCatalog(input: GetSignalCatalogInput) async throws -> GetSignalCatalogOutput
-    {
+    public func getSignalCatalog(input: GetSignalCatalogInput) async throws -> GetSignalCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1326,8 +1302,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getVehicle(input: GetVehicleInput) async throws -> GetVehicleOutput
-    {
+    public func getVehicle(input: GetVehicleInput) async throws -> GetVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1352,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getVehicleStatus(input: GetVehicleStatusInput) async throws -> GetVehicleStatusOutput
-    {
+    public func getVehicleStatus(input: GetVehicleStatusInput) async throws -> GetVehicleStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1432,8 +1406,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func importDecoderManifest(input: ImportDecoderManifestInput) async throws -> ImportDecoderManifestOutput
-    {
+    public func importDecoderManifest(input: ImportDecoderManifestInput) async throws -> ImportDecoderManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1459,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func importSignalCatalog(input: ImportSignalCatalogInput) async throws -> ImportSignalCatalogOutput
-    {
+    public func importSignalCatalog(input: ImportSignalCatalogInput) async throws -> ImportSignalCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1536,8 +1508,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput
-    {
+    public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1588,8 +1559,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDecoderManifestNetworkInterfaces(input: ListDecoderManifestNetworkInterfacesInput) async throws -> ListDecoderManifestNetworkInterfacesOutput
-    {
+    public func listDecoderManifestNetworkInterfaces(input: ListDecoderManifestNetworkInterfacesInput) async throws -> ListDecoderManifestNetworkInterfacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1640,8 +1610,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDecoderManifestSignals(input: ListDecoderManifestSignalsInput) async throws -> ListDecoderManifestSignalsOutput
-    {
+    public func listDecoderManifestSignals(input: ListDecoderManifestSignalsInput) async throws -> ListDecoderManifestSignalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1691,8 +1660,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDecoderManifests(input: ListDecoderManifestsInput) async throws -> ListDecoderManifestsOutput
-    {
+    public func listDecoderManifests(input: ListDecoderManifestsInput) async throws -> ListDecoderManifestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1743,8 +1711,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput
-    {
+    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1795,8 +1762,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listFleetsForVehicle(input: ListFleetsForVehicleInput) async throws -> ListFleetsForVehicleOutput
-    {
+    public func listFleetsForVehicle(input: ListFleetsForVehicleInput) async throws -> ListFleetsForVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1848,8 +1814,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listModelManifestNodes(input: ListModelManifestNodesInput) async throws -> ListModelManifestNodesOutput
-    {
+    public func listModelManifestNodes(input: ListModelManifestNodesInput) async throws -> ListModelManifestNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1899,8 +1864,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listModelManifests(input: ListModelManifestsInput) async throws -> ListModelManifestsOutput
-    {
+    public func listModelManifests(input: ListModelManifestsInput) async throws -> ListModelManifestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1952,8 +1916,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listSignalCatalogNodes(input: ListSignalCatalogNodesInput) async throws -> ListSignalCatalogNodesOutput
-    {
+    public func listSignalCatalogNodes(input: ListSignalCatalogNodesInput) async throws -> ListSignalCatalogNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2003,8 +1966,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listSignalCatalogs(input: ListSignalCatalogsInput) async throws -> ListSignalCatalogsOutput
-    {
+    public func listSignalCatalogs(input: ListSignalCatalogsInput) async throws -> ListSignalCatalogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2055,8 +2017,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2106,8 +2067,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listVehicles(input: ListVehiclesInput) async throws -> ListVehiclesOutput
-    {
+    public func listVehicles(input: ListVehiclesInput) async throws -> ListVehiclesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2158,8 +2118,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listVehiclesInFleet(input: ListVehiclesInFleetInput) async throws -> ListVehiclesInFleetOutput
-    {
+    public func listVehiclesInFleet(input: ListVehiclesInFleetInput) async throws -> ListVehiclesInFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2211,8 +2170,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func putEncryptionConfiguration(input: PutEncryptionConfigurationInput) async throws -> PutEncryptionConfigurationOutput
-    {
+    public func putEncryptionConfiguration(input: PutEncryptionConfigurationInput) async throws -> PutEncryptionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2263,8 +2221,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
-    {
+    public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2315,8 +2272,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutput
-    {
+    public func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2366,8 +2322,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2418,8 +2373,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2471,8 +2425,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput
-    {
+    public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2525,8 +2478,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateDecoderManifest(input: UpdateDecoderManifestInput) async throws -> UpdateDecoderManifestOutput
-    {
+    public func updateDecoderManifest(input: UpdateDecoderManifestInput) async throws -> UpdateDecoderManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2577,8 +2529,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput
-    {
+    public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2630,8 +2581,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateModelManifest(input: UpdateModelManifestInput) async throws -> UpdateModelManifestOutput
-    {
+    public func updateModelManifest(input: UpdateModelManifestInput) async throws -> UpdateModelManifestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2685,8 +2635,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateSignalCatalog(input: UpdateSignalCatalogInput) async throws -> UpdateSignalCatalogOutput
-    {
+    public func updateSignalCatalog(input: UpdateSignalCatalogInput) async throws -> UpdateSignalCatalogOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2737,8 +2686,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateVehicle(input: UpdateVehicleInput) async throws -> UpdateVehicleOutput
-    {
+    public func updateVehicle(input: UpdateVehicleInput) async throws -> UpdateVehicleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

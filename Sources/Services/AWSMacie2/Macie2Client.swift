@@ -66,7 +66,7 @@ public struct Macie2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension Macie2Client: Macie2ClientProtocol {
+extension Macie2Client {
     /// Performs the `AcceptInvitation` operation on the `Macie2` service.
     ///
     /// Accepts an Amazon Macie membership invitation that was received from a specific account.
@@ -85,8 +85,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
-    {
+    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func batchGetCustomDataIdentifiers(input: BatchGetCustomDataIdentifiersInput) async throws -> BatchGetCustomDataIdentifiersOutput
-    {
+    public func batchGetCustomDataIdentifiers(input: BatchGetCustomDataIdentifiersInput) async throws -> BatchGetCustomDataIdentifiersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createAllowList(input: CreateAllowListInput) async throws -> CreateAllowListOutput
-    {
+    public func createAllowList(input: CreateAllowListInput) async throws -> CreateAllowListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createClassificationJob(input: CreateClassificationJobInput) async throws -> CreateClassificationJobOutput
-    {
+    public func createClassificationJob(input: CreateClassificationJobInput) async throws -> CreateClassificationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createCustomDataIdentifier(input: CreateCustomDataIdentifierInput) async throws -> CreateCustomDataIdentifierOutput
-    {
+    public func createCustomDataIdentifier(input: CreateCustomDataIdentifierInput) async throws -> CreateCustomDataIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -348,8 +343,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createFindingsFilter(input: CreateFindingsFilterInput) async throws -> CreateFindingsFilterOutput
-    {
+    public func createFindingsFilter(input: CreateFindingsFilterInput) async throws -> CreateFindingsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -401,8 +395,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createInvitations(input: CreateInvitationsInput) async throws -> CreateInvitationsOutput
-    {
+    public func createInvitations(input: CreateInvitationsInput) async throws -> CreateInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -453,8 +446,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createMember(input: CreateMemberInput) async throws -> CreateMemberOutput
-    {
+    public func createMember(input: CreateMemberInput) async throws -> CreateMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -505,8 +497,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutput
-    {
+    public func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +548,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput
-    {
+    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -607,8 +597,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func deleteAllowList(input: DeleteAllowListInput) async throws -> DeleteAllowListOutput
-    {
+    public func deleteAllowList(input: DeleteAllowListInput) async throws -> DeleteAllowListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -657,8 +646,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func deleteCustomDataIdentifier(input: DeleteCustomDataIdentifierInput) async throws -> DeleteCustomDataIdentifierOutput
-    {
+    public func deleteCustomDataIdentifier(input: DeleteCustomDataIdentifierInput) async throws -> DeleteCustomDataIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +694,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func deleteFindingsFilter(input: DeleteFindingsFilterInput) async throws -> DeleteFindingsFilterOutput
-    {
+    public func deleteFindingsFilter(input: DeleteFindingsFilterInput) async throws -> DeleteFindingsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +742,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput
-    {
+    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -807,8 +793,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput
-    {
+    public func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -856,8 +841,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func describeBuckets(input: DescribeBucketsInput) async throws -> DescribeBucketsOutput
-    {
+    public func describeBuckets(input: DescribeBucketsInput) async throws -> DescribeBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -908,8 +892,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func describeClassificationJob(input: DescribeClassificationJobInput) async throws -> DescribeClassificationJobOutput
-    {
+    public func describeClassificationJob(input: DescribeClassificationJobInput) async throws -> DescribeClassificationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +940,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-    {
+    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1006,8 +988,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func disableMacie(input: DisableMacieInput) async throws -> DisableMacieOutput
-    {
+    public func disableMacie(input: DisableMacieInput) async throws -> DisableMacieOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1055,8 +1036,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
-    {
+    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1105,8 +1085,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput
-    {
+    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1154,8 +1133,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput
-    {
+    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1203,8 +1181,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput
-    {
+    public func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1252,8 +1229,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func enableMacie(input: EnableMacieInput) async throws -> EnableMacieOutput
-    {
+    public func enableMacie(input: EnableMacieInput) async throws -> EnableMacieOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1305,8 +1281,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
-    {
+    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1358,8 +1333,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput
-    {
+    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1405,8 +1379,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getAllowList(input: GetAllowListInput) async throws -> GetAllowListOutput
-    {
+    public func getAllowList(input: GetAllowListInput) async throws -> GetAllowListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1451,8 +1424,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getAutomatedDiscoveryConfiguration(input: GetAutomatedDiscoveryConfigurationInput) async throws -> GetAutomatedDiscoveryConfigurationOutput
-    {
+    public func getAutomatedDiscoveryConfiguration(input: GetAutomatedDiscoveryConfigurationInput) async throws -> GetAutomatedDiscoveryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1500,8 +1472,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getBucketStatistics(input: GetBucketStatisticsInput) async throws -> GetBucketStatisticsOutput
-    {
+    public func getBucketStatistics(input: GetBucketStatisticsInput) async throws -> GetBucketStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1552,8 +1523,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getClassificationExportConfiguration(input: GetClassificationExportConfigurationInput) async throws -> GetClassificationExportConfigurationOutput
-    {
+    public func getClassificationExportConfiguration(input: GetClassificationExportConfigurationInput) async throws -> GetClassificationExportConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1599,8 +1569,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getClassificationScope(input: GetClassificationScopeInput) async throws -> GetClassificationScopeOutput
-    {
+    public func getClassificationScope(input: GetClassificationScopeInput) async throws -> GetClassificationScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1648,8 +1617,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getCustomDataIdentifier(input: GetCustomDataIdentifierInput) async throws -> GetCustomDataIdentifierOutput
-    {
+    public func getCustomDataIdentifier(input: GetCustomDataIdentifierInput) async throws -> GetCustomDataIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1697,8 +1665,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getFindingStatistics(input: GetFindingStatisticsInput) async throws -> GetFindingStatisticsOutput
-    {
+    public func getFindingStatistics(input: GetFindingStatisticsInput) async throws -> GetFindingStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1749,8 +1716,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
-    {
+    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1801,8 +1767,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getFindingsFilter(input: GetFindingsFilterInput) async throws -> GetFindingsFilterOutput
-    {
+    public func getFindingsFilter(input: GetFindingsFilterInput) async throws -> GetFindingsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1850,8 +1815,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getFindingsPublicationConfiguration(input: GetFindingsPublicationConfigurationInput) async throws -> GetFindingsPublicationConfigurationOutput
-    {
+    public func getFindingsPublicationConfiguration(input: GetFindingsPublicationConfigurationInput) async throws -> GetFindingsPublicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1899,8 +1863,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput
-    {
+    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1948,8 +1911,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getMacieSession(input: GetMacieSessionInput) async throws -> GetMacieSessionOutput
-    {
+    public func getMacieSession(input: GetMacieSessionInput) async throws -> GetMacieSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1997,8 +1959,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput
-    {
+    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2046,8 +2007,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getMember(input: GetMemberInput) async throws -> GetMemberOutput
-    {
+    public func getMember(input: GetMemberInput) async throws -> GetMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2094,8 +2054,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getResourceProfile(input: GetResourceProfileInput) async throws -> GetResourceProfileOutput
-    {
+    public func getResourceProfile(input: GetResourceProfileInput) async throws -> GetResourceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2141,8 +2100,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getRevealConfiguration(input: GetRevealConfigurationInput) async throws -> GetRevealConfigurationOutput
-    {
+    public func getRevealConfiguration(input: GetRevealConfigurationInput) async throws -> GetRevealConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2189,8 +2147,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `UnprocessableEntityException` : Provides information about an error that occurred due to an unprocessable entity.
-    public func getSensitiveDataOccurrences(input: GetSensitiveDataOccurrencesInput) async throws -> GetSensitiveDataOccurrencesOutput
-    {
+    public func getSensitiveDataOccurrences(input: GetSensitiveDataOccurrencesInput) async throws -> GetSensitiveDataOccurrencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2235,8 +2192,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
-    public func getSensitiveDataOccurrencesAvailability(input: GetSensitiveDataOccurrencesAvailabilityInput) async throws -> GetSensitiveDataOccurrencesAvailabilityOutput
-    {
+    public func getSensitiveDataOccurrencesAvailability(input: GetSensitiveDataOccurrencesAvailabilityInput) async throws -> GetSensitiveDataOccurrencesAvailabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2282,8 +2238,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getSensitivityInspectionTemplate(input: GetSensitivityInspectionTemplateInput) async throws -> GetSensitivityInspectionTemplateOutput
-    {
+    public func getSensitivityInspectionTemplate(input: GetSensitivityInspectionTemplateInput) async throws -> GetSensitivityInspectionTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2331,8 +2286,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutput
-    {
+    public func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2383,8 +2337,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func getUsageTotals(input: GetUsageTotalsInput) async throws -> GetUsageTotalsOutput
-    {
+    public func getUsageTotals(input: GetUsageTotalsInput) async throws -> GetUsageTotalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2430,8 +2383,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listAllowLists(input: ListAllowListsInput) async throws -> ListAllowListsOutput
-    {
+    public func listAllowLists(input: ListAllowListsInput) async throws -> ListAllowListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2480,8 +2432,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listClassificationJobs(input: ListClassificationJobsInput) async throws -> ListClassificationJobsOutput
-    {
+    public func listClassificationJobs(input: ListClassificationJobsInput) async throws -> ListClassificationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2529,8 +2480,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listClassificationScopes(input: ListClassificationScopesInput) async throws -> ListClassificationScopesOutput
-    {
+    public func listClassificationScopes(input: ListClassificationScopesInput) async throws -> ListClassificationScopesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2579,8 +2529,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listCustomDataIdentifiers(input: ListCustomDataIdentifiersInput) async throws -> ListCustomDataIdentifiersOutput
-    {
+    public func listCustomDataIdentifiers(input: ListCustomDataIdentifiersInput) async throws -> ListCustomDataIdentifiersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2631,8 +2580,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
-    {
+    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2683,8 +2631,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listFindingsFilters(input: ListFindingsFiltersInput) async throws -> ListFindingsFiltersOutput
-    {
+    public func listFindingsFilters(input: ListFindingsFiltersInput) async throws -> ListFindingsFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2733,8 +2680,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-    {
+    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2772,8 +2718,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - Parameter ListManagedDataIdentifiersInput : [no documentation found]
     ///
     /// - Returns: `ListManagedDataIdentifiersOutput` : [no documentation found]
-    public func listManagedDataIdentifiers(input: ListManagedDataIdentifiersInput) async throws -> ListManagedDataIdentifiersOutput
-    {
+    public func listManagedDataIdentifiers(input: ListManagedDataIdentifiersInput) async throws -> ListManagedDataIdentifiersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2824,8 +2769,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2874,8 +2818,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
-    {
+    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2922,8 +2865,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listResourceProfileArtifacts(input: ListResourceProfileArtifactsInput) async throws -> ListResourceProfileArtifactsOutput
-    {
+    public func listResourceProfileArtifacts(input: ListResourceProfileArtifactsInput) async throws -> ListResourceProfileArtifactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2971,8 +2913,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listResourceProfileDetections(input: ListResourceProfileDetectionsInput) async throws -> ListResourceProfileDetectionsOutput
-    {
+    public func listResourceProfileDetections(input: ListResourceProfileDetectionsInput) async throws -> ListResourceProfileDetectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3019,8 +2960,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func listSensitivityInspectionTemplates(input: ListSensitivityInspectionTemplatesInput) async throws -> ListSensitivityInspectionTemplatesOutput
-    {
+    public func listSensitivityInspectionTemplates(input: ListSensitivityInspectionTemplatesInput) async throws -> ListSensitivityInspectionTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3058,8 +2998,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3107,8 +3046,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func putClassificationExportConfiguration(input: PutClassificationExportConfigurationInput) async throws -> PutClassificationExportConfigurationOutput
-    {
+    public func putClassificationExportConfiguration(input: PutClassificationExportConfigurationInput) async throws -> PutClassificationExportConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3159,8 +3097,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func putFindingsPublicationConfiguration(input: PutFindingsPublicationConfigurationInput) async throws -> PutFindingsPublicationConfigurationOutput
-    {
+    public func putFindingsPublicationConfiguration(input: PutFindingsPublicationConfigurationInput) async throws -> PutFindingsPublicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3212,8 +3149,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
-    {
+    public func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3253,8 +3189,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3305,8 +3240,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func testCustomDataIdentifier(input: TestCustomDataIdentifierInput) async throws -> TestCustomDataIdentifierOutput
-    {
+    public func testCustomDataIdentifier(input: TestCustomDataIdentifierInput) async throws -> TestCustomDataIdentifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3346,8 +3280,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3394,8 +3327,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateAllowList(input: UpdateAllowListInput) async throws -> UpdateAllowListOutput
-    {
+    public func updateAllowList(input: UpdateAllowListInput) async throws -> UpdateAllowListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3443,8 +3375,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateAutomatedDiscoveryConfiguration(input: UpdateAutomatedDiscoveryConfigurationInput) async throws -> UpdateAutomatedDiscoveryConfigurationOutput
-    {
+    public func updateAutomatedDiscoveryConfiguration(input: UpdateAutomatedDiscoveryConfigurationInput) async throws -> UpdateAutomatedDiscoveryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3495,8 +3426,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateClassificationJob(input: UpdateClassificationJobInput) async throws -> UpdateClassificationJobOutput
-    {
+    public func updateClassificationJob(input: UpdateClassificationJobInput) async throws -> UpdateClassificationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3545,8 +3475,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateClassificationScope(input: UpdateClassificationScopeInput) async throws -> UpdateClassificationScopeOutput
-    {
+    public func updateClassificationScope(input: UpdateClassificationScopeInput) async throws -> UpdateClassificationScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3597,8 +3526,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateFindingsFilter(input: UpdateFindingsFilterInput) async throws -> UpdateFindingsFilterOutput
-    {
+    public func updateFindingsFilter(input: UpdateFindingsFilterInput) async throws -> UpdateFindingsFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3650,8 +3578,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateMacieSession(input: UpdateMacieSessionInput) async throws -> UpdateMacieSessionOutput
-    {
+    public func updateMacieSession(input: UpdateMacieSessionInput) async throws -> UpdateMacieSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3702,8 +3629,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateMemberSession(input: UpdateMemberSessionInput) async throws -> UpdateMemberSessionOutput
-    {
+    public func updateMemberSession(input: UpdateMemberSessionInput) async throws -> UpdateMemberSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3754,8 +3680,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-    {
+    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3805,8 +3730,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateResourceProfile(input: UpdateResourceProfileInput) async throws -> UpdateResourceProfileOutput
-    {
+    public func updateResourceProfile(input: UpdateResourceProfileInput) async throws -> UpdateResourceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3857,8 +3781,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateResourceProfileDetections(input: UpdateResourceProfileDetectionsInput) async throws -> UpdateResourceProfileDetectionsOutput
-    {
+    public func updateResourceProfileDetections(input: UpdateResourceProfileDetectionsInput) async throws -> UpdateResourceProfileDetectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3907,8 +3830,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateRevealConfiguration(input: UpdateRevealConfigurationInput) async throws -> UpdateRevealConfigurationOutput
-    {
+    public func updateRevealConfiguration(input: UpdateRevealConfigurationInput) async throws -> UpdateRevealConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3957,8 +3879,7 @@ extension Macie2Client: Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
-    public func updateSensitivityInspectionTemplate(input: UpdateSensitivityInspectionTemplateInput) async throws -> UpdateSensitivityInspectionTemplateOutput
-    {
+    public func updateSensitivityInspectionTemplate(input: UpdateSensitivityInspectionTemplateInput) async throws -> UpdateSensitivityInspectionTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -31553,6 +31553,8 @@ extension RedshiftClientTypes {
 
 }
 
+public enum RedshiftClientTypes {}
+
 extension RedshiftClientTypes.RedshiftIdcApplication: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizedTokenIssuerList = "AuthorizedTokenIssuerList"

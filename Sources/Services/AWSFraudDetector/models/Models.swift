@@ -6211,6 +6211,8 @@ extension FraudDetectorClientTypes {
 
 }
 
+public enum FraudDetectorClientTypes {}
+
 extension GetBatchImportJobsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId

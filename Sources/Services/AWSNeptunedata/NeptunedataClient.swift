@@ -66,7 +66,7 @@ public struct NeptunedataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension NeptunedataClient: NeptunedataClientProtocol {
+extension NeptunedataClient {
     /// Performs the `CancelGremlinQuery` operation on the `AmazonNeptuneDataplane` service.
     ///
     /// Cancels a Gremlin query. See [Gremlin query cancellation](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status-cancel.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery) IAM action in that cluster.
@@ -92,8 +92,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutput
-    {
+    public func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -147,8 +146,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutput
-    {
+    public func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -200,8 +198,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutput
-    {
+    public func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -254,8 +251,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutput
-    {
+    public func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -308,8 +304,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutput
-    {
+    public func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +361,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutput
-    {
+    public func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -420,8 +414,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutput
-    {
+    public func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +469,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutput
-    {
+    public func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -532,8 +524,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutput
-    {
+    public func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +578,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutput
-    {
+    public func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -642,8 +632,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `ServerShutdownException` : Raised when the server shuts down while processing a request.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutput
-    {
+    public func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -716,8 +705,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutput
-    {
+    public func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -781,8 +769,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutput
-    {
+    public func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -855,8 +842,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutput
-    {
+    public func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -922,8 +908,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutput
-    {
+    public func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -997,8 +982,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutput
-    {
+    public func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1050,8 +1034,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutput
-    {
+    public func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1091,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutput
-    {
+    public func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1163,8 +1145,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutput
-    {
+    public func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1217,8 +1198,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutput
-    {
+    public func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1271,8 +1251,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutput
-    {
+    public func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1325,8 +1304,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutput
-    {
+    public func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1379,8 +1357,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutput
-    {
+    public func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1439,8 +1416,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutput
-    {
+    public func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1494,8 +1470,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutput
-    {
+    public func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1555,8 +1530,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `ThrottlingException` : Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutput
-    {
+    public func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1612,8 +1586,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutput
-    {
+    public func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1668,8 +1641,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutput
-    {
+    public func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1724,8 +1696,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutput
-    {
+    public func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1778,8 +1749,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `ThrottlingException` : Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutput
-    {
+    public func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1838,8 +1808,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutput
-    {
+    public func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1893,8 +1862,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutput
-    {
+    public func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1947,8 +1915,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutput
-    {
+    public func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2001,8 +1968,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutput
-    {
+    public func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2055,8 +2021,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutput
-    {
+    public func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2109,8 +2074,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutput
-    {
+    public func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2169,8 +2133,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutput
-    {
+    public func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2225,8 +2188,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutput
-    {
+    public func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2283,8 +2245,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutput
-    {
+    public func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2342,8 +2303,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `S3Exception` : Raised when there is a problem accessing Amazon S3.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutput
-    {
+    public func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2398,8 +2358,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutput
-    {
+    public func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2454,8 +2413,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutput
-    {
+    public func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2510,8 +2468,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startMLModelTransformJob(input: StartMLModelTransformJobInput) async throws -> StartMLModelTransformJobOutput
-    {
+    public func startMLModelTransformJob(input: StartMLModelTransformJobInput) async throws -> StartMLModelTransformJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

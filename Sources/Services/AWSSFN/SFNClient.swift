@@ -66,7 +66,7 @@ public struct SFNClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SFNClient: SFNClientProtocol {
+extension SFNClient {
     /// Performs the `CreateActivity` operation on the `AWSStepFunctions` service.
     ///
     /// Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateActivity is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateActivity's idempotency check is based on the activity name. If a following request has different tags values, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
@@ -81,8 +81,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ActivityLimitExceeded` : The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
     /// - `InvalidName` : The provided name is not valid.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
-    public func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutput
-    {
+    public func createActivity(input: CreateActivityInput) async throws -> CreateActivityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineTypeNotSupported` :
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutput
-    {
+    public func createStateMachine(input: CreateStateMachineInput) async throws -> CreateStateMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -200,8 +198,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. HTTP Status Code: 402
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createStateMachineAlias(input: CreateStateMachineAliasInput) async throws -> CreateStateMachineAliasOutput
-    {
+    public func createStateMachineAlias(input: CreateStateMachineAliasInput) async throws -> CreateStateMachineAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -247,8 +244,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func deleteActivity(input: DeleteActivityInput) async throws -> DeleteActivityOutput
-    {
+    public func deleteActivity(input: DeleteActivityInput) async throws -> DeleteActivityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -302,8 +298,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteStateMachine(input: DeleteStateMachineInput) async throws -> DeleteStateMachineOutput
-    {
+    public func deleteStateMachine(input: DeleteStateMachineInput) async throws -> DeleteStateMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -360,8 +355,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteStateMachineAlias(input: DeleteStateMachineAliasInput) async throws -> DeleteStateMachineAliasOutput
-    {
+    public func deleteStateMachineAlias(input: DeleteStateMachineAliasInput) async throws -> DeleteStateMachineAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +407,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteStateMachineVersion(input: DeleteStateMachineVersionInput) async throws -> DeleteStateMachineVersionOutput
-    {
+    public func deleteStateMachineVersion(input: DeleteStateMachineVersionInput) async throws -> DeleteStateMachineVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -461,8 +454,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `ActivityDoesNotExist` : The specified activity does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func describeActivity(input: DescribeActivityInput) async throws -> DescribeActivityOutput
-    {
+    public func describeActivity(input: DescribeActivityInput) async throws -> DescribeActivityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput
-    {
+    public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +548,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
-    public func describeMapRun(input: DescribeMapRunInput) async throws -> DescribeMapRunOutput
-    {
+    public func describeMapRun(input: DescribeMapRunInput) async throws -> DescribeMapRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +604,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
-    public func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutput
-    {
+    public func describeStateMachine(input: DescribeStateMachineInput) async throws -> DescribeStateMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -671,8 +660,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func describeStateMachineAlias(input: DescribeStateMachineAliasInput) async throws -> DescribeStateMachineAliasOutput
-    {
+    public func describeStateMachineAlias(input: DescribeStateMachineAliasInput) async throws -> DescribeStateMachineAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +707,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutput
-    {
+    public func describeStateMachineForExecution(input: DescribeStateMachineForExecutionInput) async throws -> DescribeStateMachineForExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ActivityDoesNotExist` : The specified activity does not exist.
     /// - `ActivityWorkerLimitExceeded` : The maximum number of workers concurrently polling for activity tasks has been reached.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutput
-    {
+    public func getActivityTask(input: GetActivityTaskInput) async throws -> GetActivityTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -817,8 +803,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
-    public func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutput
-    {
+    public func getExecutionHistory(input: GetExecutionHistoryInput) async throws -> GetExecutionHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +849,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
-    public func listActivities(input: ListActivitiesInput) async throws -> ListActivitiesOutput
-    {
+    public func listActivities(input: ListActivitiesInput) async throws -> ListActivitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -916,8 +900,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `StateMachineTypeNotSupported` :
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput
-    {
+    public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -965,8 +948,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
-    public func listMapRuns(input: ListMapRunsInput) async throws -> ListMapRunsOutput
-    {
+    public func listMapRuns(input: ListMapRunsInput) async throws -> ListMapRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1024,8 +1006,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
-    public func listStateMachineAliases(input: ListStateMachineAliasesInput) async throws -> ListStateMachineAliasesOutput
-    {
+    public func listStateMachineAliases(input: ListStateMachineAliasesInput) async throws -> ListStateMachineAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1077,8 +1058,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `InvalidToken` : The provided token is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listStateMachineVersions(input: ListStateMachineVersionsInput) async throws -> ListStateMachineVersionsOutput
-    {
+    public func listStateMachineVersions(input: ListStateMachineVersionsInput) async throws -> ListStateMachineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1124,8 +1104,7 @@ extension SFNClient: SFNClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidToken` : The provided token is not valid.
-    public func listStateMachines(input: ListStateMachinesInput) async throws -> ListStateMachinesOutput
-    {
+    public func listStateMachines(input: ListStateMachinesInput) async throws -> ListStateMachinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1172,8 +1151,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1228,8 +1206,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func publishStateMachineVersion(input: PublishStateMachineVersionInput) async throws -> PublishStateMachineVersionOutput
-    {
+    public func publishStateMachineVersion(input: PublishStateMachineVersionInput) async throws -> PublishStateMachineVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1286,8 +1263,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionLimitExceeded` : The maximum number of running executions has been reached. Running executions must end or be stopped before a new execution can be started.
     /// - `ExecutionNotRedrivable` : The execution Amazon Resource Name (ARN) that you specified for executionArn cannot be redriven.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
-    public func redriveExecution(input: RedriveExecutionInput) async throws -> RedriveExecutionOutput
-    {
+    public func redriveExecution(input: RedriveExecutionInput) async throws -> RedriveExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1312,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `TaskDoesNotExist` : The activity does not exist.
     /// - `TaskTimedOut` : The task token has either expired or the task associated with the token has already been closed.
-    public func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutput
-    {
+    public func sendTaskFailure(input: SendTaskFailureInput) async throws -> SendTaskFailureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1385,8 +1360,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `TaskDoesNotExist` : The activity does not exist.
     /// - `TaskTimedOut` : The task token has either expired or the task associated with the token has already been closed.
-    public func sendTaskHeartbeat(input: SendTaskHeartbeatInput) async throws -> SendTaskHeartbeatOutput
-    {
+    public func sendTaskHeartbeat(input: SendTaskHeartbeatInput) async throws -> SendTaskHeartbeatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1435,8 +1409,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidToken` : The provided token is not valid.
     /// - `TaskDoesNotExist` : The activity does not exist.
     /// - `TaskTimedOut` : The task token has either expired or the task associated with the token has already been closed.
-    public func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutput
-    {
+    public func sendTaskSuccess(input: SendTaskSuccessInput) async throws -> SendTaskSuccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1471,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func startExecution(input: StartExecutionInput) async throws -> StartExecutionOutput
-    {
+    public func startExecution(input: StartExecutionInput) async throws -> StartExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1522,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `StateMachineTypeNotSupported` :
-    public func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutput
-    {
+    public func startSyncExecution(input: StartSyncExecutionInput) async throws -> StartSyncExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1599,8 +1570,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ExecutionDoesNotExist` : The specified execution does not exist.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutput
-    {
+    public func stopExecution(input: StopExecutionInput) async throws -> StopExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1648,8 +1618,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `TooManyTags` : You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1722,8 +1691,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidDefinition` : The provided Amazon States Language definition is not valid.
     /// - `InvalidExecutionInput` : The provided JSON input data is not valid.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func testState(input: TestStateInput) async throws -> TestStateOutput
-    {
+    public func testState(input: TestStateInput) async throws -> TestStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1770,8 +1738,7 @@ extension SFNClient: SFNClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1819,8 +1786,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateMapRun(input: UpdateMapRunInput) async throws -> UpdateMapRunOutput
-    {
+    public func updateMapRun(input: UpdateMapRunInput) async throws -> UpdateMapRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1884,8 +1850,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `StateMachineDoesNotExist` : The specified state machine does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateStateMachine(input: UpdateStateMachineInput) async throws -> UpdateStateMachineOutput
-    {
+    public func updateStateMachine(input: UpdateStateMachineInput) async throws -> UpdateStateMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1943,8 +1908,7 @@ extension SFNClient: SFNClientProtocol {
     /// - `ResourceNotFound` : Could not find the referenced resource.
     /// - `StateMachineDeleting` : The specified state machine is being deleted.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateStateMachineAlias(input: UpdateStateMachineAliasInput) async throws -> UpdateStateMachineAliasOutput
-    {
+    public func updateStateMachineAlias(input: UpdateStateMachineAliasInput) async throws -> UpdateStateMachineAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -4458,6 +4458,8 @@ extension FinspaceClientTypes {
 
 }
 
+public enum FinspaceClientTypes {}
+
 extension GetEnvironmentInput {
 
     static func urlPathProvider(_ value: GetEnvironmentInput) -> Swift.String? {

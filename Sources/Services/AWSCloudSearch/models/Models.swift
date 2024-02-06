@@ -630,6 +630,8 @@ enum BuildSuggestersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum CloudSearchClientTypes {}
+
 extension CreateDomainInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)

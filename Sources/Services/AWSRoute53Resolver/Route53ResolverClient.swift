@@ -66,7 +66,7 @@ public struct Route53ResolverClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension Route53ResolverClient: Route53ResolverClientProtocol {
+extension Route53ResolverClient {
     /// Performs the `AssociateFirewallRuleGroup` operation on the `Route53Resolver` service.
     ///
     /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC.
@@ -85,8 +85,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput) async throws -> AssociateFirewallRuleGroupOutput
-    {
+    public func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput) async throws -> AssociateFirewallRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceExistsException` : The resource that you tried to create already exists.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func associateResolverEndpointIpAddress(input: AssociateResolverEndpointIpAddressInput) async throws -> AssociateResolverEndpointIpAddressOutput
-    {
+    public func associateResolverEndpointIpAddress(input: AssociateResolverEndpointIpAddressInput) async throws -> AssociateResolverEndpointIpAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceExistsException` : The resource that you tried to create already exists.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func associateResolverQueryLogConfig(input: AssociateResolverQueryLogConfigInput) async throws -> AssociateResolverQueryLogConfigOutput
-    {
+    public func associateResolverQueryLogConfig(input: AssociateResolverQueryLogConfigInput) async throws -> AssociateResolverQueryLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -247,8 +244,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func associateResolverRule(input: AssociateResolverRuleInput) async throws -> AssociateResolverRuleOutput
-    {
+    public func associateResolverRule(input: AssociateResolverRuleInput) async throws -> AssociateResolverRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -298,8 +294,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func createFirewallDomainList(input: CreateFirewallDomainListInput) async throws -> CreateFirewallDomainListOutput
-    {
+    public func createFirewallDomainList(input: CreateFirewallDomainListInput) async throws -> CreateFirewallDomainListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -351,8 +346,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutput
-    {
+    public func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -403,8 +397,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutput
-    {
+    public func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -456,8 +449,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ServiceQuotaExceededException` : Fulfilling the request would cause one or more quotas to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutput
-    {
+    public func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +506,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceExistsException` : The resource that you tried to create already exists.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func createResolverEndpoint(input: CreateResolverEndpointInput) async throws -> CreateResolverEndpointOutput
-    {
+    public func createResolverEndpoint(input: CreateResolverEndpointInput) async throws -> CreateResolverEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +559,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceExistsException` : The resource that you tried to create already exists.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func createResolverQueryLogConfig(input: CreateResolverQueryLogConfigInput) async throws -> CreateResolverQueryLogConfigOutput
-    {
+    public func createResolverQueryLogConfig(input: CreateResolverQueryLogConfigInput) async throws -> CreateResolverQueryLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +614,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func createResolverRule(input: CreateResolverRuleInput) async throws -> CreateResolverRuleOutput
-    {
+    public func createResolverRule(input: CreateResolverRuleInput) async throws -> CreateResolverRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -675,8 +664,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func deleteFirewallDomainList(input: DeleteFirewallDomainListInput) async throws -> DeleteFirewallDomainListOutput
-    {
+    public func deleteFirewallDomainList(input: DeleteFirewallDomainListInput) async throws -> DeleteFirewallDomainListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -725,8 +713,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func deleteFirewallRule(input: DeleteFirewallRuleInput) async throws -> DeleteFirewallRuleOutput
-    {
+    public func deleteFirewallRule(input: DeleteFirewallRuleInput) async throws -> DeleteFirewallRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -777,8 +764,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutput
-    {
+    public func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -829,8 +815,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutput
-    {
+    public func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -884,8 +869,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func deleteResolverEndpoint(input: DeleteResolverEndpointInput) async throws -> DeleteResolverEndpointOutput
-    {
+    public func deleteResolverEndpoint(input: DeleteResolverEndpointInput) async throws -> DeleteResolverEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +920,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func deleteResolverQueryLogConfig(input: DeleteResolverQueryLogConfigInput) async throws -> DeleteResolverQueryLogConfigOutput
-    {
+    public func deleteResolverQueryLogConfig(input: DeleteResolverQueryLogConfigInput) async throws -> DeleteResolverQueryLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -987,8 +970,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceInUseException` : The resource that you tried to update or delete is currently in use.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func deleteResolverRule(input: DeleteResolverRuleInput) async throws -> DeleteResolverRuleOutput
-    {
+    public func deleteResolverRule(input: DeleteResolverRuleInput) async throws -> DeleteResolverRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1039,8 +1021,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput) async throws -> DisassociateFirewallRuleGroupOutput
-    {
+    public func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput) async throws -> DisassociateFirewallRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1091,8 +1072,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceExistsException` : The resource that you tried to create already exists.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func disassociateResolverEndpointIpAddress(input: DisassociateResolverEndpointIpAddressInput) async throws -> DisassociateResolverEndpointIpAddressOutput
-    {
+    public func disassociateResolverEndpointIpAddress(input: DisassociateResolverEndpointIpAddressInput) async throws -> DisassociateResolverEndpointIpAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1147,8 +1127,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func disassociateResolverQueryLogConfig(input: DisassociateResolverQueryLogConfigInput) async throws -> DisassociateResolverQueryLogConfigOutput
-    {
+    public func disassociateResolverQueryLogConfig(input: DisassociateResolverQueryLogConfigInput) async throws -> DisassociateResolverQueryLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1197,8 +1176,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func disassociateResolverRule(input: DisassociateResolverRuleInput) async throws -> DisassociateResolverRuleOutput
-    {
+    public func disassociateResolverRule(input: DisassociateResolverRuleInput) async throws -> DisassociateResolverRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1248,8 +1226,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func getFirewallConfig(input: GetFirewallConfigInput) async throws -> GetFirewallConfigOutput
-    {
+    public func getFirewallConfig(input: GetFirewallConfigInput) async throws -> GetFirewallConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1298,8 +1275,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getFirewallDomainList(input: GetFirewallDomainListInput) async throws -> GetFirewallDomainListOutput
-    {
+    public func getFirewallDomainList(input: GetFirewallDomainListInput) async throws -> GetFirewallDomainListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1348,8 +1324,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getFirewallRuleGroup(input: GetFirewallRuleGroupInput) async throws -> GetFirewallRuleGroupOutput
-    {
+    public func getFirewallRuleGroup(input: GetFirewallRuleGroupInput) async throws -> GetFirewallRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1398,8 +1373,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociationInput) async throws -> GetFirewallRuleGroupAssociationOutput
-    {
+    public func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociationInput) async throws -> GetFirewallRuleGroupAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1449,8 +1423,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutput
-    {
+    public func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1500,8 +1473,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutput
-    {
+    public func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1552,8 +1524,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutput
-    {
+    public func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1604,8 +1575,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getResolverDnssecConfig(input: GetResolverDnssecConfigInput) async throws -> GetResolverDnssecConfigOutput
-    {
+    public func getResolverDnssecConfig(input: GetResolverDnssecConfigInput) async throws -> GetResolverDnssecConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1654,8 +1624,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getResolverEndpoint(input: GetResolverEndpointInput) async throws -> GetResolverEndpointOutput
-    {
+    public func getResolverEndpoint(input: GetResolverEndpointInput) async throws -> GetResolverEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1706,8 +1675,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput) async throws -> GetResolverQueryLogConfigOutput
-    {
+    public func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput) async throws -> GetResolverQueryLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1758,8 +1726,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfigAssociationInput) async throws -> GetResolverQueryLogConfigAssociationOutput
-    {
+    public func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfigAssociationInput) async throws -> GetResolverQueryLogConfigAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1809,8 +1776,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
-    public func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPolicyInput) async throws -> GetResolverQueryLogConfigPolicyOutput
-    {
+    public func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPolicyInput) async throws -> GetResolverQueryLogConfigPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1859,8 +1825,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getResolverRule(input: GetResolverRuleInput) async throws -> GetResolverRuleOutput
-    {
+    public func getResolverRule(input: GetResolverRuleInput) async throws -> GetResolverRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1909,8 +1874,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func getResolverRuleAssociation(input: GetResolverRuleAssociationInput) async throws -> GetResolverRuleAssociationOutput
-    {
+    public func getResolverRuleAssociation(input: GetResolverRuleAssociationInput) async throws -> GetResolverRuleAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1959,8 +1923,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
-    public func getResolverRulePolicy(input: GetResolverRulePolicyInput) async throws -> GetResolverRulePolicyOutput
-    {
+    public func getResolverRulePolicy(input: GetResolverRulePolicyInput) async throws -> GetResolverRulePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2018,8 +1981,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func importFirewallDomains(input: ImportFirewallDomainsInput) async throws -> ImportFirewallDomainsOutput
-    {
+    public func importFirewallDomains(input: ImportFirewallDomainsInput) async throws -> ImportFirewallDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2068,8 +2030,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listFirewallConfigs(input: ListFirewallConfigsInput) async throws -> ListFirewallConfigsOutput
-    {
+    public func listFirewallConfigs(input: ListFirewallConfigsInput) async throws -> ListFirewallConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2118,8 +2079,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listFirewallDomainLists(input: ListFirewallDomainListsInput) async throws -> ListFirewallDomainListsOutput
-    {
+    public func listFirewallDomainLists(input: ListFirewallDomainListsInput) async throws -> ListFirewallDomainListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2169,8 +2129,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listFirewallDomains(input: ListFirewallDomainsInput) async throws -> ListFirewallDomainsOutput
-    {
+    public func listFirewallDomains(input: ListFirewallDomainsInput) async throws -> ListFirewallDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2219,8 +2178,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput) async throws -> ListFirewallRuleGroupAssociationsOutput
-    {
+    public func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput) async throws -> ListFirewallRuleGroupAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2269,8 +2227,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutput
-    {
+    public func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2320,8 +2277,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutput
-    {
+    public func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2371,8 +2327,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutput
-    {
+    public func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2424,8 +2379,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutput
-    {
+    public func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2476,8 +2430,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverDnssecConfigs(input: ListResolverDnssecConfigsInput) async throws -> ListResolverDnssecConfigsOutput
-    {
+    public func listResolverDnssecConfigs(input: ListResolverDnssecConfigsInput) async throws -> ListResolverDnssecConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2527,8 +2480,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverEndpointIpAddresses(input: ListResolverEndpointIpAddressesInput) async throws -> ListResolverEndpointIpAddressesOutput
-    {
+    public func listResolverEndpointIpAddresses(input: ListResolverEndpointIpAddressesInput) async throws -> ListResolverEndpointIpAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2578,8 +2530,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverEndpoints(input: ListResolverEndpointsInput) async throws -> ListResolverEndpointsOutput
-    {
+    public func listResolverEndpoints(input: ListResolverEndpointsInput) async throws -> ListResolverEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2630,8 +2581,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverQueryLogConfigAssociations(input: ListResolverQueryLogConfigAssociationsInput) async throws -> ListResolverQueryLogConfigAssociationsOutput
-    {
+    public func listResolverQueryLogConfigAssociations(input: ListResolverQueryLogConfigAssociationsInput) async throws -> ListResolverQueryLogConfigAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2682,8 +2632,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverQueryLogConfigs(input: ListResolverQueryLogConfigsInput) async throws -> ListResolverQueryLogConfigsOutput
-    {
+    public func listResolverQueryLogConfigs(input: ListResolverQueryLogConfigsInput) async throws -> ListResolverQueryLogConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2733,8 +2682,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverRuleAssociations(input: ListResolverRuleAssociationsInput) async throws -> ListResolverRuleAssociationsOutput
-    {
+    public func listResolverRuleAssociations(input: ListResolverRuleAssociationsInput) async throws -> ListResolverRuleAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2784,8 +2732,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listResolverRules(input: ListResolverRulesInput) async throws -> ListResolverRulesOutput
-    {
+    public func listResolverRules(input: ListResolverRulesInput) async throws -> ListResolverRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2836,8 +2783,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2887,8 +2833,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput) async throws -> PutFirewallRuleGroupPolicyOutput
-    {
+    public func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput) async throws -> PutFirewallRuleGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2939,8 +2884,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidPolicyDocument` : The specified Resolver rule policy is invalid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
-    public func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPolicyInput) async throws -> PutResolverQueryLogConfigPolicyOutput
-    {
+    public func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPolicyInput) async throws -> PutResolverQueryLogConfigPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2990,8 +2934,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidPolicyDocument` : The specified Resolver rule policy is invalid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
-    public func putResolverRulePolicy(input: PutResolverRulePolicyInput) async throws -> PutResolverRulePolicyOutput
-    {
+    public func putResolverRulePolicy(input: PutResolverRulePolicyInput) async throws -> PutResolverRulePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3043,8 +2986,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3094,8 +3036,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3145,8 +3086,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func updateFirewallConfig(input: UpdateFirewallConfigInput) async throws -> UpdateFirewallConfigOutput
-    {
+    public func updateFirewallConfig(input: UpdateFirewallConfigInput) async throws -> UpdateFirewallConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3198,8 +3138,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func updateFirewallDomains(input: UpdateFirewallDomainsInput) async throws -> UpdateFirewallDomainsOutput
-    {
+    public func updateFirewallDomains(input: UpdateFirewallDomainsInput) async throws -> UpdateFirewallDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3250,8 +3189,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutput
-    {
+    public func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3302,8 +3240,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutput
-    {
+    public func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3355,8 +3292,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ServiceQuotaExceededException` : Fulfilling the request would cause one or more quotas to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutput
-    {
+    public func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3410,8 +3346,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-    public func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutput
-    {
+    public func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3462,8 +3397,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func updateResolverDnssecConfig(input: UpdateResolverDnssecConfigInput) async throws -> UpdateResolverDnssecConfigOutput
-    {
+    public func updateResolverDnssecConfig(input: UpdateResolverDnssecConfigInput) async throws -> UpdateResolverDnssecConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3514,8 +3448,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func updateResolverEndpoint(input: UpdateResolverEndpointInput) async throws -> UpdateResolverEndpointOutput
-    {
+    public func updateResolverEndpoint(input: UpdateResolverEndpointInput) async throws -> UpdateResolverEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3568,8 +3501,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    public func updateResolverRule(input: UpdateResolverRuleInput) async throws -> UpdateResolverRuleOutput
-    {
+    public func updateResolverRule(input: UpdateResolverRuleInput) async throws -> UpdateResolverRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

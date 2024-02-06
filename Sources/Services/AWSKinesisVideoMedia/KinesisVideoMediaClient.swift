@@ -66,7 +66,7 @@ public struct KinesisVideoMediaClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
+extension KinesisVideoMediaClient {
     /// Performs the `GetMedia` operation on the `AWSAcuityInletService` service.
     ///
     /// Use this API to retrieve media content from a Kinesis video stream. In the request, you identify the stream name or stream Amazon Resource Name (ARN), and the starting chunk. Kinesis Video Streams then returns a stream of chunks in order by fragment number. You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMedia requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/). When you put media data (fragments) on a stream, Kinesis Video Streams stores each incoming fragment and related metadata in what is called a "chunk." For more information, see [PutMedia](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_dataplane_PutMedia.html). The GetMedia API returns a stream of these chunks starting from the chunk that you specify in the request. The following limits apply when using the GetMedia API:
@@ -98,8 +98,7 @@ extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
     /// - `InvalidEndpointException` : Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : Status Code: 404, The stream with the given name does not exist.
-    public func getMedia(input: GetMediaInput) async throws -> GetMediaOutput
-    {
+    public func getMedia(input: GetMediaInput) async throws -> GetMediaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

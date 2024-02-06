@@ -66,7 +66,7 @@ public struct IoTAnalyticsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
+extension IoTAnalyticsClient {
     /// Performs the `BatchPutMessage` operation on the `AWSIoTAnalytics` service.
     ///
     /// Sends messages to a channel.
@@ -83,8 +83,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutput
-    {
+    public func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func cancelPipelineReprocessing(input: CancelPipelineReprocessingInput) async throws -> CancelPipelineReprocessingOutput
-    {
+    public func cancelPipelineReprocessing(input: CancelPipelineReprocessingInput) async throws -> CancelPipelineReprocessingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createDatasetContent(input: CreateDatasetContentInput) async throws -> CreateDatasetContentOutput
-    {
+    public func createDatasetContent(input: CreateDatasetContentInput) async throws -> CreateDatasetContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput
-    {
+    public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceAlreadyExistsException` : A resource with the same name already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
-    {
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -434,8 +427,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -481,8 +473,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteDatasetContent(input: DeleteDatasetContentInput) async throws -> DeleteDatasetContentOutput
-    {
+    public func deleteDatasetContent(input: DeleteDatasetContentInput) async throws -> DeleteDatasetContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +566,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput
-    {
+    public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -623,8 +612,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
-    {
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -670,8 +658,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
-    {
+    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +705,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -765,8 +751,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeDatastore(input: DescribeDatastoreInput) async throws -> DescribeDatastoreOutput
-    {
+    public func describeDatastore(input: DescribeDatastoreInput) async throws -> DescribeDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -813,8 +798,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput
-    {
+    public func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -860,8 +844,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutput
-    {
+    public func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +890,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getDatasetContent(input: GetDatasetContentInput) async throws -> GetDatasetContentOutput
-    {
+    public func getDatasetContent(input: GetDatasetContentInput) async throws -> GetDatasetContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +936,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `InvalidRequestException` : The request was not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1002,8 +983,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listDatasetContents(input: ListDatasetContentsInput) async throws -> ListDatasetContentsOutput
-    {
+    public func listDatasetContents(input: ListDatasetContentsInput) async throws -> ListDatasetContentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1049,8 +1029,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `InvalidRequestException` : The request was not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1096,8 +1075,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `InvalidRequestException` : The request was not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput
-    {
+    public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1143,8 +1121,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `InvalidRequestException` : The request was not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
-    {
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1192,8 +1169,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1239,8 +1215,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `InvalidRequestException` : The request was not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
-    {
+    public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1288,8 +1263,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `InvalidRequestException` : The request was not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func runPipelineActivity(input: RunPipelineActivityInput) async throws -> RunPipelineActivityOutput
-    {
+    public func runPipelineActivity(input: RunPipelineActivityInput) async throws -> RunPipelineActivityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1338,8 +1312,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func sampleChannelData(input: SampleChannelDataInput) async throws -> SampleChannelDataOutput
-    {
+    public func sampleChannelData(input: SampleChannelDataInput) async throws -> SampleChannelDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1387,8 +1360,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startPipelineReprocessing(input: StartPipelineReprocessingInput) async throws -> StartPipelineReprocessingOutput
-    {
+    public func startPipelineReprocessing(input: StartPipelineReprocessingInput) async throws -> StartPipelineReprocessingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1438,8 +1410,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1490,8 +1461,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1538,8 +1508,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1588,8 +1557,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
-    {
+    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1638,8 +1606,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateDatastore(input: UpdateDatastoreInput) async throws -> UpdateDatastoreOutput
-    {
+    public func updateDatastore(input: UpdateDatastoreInput) async throws -> UpdateDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1689,8 +1656,7 @@ extension IoTAnalyticsClient: IoTAnalyticsClientProtocol {
     /// - `ResourceNotFoundException` : A resource with the specified name could not be found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
-    {
+    public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

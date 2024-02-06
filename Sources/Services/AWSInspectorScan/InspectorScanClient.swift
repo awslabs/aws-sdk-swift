@@ -66,7 +66,7 @@ public struct InspectorScanClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension InspectorScanClient: InspectorScanClientProtocol {
+extension InspectorScanClient {
     /// Performs the `ScanSbom` operation on the `InspectorScan` service.
     ///
     /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your resources using the [Amazon Inspector SBOM generator].
@@ -82,8 +82,7 @@ extension InspectorScanClient: InspectorScanClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    public func scanSbom(input: ScanSbomInput) async throws -> ScanSbomOutput
-    {
+    public func scanSbom(input: ScanSbomInput) async throws -> ScanSbomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

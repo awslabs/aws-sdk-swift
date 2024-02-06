@@ -66,7 +66,7 @@ public struct LicenseManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension LicenseManagerClient: LicenseManagerClientProtocol {
+extension LicenseManagerClient {
     /// Performs the `AcceptGrant` operation on the `AWSLicenseManager` service.
     ///
     /// Accepts the specified grant.
@@ -85,8 +85,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func acceptGrant(input: AcceptGrantInput) async throws -> AcceptGrantOutput
-    {
+    public func acceptGrant(input: AcceptGrantInput) async throws -> AcceptGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func checkInLicense(input: CheckInLicenseInput) async throws -> CheckInLicenseOutput
-    {
+    public func checkInLicense(input: CheckInLicenseInput) async throws -> CheckInLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -196,8 +194,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutput
-    {
+    public func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -252,8 +249,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutput
-    {
+    public func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -305,8 +301,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput
-    {
+    public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -358,8 +353,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createGrantVersion(input: CreateGrantVersionInput) async throws -> CreateGrantVersionOutput
-    {
+    public func createGrantVersion(input: CreateGrantVersionInput) async throws -> CreateGrantVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -411,8 +405,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RedirectException` : This is not the correct Region for the resource. Try again.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createLicense(input: CreateLicenseInput) async throws -> CreateLicenseOutput
-    {
+    public func createLicense(input: CreateLicenseInput) async throws -> CreateLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +456,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func createLicenseConfiguration(input: CreateLicenseConfigurationInput) async throws -> CreateLicenseConfigurationOutput
-    {
+    public func createLicenseConfiguration(input: CreateLicenseConfigurationInput) async throws -> CreateLicenseConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -515,8 +507,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createLicenseConversionTaskForResource(input: CreateLicenseConversionTaskForResourceInput) async throws -> CreateLicenseConversionTaskForResourceOutput
-    {
+    public func createLicenseConversionTaskForResource(input: CreateLicenseConversionTaskForResourceInput) async throws -> CreateLicenseConversionTaskForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -569,8 +560,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createLicenseManagerReportGenerator(input: CreateLicenseManagerReportGeneratorInput) async throws -> CreateLicenseManagerReportGeneratorOutput
-    {
+    public func createLicenseManagerReportGenerator(input: CreateLicenseManagerReportGeneratorInput) async throws -> CreateLicenseManagerReportGeneratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -623,8 +613,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createLicenseVersion(input: CreateLicenseVersionInput) async throws -> CreateLicenseVersionOutput
-    {
+    public func createLicenseVersion(input: CreateLicenseVersionInput) async throws -> CreateLicenseVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -677,8 +666,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
-    {
+    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -730,8 +718,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func deleteGrant(input: DeleteGrantInput) async throws -> DeleteGrantOutput
-    {
+    public func deleteGrant(input: DeleteGrantInput) async throws -> DeleteGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -784,8 +771,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RedirectException` : This is not the correct Region for the resource. Try again.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func deleteLicense(input: DeleteLicenseInput) async throws -> DeleteLicenseOutput
-    {
+    public func deleteLicense(input: DeleteLicenseInput) async throws -> DeleteLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -835,8 +821,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput) async throws -> DeleteLicenseConfigurationOutput
-    {
+    public func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput) async throws -> DeleteLicenseConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -889,8 +874,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput) async throws -> DeleteLicenseManagerReportGeneratorOutput
-    {
+    public func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput) async throws -> DeleteLicenseManagerReportGeneratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -942,8 +926,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput
-    {
+    public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +978,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func extendLicenseConsumption(input: ExtendLicenseConsumptionInput) async throws -> ExtendLicenseConsumptionOutput
-    {
+    public func extendLicenseConsumption(input: ExtendLicenseConsumptionInput) async throws -> ExtendLicenseConsumptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1046,8 +1028,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func getAccessToken(input: GetAccessTokenInput) async throws -> GetAccessTokenOutput
-    {
+    public func getAccessToken(input: GetAccessTokenInput) async throws -> GetAccessTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1080,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func getGrant(input: GetGrantInput) async throws -> GetGrantOutput
-    {
+    public func getGrant(input: GetGrantInput) async throws -> GetGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1151,8 +1131,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func getLicense(input: GetLicenseInput) async throws -> GetLicenseOutput
-    {
+    public func getLicense(input: GetLicenseInput) async throws -> GetLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1181,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func getLicenseConfiguration(input: GetLicenseConfigurationInput) async throws -> GetLicenseConfigurationOutput
-    {
+    public func getLicenseConfiguration(input: GetLicenseConfigurationInput) async throws -> GetLicenseConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1253,8 +1231,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func getLicenseConversionTask(input: GetLicenseConversionTaskInput) async throws -> GetLicenseConversionTaskOutput
-    {
+    public func getLicenseConversionTask(input: GetLicenseConversionTaskInput) async throws -> GetLicenseConversionTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1284,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func getLicenseManagerReportGenerator(input: GetLicenseManagerReportGeneratorInput) async throws -> GetLicenseManagerReportGeneratorOutput
-    {
+    public func getLicenseManagerReportGenerator(input: GetLicenseManagerReportGeneratorInput) async throws -> GetLicenseManagerReportGeneratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1359,8 +1335,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func getLicenseUsage(input: GetLicenseUsageInput) async throws -> GetLicenseUsageOutput
-    {
+    public func getLicenseUsage(input: GetLicenseUsageInput) async throws -> GetLicenseUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1409,8 +1384,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput
-    {
+    public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1461,8 +1435,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput) async throws -> ListAssociationsForLicenseConfigurationOutput
-    {
+    public func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput) async throws -> ListAssociationsForLicenseConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1514,8 +1487,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listDistributedGrants(input: ListDistributedGrantsInput) async throws -> ListDistributedGrantsOutput
-    {
+    public func listDistributedGrants(input: ListDistributedGrantsInput) async throws -> ListDistributedGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1565,8 +1537,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listFailuresForLicenseConfigurationOperations(input: ListFailuresForLicenseConfigurationOperationsInput) async throws -> ListFailuresForLicenseConfigurationOperationsOutput
-    {
+    public func listFailuresForLicenseConfigurationOperations(input: ListFailuresForLicenseConfigurationOperationsInput) async throws -> ListFailuresForLicenseConfigurationOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1617,8 +1588,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listLicenseConfigurations(input: ListLicenseConfigurationsInput) async throws -> ListLicenseConfigurationsOutput
-    {
+    public func listLicenseConfigurations(input: ListLicenseConfigurationsInput) async throws -> ListLicenseConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1668,8 +1638,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listLicenseConversionTasks(input: ListLicenseConversionTasksInput) async throws -> ListLicenseConversionTasksOutput
-    {
+    public func listLicenseConversionTasks(input: ListLicenseConversionTasksInput) async throws -> ListLicenseConversionTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1722,8 +1691,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listLicenseManagerReportGenerators(input: ListLicenseManagerReportGeneratorsInput) async throws -> ListLicenseManagerReportGeneratorsOutput
-    {
+    public func listLicenseManagerReportGenerators(input: ListLicenseManagerReportGeneratorsInput) async throws -> ListLicenseManagerReportGeneratorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1773,8 +1741,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput) async throws -> ListLicenseSpecificationsForResourceOutput
-    {
+    public func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput) async throws -> ListLicenseSpecificationsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1824,8 +1791,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutput
-    {
+    public func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1876,8 +1842,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listLicenses(input: ListLicensesInput) async throws -> ListLicensesOutput
-    {
+    public func listLicenses(input: ListLicensesInput) async throws -> ListLicensesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1929,8 +1894,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutput
-    {
+    public func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1982,8 +1946,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutput
-    {
+    public func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2035,8 +1998,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutput
-    {
+    public func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2088,8 +2050,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutput
-    {
+    public func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2141,8 +2102,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listResourceInventory(input: ListResourceInventoryInput) async throws -> ListResourceInventoryOutput
-    {
+    public func listResourceInventory(input: ListResourceInventoryInput) async throws -> ListResourceInventoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2192,8 +2152,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2243,8 +2202,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listTokens(input: ListTokensInput) async throws -> ListTokensOutput
-    {
+    public func listTokens(input: ListTokensInput) async throws -> ListTokensOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2295,8 +2253,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput) async throws -> ListUsageForLicenseConfigurationOutput
-    {
+    public func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput) async throws -> ListUsageForLicenseConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2348,8 +2305,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func rejectGrant(input: RejectGrantInput) async throws -> RejectGrantOutput
-    {
+    public func rejectGrant(input: RejectGrantInput) async throws -> RejectGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2399,8 +2355,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2450,8 +2405,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2502,8 +2456,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput) async throws -> UpdateLicenseConfigurationOutput
-    {
+    public func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput) async throws -> UpdateLicenseConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2556,8 +2509,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput) async throws -> UpdateLicenseManagerReportGeneratorOutput
-    {
+    public func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput) async throws -> UpdateLicenseManagerReportGeneratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2609,8 +2561,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `LicenseUsageException` : You do not have enough licenses available to support a new resource launch.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput) async throws -> UpdateLicenseSpecificationsForResourceOutput
-    {
+    public func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput) async throws -> UpdateLicenseSpecificationsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2660,8 +2611,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
-    public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput
-    {
+    public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

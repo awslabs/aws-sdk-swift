@@ -66,7 +66,7 @@ public struct OpsWorksClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension OpsWorksClient: OpsWorksClientProtocol {
+extension OpsWorksClient {
     /// Performs the `AssignInstance` operation on the `OpsWorks_20130218` service.
     ///
     /// Assign a registered instance to a layer.
@@ -89,8 +89,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func assignInstance(input: AssignInstanceInput) async throws -> AssignInstanceOutput
-    {
+    public func assignInstance(input: AssignInstanceInput) async throws -> AssignInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func assignVolume(input: AssignVolumeInput) async throws -> AssignVolumeOutput
-    {
+    public func assignVolume(input: AssignVolumeInput) async throws -> AssignVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func associateElasticIp(input: AssociateElasticIpInput) async throws -> AssociateElasticIpOutput
-    {
+    public func associateElasticIp(input: AssociateElasticIpInput) async throws -> AssociateElasticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func attachElasticLoadBalancer(input: AttachElasticLoadBalancerInput) async throws -> AttachElasticLoadBalancerOutput
-    {
+    public func attachElasticLoadBalancer(input: AttachElasticLoadBalancerInput) async throws -> AttachElasticLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -281,8 +277,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func cloneStack(input: CloneStackInput) async throws -> CloneStackOutput
-    {
+    public func cloneStack(input: CloneStackInput) async throws -> CloneStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput
-    {
+    public func createApp(input: CreateAppInput) async throws -> CreateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutput
-    {
+    public func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func createLayer(input: CreateLayerInput) async throws -> CreateLayerOutput
-    {
+    public func createLayer(input: CreateLayerInput) async throws -> CreateLayerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +511,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func createStack(input: CreateStackInput) async throws -> CreateStackOutput
-    {
+    public func createStack(input: CreateStackInput) async throws -> CreateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -567,8 +557,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
-    {
+    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-    {
+    public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -663,8 +651,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput
-    {
+    public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -711,8 +698,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deleteLayer(input: DeleteLayerInput) async throws -> DeleteLayerOutput
-    {
+    public func deleteLayer(input: DeleteLayerInput) async throws -> DeleteLayerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -759,8 +745,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
-    {
+    public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -807,8 +792,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput
-    {
+    public func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -855,8 +839,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deregisterEcsCluster(input: DeregisterEcsClusterInput) async throws -> DeregisterEcsClusterOutput
-    {
+    public func deregisterEcsCluster(input: DeregisterEcsClusterInput) async throws -> DeregisterEcsClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -903,8 +886,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deregisterElasticIp(input: DeregisterElasticIpInput) async throws -> DeregisterElasticIpOutput
-    {
+    public func deregisterElasticIp(input: DeregisterElasticIpInput) async throws -> DeregisterElasticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -951,8 +933,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutput
-    {
+    public func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -999,8 +980,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deregisterRdsDbInstance(input: DeregisterRdsDbInstanceInput) async throws -> DeregisterRdsDbInstanceOutput
-    {
+    public func deregisterRdsDbInstance(input: DeregisterRdsDbInstanceInput) async throws -> DeregisterRdsDbInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1047,8 +1027,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func deregisterVolume(input: DeregisterVolumeInput) async throws -> DeregisterVolumeOutput
-    {
+    public func deregisterVolume(input: DeregisterVolumeInput) async throws -> DeregisterVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1095,8 +1074,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeAgentVersions(input: DescribeAgentVersionsInput) async throws -> DescribeAgentVersionsOutput
-    {
+    public func describeAgentVersions(input: DescribeAgentVersionsInput) async throws -> DescribeAgentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1143,8 +1121,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeApps(input: DescribeAppsInput) async throws -> DescribeAppsOutput
-    {
+    public func describeApps(input: DescribeAppsInput) async throws -> DescribeAppsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1191,8 +1168,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeCommands(input: DescribeCommandsInput) async throws -> DescribeCommandsOutput
-    {
+    public func describeCommands(input: DescribeCommandsInput) async throws -> DescribeCommandsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1239,8 +1215,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeDeployments(input: DescribeDeploymentsInput) async throws -> DescribeDeploymentsOutput
-    {
+    public func describeDeployments(input: DescribeDeploymentsInput) async throws -> DescribeDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1287,8 +1262,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeEcsClusters(input: DescribeEcsClustersInput) async throws -> DescribeEcsClustersOutput
-    {
+    public func describeEcsClusters(input: DescribeEcsClustersInput) async throws -> DescribeEcsClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1335,8 +1309,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeElasticIps(input: DescribeElasticIpsInput) async throws -> DescribeElasticIpsOutput
-    {
+    public func describeElasticIps(input: DescribeElasticIpsInput) async throws -> DescribeElasticIpsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1383,8 +1356,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeElasticLoadBalancers(input: DescribeElasticLoadBalancersInput) async throws -> DescribeElasticLoadBalancersOutput
-    {
+    public func describeElasticLoadBalancers(input: DescribeElasticLoadBalancersInput) async throws -> DescribeElasticLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1403,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput
-    {
+    public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1479,8 +1450,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeLayers(input: DescribeLayersInput) async throws -> DescribeLayersOutput
-    {
+    public func describeLayers(input: DescribeLayersInput) async throws -> DescribeLayersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1527,8 +1497,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeLoadBasedAutoScaling(input: DescribeLoadBasedAutoScalingInput) async throws -> DescribeLoadBasedAutoScalingOutput
-    {
+    public func describeLoadBasedAutoScaling(input: DescribeLoadBasedAutoScalingInput) async throws -> DescribeLoadBasedAutoScalingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1569,8 +1538,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// - Parameter DescribeMyUserProfileInput : [no documentation found]
     ///
     /// - Returns: `DescribeMyUserProfileOutput` : Contains the response to a DescribeMyUserProfile request.
-    public func describeMyUserProfile(input: DescribeMyUserProfileInput) async throws -> DescribeMyUserProfileOutput
-    {
+    public func describeMyUserProfile(input: DescribeMyUserProfileInput) async throws -> DescribeMyUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1611,8 +1579,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// - Parameter DescribeOperatingSystemsInput : [no documentation found]
     ///
     /// - Returns: `DescribeOperatingSystemsOutput` : The response to a DescribeOperatingSystems request.
-    public func describeOperatingSystems(input: DescribeOperatingSystemsInput) async throws -> DescribeOperatingSystemsOutput
-    {
+    public func describeOperatingSystems(input: DescribeOperatingSystemsInput) async throws -> DescribeOperatingSystemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1659,8 +1626,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describePermissions(input: DescribePermissionsInput) async throws -> DescribePermissionsOutput
-    {
+    public func describePermissions(input: DescribePermissionsInput) async throws -> DescribePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1707,8 +1673,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeRaidArrays(input: DescribeRaidArraysInput) async throws -> DescribeRaidArraysOutput
-    {
+    public func describeRaidArrays(input: DescribeRaidArraysInput) async throws -> DescribeRaidArraysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1755,8 +1720,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeRdsDbInstances(input: DescribeRdsDbInstancesInput) async throws -> DescribeRdsDbInstancesOutput
-    {
+    public func describeRdsDbInstances(input: DescribeRdsDbInstancesInput) async throws -> DescribeRdsDbInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1803,8 +1767,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeServiceErrors(input: DescribeServiceErrorsInput) async throws -> DescribeServiceErrorsOutput
-    {
+    public func describeServiceErrors(input: DescribeServiceErrorsInput) async throws -> DescribeServiceErrorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1851,8 +1814,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeStackProvisioningParameters(input: DescribeStackProvisioningParametersInput) async throws -> DescribeStackProvisioningParametersOutput
-    {
+    public func describeStackProvisioningParameters(input: DescribeStackProvisioningParametersInput) async throws -> DescribeStackProvisioningParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1899,8 +1861,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeStackSummary(input: DescribeStackSummaryInput) async throws -> DescribeStackSummaryOutput
-    {
+    public func describeStackSummary(input: DescribeStackSummaryInput) async throws -> DescribeStackSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1947,8 +1908,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
-    {
+    public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1995,8 +1955,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeTimeBasedAutoScaling(input: DescribeTimeBasedAutoScalingInput) async throws -> DescribeTimeBasedAutoScalingOutput
-    {
+    public func describeTimeBasedAutoScaling(input: DescribeTimeBasedAutoScalingInput) async throws -> DescribeTimeBasedAutoScalingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2043,8 +2002,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeUserProfiles(input: DescribeUserProfilesInput) async throws -> DescribeUserProfilesOutput
-    {
+    public func describeUserProfiles(input: DescribeUserProfilesInput) async throws -> DescribeUserProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2091,8 +2049,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput
-    {
+    public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2138,8 +2095,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
-    public func detachElasticLoadBalancer(input: DetachElasticLoadBalancerInput) async throws -> DetachElasticLoadBalancerOutput
-    {
+    public func detachElasticLoadBalancer(input: DetachElasticLoadBalancerInput) async throws -> DetachElasticLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2186,8 +2142,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func disassociateElasticIp(input: DisassociateElasticIpInput) async throws -> DisassociateElasticIpOutput
-    {
+    public func disassociateElasticIp(input: DisassociateElasticIpInput) async throws -> DisassociateElasticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2234,8 +2189,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func getHostnameSuggestion(input: GetHostnameSuggestionInput) async throws -> GetHostnameSuggestionOutput
-    {
+    public func getHostnameSuggestion(input: GetHostnameSuggestionInput) async throws -> GetHostnameSuggestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2282,8 +2236,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func grantAccess(input: GrantAccessInput) async throws -> GrantAccessOutput
-    {
+    public func grantAccess(input: GrantAccessInput) async throws -> GrantAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2330,8 +2283,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2378,8 +2330,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput
-    {
+    public func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2426,8 +2377,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func registerEcsCluster(input: RegisterEcsClusterInput) async throws -> RegisterEcsClusterOutput
-    {
+    public func registerEcsCluster(input: RegisterEcsClusterInput) async throws -> RegisterEcsClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2474,8 +2424,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func registerElasticIp(input: RegisterElasticIpInput) async throws -> RegisterElasticIpOutput
-    {
+    public func registerElasticIp(input: RegisterElasticIpInput) async throws -> RegisterElasticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2522,8 +2471,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutput
-    {
+    public func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2570,8 +2518,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func registerRdsDbInstance(input: RegisterRdsDbInstanceInput) async throws -> RegisterRdsDbInstanceOutput
-    {
+    public func registerRdsDbInstance(input: RegisterRdsDbInstanceInput) async throws -> RegisterRdsDbInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2618,8 +2565,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func registerVolume(input: RegisterVolumeInput) async throws -> RegisterVolumeOutput
-    {
+    public func registerVolume(input: RegisterVolumeInput) async throws -> RegisterVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2666,8 +2612,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func setLoadBasedAutoScaling(input: SetLoadBasedAutoScalingInput) async throws -> SetLoadBasedAutoScalingOutput
-    {
+    public func setLoadBasedAutoScaling(input: SetLoadBasedAutoScalingInput) async throws -> SetLoadBasedAutoScalingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2714,8 +2659,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func setPermission(input: SetPermissionInput) async throws -> SetPermissionOutput
-    {
+    public func setPermission(input: SetPermissionInput) async throws -> SetPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2762,8 +2706,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func setTimeBasedAutoScaling(input: SetTimeBasedAutoScalingInput) async throws -> SetTimeBasedAutoScalingOutput
-    {
+    public func setTimeBasedAutoScaling(input: SetTimeBasedAutoScalingInput) async throws -> SetTimeBasedAutoScalingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2810,8 +2753,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput
-    {
+    public func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2858,8 +2800,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func startStack(input: StartStackInput) async throws -> StartStackOutput
-    {
+    public func startStack(input: StartStackInput) async throws -> StartStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2906,8 +2847,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput
-    {
+    public func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2954,8 +2894,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func stopStack(input: StopStackInput) async throws -> StopStackOutput
-    {
+    public func stopStack(input: StopStackInput) async throws -> StopStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3002,8 +2941,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3050,8 +2988,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func unassignInstance(input: UnassignInstanceInput) async throws -> UnassignInstanceOutput
-    {
+    public func unassignInstance(input: UnassignInstanceInput) async throws -> UnassignInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3098,8 +3035,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func unassignVolume(input: UnassignVolumeInput) async throws -> UnassignVolumeOutput
-    {
+    public func unassignVolume(input: UnassignVolumeInput) async throws -> UnassignVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3146,8 +3082,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3194,8 +3129,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
-    {
+    public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3242,8 +3176,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateElasticIp(input: UpdateElasticIpInput) async throws -> UpdateElasticIpOutput
-    {
+    public func updateElasticIp(input: UpdateElasticIpInput) async throws -> UpdateElasticIpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3290,8 +3223,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateInstance(input: UpdateInstanceInput) async throws -> UpdateInstanceOutput
-    {
+    public func updateInstance(input: UpdateInstanceInput) async throws -> UpdateInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3338,8 +3270,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateLayer(input: UpdateLayerInput) async throws -> UpdateLayerOutput
-    {
+    public func updateLayer(input: UpdateLayerInput) async throws -> UpdateLayerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3385,8 +3316,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateMyUserProfile(input: UpdateMyUserProfileInput) async throws -> UpdateMyUserProfileOutput
-    {
+    public func updateMyUserProfile(input: UpdateMyUserProfileInput) async throws -> UpdateMyUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3433,8 +3363,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateRdsDbInstance(input: UpdateRdsDbInstanceInput) async throws -> UpdateRdsDbInstanceOutput
-    {
+    public func updateRdsDbInstance(input: UpdateRdsDbInstanceInput) async throws -> UpdateRdsDbInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3481,8 +3410,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput
-    {
+    public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3529,8 +3457,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput
-    {
+    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3577,8 +3504,7 @@ extension OpsWorksClient: OpsWorksClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    public func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutput
-    {
+    public func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

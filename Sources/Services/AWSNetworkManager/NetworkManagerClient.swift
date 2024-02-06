@@ -66,7 +66,7 @@ public struct NetworkManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension NetworkManagerClient: NetworkManagerClientProtocol {
+extension NetworkManagerClient {
     /// Performs the `AcceptAttachment` operation on the `NetworkManager` service.
     ///
     /// Accepts a core network attachment request. Once the attachment request is accepted by a core network owner, the attachment is created and connected to a core network.
@@ -84,8 +84,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func acceptAttachment(input: AcceptAttachmentInput) async throws -> AcceptAttachmentOutput
-    {
+    public func acceptAttachment(input: AcceptAttachmentInput) async throws -> AcceptAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func associateConnectPeer(input: AssociateConnectPeerInput) async throws -> AssociateConnectPeerOutput
-    {
+    public func associateConnectPeer(input: AssociateConnectPeerInput) async throws -> AssociateConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func associateCustomerGateway(input: AssociateCustomerGatewayInput) async throws -> AssociateCustomerGatewayOutput
-    {
+    public func associateCustomerGateway(input: AssociateCustomerGatewayInput) async throws -> AssociateCustomerGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func associateLink(input: AssociateLinkInput) async throws -> AssociateLinkOutput
-    {
+    public func associateLink(input: AssociateLinkInput) async throws -> AssociateLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func associateTransitGatewayConnectPeer(input: AssociateTransitGatewayConnectPeerInput) async throws -> AssociateTransitGatewayConnectPeerOutput
-    {
+    public func associateTransitGatewayConnectPeer(input: AssociateTransitGatewayConnectPeerInput) async throws -> AssociateTransitGatewayConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -340,8 +335,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createConnectAttachment(input: CreateConnectAttachmentInput) async throws -> CreateConnectAttachmentOutput
-    {
+    public func createConnectAttachment(input: CreateConnectAttachmentInput) async throws -> CreateConnectAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createConnectPeer(input: CreateConnectPeerInput) async throws -> CreateConnectPeerOutput
-    {
+    public func createConnectPeer(input: CreateConnectPeerInput) async throws -> CreateConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    {
+    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +488,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createCoreNetwork(input: CreateCoreNetworkInput) async throws -> CreateCoreNetworkOutput
-    {
+    public func createCoreNetwork(input: CreateCoreNetworkInput) async throws -> CreateCoreNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -549,8 +540,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createDevice(input: CreateDeviceInput) async throws -> CreateDeviceOutput
-    {
+    public func createDevice(input: CreateDeviceInput) async throws -> CreateDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -600,8 +590,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createGlobalNetwork(input: CreateGlobalNetworkInput) async throws -> CreateGlobalNetworkOutput
-    {
+    public func createGlobalNetwork(input: CreateGlobalNetworkInput) async throws -> CreateGlobalNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +641,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createLink(input: CreateLinkInput) async throws -> CreateLinkOutput
-    {
+    public func createLink(input: CreateLinkInput) async throws -> CreateLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,8 +692,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
-    {
+    public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +742,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createSiteToSiteVpnAttachment(input: CreateSiteToSiteVpnAttachmentInput) async throws -> CreateSiteToSiteVpnAttachmentOutput
-    {
+    public func createSiteToSiteVpnAttachment(input: CreateSiteToSiteVpnAttachmentInput) async throws -> CreateSiteToSiteVpnAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -807,8 +793,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createTransitGatewayPeering(input: CreateTransitGatewayPeeringInput) async throws -> CreateTransitGatewayPeeringOutput
-    {
+    public func createTransitGatewayPeering(input: CreateTransitGatewayPeeringInput) async throws -> CreateTransitGatewayPeeringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -859,8 +844,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createTransitGatewayRouteTableAttachment(input: CreateTransitGatewayRouteTableAttachmentInput) async throws -> CreateTransitGatewayRouteTableAttachmentOutput
-    {
+    public func createTransitGatewayRouteTableAttachment(input: CreateTransitGatewayRouteTableAttachmentInput) async throws -> CreateTransitGatewayRouteTableAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -911,8 +895,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func createVpcAttachment(input: CreateVpcAttachmentInput) async throws -> CreateVpcAttachmentOutput
-    {
+    public func createVpcAttachment(input: CreateVpcAttachmentInput) async throws -> CreateVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +946,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteAttachment(input: DeleteAttachmentInput) async throws -> DeleteAttachmentOutput
-    {
+    public func deleteAttachment(input: DeleteAttachmentInput) async throws -> DeleteAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +993,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteConnectPeer(input: DeleteConnectPeerInput) async throws -> DeleteConnectPeerOutput
-    {
+    public func deleteConnectPeer(input: DeleteConnectPeerInput) async throws -> DeleteConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1059,8 +1040,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1107,8 +1087,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteCoreNetwork(input: DeleteCoreNetworkInput) async throws -> DeleteCoreNetworkOutput
-    {
+    public func deleteCoreNetwork(input: DeleteCoreNetworkInput) async throws -> DeleteCoreNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1155,8 +1134,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteCoreNetworkPolicyVersion(input: DeleteCoreNetworkPolicyVersionInput) async throws -> DeleteCoreNetworkPolicyVersionOutput
-    {
+    public func deleteCoreNetworkPolicyVersion(input: DeleteCoreNetworkPolicyVersionInput) async throws -> DeleteCoreNetworkPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1203,8 +1181,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
-    {
+    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1251,8 +1228,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteGlobalNetwork(input: DeleteGlobalNetworkInput) async throws -> DeleteGlobalNetworkOutput
-    {
+    public func deleteGlobalNetwork(input: DeleteGlobalNetworkInput) async throws -> DeleteGlobalNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1299,8 +1275,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutput
-    {
+    public func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1347,8 +1322,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deletePeering(input: DeletePeeringInput) async throws -> DeletePeeringOutput
-    {
+    public func deletePeering(input: DeletePeeringInput) async throws -> DeletePeeringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1394,8 +1368,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1442,8 +1415,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
-    {
+    public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1490,8 +1462,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func deregisterTransitGateway(input: DeregisterTransitGatewayInput) async throws -> DeregisterTransitGatewayOutput
-    {
+    public func deregisterTransitGateway(input: DeregisterTransitGatewayInput) async throws -> DeregisterTransitGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1537,8 +1508,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func describeGlobalNetworks(input: DescribeGlobalNetworksInput) async throws -> DescribeGlobalNetworksOutput
-    {
+    public func describeGlobalNetworks(input: DescribeGlobalNetworksInput) async throws -> DescribeGlobalNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1586,8 +1556,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func disassociateConnectPeer(input: DisassociateConnectPeerInput) async throws -> DisassociateConnectPeerOutput
-    {
+    public func disassociateConnectPeer(input: DisassociateConnectPeerInput) async throws -> DisassociateConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1634,8 +1603,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func disassociateCustomerGateway(input: DisassociateCustomerGatewayInput) async throws -> DisassociateCustomerGatewayOutput
-    {
+    public func disassociateCustomerGateway(input: DisassociateCustomerGatewayInput) async throws -> DisassociateCustomerGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1682,8 +1650,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func disassociateLink(input: DisassociateLinkInput) async throws -> DisassociateLinkOutput
-    {
+    public func disassociateLink(input: DisassociateLinkInput) async throws -> DisassociateLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1731,8 +1698,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func disassociateTransitGatewayConnectPeer(input: DisassociateTransitGatewayConnectPeerInput) async throws -> DisassociateTransitGatewayConnectPeerOutput
-    {
+    public func disassociateTransitGatewayConnectPeer(input: DisassociateTransitGatewayConnectPeerInput) async throws -> DisassociateTransitGatewayConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1779,8 +1745,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func executeCoreNetworkChangeSet(input: ExecuteCoreNetworkChangeSetInput) async throws -> ExecuteCoreNetworkChangeSetOutput
-    {
+    public func executeCoreNetworkChangeSet(input: ExecuteCoreNetworkChangeSetInput) async throws -> ExecuteCoreNetworkChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1826,8 +1791,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getConnectAttachment(input: GetConnectAttachmentInput) async throws -> GetConnectAttachmentOutput
-    {
+    public func getConnectAttachment(input: GetConnectAttachmentInput) async throws -> GetConnectAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1873,8 +1837,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getConnectPeer(input: GetConnectPeerInput) async throws -> GetConnectPeerOutput
-    {
+    public func getConnectPeer(input: GetConnectPeerInput) async throws -> GetConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1921,8 +1884,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getConnectPeerAssociations(input: GetConnectPeerAssociationsInput) async throws -> GetConnectPeerAssociationsOutput
-    {
+    public func getConnectPeerAssociations(input: GetConnectPeerAssociationsInput) async throws -> GetConnectPeerAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1969,8 +1931,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput
-    {
+    public func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2017,8 +1978,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getCoreNetwork(input: GetCoreNetworkInput) async throws -> GetCoreNetworkOutput
-    {
+    public func getCoreNetwork(input: GetCoreNetworkInput) async throws -> GetCoreNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2064,8 +2024,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getCoreNetworkChangeEvents(input: GetCoreNetworkChangeEventsInput) async throws -> GetCoreNetworkChangeEventsOutput
-    {
+    public func getCoreNetworkChangeEvents(input: GetCoreNetworkChangeEventsInput) async throws -> GetCoreNetworkChangeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2112,8 +2071,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getCoreNetworkChangeSet(input: GetCoreNetworkChangeSetInput) async throws -> GetCoreNetworkChangeSetOutput
-    {
+    public func getCoreNetworkChangeSet(input: GetCoreNetworkChangeSetInput) async throws -> GetCoreNetworkChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2160,8 +2118,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getCoreNetworkPolicy(input: GetCoreNetworkPolicyInput) async throws -> GetCoreNetworkPolicyOutput
-    {
+    public func getCoreNetworkPolicy(input: GetCoreNetworkPolicyInput) async throws -> GetCoreNetworkPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2209,8 +2166,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getCustomerGatewayAssociations(input: GetCustomerGatewayAssociationsInput) async throws -> GetCustomerGatewayAssociationsOutput
-    {
+    public func getCustomerGatewayAssociations(input: GetCustomerGatewayAssociationsInput) async throws -> GetCustomerGatewayAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2257,8 +2213,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getDevices(input: GetDevicesInput) async throws -> GetDevicesOutput
-    {
+    public func getDevices(input: GetDevicesInput) async throws -> GetDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2305,8 +2260,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getLinkAssociations(input: GetLinkAssociationsInput) async throws -> GetLinkAssociationsOutput
-    {
+    public func getLinkAssociations(input: GetLinkAssociationsInput) async throws -> GetLinkAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2353,8 +2307,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getLinks(input: GetLinksInput) async throws -> GetLinksOutput
-    {
+    public func getLinks(input: GetLinksInput) async throws -> GetLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2400,8 +2353,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getNetworkResourceCounts(input: GetNetworkResourceCountsInput) async throws -> GetNetworkResourceCountsOutput
-    {
+    public func getNetworkResourceCounts(input: GetNetworkResourceCountsInput) async throws -> GetNetworkResourceCountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2448,8 +2400,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getNetworkResourceRelationships(input: GetNetworkResourceRelationshipsInput) async throws -> GetNetworkResourceRelationshipsOutput
-    {
+    public func getNetworkResourceRelationships(input: GetNetworkResourceRelationshipsInput) async throws -> GetNetworkResourceRelationshipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2496,8 +2447,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getNetworkResources(input: GetNetworkResourcesInput) async throws -> GetNetworkResourcesOutput
-    {
+    public func getNetworkResources(input: GetNetworkResourcesInput) async throws -> GetNetworkResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2544,8 +2494,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getNetworkRoutes(input: GetNetworkRoutesInput) async throws -> GetNetworkRoutesOutput
-    {
+    public func getNetworkRoutes(input: GetNetworkRoutesInput) async throws -> GetNetworkRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2594,8 +2543,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getNetworkTelemetry(input: GetNetworkTelemetryInput) async throws -> GetNetworkTelemetryOutput
-    {
+    public func getNetworkTelemetry(input: GetNetworkTelemetryInput) async throws -> GetNetworkTelemetryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2641,8 +2589,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2688,8 +2635,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getRouteAnalysis(input: GetRouteAnalysisInput) async throws -> GetRouteAnalysisOutput
-    {
+    public func getRouteAnalysis(input: GetRouteAnalysisInput) async throws -> GetRouteAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2735,8 +2681,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getSiteToSiteVpnAttachment(input: GetSiteToSiteVpnAttachmentInput) async throws -> GetSiteToSiteVpnAttachmentOutput
-    {
+    public func getSiteToSiteVpnAttachment(input: GetSiteToSiteVpnAttachmentInput) async throws -> GetSiteToSiteVpnAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2782,8 +2727,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getSites(input: GetSitesInput) async throws -> GetSitesOutput
-    {
+    public func getSites(input: GetSitesInput) async throws -> GetSitesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2831,8 +2775,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getTransitGatewayConnectPeerAssociations(input: GetTransitGatewayConnectPeerAssociationsInput) async throws -> GetTransitGatewayConnectPeerAssociationsOutput
-    {
+    public func getTransitGatewayConnectPeerAssociations(input: GetTransitGatewayConnectPeerAssociationsInput) async throws -> GetTransitGatewayConnectPeerAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2879,8 +2822,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getTransitGatewayPeering(input: GetTransitGatewayPeeringInput) async throws -> GetTransitGatewayPeeringOutput
-    {
+    public func getTransitGatewayPeering(input: GetTransitGatewayPeeringInput) async throws -> GetTransitGatewayPeeringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2926,8 +2868,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getTransitGatewayRegistrations(input: GetTransitGatewayRegistrationsInput) async throws -> GetTransitGatewayRegistrationsOutput
-    {
+    public func getTransitGatewayRegistrations(input: GetTransitGatewayRegistrationsInput) async throws -> GetTransitGatewayRegistrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2974,8 +2915,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getTransitGatewayRouteTableAttachment(input: GetTransitGatewayRouteTableAttachmentInput) async throws -> GetTransitGatewayRouteTableAttachmentOutput
-    {
+    public func getTransitGatewayRouteTableAttachment(input: GetTransitGatewayRouteTableAttachmentInput) async throws -> GetTransitGatewayRouteTableAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3021,8 +2961,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func getVpcAttachment(input: GetVpcAttachmentInput) async throws -> GetVpcAttachmentOutput
-    {
+    public func getVpcAttachment(input: GetVpcAttachmentInput) async throws -> GetVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3067,8 +3006,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func listAttachments(input: ListAttachmentsInput) async throws -> ListAttachmentsOutput
-    {
+    public func listAttachments(input: ListAttachmentsInput) async throws -> ListAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3114,8 +3052,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func listConnectPeers(input: ListConnectPeersInput) async throws -> ListConnectPeersOutput
-    {
+    public func listConnectPeers(input: ListConnectPeersInput) async throws -> ListConnectPeersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3162,8 +3099,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func listCoreNetworkPolicyVersions(input: ListCoreNetworkPolicyVersionsInput) async throws -> ListCoreNetworkPolicyVersionsOutput
-    {
+    public func listCoreNetworkPolicyVersions(input: ListCoreNetworkPolicyVersionsInput) async throws -> ListCoreNetworkPolicyVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3209,8 +3145,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func listCoreNetworks(input: ListCoreNetworksInput) async throws -> ListCoreNetworksOutput
-    {
+    public func listCoreNetworks(input: ListCoreNetworksInput) async throws -> ListCoreNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3248,8 +3183,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - Parameter ListOrganizationServiceAccessStatusInput : [no documentation found]
     ///
     /// - Returns: `ListOrganizationServiceAccessStatusOutput` : [no documentation found]
-    public func listOrganizationServiceAccessStatus(input: ListOrganizationServiceAccessStatusInput) async throws -> ListOrganizationServiceAccessStatusOutput
-    {
+    public func listOrganizationServiceAccessStatus(input: ListOrganizationServiceAccessStatusInput) async throws -> ListOrganizationServiceAccessStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3295,8 +3229,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func listPeerings(input: ListPeeringsInput) async throws -> ListPeeringsOutput
-    {
+    public func listPeerings(input: ListPeeringsInput) async throws -> ListPeeringsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3343,8 +3276,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3392,8 +3324,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func putCoreNetworkPolicy(input: PutCoreNetworkPolicyInput) async throws -> PutCoreNetworkPolicyOutput
-    {
+    public func putCoreNetworkPolicy(input: PutCoreNetworkPolicyInput) async throws -> PutCoreNetworkPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3444,8 +3375,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3495,8 +3425,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func registerTransitGateway(input: RegisterTransitGatewayInput) async throws -> RegisterTransitGatewayOutput
-    {
+    public func registerTransitGateway(input: RegisterTransitGatewayInput) async throws -> RegisterTransitGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3546,8 +3475,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func rejectAttachment(input: RejectAttachmentInput) async throws -> RejectAttachmentOutput
-    {
+    public func rejectAttachment(input: RejectAttachmentInput) async throws -> RejectAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3594,8 +3522,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func restoreCoreNetworkPolicyVersion(input: RestoreCoreNetworkPolicyVersionInput) async throws -> RestoreCoreNetworkPolicyVersionOutput
-    {
+    public func restoreCoreNetworkPolicyVersion(input: RestoreCoreNetworkPolicyVersionInput) async throws -> RestoreCoreNetworkPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3642,8 +3569,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func startOrganizationServiceAccessUpdate(input: StartOrganizationServiceAccessUpdateInput) async throws -> StartOrganizationServiceAccessUpdateOutput
-    {
+    public func startOrganizationServiceAccessUpdate(input: StartOrganizationServiceAccessUpdateInput) async throws -> StartOrganizationServiceAccessUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3693,8 +3619,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func startRouteAnalysis(input: StartRouteAnalysisInput) async throws -> StartRouteAnalysisOutput
-    {
+    public func startRouteAnalysis(input: StartRouteAnalysisInput) async throws -> StartRouteAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3745,8 +3670,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3796,8 +3720,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3845,8 +3768,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
-    {
+    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3896,8 +3818,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateCoreNetwork(input: UpdateCoreNetworkInput) async throws -> UpdateCoreNetworkOutput
-    {
+    public func updateCoreNetwork(input: UpdateCoreNetworkInput) async throws -> UpdateCoreNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3947,8 +3868,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput
-    {
+    public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3998,8 +3918,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateGlobalNetwork(input: UpdateGlobalNetworkInput) async throws -> UpdateGlobalNetworkOutput
-    {
+    public func updateGlobalNetwork(input: UpdateGlobalNetworkInput) async throws -> UpdateGlobalNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4050,8 +3969,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ServiceQuotaExceededException` : A service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutput
-    {
+    public func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4101,8 +4019,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateNetworkResourceMetadata(input: UpdateNetworkResourceMetadataInput) async throws -> UpdateNetworkResourceMetadataOutput
-    {
+    public func updateNetworkResourceMetadata(input: UpdateNetworkResourceMetadataInput) async throws -> UpdateNetworkResourceMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4152,8 +4069,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
-    {
+    public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4203,8 +4119,7 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints.
-    public func updateVpcAttachment(input: UpdateVpcAttachmentInput) async throws -> UpdateVpcAttachmentOutput
-    {
+    public func updateVpcAttachment(input: UpdateVpcAttachmentInput) async throws -> UpdateVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct PcaConnectorAdClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
+extension PcaConnectorAdClient {
     /// Performs the `CreateConnector` operation on the `PcaConnectorAd` service.
     ///
     /// Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA, directory ID, and security groups.
@@ -85,8 +85,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
-    {
+    public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func createDirectoryRegistration(input: CreateDirectoryRegistrationInput) async throws -> CreateDirectoryRegistrationOutput
-    {
+    public func createDirectoryRegistration(input: CreateDirectoryRegistrationInput) async throws -> CreateDirectoryRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func createServicePrincipalName(input: CreateServicePrincipalNameInput) async throws -> CreateServicePrincipalNameOutput
-    {
+    public func createServicePrincipalName(input: CreateServicePrincipalNameInput) async throws -> CreateServicePrincipalNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
-    {
+    public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func createTemplateGroupAccessControlEntry(input: CreateTemplateGroupAccessControlEntryInput) async throws -> CreateTemplateGroupAccessControlEntryOutput
-    {
+    public func createTemplateGroupAccessControlEntry(input: CreateTemplateGroupAccessControlEntryInput) async throws -> CreateTemplateGroupAccessControlEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -347,8 +342,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
-    {
+    public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +388,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func deleteDirectoryRegistration(input: DeleteDirectoryRegistrationInput) async throws -> DeleteDirectoryRegistrationOutput
-    {
+    public func deleteDirectoryRegistration(input: DeleteDirectoryRegistrationInput) async throws -> DeleteDirectoryRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func deleteServicePrincipalName(input: DeleteServicePrincipalNameInput) async throws -> DeleteServicePrincipalNameOutput
-    {
+    public func deleteServicePrincipalName(input: DeleteServicePrincipalNameInput) async throws -> DeleteServicePrincipalNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -489,8 +481,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput
-    {
+    public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +528,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func deleteTemplateGroupAccessControlEntry(input: DeleteTemplateGroupAccessControlEntryInput) async throws -> DeleteTemplateGroupAccessControlEntryOutput
-    {
+    public func deleteTemplateGroupAccessControlEntry(input: DeleteTemplateGroupAccessControlEntryInput) async throws -> DeleteTemplateGroupAccessControlEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -584,8 +574,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func getConnector(input: GetConnectorInput) async throws -> GetConnectorOutput
-    {
+    public func getConnector(input: GetConnectorInput) async throws -> GetConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -631,8 +620,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func getDirectoryRegistration(input: GetDirectoryRegistrationInput) async throws -> GetDirectoryRegistrationOutput
-    {
+    public func getDirectoryRegistration(input: GetDirectoryRegistrationInput) async throws -> GetDirectoryRegistrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -678,8 +666,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func getServicePrincipalName(input: GetServicePrincipalNameInput) async throws -> GetServicePrincipalNameOutput
-    {
+    public func getServicePrincipalName(input: GetServicePrincipalNameInput) async throws -> GetServicePrincipalNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -725,8 +712,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
-    {
+    public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +758,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func getTemplateGroupAccessControlEntry(input: GetTemplateGroupAccessControlEntryInput) async throws -> GetTemplateGroupAccessControlEntryOutput
-    {
+    public func getTemplateGroupAccessControlEntry(input: GetTemplateGroupAccessControlEntryInput) async throws -> GetTemplateGroupAccessControlEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -818,8 +803,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
-    {
+    public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -865,8 +849,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func listDirectoryRegistrations(input: ListDirectoryRegistrationsInput) async throws -> ListDirectoryRegistrationsOutput
-    {
+    public func listDirectoryRegistrations(input: ListDirectoryRegistrationsInput) async throws -> ListDirectoryRegistrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -913,8 +896,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func listServicePrincipalNames(input: ListServicePrincipalNamesInput) async throws -> ListServicePrincipalNamesOutput
-    {
+    public func listServicePrincipalNames(input: ListServicePrincipalNamesInput) async throws -> ListServicePrincipalNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -961,8 +943,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1008,8 +989,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func listTemplateGroupAccessControlEntries(input: ListTemplateGroupAccessControlEntriesInput) async throws -> ListTemplateGroupAccessControlEntriesOutput
-    {
+    public func listTemplateGroupAccessControlEntries(input: ListTemplateGroupAccessControlEntriesInput) async throws -> ListTemplateGroupAccessControlEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1056,8 +1036,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-    {
+    public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1104,8 +1083,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1154,8 +1132,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1203,8 +1180,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
-    {
+    public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1254,8 +1230,7 @@ extension PcaConnectorAdClient: PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    public func updateTemplateGroupAccessControlEntry(input: UpdateTemplateGroupAccessControlEntryInput) async throws -> UpdateTemplateGroupAccessControlEntryOutput
-    {
+    public func updateTemplateGroupAccessControlEntry(input: UpdateTemplateGroupAccessControlEntryInput) async throws -> UpdateTemplateGroupAccessControlEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -1239,6 +1239,8 @@ enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum EntityResolutionClientTypes {}
+
 extension EntityResolutionClientTypes.ErrorDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage

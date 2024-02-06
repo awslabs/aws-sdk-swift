@@ -66,7 +66,7 @@ public struct ResourceGroupsTaggingAPIClientLogHandlerFactory: ClientRuntime.SDK
     }
 }
 
-extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol {
+extension ResourceGroupsTaggingAPIClient {
     /// Performs the `DescribeReportCreation` operation on the `ResourceGroupsTaggingAPI_20170126` service.
     ///
     /// Describes the status of the StartReportCreation operation. You can call this operation only from the organization's management account and from the us-east-1 Region.
@@ -98,8 +98,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutput
-    {
+    public func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -164,8 +163,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutput
-    {
+    public func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +229,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput
-    {
+    public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +288,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutput
-    {
+    public func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -351,8 +347,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `PaginationTokenExpiredException` : A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutput
-    {
+    public func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -418,8 +413,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutput
-    {
+    public func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +486,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutput
-    {
+    public func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -562,8 +555,7 @@ extension ResourceGroupsTaggingAPIClient: ResourceGroupsTaggingAPIClientProtocol
     ///
     /// * You can't access the Amazon S3 bucket for report storage. For more information, see [Additional Requirements for Organization-wide Tag Compliance Reports](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies-prereqs.html#bucket-policies-org-report) in the Organizations User Guide.
     /// - `ThrottledException` : The request was denied to limit the frequency of submitted requests.
-    public func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutput
-    {
+    public func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

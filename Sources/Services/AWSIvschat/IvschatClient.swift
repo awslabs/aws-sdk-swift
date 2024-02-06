@@ -66,7 +66,7 @@ public struct IvschatClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension IvschatClient: IvschatClientProtocol {
+extension IvschatClient {
     /// Performs the `CreateChatToken` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
     /// Creates an encrypted token that is used by a chat participant to establish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session duration specified in the request. The token becomes invalid at the token-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat session; the data is included within each message sent by the end user and received by other participants in the room. Common use cases for attributes include passing end-user profile data like an icon, display name, colors, badges, and other display features. Encryption keys are owned by Amazon IVS Chat and never used directly by your application.
@@ -82,8 +82,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func createChatToken(input: CreateChatTokenInput) async throws -> CreateChatTokenOutput
-    {
+    public func createChatToken(input: CreateChatTokenInput) async throws -> CreateChatTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createLoggingConfiguration(input: CreateLoggingConfigurationInput) async throws -> CreateLoggingConfigurationOutput
-    {
+    public func createLoggingConfiguration(input: CreateLoggingConfigurationInput) async throws -> CreateLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput
-    {
+    public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
-    {
+    public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
     /// - `ValidationException` :
-    public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput
-    {
+    public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput
-    {
+    public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +377,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
     /// - `ValidationException` :
-    public func disconnectUser(input: DisconnectUserInput) async throws -> DisconnectUserOutput
-    {
+    public func disconnectUser(input: DisconnectUserInput) async throws -> DisconnectUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -431,8 +424,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput
-    {
+    public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getRoom(input: GetRoomInput) async throws -> GetRoomOutput
-    {
+    public func getRoom(input: GetRoomInput) async throws -> GetRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -526,8 +517,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput
-    {
+    public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,8 +564,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listRooms(input: ListRoomsInput) async throws -> ListRoomsOutput
-    {
+    public func listRooms(input: ListRoomsInput) async throws -> ListRoomsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -622,8 +611,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -669,8 +657,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ThrottlingException` :
     /// - `ValidationException` :
-    public func sendEvent(input: SendEventInput) async throws -> SendEventOutput
-    {
+    public func sendEvent(input: SendEventInput) async throws -> SendEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -717,8 +704,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -765,8 +751,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -813,8 +798,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput
-    {
+    public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -862,8 +846,7 @@ extension IvschatClient: IvschatClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput
-    {
+    public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

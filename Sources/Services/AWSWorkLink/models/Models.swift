@@ -4718,3 +4718,5 @@ extension WorkLinkClientTypes {
     }
 
 }
+
+public enum WorkLinkClientTypes {}

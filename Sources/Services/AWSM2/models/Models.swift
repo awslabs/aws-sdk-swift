@@ -6495,6 +6495,8 @@ extension M2ClientTypes {
 
 }
 
+public enum M2ClientTypes {}
+
 extension M2ClientTypes.MaintenanceSchedule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime

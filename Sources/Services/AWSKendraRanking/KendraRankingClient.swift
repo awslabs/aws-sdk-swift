@@ -66,7 +66,7 @@ public struct KendraRankingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension KendraRankingClient: KendraRankingClientProtocol {
+extension KendraRankingClient {
     /// Performs the `CreateRescoreExecutionPlan` operation on the `AWSKendraRerankingFrontendService` service.
     ///
     /// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see [Semantically ranking a search service's results](https://docs.aws.amazon.com/kendra/latest/dg/search-service-rerank.html).
@@ -84,8 +84,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra Intelligent Ranking service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func createRescoreExecutionPlan(input: CreateRescoreExecutionPlanInput) async throws -> CreateRescoreExecutionPlanOutput
-    {
+    public func createRescoreExecutionPlan(input: CreateRescoreExecutionPlanInput) async throws -> CreateRescoreExecutionPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func deleteRescoreExecutionPlan(input: DeleteRescoreExecutionPlanInput) async throws -> DeleteRescoreExecutionPlanOutput
-    {
+    public func deleteRescoreExecutionPlan(input: DeleteRescoreExecutionPlanInput) async throws -> DeleteRescoreExecutionPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func describeRescoreExecutionPlan(input: DescribeRescoreExecutionPlanInput) async throws -> DescribeRescoreExecutionPlanOutput
-    {
+    public func describeRescoreExecutionPlan(input: DescribeRescoreExecutionPlanInput) async throws -> DescribeRescoreExecutionPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func listRescoreExecutionPlans(input: ListRescoreExecutionPlansInput) async throws -> ListRescoreExecutionPlansOutput
-    {
+    public func listRescoreExecutionPlans(input: ListRescoreExecutionPlansInput) async throws -> ListRescoreExecutionPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -290,8 +286,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func rescore(input: RescoreInput) async throws -> RescoreOutput
-    {
+    public func rescore(input: RescoreInput) async throws -> RescoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +387,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -497,8 +489,7 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra Intelligent Ranking service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-    public func updateRescoreExecutionPlan(input: UpdateRescoreExecutionPlanInput) async throws -> UpdateRescoreExecutionPlanOutput
-    {
+    public func updateRescoreExecutionPlan(input: UpdateRescoreExecutionPlanInput) async throws -> UpdateRescoreExecutionPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

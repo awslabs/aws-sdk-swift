@@ -66,7 +66,7 @@ public struct ControlTowerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension ControlTowerClient: ControlTowerClientProtocol {
+extension ControlTowerClient {
     /// Performs the `CreateLandingZone` operation on the `AWSControlTowerApis` service.
     ///
     /// Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
@@ -83,8 +83,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createLandingZone(input: CreateLandingZoneInput) async throws -> CreateLandingZoneOutput
-    {
+    public func createLandingZone(input: CreateLandingZoneInput) async throws -> CreateLandingZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteLandingZone(input: DeleteLandingZoneInput) async throws -> DeleteLandingZoneOutput
-    {
+    public func deleteLandingZone(input: DeleteLandingZoneInput) async throws -> DeleteLandingZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func disableControl(input: DisableControlInput) async throws -> DisableControlOutput
-    {
+    public func disableControl(input: DisableControlInput) async throws -> DisableControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func enableControl(input: EnableControlInput) async throws -> EnableControlOutput
-    {
+    public func enableControl(input: EnableControlInput) async throws -> EnableControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutput
-    {
+    public func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,8 +333,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getEnabledControl(input: GetEnabledControlInput) async throws -> GetEnabledControlOutput
-    {
+    public func getEnabledControl(input: GetEnabledControlInput) async throws -> GetEnabledControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -388,8 +382,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getLandingZone(input: GetLandingZoneInput) async throws -> GetLandingZoneOutput
-    {
+    public func getLandingZone(input: GetLandingZoneInput) async throws -> GetLandingZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -438,8 +431,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getLandingZoneOperation(input: GetLandingZoneOperationInput) async throws -> GetLandingZoneOperationOutput
-    {
+    public func getLandingZoneOperation(input: GetLandingZoneOperationInput) async throws -> GetLandingZoneOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +480,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutput
-    {
+    public func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +528,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listLandingZones(input: ListLandingZonesInput) async throws -> ListLandingZonesOutput
-    {
+    public func listLandingZones(input: ListLandingZonesInput) async throws -> ListLandingZonesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -585,8 +575,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -633,8 +622,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func resetLandingZone(input: ResetLandingZoneInput) async throws -> ResetLandingZoneOutput
-    {
+    public func resetLandingZone(input: ResetLandingZoneInput) async throws -> ResetLandingZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -681,8 +669,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -779,8 +765,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateEnabledControl(input: UpdateEnabledControlInput) async throws -> UpdateEnabledControlOutput
-    {
+    public func updateEnabledControl(input: UpdateEnabledControlInput) async throws -> UpdateEnabledControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -830,8 +815,7 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateLandingZone(input: UpdateLandingZoneInput) async throws -> UpdateLandingZoneOutput
-    {
+    public func updateLandingZone(input: UpdateLandingZoneInput) async throws -> UpdateLandingZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

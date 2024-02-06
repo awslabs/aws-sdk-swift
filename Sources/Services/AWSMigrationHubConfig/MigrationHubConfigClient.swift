@@ -66,7 +66,7 @@ public struct MigrationHubConfigClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
+extension MigrationHubConfigClient {
     /// Performs the `CreateHomeRegionControl` operation on the `AWSMigrationHubMultiAccountService` service.
     ///
     /// This API sets up the home region for the calling account only.
@@ -84,8 +84,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutput
-    {
+    public func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteHomeRegionControl(input: DeleteHomeRegionControlInput) async throws -> DeleteHomeRegionControlOutput
-    {
+    public func deleteHomeRegionControl(input: DeleteHomeRegionControlInput) async throws -> DeleteHomeRegionControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeHomeRegionControls(input: DescribeHomeRegionControlsInput) async throws -> DescribeHomeRegionControlsOutput
-    {
+    public func describeHomeRegionControls(input: DescribeHomeRegionControlsInput) async throws -> DescribeHomeRegionControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getHomeRegion(input: GetHomeRegionInput) async throws -> GetHomeRegionOutput
-    {
+    public func getHomeRegion(input: GetHomeRegionInput) async throws -> GetHomeRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

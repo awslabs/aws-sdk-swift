@@ -57,6 +57,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum AppIntegrationsClientTypes {}
+
 extension AppIntegrationsClientTypes.ApplicationAssociationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"

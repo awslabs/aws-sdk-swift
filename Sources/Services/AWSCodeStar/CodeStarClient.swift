@@ -66,7 +66,7 @@ public struct CodeStarClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension CodeStarClient: CodeStarClientProtocol {
+extension CodeStarClient {
     /// Performs the `AssociateTeamMember` operation on the `CodeStar_20170419` service.
     ///
     /// Adds an IAM user to the team for an AWS CodeStar project.
@@ -85,8 +85,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `TeamMemberAlreadyAssociatedException` : The team member is already associated with a role in this project.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func associateTeamMember(input: AssociateTeamMemberInput) async throws -> AssociateTeamMemberOutput
-    {
+    public func associateTeamMember(input: AssociateTeamMemberInput) async throws -> AssociateTeamMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `ProjectConfigurationException` : Project configuration information is required but not specified.
     /// - `ProjectCreationFailedException` : The project creation request was valid, but a nonspecific exception or error occurred during project creation. The project could not be created in AWS CodeStar.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `UserProfileAlreadyExistsException` : A user profile with that name already exists in this region for the AWS account. AWS CodeStar user profile names must be unique within a region for the AWS account.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
-    {
+    public func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
     /// - `InvalidServiceRoleException` : The service role is not valid.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput
-    {
+    public func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `ProjectConfigurationException` : Project configuration information is required but not specified.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
-    {
+    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -381,8 +375,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `UserProfileNotFoundException` : The user profile was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput
-    {
+    public func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -431,8 +424,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `InvalidServiceRoleException` : The service role is not valid.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func disassociateTeamMember(input: DisassociateTeamMemberInput) async throws -> DisassociateTeamMemberOutput
-    {
+    public func disassociateTeamMember(input: DisassociateTeamMemberInput) async throws -> DisassociateTeamMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-    {
+    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -577,8 +567,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func listTagsForProject(input: ListTagsForProjectInput) async throws -> ListTagsForProjectOutput
-    {
+    public func listTagsForProject(input: ListTagsForProjectInput) async throws -> ListTagsForProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -626,8 +615,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func listTeamMembers(input: ListTeamMembersInput) async throws -> ListTeamMembersOutput
-    {
+    public func listTeamMembers(input: ListTeamMembersInput) async throws -> ListTeamMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token is not valid.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput
-    {
+    public func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -724,8 +711,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `LimitExceededException` : A resource limit has been exceeded.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func tagProject(input: TagProjectInput) async throws -> TagProjectOutput
-    {
+    public func tagProject(input: TagProjectInput) async throws -> TagProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -774,8 +760,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `LimitExceededException` : A resource limit has been exceeded.
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func untagProject(input: UntagProjectInput) async throws -> UntagProjectOutput
-    {
+    public func untagProject(input: UntagProjectInput) async throws -> UntagProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +807,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +859,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
     /// - `TeamMemberNotFoundException` : The specified team member was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func updateTeamMember(input: UpdateTeamMemberInput) async throws -> UpdateTeamMemberOutput
-    {
+    public func updateTeamMember(input: UpdateTeamMemberInput) async throws -> UpdateTeamMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -923,8 +906,7 @@ extension CodeStarClient: CodeStarClientProtocol {
     /// __Possible Exceptions:__
     /// - `UserProfileNotFoundException` : The user profile was not found.
     /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
-    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput
-    {
+    public func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

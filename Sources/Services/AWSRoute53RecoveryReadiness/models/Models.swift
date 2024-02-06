@@ -4449,6 +4449,8 @@ extension Route53RecoveryReadinessClientTypes {
 
 }
 
+public enum Route53RecoveryReadinessClientTypes {}
+
 extension Route53RecoveryReadinessClientTypes.RuleResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastCheckedTimestamp = "lastCheckedTimestamp"

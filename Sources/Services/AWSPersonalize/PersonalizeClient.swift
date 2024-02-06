@@ -66,7 +66,7 @@ public struct PersonalizeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension PersonalizeClient: PersonalizeClientProtocol {
+extension PersonalizeClient {
     /// Performs the `CreateBatchInferenceJob` operation on the `AmazonPersonalize` service.
     ///
     /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution version and an Amazon S3 URI for the input and output data. For user personalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list of recommended items for each item ID in the input file. For more information, see [Creating a batch inference job ](https://docs.aws.amazon.com/personalize/latest/dg/getting-batch-recommendations.html). If you use the Similar-Items recipe, Amazon Personalize can add descriptive themes to batch recommendations. To generate themes, set the job's mode to THEME_GENERATION and specify the name of the field that contains item names in the input data. For more information about generating themes, see [Batch recommendations with themes from Content Generator ](https://docs.aws.amazon.com/personalize/latest/dg/themed-batch-recommendations.html). You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
@@ -84,8 +84,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createBatchInferenceJob(input: CreateBatchInferenceJobInput) async throws -> CreateBatchInferenceJobOutput
-    {
+    public func createBatchInferenceJob(input: CreateBatchInferenceJobInput) async throws -> CreateBatchInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createBatchSegmentJob(input: CreateBatchSegmentJobInput) async throws -> CreateBatchSegmentJobOutput
-    {
+    public func createBatchSegmentJob(input: CreateBatchSegmentJobInput) async throws -> CreateBatchSegmentJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +201,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
-    {
+    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +280,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -340,8 +336,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createDatasetExportJob(input: CreateDatasetExportJobInput) async throws -> CreateDatasetExportJobOutput
-    {
+    public func createDatasetExportJob(input: CreateDatasetExportJobInput) async throws -> CreateDatasetExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +420,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput
-    {
+    public func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -486,8 +480,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput
-    {
+    public func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -551,8 +544,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createEventTracker(input: CreateEventTrackerInput) async throws -> CreateEventTrackerOutput
-    {
+    public func createEventTracker(input: CreateEventTrackerInput) async throws -> CreateEventTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +594,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput
-    {
+    public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -653,8 +644,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func createMetricAttribution(input: CreateMetricAttributionInput) async throws -> CreateMetricAttributionOutput
-    {
+    public func createMetricAttribution(input: CreateMetricAttributionInput) async throws -> CreateMetricAttributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -722,8 +712,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createRecommender(input: CreateRecommenderInput) async throws -> CreateRecommenderOutput
-    {
+    public func createRecommender(input: CreateRecommenderInput) async throws -> CreateRecommenderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -777,8 +766,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
-    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
-    {
+    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -851,8 +839,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createSolution(input: CreateSolutionInput) async throws -> CreateSolutionOutput
-    {
+    public func createSolution(input: CreateSolutionInput) async throws -> CreateSolutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +917,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func createSolutionVersion(input: CreateSolutionVersionInput) async throws -> CreateSolutionVersionOutput
-    {
+    public func createSolutionVersion(input: CreateSolutionVersionInput) async throws -> CreateSolutionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +965,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
-    {
+    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1028,8 +1013,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1083,8 +1067,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput
-    {
+    public func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1132,8 +1115,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteEventTracker(input: DeleteEventTrackerInput) async throws -> DeleteEventTrackerOutput
-    {
+    public func deleteEventTracker(input: DeleteEventTrackerInput) async throws -> DeleteEventTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1181,8 +1163,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput
-    {
+    public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1230,8 +1211,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteMetricAttribution(input: DeleteMetricAttributionInput) async throws -> DeleteMetricAttributionOutput
-    {
+    public func deleteMetricAttribution(input: DeleteMetricAttributionInput) async throws -> DeleteMetricAttributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1279,8 +1259,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteRecommender(input: DeleteRecommenderInput) async throws -> DeleteRecommenderOutput
-    {
+    public func deleteRecommender(input: DeleteRecommenderInput) async throws -> DeleteRecommenderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1307,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
-    {
+    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1355,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func deleteSolution(input: DeleteSolutionInput) async throws -> DeleteSolutionOutput
-    {
+    public func deleteSolution(input: DeleteSolutionInput) async throws -> DeleteSolutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1425,8 +1402,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput
-    {
+    public func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1473,8 +1449,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeBatchInferenceJob(input: DescribeBatchInferenceJobInput) async throws -> DescribeBatchInferenceJobOutput
-    {
+    public func describeBatchInferenceJob(input: DescribeBatchInferenceJobInput) async throws -> DescribeBatchInferenceJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1521,8 +1496,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeBatchSegmentJob(input: DescribeBatchSegmentJobInput) async throws -> DescribeBatchSegmentJobOutput
-    {
+    public func describeBatchSegmentJob(input: DescribeBatchSegmentJobInput) async throws -> DescribeBatchSegmentJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1576,8 +1550,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput
-    {
+    public func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1624,8 +1597,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1672,8 +1644,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeDatasetExportJob(input: DescribeDatasetExportJobInput) async throws -> DescribeDatasetExportJobOutput
-    {
+    public func describeDatasetExportJob(input: DescribeDatasetExportJobInput) async throws -> DescribeDatasetExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1720,8 +1691,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput
-    {
+    public func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1768,8 +1738,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput
-    {
+    public func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1816,8 +1785,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeEventTracker(input: DescribeEventTrackerInput) async throws -> DescribeEventTrackerOutput
-    {
+    public func describeEventTracker(input: DescribeEventTrackerInput) async throws -> DescribeEventTrackerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1864,8 +1832,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeFeatureTransformation(input: DescribeFeatureTransformationInput) async throws -> DescribeFeatureTransformationOutput
-    {
+    public func describeFeatureTransformation(input: DescribeFeatureTransformationInput) async throws -> DescribeFeatureTransformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1912,8 +1879,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeFilter(input: DescribeFilterInput) async throws -> DescribeFilterOutput
-    {
+    public func describeFilter(input: DescribeFilterInput) async throws -> DescribeFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1960,8 +1926,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeMetricAttribution(input: DescribeMetricAttributionInput) async throws -> DescribeMetricAttributionOutput
-    {
+    public func describeMetricAttribution(input: DescribeMetricAttributionInput) async throws -> DescribeMetricAttributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2017,8 +1982,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput
-    {
+    public func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2074,8 +2038,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeRecommender(input: DescribeRecommenderInput) async throws -> DescribeRecommenderOutput
-    {
+    public func describeRecommender(input: DescribeRecommenderInput) async throws -> DescribeRecommenderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2122,8 +2085,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput
-    {
+    public func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2170,8 +2132,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeSolution(input: DescribeSolutionInput) async throws -> DescribeSolutionOutput
-    {
+    public func describeSolution(input: DescribeSolutionInput) async throws -> DescribeSolutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2218,8 +2179,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func describeSolutionVersion(input: DescribeSolutionVersionInput) async throws -> DescribeSolutionVersionOutput
-    {
+    public func describeSolutionVersion(input: DescribeSolutionVersionInput) async throws -> DescribeSolutionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2267,8 +2227,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func getSolutionMetrics(input: GetSolutionMetricsInput) async throws -> GetSolutionMetricsOutput
-    {
+    public func getSolutionMetrics(input: GetSolutionMetricsInput) async throws -> GetSolutionMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2315,8 +2274,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listBatchInferenceJobs(input: ListBatchInferenceJobsInput) async throws -> ListBatchInferenceJobsOutput
-    {
+    public func listBatchInferenceJobs(input: ListBatchInferenceJobsInput) async throws -> ListBatchInferenceJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2363,8 +2321,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listBatchSegmentJobs(input: ListBatchSegmentJobsInput) async throws -> ListBatchSegmentJobsOutput
-    {
+    public func listBatchSegmentJobs(input: ListBatchSegmentJobsInput) async throws -> ListBatchSegmentJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2411,8 +2368,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput
-    {
+    public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2459,8 +2415,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listDatasetExportJobs(input: ListDatasetExportJobsInput) async throws -> ListDatasetExportJobsOutput
-    {
+    public func listDatasetExportJobs(input: ListDatasetExportJobsInput) async throws -> ListDatasetExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2506,8 +2461,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput
-    {
+    public func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2554,8 +2508,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput
-    {
+    public func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2602,8 +2555,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2650,8 +2602,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listEventTrackers(input: ListEventTrackersInput) async throws -> ListEventTrackersOutput
-    {
+    public func listEventTrackers(input: ListEventTrackersInput) async throws -> ListEventTrackersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2698,8 +2649,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput
-    {
+    public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2746,8 +2696,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listMetricAttributionMetrics(input: ListMetricAttributionMetricsInput) async throws -> ListMetricAttributionMetricsOutput
-    {
+    public func listMetricAttributionMetrics(input: ListMetricAttributionMetricsInput) async throws -> ListMetricAttributionMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2794,8 +2743,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listMetricAttributions(input: ListMetricAttributionsInput) async throws -> ListMetricAttributionsOutput
-    {
+    public func listMetricAttributions(input: ListMetricAttributionsInput) async throws -> ListMetricAttributionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2842,8 +2790,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput
-    {
+    public func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2890,8 +2837,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listRecommenders(input: ListRecommendersInput) async throws -> ListRecommendersOutput
-    {
+    public func listRecommenders(input: ListRecommendersInput) async throws -> ListRecommendersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2937,8 +2883,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
-    {
+    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2986,8 +2931,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func listSolutionVersions(input: ListSolutionVersionsInput) async throws -> ListSolutionVersionsOutput
-    {
+    public func listSolutionVersions(input: ListSolutionVersionsInput) async throws -> ListSolutionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3034,8 +2978,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    public func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutput
-    {
+    public func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3083,8 +3026,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3132,8 +3074,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func startRecommender(input: StartRecommenderInput) async throws -> StartRecommenderOutput
-    {
+    public func startRecommender(input: StartRecommenderInput) async throws -> StartRecommenderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3181,8 +3122,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func stopRecommender(input: StopRecommenderInput) async throws -> StopRecommenderOutput
-    {
+    public func stopRecommender(input: StopRecommenderInput) async throws -> StopRecommenderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3237,8 +3177,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func stopSolutionVersionCreation(input: StopSolutionVersionCreationInput) async throws -> StopSolutionVersionCreationOutput
-    {
+    public func stopSolutionVersionCreation(input: StopSolutionVersionCreationInput) async throws -> StopSolutionVersionCreationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3288,8 +3227,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3338,8 +3276,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagKeysException` : The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3387,8 +3324,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput
-    {
+    public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3436,8 +3372,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
-    {
+    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3486,8 +3421,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func updateMetricAttribution(input: UpdateMetricAttributionInput) async throws -> UpdateMetricAttributionOutput
-    {
+    public func updateMetricAttribution(input: UpdateMetricAttributionInput) async throws -> UpdateMetricAttributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3535,8 +3469,7 @@ extension PersonalizeClient: PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    public func updateRecommender(input: UpdateRecommenderInput) async throws -> UpdateRecommenderOutput
-    {
+    public func updateRecommender(input: UpdateRecommenderInput) async throws -> UpdateRecommenderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

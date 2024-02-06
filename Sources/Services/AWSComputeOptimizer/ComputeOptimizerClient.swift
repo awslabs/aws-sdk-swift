@@ -66,7 +66,7 @@ public struct ComputeOptimizerClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
+extension ComputeOptimizerClient {
     /// Performs the `DeleteRecommendationPreferences` operation on the `ComputeOptimizerService` service.
     ///
     /// Deletes a recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -86,8 +86,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func deleteRecommendationPreferences(input: DeleteRecommendationPreferencesInput) async throws -> DeleteRecommendationPreferencesOutput
-    {
+    public func deleteRecommendationPreferences(input: DeleteRecommendationPreferencesInput) async throws -> DeleteRecommendationPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func describeRecommendationExportJobs(input: DescribeRecommendationExportJobsInput) async throws -> DescribeRecommendationExportJobsOutput
-    {
+    public func describeRecommendationExportJobs(input: DescribeRecommendationExportJobsInput) async throws -> DescribeRecommendationExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -194,8 +192,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func exportAutoScalingGroupRecommendations(input: ExportAutoScalingGroupRecommendationsInput) async throws -> ExportAutoScalingGroupRecommendationsOutput
-    {
+    public func exportAutoScalingGroupRecommendations(input: ExportAutoScalingGroupRecommendationsInput) async throws -> ExportAutoScalingGroupRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -248,8 +245,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func exportEBSVolumeRecommendations(input: ExportEBSVolumeRecommendationsInput) async throws -> ExportEBSVolumeRecommendationsOutput
-    {
+    public func exportEBSVolumeRecommendations(input: ExportEBSVolumeRecommendationsInput) async throws -> ExportEBSVolumeRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -302,8 +298,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func exportEC2InstanceRecommendations(input: ExportEC2InstanceRecommendationsInput) async throws -> ExportEC2InstanceRecommendationsOutput
-    {
+    public func exportEC2InstanceRecommendations(input: ExportEC2InstanceRecommendationsInput) async throws -> ExportEC2InstanceRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -356,8 +351,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func exportECSServiceRecommendations(input: ExportECSServiceRecommendationsInput) async throws -> ExportECSServiceRecommendationsOutput
-    {
+    public func exportECSServiceRecommendations(input: ExportECSServiceRecommendationsInput) async throws -> ExportECSServiceRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +404,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func exportLambdaFunctionRecommendations(input: ExportLambdaFunctionRecommendationsInput) async throws -> ExportLambdaFunctionRecommendationsOutput
-    {
+    public func exportLambdaFunctionRecommendations(input: ExportLambdaFunctionRecommendationsInput) async throws -> ExportLambdaFunctionRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -464,8 +457,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func exportLicenseRecommendations(input: ExportLicenseRecommendationsInput) async throws -> ExportLicenseRecommendationsOutput
-    {
+    public func exportLicenseRecommendations(input: ExportLicenseRecommendationsInput) async throws -> ExportLicenseRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -518,8 +510,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getAutoScalingGroupRecommendations(input: GetAutoScalingGroupRecommendationsInput) async throws -> GetAutoScalingGroupRecommendationsOutput
-    {
+    public func getAutoScalingGroupRecommendations(input: GetAutoScalingGroupRecommendationsInput) async throws -> GetAutoScalingGroupRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +563,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getEBSVolumeRecommendations(input: GetEBSVolumeRecommendationsInput) async throws -> GetEBSVolumeRecommendationsOutput
-    {
+    public func getEBSVolumeRecommendations(input: GetEBSVolumeRecommendationsInput) async throws -> GetEBSVolumeRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -626,8 +616,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getEC2InstanceRecommendations(input: GetEC2InstanceRecommendationsInput) async throws -> GetEC2InstanceRecommendationsOutput
-    {
+    public func getEC2InstanceRecommendations(input: GetEC2InstanceRecommendationsInput) async throws -> GetEC2InstanceRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +669,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getEC2RecommendationProjectedMetrics(input: GetEC2RecommendationProjectedMetricsInput) async throws -> GetEC2RecommendationProjectedMetricsOutput
-    {
+    public func getEC2RecommendationProjectedMetrics(input: GetEC2RecommendationProjectedMetricsInput) async throws -> GetEC2RecommendationProjectedMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +722,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getECSServiceRecommendationProjectedMetrics(input: GetECSServiceRecommendationProjectedMetricsInput) async throws -> GetECSServiceRecommendationProjectedMetricsOutput
-    {
+    public func getECSServiceRecommendationProjectedMetrics(input: GetECSServiceRecommendationProjectedMetricsInput) async throws -> GetECSServiceRecommendationProjectedMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -788,8 +775,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getECSServiceRecommendations(input: GetECSServiceRecommendationsInput) async throws -> GetECSServiceRecommendationsOutput
-    {
+    public func getECSServiceRecommendations(input: GetECSServiceRecommendationsInput) async throws -> GetECSServiceRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -842,8 +828,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getEffectiveRecommendationPreferences(input: GetEffectiveRecommendationPreferencesInput) async throws -> GetEffectiveRecommendationPreferencesOutput
-    {
+    public func getEffectiveRecommendationPreferences(input: GetEffectiveRecommendationPreferencesInput) async throws -> GetEffectiveRecommendationPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -894,8 +879,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getEnrollmentStatus(input: GetEnrollmentStatusInput) async throws -> GetEnrollmentStatusOutput
-    {
+    public func getEnrollmentStatus(input: GetEnrollmentStatusInput) async throws -> GetEnrollmentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -946,8 +930,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getEnrollmentStatusesForOrganization(input: GetEnrollmentStatusesForOrganizationInput) async throws -> GetEnrollmentStatusesForOrganizationOutput
-    {
+    public func getEnrollmentStatusesForOrganization(input: GetEnrollmentStatusesForOrganizationInput) async throws -> GetEnrollmentStatusesForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1000,8 +983,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getLambdaFunctionRecommendations(input: GetLambdaFunctionRecommendationsInput) async throws -> GetLambdaFunctionRecommendationsOutput
-    {
+    public func getLambdaFunctionRecommendations(input: GetLambdaFunctionRecommendationsInput) async throws -> GetLambdaFunctionRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1036,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getLicenseRecommendations(input: GetLicenseRecommendationsInput) async throws -> GetLicenseRecommendationsOutput
-    {
+    public func getLicenseRecommendations(input: GetLicenseRecommendationsInput) async throws -> GetLicenseRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1089,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getRecommendationPreferences(input: GetRecommendationPreferencesInput) async throws -> GetRecommendationPreferencesOutput
-    {
+    public func getRecommendationPreferences(input: GetRecommendationPreferencesInput) async throws -> GetRecommendationPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1171,8 +1151,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getRecommendationSummaries(input: GetRecommendationSummariesInput) async throws -> GetRecommendationSummariesOutput
-    {
+    public func getRecommendationSummaries(input: GetRecommendationSummariesInput) async throws -> GetRecommendationSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1225,8 +1204,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func putRecommendationPreferences(input: PutRecommendationPreferencesInput) async throws -> PutRecommendationPreferencesOutput
-    {
+    public func putRecommendationPreferences(input: PutRecommendationPreferencesInput) async throws -> PutRecommendationPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1277,8 +1255,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
     /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func updateEnrollmentStatus(input: UpdateEnrollmentStatusInput) async throws -> UpdateEnrollmentStatusOutput
-    {
+    public func updateEnrollmentStatus(input: UpdateEnrollmentStatusInput) async throws -> UpdateEnrollmentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

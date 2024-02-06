@@ -66,7 +66,7 @@ public struct VPCLatticeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension VPCLatticeClient: VPCLatticeClientProtocol {
+extension VPCLatticeClient {
     /// Performs the `BatchUpdateRule` operation on the `MercuryControlPlane` service.
     ///
     /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority.
@@ -84,8 +84,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func batchUpdateRule(input: BatchUpdateRuleInput) async throws -> BatchUpdateRuleOutput
-    {
+    public func batchUpdateRule(input: BatchUpdateRuleInput) async throws -> BatchUpdateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createAccessLogSubscription(input: CreateAccessLogSubscriptionInput) async throws -> CreateAccessLogSubscriptionOutput
-    {
+    public func createAccessLogSubscription(input: CreateAccessLogSubscriptionInput) async throws -> CreateAccessLogSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
-    {
+    public func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-    {
+    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -294,8 +290,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
-    {
+    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -347,8 +342,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createServiceNetwork(input: CreateServiceNetworkInput) async throws -> CreateServiceNetworkOutput
-    {
+    public func createServiceNetwork(input: CreateServiceNetworkInput) async throws -> CreateServiceNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +394,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createServiceNetworkServiceAssociation(input: CreateServiceNetworkServiceAssociationInput) async throws -> CreateServiceNetworkServiceAssociationOutput
-    {
+    public func createServiceNetworkServiceAssociation(input: CreateServiceNetworkServiceAssociationInput) async throws -> CreateServiceNetworkServiceAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -453,8 +446,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createServiceNetworkVpcAssociation(input: CreateServiceNetworkVpcAssociationInput) async throws -> CreateServiceNetworkVpcAssociationOutput
-    {
+    public func createServiceNetworkVpcAssociation(input: CreateServiceNetworkVpcAssociationInput) async throws -> CreateServiceNetworkVpcAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -506,8 +498,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutput
-    {
+    public func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +548,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteAccessLogSubscription(input: DeleteAccessLogSubscriptionInput) async throws -> DeleteAccessLogSubscriptionOutput
-    {
+    public func deleteAccessLogSubscription(input: DeleteAccessLogSubscriptionInput) async throws -> DeleteAccessLogSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +594,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteAuthPolicy(input: DeleteAuthPolicyInput) async throws -> DeleteAuthPolicyOutput
-    {
+    public func deleteAuthPolicy(input: DeleteAuthPolicyInput) async throws -> DeleteAuthPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +641,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
-    {
+    public func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -699,8 +687,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -747,8 +734,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +781,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
-    {
+    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -843,8 +828,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteServiceNetwork(input: DeleteServiceNetworkInput) async throws -> DeleteServiceNetworkOutput
-    {
+    public func deleteServiceNetwork(input: DeleteServiceNetworkInput) async throws -> DeleteServiceNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -891,8 +875,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteServiceNetworkServiceAssociation(input: DeleteServiceNetworkServiceAssociationInput) async throws -> DeleteServiceNetworkServiceAssociationOutput
-    {
+    public func deleteServiceNetworkServiceAssociation(input: DeleteServiceNetworkServiceAssociationInput) async throws -> DeleteServiceNetworkServiceAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -939,8 +922,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteServiceNetworkVpcAssociation(input: DeleteServiceNetworkVpcAssociationInput) async throws -> DeleteServiceNetworkVpcAssociationOutput
-    {
+    public func deleteServiceNetworkVpcAssociation(input: DeleteServiceNetworkVpcAssociationInput) async throws -> DeleteServiceNetworkVpcAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -986,8 +968,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutput
-    {
+    public func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1034,8 +1015,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutput
-    {
+    public func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1084,8 +1064,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getAccessLogSubscription(input: GetAccessLogSubscriptionInput) async throws -> GetAccessLogSubscriptionOutput
-    {
+    public func getAccessLogSubscription(input: GetAccessLogSubscriptionInput) async throws -> GetAccessLogSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1131,8 +1110,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getAuthPolicy(input: GetAuthPolicyInput) async throws -> GetAuthPolicyOutput
-    {
+    public func getAuthPolicy(input: GetAuthPolicyInput) async throws -> GetAuthPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1178,8 +1156,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getListener(input: GetListenerInput) async throws -> GetListenerOutput
-    {
+    public func getListener(input: GetListenerInput) async throws -> GetListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1225,8 +1202,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1272,8 +1248,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getRule(input: GetRuleInput) async throws -> GetRuleOutput
-    {
+    public func getRule(input: GetRuleInput) async throws -> GetRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1294,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getService(input: GetServiceInput) async throws -> GetServiceOutput
-    {
+    public func getService(input: GetServiceInput) async throws -> GetServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1366,8 +1340,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getServiceNetwork(input: GetServiceNetworkInput) async throws -> GetServiceNetworkOutput
-    {
+    public func getServiceNetwork(input: GetServiceNetworkInput) async throws -> GetServiceNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1413,8 +1386,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getServiceNetworkServiceAssociation(input: GetServiceNetworkServiceAssociationInput) async throws -> GetServiceNetworkServiceAssociationOutput
-    {
+    public func getServiceNetworkServiceAssociation(input: GetServiceNetworkServiceAssociationInput) async throws -> GetServiceNetworkServiceAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1432,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getServiceNetworkVpcAssociation(input: GetServiceNetworkVpcAssociationInput) async throws -> GetServiceNetworkVpcAssociationOutput
-    {
+    public func getServiceNetworkVpcAssociation(input: GetServiceNetworkVpcAssociationInput) async throws -> GetServiceNetworkVpcAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1478,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func getTargetGroup(input: GetTargetGroupInput) async throws -> GetTargetGroupOutput
-    {
+    public func getTargetGroup(input: GetTargetGroupInput) async throws -> GetTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1553,8 +1523,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listAccessLogSubscriptions(input: ListAccessLogSubscriptionsInput) async throws -> ListAccessLogSubscriptionsOutput
-    {
+    public func listAccessLogSubscriptions(input: ListAccessLogSubscriptionsInput) async throws -> ListAccessLogSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1601,8 +1570,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listListeners(input: ListListenersInput) async throws -> ListListenersOutput
-    {
+    public func listListeners(input: ListListenersInput) async throws -> ListListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1649,8 +1617,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-    {
+    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1696,8 +1663,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listServiceNetworkServiceAssociations(input: ListServiceNetworkServiceAssociationsInput) async throws -> ListServiceNetworkServiceAssociationsOutput
-    {
+    public func listServiceNetworkServiceAssociations(input: ListServiceNetworkServiceAssociationsInput) async throws -> ListServiceNetworkServiceAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1743,8 +1709,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listServiceNetworkVpcAssociations(input: ListServiceNetworkVpcAssociationsInput) async throws -> ListServiceNetworkVpcAssociationsOutput
-    {
+    public func listServiceNetworkVpcAssociations(input: ListServiceNetworkVpcAssociationsInput) async throws -> ListServiceNetworkVpcAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1790,8 +1755,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listServiceNetworks(input: ListServiceNetworksInput) async throws -> ListServiceNetworksOutput
-    {
+    public func listServiceNetworks(input: ListServiceNetworksInput) async throws -> ListServiceNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1837,8 +1801,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput
-    {
+    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1884,8 +1847,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1930,8 +1892,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listTargetGroups(input: ListTargetGroupsInput) async throws -> ListTargetGroupsOutput
-    {
+    public func listTargetGroups(input: ListTargetGroupsInput) async throws -> ListTargetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1978,8 +1939,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func listTargets(input: ListTargetsInput) async throws -> ListTargetsOutput
-    {
+    public func listTargets(input: ListTargetsInput) async throws -> ListTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2029,8 +1989,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func putAuthPolicy(input: PutAuthPolicyInput) async throws -> PutAuthPolicyOutput
-    {
+    public func putAuthPolicy(input: PutAuthPolicyInput) async throws -> PutAuthPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2079,8 +2038,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2131,8 +2089,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutput
-    {
+    public func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2181,8 +2138,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2230,8 +2186,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2279,8 +2234,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateAccessLogSubscription(input: UpdateAccessLogSubscriptionInput) async throws -> UpdateAccessLogSubscriptionOutput
-    {
+    public func updateAccessLogSubscription(input: UpdateAccessLogSubscriptionInput) async throws -> UpdateAccessLogSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2330,8 +2284,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput
-    {
+    public func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2381,8 +2334,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput
-    {
+    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2432,8 +2384,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
-    {
+    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2483,8 +2434,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateServiceNetwork(input: UpdateServiceNetworkInput) async throws -> UpdateServiceNetworkOutput
-    {
+    public func updateServiceNetwork(input: UpdateServiceNetworkInput) async throws -> UpdateServiceNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2534,8 +2484,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateServiceNetworkVpcAssociation(input: UpdateServiceNetworkVpcAssociationInput) async throws -> UpdateServiceNetworkVpcAssociationOutput
-    {
+    public func updateServiceNetworkVpcAssociation(input: UpdateServiceNetworkVpcAssociationInput) async throws -> UpdateServiceNetworkVpcAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2585,8 +2534,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    public func updateTargetGroup(input: UpdateTargetGroupInput) async throws -> UpdateTargetGroupOutput
-    {
+    public func updateTargetGroup(input: UpdateTargetGroupInput) async throws -> UpdateTargetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

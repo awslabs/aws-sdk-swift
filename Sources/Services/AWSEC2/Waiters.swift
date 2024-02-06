@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension EC2ClientProtocol {
+extension EC2Client {
 
     static func bundleTaskCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeBundleTasksInput, DescribeBundleTasksOutput> {
         let acceptors: [WaiterConfiguration<DescribeBundleTasksInput, DescribeBundleTasksOutput>.Acceptor] = [

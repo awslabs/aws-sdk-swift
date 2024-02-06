@@ -456,6 +456,8 @@ extension CodeGuruSecurityClientTypes {
 
 }
 
+public enum CodeGuruSecurityClientTypes {}
+
 extension CodeGuruSecurityClientTypes.CodeLine: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content

@@ -66,7 +66,7 @@ public struct BillingconductorClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension BillingconductorClient: BillingconductorClientProtocol {
+extension BillingconductorClient {
     /// Performs the `AssociateAccounts` operation on the `AWSBillingConductor` service.
     ///
     /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
@@ -85,8 +85,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutput
-    {
+    public func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func associatePricingRules(input: AssociatePricingRulesInput) async throws -> AssociatePricingRulesOutput
-    {
+    public func associatePricingRules(input: AssociatePricingRulesInput) async throws -> AssociatePricingRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func batchAssociateResourcesToCustomLineItem(input: BatchAssociateResourcesToCustomLineItemInput) async throws -> BatchAssociateResourcesToCustomLineItemOutput
-    {
+    public func batchAssociateResourcesToCustomLineItem(input: BatchAssociateResourcesToCustomLineItemInput) async throws -> BatchAssociateResourcesToCustomLineItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func batchDisassociateResourcesFromCustomLineItem(input: BatchDisassociateResourcesFromCustomLineItemInput) async throws -> BatchDisassociateResourcesFromCustomLineItemOutput
-    {
+    public func batchDisassociateResourcesFromCustomLineItem(input: BatchDisassociateResourcesFromCustomLineItemInput) async throws -> BatchDisassociateResourcesFromCustomLineItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput
-    {
+    public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func createCustomLineItem(input: CreateCustomLineItemInput) async throws -> CreateCustomLineItemOutput
-    {
+    public func createCustomLineItem(input: CreateCustomLineItemInput) async throws -> CreateCustomLineItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +392,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func createPricingPlan(input: CreatePricingPlanInput) async throws -> CreatePricingPlanOutput
-    {
+    public func createPricingPlan(input: CreatePricingPlanInput) async throws -> CreatePricingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +444,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func createPricingRule(input: CreatePricingRuleInput) async throws -> CreatePricingRuleOutput
-    {
+    public func createPricingRule(input: CreatePricingRuleInput) async throws -> CreatePricingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -502,8 +494,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput
-    {
+    public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -552,8 +543,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func deleteCustomLineItem(input: DeleteCustomLineItemInput) async throws -> DeleteCustomLineItemOutput
-    {
+    public func deleteCustomLineItem(input: DeleteCustomLineItemInput) async throws -> DeleteCustomLineItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +592,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func deletePricingPlan(input: DeletePricingPlanInput) async throws -> DeletePricingPlanOutput
-    {
+    public func deletePricingPlan(input: DeletePricingPlanInput) async throws -> DeletePricingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +641,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func deletePricingRule(input: DeletePricingRuleInput) async throws -> DeletePricingRuleOutput
-    {
+    public func deletePricingRule(input: DeletePricingRuleInput) async throws -> DeletePricingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -703,8 +691,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutput
-    {
+    public func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,8 +741,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutput
-    {
+    public func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -804,8 +790,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func getBillingGroupCostReport(input: GetBillingGroupCostReportInput) async throws -> GetBillingGroupCostReportOutput
-    {
+    public func getBillingGroupCostReport(input: GetBillingGroupCostReportInput) async throws -> GetBillingGroupCostReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -854,8 +839,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listAccountAssociations(input: ListAccountAssociationsInput) async throws -> ListAccountAssociationsOutput
-    {
+    public func listAccountAssociations(input: ListAccountAssociationsInput) async throws -> ListAccountAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -904,8 +888,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listBillingGroupCostReports(input: ListBillingGroupCostReportsInput) async throws -> ListBillingGroupCostReportsOutput
-    {
+    public func listBillingGroupCostReports(input: ListBillingGroupCostReportsInput) async throws -> ListBillingGroupCostReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +937,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput
-    {
+    public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1003,8 +985,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listCustomLineItemVersions(input: ListCustomLineItemVersionsInput) async throws -> ListCustomLineItemVersionsOutput
-    {
+    public func listCustomLineItemVersions(input: ListCustomLineItemVersionsInput) async throws -> ListCustomLineItemVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1034,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listCustomLineItems(input: ListCustomLineItemsInput) async throws -> ListCustomLineItemsOutput
-    {
+    public func listCustomLineItems(input: ListCustomLineItemsInput) async throws -> ListCustomLineItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1102,8 +1082,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listPricingPlans(input: ListPricingPlansInput) async throws -> ListPricingPlansOutput
-    {
+    public func listPricingPlans(input: ListPricingPlansInput) async throws -> ListPricingPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1152,8 +1131,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listPricingPlansAssociatedWithPricingRule(input: ListPricingPlansAssociatedWithPricingRuleInput) async throws -> ListPricingPlansAssociatedWithPricingRuleOutput
-    {
+    public func listPricingPlansAssociatedWithPricingRule(input: ListPricingPlansAssociatedWithPricingRuleInput) async throws -> ListPricingPlansAssociatedWithPricingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1201,8 +1179,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listPricingRules(input: ListPricingRulesInput) async throws -> ListPricingRulesOutput
-    {
+    public func listPricingRules(input: ListPricingRulesInput) async throws -> ListPricingRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1251,8 +1228,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listPricingRulesAssociatedToPricingPlan(input: ListPricingRulesAssociatedToPricingPlanInput) async throws -> ListPricingRulesAssociatedToPricingPlanOutput
-    {
+    public func listPricingRulesAssociatedToPricingPlan(input: ListPricingRulesAssociatedToPricingPlanInput) async throws -> ListPricingRulesAssociatedToPricingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1301,8 +1277,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listResourcesAssociatedToCustomLineItem(input: ListResourcesAssociatedToCustomLineItemInput) async throws -> ListResourcesAssociatedToCustomLineItemOutput
-    {
+    public func listResourcesAssociatedToCustomLineItem(input: ListResourcesAssociatedToCustomLineItemInput) async throws -> ListResourcesAssociatedToCustomLineItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1351,8 +1326,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1398,8 +1372,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,8 +1421,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1497,8 +1469,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput
-    {
+    public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1547,8 +1518,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func updateCustomLineItem(input: UpdateCustomLineItemInput) async throws -> UpdateCustomLineItemOutput
-    {
+    public func updateCustomLineItem(input: UpdateCustomLineItemInput) async throws -> UpdateCustomLineItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1598,8 +1568,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput
-    {
+    public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1649,8 +1618,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    public func updatePricingRule(input: UpdatePricingRuleInput) async throws -> UpdatePricingRuleOutput
-    {
+    public func updatePricingRule(input: UpdatePricingRuleInput) async throws -> UpdatePricingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

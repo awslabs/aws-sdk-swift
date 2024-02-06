@@ -42818,6 +42818,8 @@ extension SSMClientTypes {
 
 }
 
+public enum SSMClientTypes {}
+
 extension SSMClientTypes.ScheduledWindowExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionTime = "ExecutionTime"

@@ -66,7 +66,7 @@ public struct AccountClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension AccountClient: AccountClientProtocol {
+extension AccountClient {
     /// Performs the `DeleteAlternateContact` operation on the `Account` service.
     ///
     /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
@@ -83,8 +83,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func deleteAlternateContact(input: DeleteAlternateContactInput) async throws -> DeleteAlternateContactOutput
-    {
+    public func deleteAlternateContact(input: DeleteAlternateContactInput) async throws -> DeleteAlternateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func disableRegion(input: DisableRegionInput) async throws -> DisableRegionOutput
-    {
+    public func disableRegion(input: DisableRegionInput) async throws -> DisableRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func enableRegion(input: EnableRegionInput) async throws -> EnableRegionOutput
-    {
+    public func enableRegion(input: EnableRegionInput) async throws -> EnableRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func getAlternateContact(input: GetAlternateContactInput) async throws -> GetAlternateContactOutput
-    {
+    public func getAlternateContact(input: GetAlternateContactInput) async throws -> GetAlternateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func getContactInformation(input: GetContactInformationInput) async throws -> GetContactInformationOutput
-    {
+    public func getContactInformation(input: GetContactInformationInput) async throws -> GetContactInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func getRegionOptStatus(input: GetRegionOptStatusInput) async throws -> GetRegionOptStatusOutput
-    {
+    public func getRegionOptStatus(input: GetRegionOptStatusInput) async throws -> GetRegionOptStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -381,8 +375,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func listRegions(input: ListRegionsInput) async throws -> ListRegionsOutput
-    {
+    public func listRegions(input: ListRegionsInput) async throws -> ListRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func putAlternateContact(input: PutAlternateContactInput) async throws -> PutAlternateContactOutput
-    {
+    public func putAlternateContact(input: PutAlternateContactInput) async throws -> PutAlternateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension AccountClient: AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    public func putContactInformation(input: PutContactInformationInput) async throws -> PutContactInformationOutput
-    {
+    public func putContactInformation(input: PutContactInformationInput) async throws -> PutContactInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

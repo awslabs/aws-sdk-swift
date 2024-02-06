@@ -11575,6 +11575,8 @@ extension ResiliencehubClientTypes {
     }
 }
 
+public enum ResiliencehubClientTypes {}
+
 extension ResiliencehubClientTypes.ResiliencyPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime

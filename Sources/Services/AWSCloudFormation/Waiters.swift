@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension CloudFormationClientProtocol {
+extension CloudFormationClient {
 
     static func changeSetCreateCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutput> {
         let acceptors: [WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutput>.Acceptor] = [

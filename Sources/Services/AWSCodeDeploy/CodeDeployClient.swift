@@ -66,7 +66,7 @@ public struct CodeDeployClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension CodeDeployClient: CodeDeployClientProtocol {
+extension CodeDeployClient {
     /// Performs the `AddTagsToOnPremisesInstances` operation on the `CodeDeploy_20141006` service.
     ///
     /// Adds tags to on-premises instances.
@@ -85,8 +85,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidTagException` : The tag was specified in an invalid format.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
     /// - `TagRequiredException` : A tag was not specified.
-    public func addTagsToOnPremisesInstances(input: AddTagsToOnPremisesInstancesInput) async throws -> AddTagsToOnPremisesInstancesOutput
-    {
+    public func addTagsToOnPremisesInstances(input: AddTagsToOnPremisesInstancesInput) async throws -> AddTagsToOnPremisesInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `RevisionRequiredException` : The revision ID was not specified.
-    public func batchGetApplicationRevisions(input: BatchGetApplicationRevisionsInput) async throws -> BatchGetApplicationRevisionsOutput
-    {
+    public func batchGetApplicationRevisions(input: BatchGetApplicationRevisionsInput) async throws -> BatchGetApplicationRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
-    public func batchGetApplications(input: BatchGetApplicationsInput) async throws -> BatchGetApplicationsOutput
-    {
+    public func batchGetApplications(input: BatchGetApplicationsInput) async throws -> BatchGetApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
-    public func batchGetDeploymentGroups(input: BatchGetDeploymentGroupsInput) async throws -> BatchGetDeploymentGroupsOutput
-    {
+    public func batchGetDeploymentGroups(input: BatchGetDeploymentGroupsInput) async throws -> BatchGetDeploymentGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -294,8 +290,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    public func batchGetDeploymentInstances(input: BatchGetDeploymentInstancesInput) async throws -> BatchGetDeploymentInstancesOutput
-    {
+    public func batchGetDeploymentInstances(input: BatchGetDeploymentInstancesInput) async throws -> BatchGetDeploymentInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -357,8 +352,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InstanceDoesNotExistException` : The specified instance does not exist in the deployment group.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
-    public func batchGetDeploymentTargets(input: BatchGetDeploymentTargetsInput) async throws -> BatchGetDeploymentTargetsOutput
-    {
+    public func batchGetDeploymentTargets(input: BatchGetDeploymentTargetsInput) async throws -> BatchGetDeploymentTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -406,8 +400,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
-    public func batchGetDeployments(input: BatchGetDeploymentsInput) async throws -> BatchGetDeploymentsOutput
-    {
+    public func batchGetDeployments(input: BatchGetDeploymentsInput) async throws -> BatchGetDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -455,8 +448,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    public func batchGetOnPremisesInstances(input: BatchGetOnPremisesInstancesInput) async throws -> BatchGetOnPremisesInstancesOutput
-    {
+    public func batchGetOnPremisesInstances(input: BatchGetOnPremisesInstancesInput) async throws -> BatchGetOnPremisesInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidDeploymentStatusException` : The specified deployment status doesn't exist or cannot be determined.
     /// - `InvalidDeploymentWaitTypeException` : The wait type is invalid.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    public func continueDeployment(input: ContinueDeploymentInput) async throws -> ContinueDeploymentOutput
-    {
+    public func continueDeployment(input: ContinueDeploymentInput) async throws -> ContinueDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -561,8 +552,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -651,8 +641,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `RevisionDoesNotExistException` : The named revision does not exist with the user or Amazon Web Services account.
     /// - `RevisionRequiredException` : The revision ID was not specified.
     /// - `ThrottlingException` : An API function was called too frequently.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -705,8 +694,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidMinimumHealthyHostValueException` : The minimum healthy instance value was specified in an invalid format.
     /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
     /// - `InvalidZonalDeploymentConfigurationException` : The ZonalConfig object is not valid.
-    public func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutput
-    {
+    public func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -794,8 +782,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `TagSetListLimitExceededException` : The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
     /// - `ThrottlingException` : An API function was called too frequently.
     /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
-    public func createDeploymentGroup(input: CreateDeploymentGroupInput) async throws -> CreateDeploymentGroupOutput
-    {
+    public func createDeploymentGroup(input: CreateDeploymentGroupInput) async throws -> CreateDeploymentGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -843,8 +830,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -893,8 +879,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidOperationException` : An invalid operation was detected.
-    public func deleteDeploymentConfig(input: DeleteDeploymentConfigInput) async throws -> DeleteDeploymentConfigOutput
-    {
+    public func deleteDeploymentConfig(input: DeleteDeploymentConfigInput) async throws -> DeleteDeploymentConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -944,8 +929,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-    public func deleteDeploymentGroup(input: DeleteDeploymentGroupInput) async throws -> DeleteDeploymentGroupOutput
-    {
+    public func deleteDeploymentGroup(input: DeleteDeploymentGroupInput) async throws -> DeleteDeploymentGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +979,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidGitHubAccountTokenNameException` : The format of the specified GitHub account connection name is invalid.
     /// - `OperationNotSupportedException` : The API used does not support the deployment.
     /// - `ResourceValidationException` : The specified resource could not be validated.
-    public func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutput
-    {
+    public func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1037,8 +1020,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - Parameter DeleteResourcesByExternalIdInput : [no documentation found]
     ///
     /// - Returns: `DeleteResourcesByExternalIdOutput` : [no documentation found]
-    public func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutput
-    {
+    public func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1085,8 +1067,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// __Possible Exceptions:__
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    public func deregisterOnPremisesInstance(input: DeregisterOnPremisesInstanceInput) async throws -> DeregisterOnPremisesInstanceOutput
-    {
+    public func deregisterOnPremisesInstance(input: DeregisterOnPremisesInstanceInput) async throws -> DeregisterOnPremisesInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1134,8 +1115,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1186,8 +1166,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `RevisionDoesNotExistException` : The named revision does not exist with the user or Amazon Web Services account.
     /// - `RevisionRequiredException` : The revision ID was not specified.
-    public func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutput
-    {
+    public func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1235,8 +1214,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1285,8 +1263,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
-    public func getDeploymentConfig(input: GetDeploymentConfigInput) async throws -> GetDeploymentConfigOutput
-    {
+    public func getDeploymentConfig(input: GetDeploymentConfigInput) async throws -> GetDeploymentConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1338,8 +1315,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
-    public func getDeploymentGroup(input: GetDeploymentGroupInput) async throws -> GetDeploymentGroupOutput
-    {
+    public func getDeploymentGroup(input: GetDeploymentGroupInput) async throws -> GetDeploymentGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1392,8 +1368,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    public func getDeploymentInstance(input: GetDeploymentInstanceInput) async throws -> GetDeploymentInstanceOutput
-    {
+    public func getDeploymentInstance(input: GetDeploymentInstanceInput) async throws -> GetDeploymentInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1446,8 +1421,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    public func getDeploymentTarget(input: GetDeploymentTargetInput) async throws -> GetDeploymentTargetOutput
-    {
+    public func getDeploymentTarget(input: GetDeploymentTargetInput) async throws -> GetDeploymentTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1495,8 +1469,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InstanceNotRegisteredException` : The specified on-premises instance is not registered.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    public func getOnPremisesInstance(input: GetOnPremisesInstanceInput) async throws -> GetOnPremisesInstanceOutput
-    {
+    public func getOnPremisesInstance(input: GetOnPremisesInstanceInput) async throws -> GetOnPremisesInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1551,8 +1524,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidSortByException` : The column name to sort by is either not present or was specified in an invalid format.
     /// - `InvalidSortOrderException` : The sort order was specified in an invalid format.
-    public func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutput
-    {
+    public func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1598,8 +1570,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1645,8 +1616,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    public func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutput
-    {
+    public func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1695,8 +1665,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    public func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutput
-    {
+    public func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1752,8 +1721,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
-    public func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutput
-    {
+    public func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1807,8 +1775,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
-    public func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutput
-    {
+    public func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1864,8 +1831,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidInputException` : The input was specified in an invalid format.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidTimeRangeException` : The specified time range was specified in an invalid format.
-    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-    {
+    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1913,8 +1879,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `OperationNotSupportedException` : The API used does not support the deployment.
     /// - `ResourceValidationException` : The specified resource could not be validated.
-    public func listGitHubAccountTokenNames(input: ListGitHubAccountTokenNamesInput) async throws -> ListGitHubAccountTokenNamesOutput
-    {
+    public func listGitHubAccountTokenNames(input: ListGitHubAccountTokenNamesInput) async throws -> ListGitHubAccountTokenNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1962,8 +1927,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidRegistrationStatusException` : The registration status was specified in an invalid format.
     /// - `InvalidTagFilterException` : The tag filter was specified in an invalid format.
-    public func listOnPremisesInstances(input: ListOnPremisesInstancesInput) async throws -> ListOnPremisesInstancesOutput
-    {
+    public func listOnPremisesInstances(input: ListOnPremisesInstancesInput) async throws -> ListOnPremisesInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2011,8 +1975,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
     /// - `InvalidArnException` : The specified ARN is not in a valid format.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2064,8 +2027,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidLifecycleEventHookExecutionStatusException` : The result of a Lambda validation function that verifies a lifecycle event is invalid. It should return Succeeded or Failed.
     /// - `LifecycleEventAlreadyCompletedException` : An attempt to return the status of an already completed lifecycle event occurred.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    public func putLifecycleEventHookExecutionStatus(input: PutLifecycleEventHookExecutionStatusInput) async throws -> PutLifecycleEventHookExecutionStatusOutput
-    {
+    public func putLifecycleEventHookExecutionStatus(input: PutLifecycleEventHookExecutionStatusInput) async throws -> PutLifecycleEventHookExecutionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2116,8 +2078,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `RevisionRequiredException` : The revision ID was not specified.
-    public func registerApplicationRevision(input: RegisterApplicationRevisionInput) async throws -> RegisterApplicationRevisionOutput
-    {
+    public func registerApplicationRevision(input: RegisterApplicationRevisionInput) async throws -> RegisterApplicationRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2172,8 +2133,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidIamUserArnException` : The user ARN was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     /// - `MultipleIamArnsProvidedException` : Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
-    public func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutput
-    {
+    public func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2225,8 +2185,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidTagException` : The tag was specified in an invalid format.
     /// - `TagLimitExceededException` : The maximum allowed number of tags was exceeded.
     /// - `TagRequiredException` : A tag was not specified.
-    public func removeTagsFromOnPremisesInstances(input: RemoveTagsFromOnPremisesInstancesInput) async throws -> RemoveTagsFromOnPremisesInstancesOutput
-    {
+    public func removeTagsFromOnPremisesInstances(input: RemoveTagsFromOnPremisesInstancesInput) async throws -> RemoveTagsFromOnPremisesInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2237,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    public func skipWaitTimeForInstanceTermination(input: SkipWaitTimeForInstanceTerminationInput) async throws -> SkipWaitTimeForInstanceTerminationOutput
-    {
+    public func skipWaitTimeForInstanceTermination(input: SkipWaitTimeForInstanceTerminationInput) async throws -> SkipWaitTimeForInstanceTerminationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2330,8 +2288,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
-    public func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutput
-    {
+    public func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2384,8 +2341,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
     /// - `TagRequiredException` : A tag was not specified.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2438,8 +2394,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
     /// - `TagRequiredException` : A tag was not specified.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2488,8 +2443,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2575,8 +2529,7 @@ extension CodeDeployClient: CodeDeployClientProtocol {
     /// - `TagSetListLimitExceededException` : The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
     /// - `ThrottlingException` : An API function was called too frequently.
     /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
-    public func updateDeploymentGroup(input: UpdateDeploymentGroupInput) async throws -> UpdateDeploymentGroupOutput
-    {
+    public func updateDeploymentGroup(input: UpdateDeploymentGroupInput) async throws -> UpdateDeploymentGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

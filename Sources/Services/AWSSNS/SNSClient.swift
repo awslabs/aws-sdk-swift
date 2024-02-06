@@ -62,7 +62,7 @@ public struct SNSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SNSClient: SNSClientProtocol {
+extension SNSClient {
     /// Performs the `AddPermission` operation on the `AmazonSimpleNotificationService` service.
     ///
     /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
@@ -78,8 +78,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
-    {
+    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func checkIfPhoneNumberIsOptedOut(input: CheckIfPhoneNumberIsOptedOutInput) async throws -> CheckIfPhoneNumberIsOptedOutOutput
-    {
+    public func checkIfPhoneNumberIsOptedOut(input: CheckIfPhoneNumberIsOptedOutInput) async throws -> CheckIfPhoneNumberIsOptedOutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
-    public func confirmSubscription(input: ConfirmSubscriptionInput) async throws -> ConfirmSubscriptionOutput
-    {
+    public func confirmSubscription(input: ConfirmSubscriptionInput) async throws -> ConfirmSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -244,8 +241,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func createPlatformApplication(input: CreatePlatformApplicationInput) async throws -> CreatePlatformApplicationOutput
-    {
+    public func createPlatformApplication(input: CreatePlatformApplicationInput) async throws -> CreatePlatformApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func createPlatformEndpoint(input: CreatePlatformEndpointInput) async throws -> CreatePlatformEndpointOutput
-    {
+    public func createPlatformEndpoint(input: CreatePlatformEndpointInput) async throws -> CreatePlatformEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `OptedOutException` : Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `UserErrorException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func createSMSSandboxPhoneNumber(input: CreateSMSSandboxPhoneNumberInput) async throws -> CreateSMSSandboxPhoneNumberOutput
-    {
+    public func createSMSSandboxPhoneNumber(input: CreateSMSSandboxPhoneNumberInput) async throws -> CreateSMSSandboxPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +392,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     /// - `TopicLimitExceededException` : Indicates that the customer already owns the maximum allowed number of topics.
-    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput
-    {
+    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +439,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +486,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func deletePlatformApplication(input: DeletePlatformApplicationInput) async throws -> DeletePlatformApplicationOutput
-    {
+    public func deletePlatformApplication(input: DeletePlatformApplicationInput) async throws -> DeletePlatformApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -545,8 +536,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `UserErrorException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func deleteSMSSandboxPhoneNumber(input: DeleteSMSSandboxPhoneNumberInput) async throws -> DeleteSMSSandboxPhoneNumberOutput
-    {
+    public func deleteSMSSandboxPhoneNumber(input: DeleteSMSSandboxPhoneNumberInput) async throws -> DeleteSMSSandboxPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +588,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput
-    {
+    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -648,8 +637,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutput
-    {
+    public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +685,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getEndpointAttributes(input: GetEndpointAttributesInput) async throws -> GetEndpointAttributesOutput
-    {
+    public func getEndpointAttributes(input: GetEndpointAttributesInput) async throws -> GetEndpointAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -746,8 +733,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getPlatformApplicationAttributes(input: GetPlatformApplicationAttributesInput) async throws -> GetPlatformApplicationAttributesOutput
-    {
+    public func getPlatformApplicationAttributes(input: GetPlatformApplicationAttributesInput) async throws -> GetPlatformApplicationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -795,8 +781,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func getSMSAttributes(input: GetSMSAttributesInput) async throws -> GetSMSAttributesOutput
-    {
+    public func getSMSAttributes(input: GetSMSAttributesInput) async throws -> GetSMSAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -843,8 +828,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func getSMSSandboxAccountStatus(input: GetSMSSandboxAccountStatusInput) async throws -> GetSMSSandboxAccountStatusOutput
-    {
+    public func getSMSSandboxAccountStatus(input: GetSMSSandboxAccountStatusInput) async throws -> GetSMSSandboxAccountStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +876,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getSubscriptionAttributes(input: GetSubscriptionAttributesInput) async throws -> GetSubscriptionAttributesOutput
-    {
+    public func getSubscriptionAttributes(input: GetSubscriptionAttributesInput) async throws -> GetSubscriptionAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -942,8 +925,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getTopicAttributes(input: GetTopicAttributesInput) async throws -> GetTopicAttributesOutput
-    {
+    public func getTopicAttributes(input: GetTopicAttributesInput) async throws -> GetTopicAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -991,8 +973,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func listEndpointsByPlatformApplication(input: ListEndpointsByPlatformApplicationInput) async throws -> ListEndpointsByPlatformApplicationOutput
-    {
+    public func listEndpointsByPlatformApplication(input: ListEndpointsByPlatformApplicationInput) async throws -> ListEndpointsByPlatformApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1041,8 +1022,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
-    public func listOriginationNumbers(input: ListOriginationNumbersInput) async throws -> ListOriginationNumbersOutput
-    {
+    public func listOriginationNumbers(input: ListOriginationNumbersInput) async throws -> ListOriginationNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1090,8 +1070,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func listPhoneNumbersOptedOut(input: ListPhoneNumbersOptedOutInput) async throws -> ListPhoneNumbersOptedOutOutput
-    {
+    public func listPhoneNumbersOptedOut(input: ListPhoneNumbersOptedOutInput) async throws -> ListPhoneNumbersOptedOutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1138,8 +1117,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func listPlatformApplications(input: ListPlatformApplicationsInput) async throws -> ListPlatformApplicationsOutput
-    {
+    public func listPlatformApplications(input: ListPlatformApplicationsInput) async throws -> ListPlatformApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,8 +1166,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func listSMSSandboxPhoneNumbers(input: ListSMSSandboxPhoneNumbersInput) async throws -> ListSMSSandboxPhoneNumbersOutput
-    {
+    public func listSMSSandboxPhoneNumbers(input: ListSMSSandboxPhoneNumbersInput) async throws -> ListSMSSandboxPhoneNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1236,8 +1213,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutput
-    {
+    public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1285,8 +1261,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func listSubscriptionsByTopic(input: ListSubscriptionsByTopicInput) async throws -> ListSubscriptionsByTopicOutput
-    {
+    public func listSubscriptionsByTopic(input: ListSubscriptionsByTopicInput) async throws -> ListSubscriptionsByTopicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1335,8 +1310,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1383,8 +1357,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutput
-    {
+    public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1432,8 +1405,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func optInPhoneNumber(input: OptInPhoneNumberInput) async throws -> OptInPhoneNumberOutput
-    {
+    public func optInPhoneNumber(input: OptInPhoneNumberInput) async throws -> OptInPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1492,8 +1464,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
-    public func publish(input: PublishInput) async throws -> PublishOutput
-    {
+    public func publish(input: PublishInput) async throws -> PublishOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1557,8 +1528,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
     /// - `TooManyEntriesInBatchRequestException` : The batch request contains more entries than permissible.
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
-    public func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutput
-    {
+    public func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1607,8 +1577,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutput
-    {
+    public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1656,8 +1625,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
-    {
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1705,8 +1673,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setEndpointAttributes(input: SetEndpointAttributesInput) async throws -> SetEndpointAttributesOutput
-    {
+    public func setEndpointAttributes(input: SetEndpointAttributesInput) async throws -> SetEndpointAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1754,8 +1721,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setPlatformApplicationAttributes(input: SetPlatformApplicationAttributesInput) async throws -> SetPlatformApplicationAttributesOutput
-    {
+    public func setPlatformApplicationAttributes(input: SetPlatformApplicationAttributesInput) async throws -> SetPlatformApplicationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1803,8 +1769,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func setSMSAttributes(input: SetSMSAttributesInput) async throws -> SetSMSAttributesOutput
-    {
+    public func setSMSAttributes(input: SetSMSAttributesInput) async throws -> SetSMSAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1854,8 +1819,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
-    public func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutput
-    {
+    public func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1904,8 +1868,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setTopicAttributes(input: SetTopicAttributesInput) async throws -> SetTopicAttributesOutput
-    {
+    public func setTopicAttributes(input: SetTopicAttributesInput) async throws -> SetTopicAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1957,8 +1920,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
-    public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput
-    {
+    public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2019,8 +1981,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2069,8 +2030,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutput
-    {
+    public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2121,8 +2081,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2172,8 +2131,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `VerificationException` : Indicates that the one-time password (OTP) used for verification is invalid.
-    public func verifySMSSandboxPhoneNumber(input: VerifySMSSandboxPhoneNumberInput) async throws -> VerifySMSSandboxPhoneNumberOutput
-    {
+    public func verifySMSSandboxPhoneNumber(input: VerifySMSSandboxPhoneNumberInput) async throws -> VerifySMSSandboxPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct Route53RecoveryClusterClientLogHandlerFactory: ClientRuntime.SDKLo
     }
 }
 
-extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
+extension Route53RecoveryClusterClient {
     /// Performs the `GetRoutingControlState` operation on the `ToggleCustomerAPI` service.
     ///
     /// Get the state for a routing control. A routing control is a simple on/off switch that you can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow. Before you can create a routing control, you must first create a cluster, and then host the control in a control panel on the cluster. For more information, see [ Create routing control structures](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.create.html) in the Amazon Route 53 Application Recovery Controller Developer Guide. You access one of the endpoints for the cluster to get or update the routing control state to redirect traffic for your application. You must specify Regional endpoints when you work with API cluster operations to get or update routing control states in Route 53 ARC. To see a code example for getting a routing control state, including accessing Regional cluster endpoints in sequence, see [API examples](https://docs.aws.amazon.com/r53recovery/latest/dg/service_code_examples_actions.html) in the Amazon Route 53 Application Recovery Controller Developer Guide. Learn more about working with routing controls in the following topics in the Amazon Route 53 Application Recovery Controller Developer Guide:
@@ -88,8 +88,7 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : There was a validation error on the request.
-    public func getRoutingControlState(input: GetRoutingControlStateInput) async throws -> GetRoutingControlStateOutput
-    {
+    public func getRoutingControlState(input: GetRoutingControlStateInput) async throws -> GetRoutingControlStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -144,8 +143,7 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : There was a validation error on the request.
-    public func listRoutingControls(input: ListRoutingControlsInput) async throws -> ListRoutingControlsOutput
-    {
+    public func listRoutingControls(input: ListRoutingControlsInput) async throws -> ListRoutingControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -201,8 +199,7 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// - `ResourceNotFoundException` : The request references a routing control or control panel that was not found.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : There was a validation error on the request.
-    public func updateRoutingControlState(input: UpdateRoutingControlStateInput) async throws -> UpdateRoutingControlStateOutput
-    {
+    public func updateRoutingControlState(input: UpdateRoutingControlStateInput) async throws -> UpdateRoutingControlStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -259,8 +256,7 @@ extension Route53RecoveryClusterClient: Route53RecoveryClusterClientProtocol {
     /// - `ServiceLimitExceededException` : The request can't update that many routing control states at the same time. Try again with fewer routing control states.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : There was a validation error on the request.
-    public func updateRoutingControlStates(input: UpdateRoutingControlStatesInput) async throws -> UpdateRoutingControlStatesOutput
-    {
+    public func updateRoutingControlStates(input: UpdateRoutingControlStatesInput) async throws -> UpdateRoutingControlStatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

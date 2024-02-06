@@ -66,7 +66,7 @@ public struct AppMeshClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension AppMeshClient: AppMeshClientProtocol {
+extension AppMeshClient {
     /// Performs the `CreateGatewayRoute` operation on the `AppMesh` service.
     ///
     /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see [Gateway routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html).
@@ -86,8 +86,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createGatewayRoute(input: CreateGatewayRouteInput) async throws -> CreateGatewayRouteOutput
-    {
+    public func createGatewayRoute(input: CreateGatewayRouteInput) async throws -> CreateGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -141,8 +140,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createMesh(input: CreateMeshInput) async throws -> CreateMeshOutput
-    {
+    public func createMesh(input: CreateMeshInput) async throws -> CreateMeshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -195,8 +193,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
-    {
+    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -250,8 +247,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createVirtualGateway(input: CreateVirtualGatewayInput) async throws -> CreateVirtualGatewayOutput
-    {
+    public func createVirtualGateway(input: CreateVirtualGatewayInput) async throws -> CreateVirtualGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -305,8 +301,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createVirtualNode(input: CreateVirtualNodeInput) async throws -> CreateVirtualNodeOutput
-    {
+    public func createVirtualNode(input: CreateVirtualNodeInput) async throws -> CreateVirtualNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -360,8 +355,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createVirtualRouter(input: CreateVirtualRouterInput) async throws -> CreateVirtualRouterOutput
-    {
+    public func createVirtualRouter(input: CreateVirtualRouterInput) async throws -> CreateVirtualRouterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -415,8 +409,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func createVirtualService(input: CreateVirtualServiceInput) async throws -> CreateVirtualServiceOutput
-    {
+    public func createVirtualService(input: CreateVirtualServiceInput) async throws -> CreateVirtualServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +462,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteGatewayRoute(input: DeleteGatewayRouteInput) async throws -> DeleteGatewayRouteOutput
-    {
+    public func deleteGatewayRoute(input: DeleteGatewayRouteInput) async throws -> DeleteGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -519,8 +511,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteMesh(input: DeleteMeshInput) async throws -> DeleteMeshOutput
-    {
+    public func deleteMesh(input: DeleteMeshInput) async throws -> DeleteMeshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +559,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
-    {
+    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -618,8 +608,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteVirtualGateway(input: DeleteVirtualGatewayInput) async throws -> DeleteVirtualGatewayOutput
-    {
+    public func deleteVirtualGateway(input: DeleteVirtualGatewayInput) async throws -> DeleteVirtualGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -668,8 +657,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteVirtualNode(input: DeleteVirtualNodeInput) async throws -> DeleteVirtualNodeOutput
-    {
+    public func deleteVirtualNode(input: DeleteVirtualNodeInput) async throws -> DeleteVirtualNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +706,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteVirtualRouter(input: DeleteVirtualRouterInput) async throws -> DeleteVirtualRouterOutput
-    {
+    public func deleteVirtualRouter(input: DeleteVirtualRouterInput) async throws -> DeleteVirtualRouterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +755,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ResourceInUseException` : You can't delete the specified resource because it's in use or required by another resource.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func deleteVirtualService(input: DeleteVirtualServiceInput) async throws -> DeleteVirtualServiceOutput
-    {
+    public func deleteVirtualService(input: DeleteVirtualServiceInput) async throws -> DeleteVirtualServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -817,8 +803,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeGatewayRoute(input: DescribeGatewayRouteInput) async throws -> DescribeGatewayRouteOutput
-    {
+    public func describeGatewayRoute(input: DescribeGatewayRouteInput) async throws -> DescribeGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -866,8 +851,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeMesh(input: DescribeMeshInput) async throws -> DescribeMeshOutput
-    {
+    public func describeMesh(input: DescribeMeshInput) async throws -> DescribeMeshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +899,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeRoute(input: DescribeRouteInput) async throws -> DescribeRouteOutput
-    {
+    public func describeRoute(input: DescribeRouteInput) async throws -> DescribeRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -964,8 +947,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeVirtualGateway(input: DescribeVirtualGatewayInput) async throws -> DescribeVirtualGatewayOutput
-    {
+    public func describeVirtualGateway(input: DescribeVirtualGatewayInput) async throws -> DescribeVirtualGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1013,8 +995,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeVirtualNode(input: DescribeVirtualNodeInput) async throws -> DescribeVirtualNodeOutput
-    {
+    public func describeVirtualNode(input: DescribeVirtualNodeInput) async throws -> DescribeVirtualNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1062,8 +1043,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeVirtualRouter(input: DescribeVirtualRouterInput) async throws -> DescribeVirtualRouterOutput
-    {
+    public func describeVirtualRouter(input: DescribeVirtualRouterInput) async throws -> DescribeVirtualRouterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1111,8 +1091,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func describeVirtualService(input: DescribeVirtualServiceInput) async throws -> DescribeVirtualServiceOutput
-    {
+    public func describeVirtualService(input: DescribeVirtualServiceInput) async throws -> DescribeVirtualServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1160,8 +1139,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listGatewayRoutes(input: ListGatewayRoutesInput) async throws -> ListGatewayRoutesOutput
-    {
+    public func listGatewayRoutes(input: ListGatewayRoutesInput) async throws -> ListGatewayRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1209,8 +1187,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listMeshes(input: ListMeshesInput) async throws -> ListMeshesOutput
-    {
+    public func listMeshes(input: ListMeshesInput) async throws -> ListMeshesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1258,8 +1235,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutput
-    {
+    public func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1283,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1356,8 +1331,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listVirtualGateways(input: ListVirtualGatewaysInput) async throws -> ListVirtualGatewaysOutput
-    {
+    public func listVirtualGateways(input: ListVirtualGatewaysInput) async throws -> ListVirtualGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1405,8 +1379,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listVirtualNodes(input: ListVirtualNodesInput) async throws -> ListVirtualNodesOutput
-    {
+    public func listVirtualNodes(input: ListVirtualNodesInput) async throws -> ListVirtualNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1427,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listVirtualRouters(input: ListVirtualRoutersInput) async throws -> ListVirtualRoutersOutput
-    {
+    public func listVirtualRouters(input: ListVirtualRoutersInput) async throws -> ListVirtualRoutersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1503,8 +1475,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func listVirtualServices(input: ListVirtualServicesInput) async throws -> ListVirtualServicesOutput
-    {
+    public func listVirtualServices(input: ListVirtualServicesInput) async throws -> ListVirtualServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1553,8 +1524,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     /// - `TooManyTagsException` : The request exceeds the maximum allowed number of tags allowed per resource. The current limit is 50 user tags per resource. You must reduce the number of tags in the request. None of the tags in this request were applied.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1605,8 +1575,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1659,8 +1628,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateGatewayRoute(input: UpdateGatewayRouteInput) async throws -> UpdateGatewayRouteOutput
-    {
+    public func updateGatewayRoute(input: UpdateGatewayRouteInput) async throws -> UpdateGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1713,8 +1681,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateMesh(input: UpdateMeshInput) async throws -> UpdateMeshOutput
-    {
+    public func updateMesh(input: UpdateMeshInput) async throws -> UpdateMeshOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1767,8 +1734,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
-    {
+    public func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1822,8 +1788,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateVirtualGateway(input: UpdateVirtualGatewayInput) async throws -> UpdateVirtualGatewayOutput
-    {
+    public func updateVirtualGateway(input: UpdateVirtualGatewayInput) async throws -> UpdateVirtualGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1877,8 +1842,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateVirtualNode(input: UpdateVirtualNodeInput) async throws -> UpdateVirtualNodeOutput
-    {
+    public func updateVirtualNode(input: UpdateVirtualNodeInput) async throws -> UpdateVirtualNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1932,8 +1896,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateVirtualRouter(input: UpdateVirtualRouterInput) async throws -> UpdateVirtualRouterOutput
-    {
+    public func updateVirtualRouter(input: UpdateVirtualRouterInput) async throws -> UpdateVirtualRouterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1987,8 +1950,7 @@ extension AppMeshClient: AppMeshClientProtocol {
     /// - `NotFoundException` : The specified resource doesn't exist. Check your request syntax and try again.
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-    public func updateVirtualService(input: UpdateVirtualServiceInput) async throws -> UpdateVirtualServiceOutput
-    {
+    public func updateVirtualService(input: UpdateVirtualServiceInput) async throws -> UpdateVirtualServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct Route53RecoveryReadinessClientLogHandlerFactory: ClientRuntime.SDK
     }
 }
 
-extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol {
+extension Route53RecoveryReadinessClient {
     /// Performs the `CreateCell` operation on the `Route53RecoveryReadiness` service.
     ///
     /// Creates a cell in an account.
@@ -83,8 +83,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createCell(input: CreateCellInput) async throws -> CreateCellOutput
-    {
+    public func createCell(input: CreateCellInput) async throws -> CreateCellOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createCrossAccountAuthorization(input: CreateCrossAccountAuthorizationInput) async throws -> CreateCrossAccountAuthorizationOutput
-    {
+    public func createCrossAccountAuthorization(input: CreateCrossAccountAuthorizationInput) async throws -> CreateCrossAccountAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createReadinessCheck(input: CreateReadinessCheckInput) async throws -> CreateReadinessCheckOutput
-    {
+    public func createReadinessCheck(input: CreateReadinessCheckInput) async throws -> CreateReadinessCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createRecoveryGroup(input: CreateRecoveryGroupInput) async throws -> CreateRecoveryGroupOutput
-    {
+    public func createRecoveryGroup(input: CreateRecoveryGroupInput) async throws -> CreateRecoveryGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createResourceSet(input: CreateResourceSetInput) async throws -> CreateResourceSetOutput
-    {
+    public func createResourceSet(input: CreateResourceSetInput) async throws -> CreateResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteCell(input: DeleteCellInput) async throws -> DeleteCellOutput
-    {
+    public func deleteCell(input: DeleteCellInput) async throws -> DeleteCellOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteCrossAccountAuthorization(input: DeleteCrossAccountAuthorizationInput) async throws -> DeleteCrossAccountAuthorizationOutput
-    {
+    public func deleteCrossAccountAuthorization(input: DeleteCrossAccountAuthorizationInput) async throws -> DeleteCrossAccountAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteReadinessCheck(input: DeleteReadinessCheckInput) async throws -> DeleteReadinessCheckOutput
-    {
+    public func deleteReadinessCheck(input: DeleteReadinessCheckInput) async throws -> DeleteReadinessCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteRecoveryGroup(input: DeleteRecoveryGroupInput) async throws -> DeleteRecoveryGroupOutput
-    {
+    public func deleteRecoveryGroup(input: DeleteRecoveryGroupInput) async throws -> DeleteRecoveryGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +511,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutput
-    {
+    public func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -567,8 +557,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getArchitectureRecommendations(input: GetArchitectureRecommendationsInput) async throws -> GetArchitectureRecommendationsOutput
-    {
+    public func getArchitectureRecommendations(input: GetArchitectureRecommendationsInput) async throws -> GetArchitectureRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getCell(input: GetCellInput) async throws -> GetCellOutput
-    {
+    public func getCell(input: GetCellInput) async throws -> GetCellOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -662,8 +650,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getCellReadinessSummary(input: GetCellReadinessSummaryInput) async throws -> GetCellReadinessSummaryOutput
-    {
+    public func getCellReadinessSummary(input: GetCellReadinessSummaryInput) async throws -> GetCellReadinessSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -710,8 +697,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadinessCheck(input: GetReadinessCheckInput) async throws -> GetReadinessCheckOutput
-    {
+    public func getReadinessCheck(input: GetReadinessCheckInput) async throws -> GetReadinessCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +743,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadinessCheckResourceStatus(input: GetReadinessCheckResourceStatusInput) async throws -> GetReadinessCheckResourceStatusOutput
-    {
+    public func getReadinessCheckResourceStatus(input: GetReadinessCheckResourceStatusInput) async throws -> GetReadinessCheckResourceStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +790,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadinessCheckStatus(input: GetReadinessCheckStatusInput) async throws -> GetReadinessCheckStatusOutput
-    {
+    public func getReadinessCheckStatus(input: GetReadinessCheckStatusInput) async throws -> GetReadinessCheckStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getRecoveryGroup(input: GetRecoveryGroupInput) async throws -> GetRecoveryGroupOutput
-    {
+    public func getRecoveryGroup(input: GetRecoveryGroupInput) async throws -> GetRecoveryGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -900,8 +883,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getRecoveryGroupReadinessSummary(input: GetRecoveryGroupReadinessSummaryInput) async throws -> GetRecoveryGroupReadinessSummaryOutput
-    {
+    public func getRecoveryGroupReadinessSummary(input: GetRecoveryGroupReadinessSummaryInput) async throws -> GetRecoveryGroupReadinessSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -948,8 +930,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutput
-    {
+    public func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -994,8 +975,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listCells(input: ListCellsInput) async throws -> ListCellsOutput
-    {
+    public func listCells(input: ListCellsInput) async throws -> ListCellsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1041,8 +1021,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listCrossAccountAuthorizations(input: ListCrossAccountAuthorizationsInput) async throws -> ListCrossAccountAuthorizationsOutput
-    {
+    public func listCrossAccountAuthorizations(input: ListCrossAccountAuthorizationsInput) async throws -> ListCrossAccountAuthorizationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1088,8 +1067,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReadinessChecks(input: ListReadinessChecksInput) async throws -> ListReadinessChecksOutput
-    {
+    public func listReadinessChecks(input: ListReadinessChecksInput) async throws -> ListReadinessChecksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1135,8 +1113,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listRecoveryGroups(input: ListRecoveryGroupsInput) async throws -> ListRecoveryGroupsOutput
-    {
+    public func listRecoveryGroups(input: ListRecoveryGroupsInput) async throws -> ListRecoveryGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1182,8 +1159,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutput
-    {
+    public func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1229,8 +1205,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-    {
+    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1275,8 +1250,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutput
-    {
+    public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1320,8 +1294,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1368,8 +1341,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1416,8 +1388,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateCell(input: UpdateCellInput) async throws -> UpdateCellOutput
-    {
+    public func updateCell(input: UpdateCellInput) async throws -> UpdateCellOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1466,8 +1437,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateReadinessCheck(input: UpdateReadinessCheckInput) async throws -> UpdateReadinessCheckOutput
-    {
+    public func updateReadinessCheck(input: UpdateReadinessCheckInput) async throws -> UpdateReadinessCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1516,8 +1486,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateRecoveryGroup(input: UpdateRecoveryGroupInput) async throws -> UpdateRecoveryGroupOutput
-    {
+    public func updateRecoveryGroup(input: UpdateRecoveryGroupInput) async throws -> UpdateRecoveryGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1566,8 +1535,7 @@ extension Route53RecoveryReadinessClient: Route53RecoveryReadinessClientProtocol
     /// - `ResourceNotFoundException` : The requested resource does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateResourceSet(input: UpdateResourceSetInput) async throws -> UpdateResourceSetOutput
-    {
+    public func updateResourceSet(input: UpdateResourceSetInput) async throws -> UpdateResourceSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

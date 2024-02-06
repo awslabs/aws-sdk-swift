@@ -66,7 +66,7 @@ public struct OutpostsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension OutpostsClient: OutpostsClientProtocol {
+extension OutpostsClient {
     /// Performs the `CancelOrder` operation on the `OutpostsOlafService` service.
     ///
     /// Cancels the specified order for an Outpost.
@@ -83,8 +83,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func cancelOrder(input: CancelOrderInput) async throws -> CancelOrderOutput
-    {
+    public func cancelOrder(input: CancelOrderInput) async throws -> CancelOrderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ServiceQuotaExceededException` : You have exceeded a service quota.
     /// - `ValidationException` : A parameter is not valid.
-    public func createOrder(input: CreateOrderInput) async throws -> CreateOrderOutput
-    {
+    public func createOrder(input: CreateOrderInput) async throws -> CreateOrderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ServiceQuotaExceededException` : You have exceeded a service quota.
     /// - `ValidationException` : A parameter is not valid.
-    public func createOutpost(input: CreateOutpostInput) async throws -> CreateOutpostOutput
-    {
+    public func createOutpost(input: CreateOutpostInput) async throws -> CreateOutpostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ServiceQuotaExceededException` : You have exceeded a service quota.
     /// - `ValidationException` : A parameter is not valid.
-    public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
-    {
+    public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func deleteOutpost(input: DeleteOutpostInput) async throws -> DeleteOutpostOutput
-    {
+    public func deleteOutpost(input: DeleteOutpostInput) async throws -> DeleteOutpostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
-    {
+    public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -374,8 +368,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getCatalogItem(input: GetCatalogItemInput) async throws -> GetCatalogItemOutput
-    {
+    public func getCatalogItem(input: GetCatalogItemInput) async throws -> GetCatalogItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -420,8 +413,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
-    {
+    public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -465,8 +457,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getOrder(input: GetOrderInput) async throws -> GetOrderOutput
-    {
+    public func getOrder(input: GetOrderInput) async throws -> GetOrderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,8 +502,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getOutpost(input: GetOutpostInput) async throws -> GetOutpostOutput
-    {
+    public func getOutpost(input: GetOutpostInput) async throws -> GetOutpostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +547,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getOutpostInstanceTypes(input: GetOutpostInstanceTypesInput) async throws -> GetOutpostInstanceTypesOutput
-    {
+    public func getOutpostInstanceTypes(input: GetOutpostInstanceTypesInput) async throws -> GetOutpostInstanceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +593,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getSite(input: GetSiteInput) async throws -> GetSiteOutput
-    {
+    public func getSite(input: GetSiteInput) async throws -> GetSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -650,8 +638,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func getSiteAddress(input: GetSiteAddressInput) async throws -> GetSiteAddressOutput
-    {
+    public func getSiteAddress(input: GetSiteAddressInput) async throws -> GetSiteAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +684,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutput
-    {
+    public func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -743,8 +729,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func listCatalogItems(input: ListCatalogItemsInput) async throws -> ListCatalogItemsOutput
-    {
+    public func listCatalogItems(input: ListCatalogItemsInput) async throws -> ListCatalogItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -790,8 +775,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutput
-    {
+    public func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -836,8 +820,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `AccessDeniedException` : You do not have permission to perform this operation.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : A parameter is not valid.
-    public func listOutposts(input: ListOutpostsInput) async throws -> ListOutpostsOutput
-    {
+    public func listOutposts(input: ListOutpostsInput) async throws -> ListOutpostsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -882,8 +865,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `AccessDeniedException` : You do not have permission to perform this operation.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ValidationException` : A parameter is not valid.
-    public func listSites(input: ListSitesInput) async throws -> ListSitesOutput
-    {
+    public func listSites(input: ListSitesInput) async throws -> ListSitesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -928,8 +910,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -974,8 +955,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func startConnection(input: StartConnectionInput) async throws -> StartConnectionOutput
-    {
+    public func startConnection(input: StartConnectionInput) async throws -> StartConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1022,8 +1002,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1070,8 +1049,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1118,8 +1096,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func updateOutpost(input: UpdateOutpostInput) async throws -> UpdateOutpostOutput
-    {
+    public func updateOutpost(input: UpdateOutpostInput) async throws -> UpdateOutpostOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1168,8 +1145,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
-    {
+    public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1194,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func updateSiteAddress(input: UpdateSiteAddressInput) async throws -> UpdateSiteAddressOutput
-    {
+    public func updateSiteAddress(input: UpdateSiteAddressInput) async throws -> UpdateSiteAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1268,8 +1243,7 @@ extension OutpostsClient: OutpostsClientProtocol {
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
-    public func updateSiteRackPhysicalProperties(input: UpdateSiteRackPhysicalPropertiesInput) async throws -> UpdateSiteRackPhysicalPropertiesOutput
-    {
+    public func updateSiteRackPhysicalProperties(input: UpdateSiteRackPhysicalPropertiesInput) async throws -> UpdateSiteRackPhysicalPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct ResourceGroupsClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension ResourceGroupsClient: ResourceGroupsClientProtocol {
+extension ResourceGroupsClient {
     /// Performs the `CreateGroup` operation on the `Ardi` service.
     ///
     /// Creates a resource group with the specified name and description. You can optionally include either a resource query or a service configuration. For more information about constructing a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/getting_started-query.html) in the Resource Groups User Guide. For more information about service-linked groups and service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). Minimum permissions To run this command, you must have the following permissions:
@@ -85,8 +85,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
-    {
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func getGroupConfiguration(input: GetGroupConfigurationInput) async throws -> GetGroupConfigurationOutput
-    {
+    public func getGroupConfiguration(input: GetGroupConfigurationInput) async throws -> GetGroupConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +339,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func getGroupQuery(input: GetGroupQueryInput) async throws -> GetGroupQueryOutput
-    {
+    public func getGroupQuery(input: GetGroupQueryInput) async throws -> GetGroupQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +391,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-    {
+    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -454,8 +447,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func groupResources(input: GroupResourcesInput) async throws -> GroupResourcesOutput
-    {
+    public func groupResources(input: GroupResourcesInput) async throws -> GroupResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +506,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     /// - `UnauthorizedException` : The request was rejected because it doesn't have valid credentials for the target resource.
-    public func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput
-    {
+    public func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +557,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +610,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func putGroupConfiguration(input: PutGroupConfigurationInput) async throws -> PutGroupConfigurationOutput
-    {
+    public func putGroupConfiguration(input: PutGroupConfigurationInput) async throws -> PutGroupConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -679,8 +668,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     /// - `UnauthorizedException` : The request was rejected because it doesn't have valid credentials for the target resource.
-    public func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
-    {
+    public func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -732,8 +720,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func tag(input: TagInput) async throws -> TagOutput
-    {
+    public func tag(input: TagInput) async throws -> TagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -785,8 +772,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func ungroupResources(input: UngroupResourcesInput) async throws -> UngroupResourcesOutput
-    {
+    public func ungroupResources(input: UngroupResourcesInput) async throws -> UngroupResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +824,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func untag(input: UntagInput) async throws -> UntagOutput
-    {
+    public func untag(input: UntagInput) async throws -> UntagOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -888,8 +873,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred while processing the request. Try again later.
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
-    {
+    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -941,8 +925,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -994,8 +977,7 @@ extension ResourceGroupsClient: ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
-    public func updateGroupQuery(input: UpdateGroupQueryInput) async throws -> UpdateGroupQueryOutput
-    {
+    public func updateGroupQuery(input: UpdateGroupQueryInput) async throws -> UpdateGroupQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -685,6 +685,8 @@ extension ElasticInferenceClientTypes {
 
 }
 
+public enum ElasticInferenceClientTypes {}
+
 extension ElasticInferenceClientTypes.Filter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name

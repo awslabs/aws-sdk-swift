@@ -1256,6 +1256,8 @@ extension HealthLakeClientTypes {
     }
 }
 
+public enum HealthLakeClientTypes {}
+
 extension HealthLakeClientTypes.IdentityProviderConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizationStrategy = "AuthorizationStrategy"

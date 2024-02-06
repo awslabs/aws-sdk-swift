@@ -66,7 +66,7 @@ public struct QConnectClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension QConnectClient: QConnectClientProtocol {
+extension QConnectClient {
     /// Performs the `CreateAssistant` operation on the `WisdomService` service.
     ///
     /// Creates an Amazon Q in Connect assistant.
@@ -82,8 +82,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func createAssistant(input: CreateAssistantInput) async throws -> CreateAssistantOutput
-    {
+    public func createAssistant(input: CreateAssistantInput) async throws -> CreateAssistantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func createAssistantAssociation(input: CreateAssistantAssociationInput) async throws -> CreateAssistantAssociationOutput
-    {
+    public func createAssistantAssociation(input: CreateAssistantAssociationInput) async throws -> CreateAssistantAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func createContent(input: CreateContentInput) async throws -> CreateContentOutput
-    {
+    public func createContent(input: CreateContentInput) async throws -> CreateContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -242,8 +239,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput
-    {
+    public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func createQuickResponse(input: CreateQuickResponseInput) async throws -> CreateQuickResponseOutput
-    {
+    public func createQuickResponse(input: CreateQuickResponseInput) async throws -> CreateQuickResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -342,8 +337,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
-    {
+    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -391,8 +385,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func deleteAssistant(input: DeleteAssistantInput) async throws -> DeleteAssistantOutput
-    {
+    public func deleteAssistant(input: DeleteAssistantInput) async throws -> DeleteAssistantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -436,8 +429,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func deleteAssistantAssociation(input: DeleteAssistantAssociationInput) async throws -> DeleteAssistantAssociationOutput
-    {
+    public func deleteAssistantAssociation(input: DeleteAssistantAssociationInput) async throws -> DeleteAssistantAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -481,8 +473,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func deleteContent(input: DeleteContentInput) async throws -> DeleteContentOutput
-    {
+    public func deleteContent(input: DeleteContentInput) async throws -> DeleteContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -527,8 +518,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func deleteImportJob(input: DeleteImportJobInput) async throws -> DeleteImportJobOutput
-    {
+    public func deleteImportJob(input: DeleteImportJobInput) async throws -> DeleteImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput
-    {
+    public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -618,8 +607,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func deleteQuickResponse(input: DeleteQuickResponseInput) async throws -> DeleteQuickResponseOutput
-    {
+    public func deleteQuickResponse(input: DeleteQuickResponseInput) async throws -> DeleteQuickResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -663,8 +651,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getAssistant(input: GetAssistantInput) async throws -> GetAssistantOutput
-    {
+    public func getAssistant(input: GetAssistantInput) async throws -> GetAssistantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -708,8 +695,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getAssistantAssociation(input: GetAssistantAssociationInput) async throws -> GetAssistantAssociationOutput
-    {
+    public func getAssistantAssociation(input: GetAssistantAssociationInput) async throws -> GetAssistantAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -753,8 +739,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getContent(input: GetContentInput) async throws -> GetContentOutput
-    {
+    public func getContent(input: GetContentInput) async throws -> GetContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -798,8 +783,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getContentSummary(input: GetContentSummaryInput) async throws -> GetContentSummaryOutput
-    {
+    public func getContentSummary(input: GetContentSummaryInput) async throws -> GetContentSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -843,8 +827,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput
-    {
+    public func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -888,8 +871,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput
-    {
+    public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -933,8 +915,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getQuickResponse(input: GetQuickResponseInput) async throws -> GetQuickResponseOutput
-    {
+    public func getQuickResponse(input: GetQuickResponseInput) async throws -> GetQuickResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +960,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput
-    {
+    public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1025,8 +1005,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput
-    {
+    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1070,8 +1049,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func listAssistantAssociations(input: ListAssistantAssociationsInput) async throws -> ListAssistantAssociationsOutput
-    {
+    public func listAssistantAssociations(input: ListAssistantAssociationsInput) async throws -> ListAssistantAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1115,8 +1093,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func listAssistants(input: ListAssistantsInput) async throws -> ListAssistantsOutput
-    {
+    public func listAssistants(input: ListAssistantsInput) async throws -> ListAssistantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1161,8 +1138,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func listContents(input: ListContentsInput) async throws -> ListContentsOutput
-    {
+    public func listContents(input: ListContentsInput) async throws -> ListContentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1206,8 +1182,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutput
-    {
+    public func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1251,8 +1226,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutput
-    {
+    public func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1297,8 +1271,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func listQuickResponses(input: ListQuickResponsesInput) async throws -> ListQuickResponsesOutput
-    {
+    public func listQuickResponses(input: ListQuickResponsesInput) async throws -> ListQuickResponsesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1341,8 +1314,7 @@ extension QConnectClient: QConnectClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1386,8 +1358,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func notifyRecommendationsReceived(input: NotifyRecommendationsReceivedInput) async throws -> NotifyRecommendationsReceivedOutput
-    {
+    public func notifyRecommendationsReceived(input: NotifyRecommendationsReceivedInput) async throws -> NotifyRecommendationsReceivedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1434,8 +1405,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
-    {
+    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1484,8 +1454,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `RequestTimeoutException` : The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func queryAssistant(input: QueryAssistantInput) async throws -> QueryAssistantOutput
-    {
+    public func queryAssistant(input: QueryAssistantInput) async throws -> QueryAssistantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1532,8 +1501,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func removeKnowledgeBaseTemplateUri(input: RemoveKnowledgeBaseTemplateUriInput) async throws -> RemoveKnowledgeBaseTemplateUriOutput
-    {
+    public func removeKnowledgeBaseTemplateUri(input: RemoveKnowledgeBaseTemplateUriInput) async throws -> RemoveKnowledgeBaseTemplateUriOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1577,8 +1545,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func searchContent(input: SearchContentInput) async throws -> SearchContentOutput
-    {
+    public func searchContent(input: SearchContentInput) async throws -> SearchContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1627,8 +1594,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `RequestTimeoutException` : The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func searchQuickResponses(input: SearchQuickResponsesInput) async throws -> SearchQuickResponsesOutput
-    {
+    public func searchQuickResponses(input: SearchQuickResponsesInput) async throws -> SearchQuickResponsesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1676,8 +1642,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func searchSessions(input: SearchSessionsInput) async throws -> SearchSessionsOutput
-    {
+    public func searchSessions(input: SearchSessionsInput) async throws -> SearchSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1725,8 +1690,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func startContentUpload(input: StartContentUploadInput) async throws -> StartContentUploadOutput
-    {
+    public func startContentUpload(input: StartContentUploadInput) async throws -> StartContentUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1777,8 +1741,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func startImportJob(input: StartImportJobInput) async throws -> StartImportJobOutput
-    {
+    public func startImportJob(input: StartImportJobInput) async throws -> StartImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1825,8 +1788,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `TooManyTagsException` : Amazon Q in Connect throws this exception if you have too many tags in your tag set.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1871,8 +1833,7 @@ extension QConnectClient: QConnectClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1918,8 +1879,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `PreconditionFailedException` : The provided revisionId does not match, indicating the content has been modified since it was last read.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func updateContent(input: UpdateContentInput) async throws -> UpdateContentOutput
-    {
+    public func updateContent(input: UpdateContentInput) async throws -> UpdateContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1966,8 +1926,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func updateKnowledgeBaseTemplateUri(input: UpdateKnowledgeBaseTemplateUriInput) async throws -> UpdateKnowledgeBaseTemplateUriOutput
-    {
+    public func updateKnowledgeBaseTemplateUri(input: UpdateKnowledgeBaseTemplateUriInput) async throws -> UpdateKnowledgeBaseTemplateUriOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2016,8 +1975,7 @@ extension QConnectClient: QConnectClientProtocol {
     /// - `PreconditionFailedException` : The provided revisionId does not match, indicating the content has been modified since it was last read.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
-    public func updateQuickResponse(input: UpdateQuickResponseInput) async throws -> UpdateQuickResponseOutput
-    {
+    public func updateQuickResponse(input: UpdateQuickResponseInput) async throws -> UpdateQuickResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

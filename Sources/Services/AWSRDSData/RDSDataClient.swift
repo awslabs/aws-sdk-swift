@@ -66,7 +66,7 @@ public struct RDSDataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension RDSDataClient: RDSDataClientProtocol {
+extension RDSDataClient {
     /// Performs the `BatchExecuteStatement` operation on the `RdsDataService` service.
     ///
     /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
@@ -97,8 +97,7 @@ extension RDSDataClient: RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
-    public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
-    {
+    public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -161,8 +160,7 @@ extension RDSDataClient: RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
-    public func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutput
-    {
+    public func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +224,7 @@ extension RDSDataClient: RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
-    public func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
-    {
+    public func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +274,7 @@ extension RDSDataClient: RDSDataClientProtocol {
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `InternalServerErrorException` : An internal error occurred.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
-    public func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput
-    {
+    public func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -348,8 +344,7 @@ extension RDSDataClient: RDSDataClientProtocol {
     /// * It contained a multidimensional array.
     ///
     /// * The size was too large.
-    public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
-    {
+    public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +408,7 @@ extension RDSDataClient: RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
-    public func rollbackTransaction(input: RollbackTransactionInput) async throws -> RollbackTransactionOutput
-    {
+    public func rollbackTransaction(input: RollbackTransactionInput) async throws -> RollbackTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

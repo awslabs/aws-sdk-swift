@@ -66,7 +66,7 @@ public struct IoTDataPlaneClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
+extension IoTDataPlaneClient {
     /// Performs the `DeleteThingShadow` operation on the `IotMoonrakerService` service.
     ///
     /// Deletes the shadow for the specified thing. Requires permission to access the [DeleteThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [DeleteThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html) in the IoT Developer Guide.
@@ -86,8 +86,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `UnsupportedDocumentEncodingException` : The document encoding is not supported.
-    public func deleteThingShadow(input: DeleteThingShadowInput) async throws -> DeleteThingShadowOutput
-    {
+    public func deleteThingShadow(input: DeleteThingShadowInput) async throws -> DeleteThingShadowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getRetainedMessage(input: GetRetainedMessageInput) async throws -> GetRetainedMessageOutput
-    {
+    public func getRetainedMessage(input: GetRetainedMessageInput) async throws -> GetRetainedMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `UnsupportedDocumentEncodingException` : The document encoding is not supported.
-    public func getThingShadow(input: GetThingShadowInput) async throws -> GetThingShadowOutput
-    {
+    public func getThingShadow(input: GetThingShadowInput) async throws -> GetThingShadowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listNamedShadowsForThing(input: ListNamedShadowsForThingInput) async throws -> ListNamedShadowsForThingOutput
-    {
+    public func listNamedShadowsForThing(input: ListNamedShadowsForThingInput) async throws -> ListNamedShadowsForThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -285,8 +281,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listRetainedMessages(input: ListRetainedMessagesInput) async throws -> ListRetainedMessagesOutput
-    {
+    public func listRetainedMessages(input: ListRetainedMessagesInput) async throws -> ListRetainedMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `MethodNotAllowedException` : The specified combination of HTTP verb and URI is not supported.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func publish(input: PublishInput) async throws -> PublishOutput
-    {
+    public func publish(input: PublishInput) async throws -> PublishOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -389,8 +383,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `UnsupportedDocumentEncodingException` : The document encoding is not supported.
-    public func updateThingShadow(input: UpdateThingShadowInput) async throws -> UpdateThingShadowOutput
-    {
+    public func updateThingShadow(input: UpdateThingShadowInput) async throws -> UpdateThingShadowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

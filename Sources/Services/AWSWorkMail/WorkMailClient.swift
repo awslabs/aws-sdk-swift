@@ -66,7 +66,7 @@ public struct WorkMailClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension WorkMailClient: WorkMailClientProtocol {
+extension WorkMailClient {
     /// Performs the `AssociateDelegateToResource` operation on the `WorkMailService` service.
     ///
     /// Adds a member (user or group) to the resource's set of delegates.
@@ -84,8 +84,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func associateDelegateToResource(input: AssociateDelegateToResourceInput) async throws -> AssociateDelegateToResourceOutput
-    {
+    public func associateDelegateToResource(input: AssociateDelegateToResourceInput) async throws -> AssociateDelegateToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func associateMemberToGroup(input: AssociateMemberToGroupInput) async throws -> AssociateMemberToGroupOutput
-    {
+    public func associateMemberToGroup(input: AssociateMemberToGroupInput) async throws -> AssociateMemberToGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func assumeImpersonationRole(input: AssumeImpersonationRoleInput) async throws -> AssumeImpersonationRoleOutput
-    {
+    public func assumeImpersonationRole(input: AssumeImpersonationRoleInput) async throws -> AssumeImpersonationRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func cancelMailboxExportJob(input: CancelMailboxExportJobInput) async throws -> CancelMailboxExportJobOutput
-    {
+    public func cancelMailboxExportJob(input: CancelMailboxExportJobInput) async throws -> CancelMailboxExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -294,8 +290,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    {
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func createAvailabilityConfiguration(input: CreateAvailabilityConfigurationInput) async throws -> CreateAvailabilityConfigurationOutput
-    {
+    public func createAvailabilityConfiguration(input: CreateAvailabilityConfigurationInput) async throws -> CreateAvailabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +394,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -452,8 +445,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `LimitExceededException` : The request exceeds the limit of the resource.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func createImpersonationRole(input: CreateImpersonationRoleInput) async throws -> CreateImpersonationRoleOutput
-    {
+    public func createImpersonationRole(input: CreateImpersonationRoleInput) async throws -> CreateImpersonationRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -503,8 +495,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `LimitExceededException` : The request exceeds the limit of the resource.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func createMobileDeviceAccessRule(input: CreateMobileDeviceAccessRuleInput) async throws -> CreateMobileDeviceAccessRuleOutput
-    {
+    public func createMobileDeviceAccessRule(input: CreateMobileDeviceAccessRuleInput) async throws -> CreateMobileDeviceAccessRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -555,8 +546,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `LimitExceededException` : The request exceeds the limit of the resource.
     /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
-    public func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput
-    {
+    public func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -610,8 +600,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
-    {
+    public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -665,8 +654,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +701,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteAccessControlRule(input: DeleteAccessControlRuleInput) async throws -> DeleteAccessControlRuleOutput
-    {
+    public func deleteAccessControlRule(input: DeleteAccessControlRuleInput) async throws -> DeleteAccessControlRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -764,8 +751,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
-    {
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -812,8 +798,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteAvailabilityConfiguration(input: DeleteAvailabilityConfigurationInput) async throws -> DeleteAvailabilityConfigurationOutput
-    {
+    public func deleteAvailabilityConfiguration(input: DeleteAvailabilityConfigurationInput) async throws -> DeleteAvailabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -861,8 +846,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteEmailMonitoringConfiguration(input: DeleteEmailMonitoringConfigurationInput) async throws -> DeleteEmailMonitoringConfigurationOutput
-    {
+    public func deleteEmailMonitoringConfiguration(input: DeleteEmailMonitoringConfigurationInput) async throws -> DeleteEmailMonitoringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -914,8 +898,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +946,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteImpersonationRole(input: DeleteImpersonationRoleInput) async throws -> DeleteImpersonationRoleOutput
-    {
+    public func deleteImpersonationRole(input: DeleteImpersonationRoleInput) async throws -> DeleteImpersonationRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1014,8 +996,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteMailboxPermissions(input: DeleteMailboxPermissionsInput) async throws -> DeleteMailboxPermissionsOutput
-    {
+    public func deleteMailboxPermissions(input: DeleteMailboxPermissionsInput) async throws -> DeleteMailboxPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,8 +1045,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteMobileDeviceAccessOverride(input: DeleteMobileDeviceAccessOverrideInput) async throws -> DeleteMobileDeviceAccessOverrideOutput
-    {
+    public func deleteMobileDeviceAccessOverride(input: DeleteMobileDeviceAccessOverrideInput) async throws -> DeleteMobileDeviceAccessOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1113,8 +1093,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteMobileDeviceAccessRule(input: DeleteMobileDeviceAccessRuleInput) async throws -> DeleteMobileDeviceAccessRuleOutput
-    {
+    public func deleteMobileDeviceAccessRule(input: DeleteMobileDeviceAccessRuleInput) async throws -> DeleteMobileDeviceAccessRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1162,8 +1141,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutput
-    {
+    public func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,8 +1192,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
-    {
+    public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1263,8 +1240,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutput
-    {
+    public func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1316,8 +1292,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1367,8 +1342,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deregisterFromWorkMail(input: DeregisterFromWorkMailInput) async throws -> DeregisterFromWorkMailOutput
-    {
+    public func deregisterFromWorkMail(input: DeregisterFromWorkMailInput) async throws -> DeregisterFromWorkMailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1418,8 +1392,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `MailDomainInUseException` : The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func deregisterMailDomain(input: DeregisterMailDomainInput) async throws -> DeregisterMailDomainOutput
-    {
+    public func deregisterMailDomain(input: DeregisterMailDomainInput) async throws -> DeregisterMailDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1468,8 +1441,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func describeEmailMonitoringConfiguration(input: DescribeEmailMonitoringConfigurationInput) async throws -> DescribeEmailMonitoringConfigurationOutput
-    {
+    public func describeEmailMonitoringConfiguration(input: DescribeEmailMonitoringConfigurationInput) async throws -> DescribeEmailMonitoringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1518,8 +1490,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func describeEntity(input: DescribeEntityInput) async throws -> DescribeEntityOutput
-    {
+    public func describeEntity(input: DescribeEntityInput) async throws -> DescribeEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1568,8 +1539,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
-    {
+    public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1616,8 +1586,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func describeInboundDmarcSettings(input: DescribeInboundDmarcSettingsInput) async throws -> DescribeInboundDmarcSettingsOutput
-    {
+    public func describeInboundDmarcSettings(input: DescribeInboundDmarcSettingsInput) async throws -> DescribeInboundDmarcSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1666,8 +1635,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func describeMailboxExportJob(input: DescribeMailboxExportJobInput) async throws -> DescribeMailboxExportJobOutput
-    {
+    public func describeMailboxExportJob(input: DescribeMailboxExportJobInput) async throws -> DescribeMailboxExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1714,8 +1682,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
-    public func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutput
-    {
+    public func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1765,8 +1732,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput
-    {
+    public func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1815,8 +1781,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    {
+    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1867,8 +1832,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func disassociateDelegateFromResource(input: DisassociateDelegateFromResourceInput) async throws -> DisassociateDelegateFromResourceOutput
-    {
+    public func disassociateDelegateFromResource(input: DisassociateDelegateFromResourceInput) async throws -> DisassociateDelegateFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1921,8 +1885,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func disassociateMemberFromGroup(input: DisassociateMemberFromGroupInput) async throws -> DisassociateMemberFromGroupOutput
-    {
+    public func disassociateMemberFromGroup(input: DisassociateMemberFromGroupInput) async throws -> DisassociateMemberFromGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1972,8 +1935,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func getAccessControlEffect(input: GetAccessControlEffectInput) async throws -> GetAccessControlEffectOutput
-    {
+    public func getAccessControlEffect(input: GetAccessControlEffectInput) async throws -> GetAccessControlEffectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2022,8 +1984,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func getDefaultRetentionPolicy(input: GetDefaultRetentionPolicyInput) async throws -> GetDefaultRetentionPolicyOutput
-    {
+    public func getDefaultRetentionPolicy(input: GetDefaultRetentionPolicyInput) async throws -> GetDefaultRetentionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2072,8 +2033,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func getImpersonationRole(input: GetImpersonationRoleInput) async throws -> GetImpersonationRoleOutput
-    {
+    public func getImpersonationRole(input: GetImpersonationRoleInput) async throws -> GetImpersonationRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2124,8 +2084,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func getImpersonationRoleEffect(input: GetImpersonationRoleEffectInput) async throws -> GetImpersonationRoleEffectOutput
-    {
+    public func getImpersonationRoleEffect(input: GetImpersonationRoleEffectInput) async throws -> GetImpersonationRoleEffectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2174,8 +2133,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func getMailDomain(input: GetMailDomainInput) async throws -> GetMailDomainOutput
-    {
+    public func getMailDomain(input: GetMailDomainInput) async throws -> GetMailDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2182,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func getMailboxDetails(input: GetMailboxDetailsInput) async throws -> GetMailboxDetailsOutput
-    {
+    public func getMailboxDetails(input: GetMailboxDetailsInput) async throws -> GetMailboxDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2273,8 +2230,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func getMobileDeviceAccessEffect(input: GetMobileDeviceAccessEffectInput) async throws -> GetMobileDeviceAccessEffectOutput
-    {
+    public func getMobileDeviceAccessEffect(input: GetMobileDeviceAccessEffectInput) async throws -> GetMobileDeviceAccessEffectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2324,8 +2280,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func getMobileDeviceAccessOverride(input: GetMobileDeviceAccessOverrideInput) async throws -> GetMobileDeviceAccessOverrideOutput
-    {
+    public func getMobileDeviceAccessOverride(input: GetMobileDeviceAccessOverrideInput) async throws -> GetMobileDeviceAccessOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2327,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listAccessControlRules(input: ListAccessControlRulesInput) async throws -> ListAccessControlRulesOutput
-    {
+    public func listAccessControlRules(input: ListAccessControlRulesInput) async throws -> ListAccessControlRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2423,8 +2377,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    {
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2471,8 +2424,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listAvailabilityConfigurations(input: ListAvailabilityConfigurationsInput) async throws -> ListAvailabilityConfigurationsOutput
-    {
+    public func listAvailabilityConfigurations(input: ListAvailabilityConfigurationsInput) async throws -> ListAvailabilityConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2522,8 +2474,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listGroupMembers(input: ListGroupMembersInput) async throws -> ListGroupMembersOutput
-    {
+    public func listGroupMembers(input: ListGroupMembersInput) async throws -> ListGroupMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2572,8 +2523,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2623,8 +2573,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listGroupsForEntity(input: ListGroupsForEntityInput) async throws -> ListGroupsForEntityOutput
-    {
+    public func listGroupsForEntity(input: ListGroupsForEntityInput) async throws -> ListGroupsForEntityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2672,8 +2621,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listImpersonationRoles(input: ListImpersonationRolesInput) async throws -> ListImpersonationRolesOutput
-    {
+    public func listImpersonationRoles(input: ListImpersonationRolesInput) async throws -> ListImpersonationRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2721,8 +2669,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listMailDomains(input: ListMailDomainsInput) async throws -> ListMailDomainsOutput
-    {
+    public func listMailDomains(input: ListMailDomainsInput) async throws -> ListMailDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2770,8 +2717,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listMailboxExportJobs(input: ListMailboxExportJobsInput) async throws -> ListMailboxExportJobsOutput
-    {
+    public func listMailboxExportJobs(input: ListMailboxExportJobsInput) async throws -> ListMailboxExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2820,8 +2766,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listMailboxPermissions(input: ListMailboxPermissionsInput) async throws -> ListMailboxPermissionsOutput
-    {
+    public func listMailboxPermissions(input: ListMailboxPermissionsInput) async throws -> ListMailboxPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2870,8 +2815,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listMobileDeviceAccessOverrides(input: ListMobileDeviceAccessOverridesInput) async throws -> ListMobileDeviceAccessOverridesOutput
-    {
+    public func listMobileDeviceAccessOverrides(input: ListMobileDeviceAccessOverridesInput) async throws -> ListMobileDeviceAccessOverridesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2919,8 +2863,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listMobileDeviceAccessRules(input: ListMobileDeviceAccessRulesInput) async throws -> ListMobileDeviceAccessRulesOutput
-    {
+    public func listMobileDeviceAccessRules(input: ListMobileDeviceAccessRulesInput) async throws -> ListMobileDeviceAccessRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2966,8 +2909,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
-    public func listOrganizations(input: ListOrganizationsInput) async throws -> ListOrganizationsOutput
-    {
+    public func listOrganizations(input: ListOrganizationsInput) async throws -> ListOrganizationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3018,8 +2960,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func listResourceDelegates(input: ListResourceDelegatesInput) async throws -> ListResourceDelegatesOutput
-    {
+    public func listResourceDelegates(input: ListResourceDelegatesInput) async throws -> ListResourceDelegatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3068,8 +3009,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-    {
+    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3115,8 +3055,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3164,8 +3103,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3216,8 +3154,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func putAccessControlRule(input: PutAccessControlRuleInput) async throws -> PutAccessControlRuleOutput
-    {
+    public func putAccessControlRule(input: PutAccessControlRuleInput) async throws -> PutAccessControlRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3266,8 +3203,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func putEmailMonitoringConfiguration(input: PutEmailMonitoringConfigurationInput) async throws -> PutEmailMonitoringConfigurationOutput
-    {
+    public func putEmailMonitoringConfiguration(input: PutEmailMonitoringConfigurationInput) async throws -> PutEmailMonitoringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3314,8 +3250,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func putInboundDmarcSettings(input: PutInboundDmarcSettingsInput) async throws -> PutInboundDmarcSettingsOutput
-    {
+    public func putInboundDmarcSettings(input: PutInboundDmarcSettingsInput) async throws -> PutInboundDmarcSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3365,8 +3300,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func putMailboxPermissions(input: PutMailboxPermissionsInput) async throws -> PutMailboxPermissionsOutput
-    {
+    public func putMailboxPermissions(input: PutMailboxPermissionsInput) async throws -> PutMailboxPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3416,8 +3350,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func putMobileDeviceAccessOverride(input: PutMobileDeviceAccessOverrideInput) async throws -> PutMobileDeviceAccessOverrideOutput
-    {
+    public func putMobileDeviceAccessOverride(input: PutMobileDeviceAccessOverrideInput) async throws -> PutMobileDeviceAccessOverrideOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3466,8 +3399,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `LimitExceededException` : The request exceeds the limit of the resource.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutput
-    {
+    public func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3517,8 +3449,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `MailDomainInUseException` : The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func registerMailDomain(input: RegisterMailDomainInput) async throws -> RegisterMailDomainOutput
-    {
+    public func registerMailDomain(input: RegisterMailDomainInput) async throws -> RegisterMailDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3575,8 +3506,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func registerToWorkMail(input: RegisterToWorkMailInput) async throws -> RegisterToWorkMailOutput
-    {
+    public func registerToWorkMail(input: RegisterToWorkMailInput) async throws -> RegisterToWorkMailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3630,8 +3560,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func resetPassword(input: ResetPasswordInput) async throws -> ResetPasswordOutput
-    {
+    public func resetPassword(input: ResetPasswordInput) async throws -> ResetPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3681,8 +3610,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `LimitExceededException` : The request exceeds the limit of the resource.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func startMailboxExportJob(input: StartMailboxExportJobInput) async throws -> StartMailboxExportJobOutput
-    {
+    public func startMailboxExportJob(input: StartMailboxExportJobInput) async throws -> StartMailboxExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3732,8 +3660,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
     /// - `TooManyTagsException` : The resource can have up to 50 user-applied tags.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3782,8 +3709,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func testAvailabilityConfiguration(input: TestAvailabilityConfigurationInput) async throws -> TestAvailabilityConfigurationOutput
-    {
+    public func testAvailabilityConfiguration(input: TestAvailabilityConfigurationInput) async throws -> TestAvailabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3829,8 +3755,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3879,8 +3804,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func updateAvailabilityConfiguration(input: UpdateAvailabilityConfigurationInput) async throws -> UpdateAvailabilityConfigurationOutput
-    {
+    public func updateAvailabilityConfiguration(input: UpdateAvailabilityConfigurationInput) async throws -> UpdateAvailabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3930,8 +3854,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func updateDefaultMailDomain(input: UpdateDefaultMailDomainInput) async throws -> UpdateDefaultMailDomainOutput
-    {
+    public func updateDefaultMailDomain(input: UpdateDefaultMailDomainInput) async throws -> UpdateDefaultMailDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3982,8 +3905,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4035,8 +3957,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `ResourceNotFoundException` : The resource cannot be found.
-    public func updateImpersonationRole(input: UpdateImpersonationRoleInput) async throws -> UpdateImpersonationRoleOutput
-    {
+    public func updateImpersonationRole(input: UpdateImpersonationRoleInput) async throws -> UpdateImpersonationRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4086,8 +4007,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func updateMailboxQuota(input: UpdateMailboxQuotaInput) async throws -> UpdateMailboxQuotaOutput
-    {
+    public func updateMailboxQuota(input: UpdateMailboxQuotaInput) async throws -> UpdateMailboxQuotaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4136,8 +4056,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
-    public func updateMobileDeviceAccessRule(input: UpdateMobileDeviceAccessRuleInput) async throws -> UpdateMobileDeviceAccessRuleOutput
-    {
+    public func updateMobileDeviceAccessRule(input: UpdateMobileDeviceAccessRuleInput) async throws -> UpdateMobileDeviceAccessRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4193,8 +4112,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func updatePrimaryEmailAddress(input: UpdatePrimaryEmailAddressInput) async throws -> UpdatePrimaryEmailAddressOutput
-    {
+    public func updatePrimaryEmailAddress(input: UpdatePrimaryEmailAddressInput) async throws -> UpdatePrimaryEmailAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4251,8 +4169,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
-    {
+    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4305,8 +4222,7 @@ extension WorkMailClient: WorkMailClientProtocol {
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

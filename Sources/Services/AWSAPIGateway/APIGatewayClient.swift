@@ -66,7 +66,7 @@ public struct APIGatewayClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension APIGatewayClient: APIGatewayClientProtocol {
+extension APIGatewayClient {
     /// Performs the `CreateApiKey` operation on the `BackplaneControlService` service.
     ///
     /// Create an ApiKey resource.
@@ -84,8 +84,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutput
-    {
+    public func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
-    {
+    public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createBasePathMapping(input: CreateBasePathMappingInput) async throws -> CreateBasePathMappingOutput
-    {
+    public func createBasePathMapping(input: CreateBasePathMappingInput) async throws -> CreateBasePathMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createDocumentationPart(input: CreateDocumentationPartInput) async throws -> CreateDocumentationPartOutput
-    {
+    public func createDocumentationPart(input: CreateDocumentationPartInput) async throws -> CreateDocumentationPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createDocumentationVersion(input: CreateDocumentationVersionInput) async throws -> CreateDocumentationVersionOutput
-    {
+    public func createDocumentationVersion(input: CreateDocumentationVersionInput) async throws -> CreateDocumentationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -396,8 +390,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
-    {
+    public func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-    {
+    public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -500,8 +492,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createRequestValidator(input: CreateRequestValidatorInput) async throws -> CreateRequestValidatorOutput
-    {
+    public func createRequestValidator(input: CreateRequestValidatorInput) async throws -> CreateRequestValidatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -552,8 +543,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
-    {
+    public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -603,8 +593,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createRestApi(input: CreateRestApiInput) async throws -> CreateRestApiOutput
-    {
+    public func createRestApi(input: CreateRestApiInput) async throws -> CreateRestApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -655,8 +644,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createStage(input: CreateStageInput) async throws -> CreateStageOutput
-    {
+    public func createStage(input: CreateStageInput) async throws -> CreateStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -707,8 +695,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createUsagePlan(input: CreateUsagePlanInput) async throws -> CreateUsagePlanOutput
-    {
+    public func createUsagePlan(input: CreateUsagePlanInput) async throws -> CreateUsagePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -759,8 +746,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createUsagePlanKey(input: CreateUsagePlanKeyInput) async throws -> CreateUsagePlanKeyOutput
-    {
+    public func createUsagePlanKey(input: CreateUsagePlanKeyInput) async throws -> CreateUsagePlanKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -810,8 +796,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput
-    {
+    public func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -861,8 +846,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutput
-    {
+    public func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -909,8 +893,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
-    {
+    public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +940,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteBasePathMapping(input: DeleteBasePathMappingInput) async throws -> DeleteBasePathMappingOutput
-    {
+    public func deleteBasePathMapping(input: DeleteBasePathMappingInput) async throws -> DeleteBasePathMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1005,8 +987,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteClientCertificate(input: DeleteClientCertificateInput) async throws -> DeleteClientCertificateOutput
-    {
+    public func deleteClientCertificate(input: DeleteClientCertificateInput) async throws -> DeleteClientCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1035,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-    {
+    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1102,8 +1082,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteDocumentationPart(input: DeleteDocumentationPartInput) async throws -> DeleteDocumentationPartOutput
-    {
+    public func deleteDocumentationPart(input: DeleteDocumentationPartInput) async throws -> DeleteDocumentationPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1150,8 +1129,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteDocumentationVersion(input: DeleteDocumentationVersionInput) async throws -> DeleteDocumentationVersionOutput
-    {
+    public func deleteDocumentationVersion(input: DeleteDocumentationVersionInput) async throws -> DeleteDocumentationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1198,8 +1176,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
-    {
+    public func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1246,8 +1223,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteGatewayResponse(input: DeleteGatewayResponseInput) async throws -> DeleteGatewayResponseOutput
-    {
+    public func deleteGatewayResponse(input: DeleteGatewayResponseInput) async throws -> DeleteGatewayResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1294,8 +1270,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
-    {
+    public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1342,8 +1317,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput
-    {
+    public func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1389,8 +1363,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteMethod(input: DeleteMethodInput) async throws -> DeleteMethodOutput
-    {
+    public func deleteMethod(input: DeleteMethodInput) async throws -> DeleteMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1437,8 +1410,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteMethodResponse(input: DeleteMethodResponseInput) async throws -> DeleteMethodResponseOutput
-    {
+    public func deleteMethodResponse(input: DeleteMethodResponseInput) async throws -> DeleteMethodResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1485,8 +1457,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-    {
+    public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1533,8 +1504,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteRequestValidator(input: DeleteRequestValidatorInput) async throws -> DeleteRequestValidatorOutput
-    {
+    public func deleteRequestValidator(input: DeleteRequestValidatorInput) async throws -> DeleteRequestValidatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1581,8 +1551,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
-    {
+    public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1629,8 +1598,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteRestApi(input: DeleteRestApiInput) async throws -> DeleteRestApiOutput
-    {
+    public func deleteRestApi(input: DeleteRestApiInput) async throws -> DeleteRestApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1678,8 +1646,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
-    {
+    public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1726,8 +1693,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteUsagePlan(input: DeleteUsagePlanInput) async throws -> DeleteUsagePlanOutput
-    {
+    public func deleteUsagePlan(input: DeleteUsagePlanInput) async throws -> DeleteUsagePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1774,8 +1740,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteUsagePlanKey(input: DeleteUsagePlanKeyInput) async throws -> DeleteUsagePlanKeyOutput
-    {
+    public func deleteUsagePlanKey(input: DeleteUsagePlanKeyInput) async throws -> DeleteUsagePlanKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1822,8 +1787,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput
-    {
+    public func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1871,8 +1835,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func flushStageAuthorizersCache(input: FlushStageAuthorizersCacheInput) async throws -> FlushStageAuthorizersCacheOutput
-    {
+    public func flushStageAuthorizersCache(input: FlushStageAuthorizersCacheInput) async throws -> FlushStageAuthorizersCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1920,8 +1883,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func flushStageCache(input: FlushStageCacheInput) async throws -> FlushStageCacheOutput
-    {
+    public func flushStageCache(input: FlushStageCacheInput) async throws -> FlushStageCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1968,8 +1930,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `LimitExceededException` : The request exceeded the rate limit. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func generateClientCertificate(input: GenerateClientCertificateInput) async throws -> GenerateClientCertificateOutput
-    {
+    public func generateClientCertificate(input: GenerateClientCertificateInput) async throws -> GenerateClientCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2018,8 +1979,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
-    {
+    public func getAccount(input: GetAccountInput) async throws -> GetAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2065,8 +2025,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getApiKey(input: GetApiKeyInput) async throws -> GetApiKeyOutput
-    {
+    public func getApiKey(input: GetApiKeyInput) async throws -> GetApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2113,8 +2072,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getApiKeys(input: GetApiKeysInput) async throws -> GetApiKeysOutput
-    {
+    public func getApiKeys(input: GetApiKeysInput) async throws -> GetApiKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2161,8 +2119,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput
-    {
+    public func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2208,8 +2165,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput
-    {
+    public func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2256,8 +2212,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getBasePathMapping(input: GetBasePathMappingInput) async throws -> GetBasePathMappingOutput
-    {
+    public func getBasePathMapping(input: GetBasePathMappingInput) async throws -> GetBasePathMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2303,8 +2258,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getBasePathMappings(input: GetBasePathMappingsInput) async throws -> GetBasePathMappingsOutput
-    {
+    public func getBasePathMappings(input: GetBasePathMappingsInput) async throws -> GetBasePathMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2351,8 +2305,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getClientCertificate(input: GetClientCertificateInput) async throws -> GetClientCertificateOutput
-    {
+    public func getClientCertificate(input: GetClientCertificateInput) async throws -> GetClientCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2398,8 +2351,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getClientCertificates(input: GetClientCertificatesInput) async throws -> GetClientCertificatesOutput
-    {
+    public func getClientCertificates(input: GetClientCertificatesInput) async throws -> GetClientCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2447,8 +2399,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2496,8 +2447,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-    {
+    public func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2544,8 +2494,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDocumentationPart(input: GetDocumentationPartInput) async throws -> GetDocumentationPartOutput
-    {
+    public func getDocumentationPart(input: GetDocumentationPartInput) async throws -> GetDocumentationPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2591,8 +2540,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDocumentationParts(input: GetDocumentationPartsInput) async throws -> GetDocumentationPartsOutput
-    {
+    public func getDocumentationParts(input: GetDocumentationPartsInput) async throws -> GetDocumentationPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2638,8 +2586,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDocumentationVersion(input: GetDocumentationVersionInput) async throws -> GetDocumentationVersionOutput
-    {
+    public func getDocumentationVersion(input: GetDocumentationVersionInput) async throws -> GetDocumentationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2685,8 +2632,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDocumentationVersions(input: GetDocumentationVersionsInput) async throws -> GetDocumentationVersionsOutput
-    {
+    public func getDocumentationVersions(input: GetDocumentationVersionsInput) async throws -> GetDocumentationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2733,8 +2679,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
-    {
+    public func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2780,8 +2725,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput
-    {
+    public func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2830,8 +2774,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getExport(input: GetExportInput) async throws -> GetExportOutput
-    {
+    public func getExport(input: GetExportInput) async throws -> GetExportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2879,8 +2822,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getGatewayResponse(input: GetGatewayResponseInput) async throws -> GetGatewayResponseOutput
-    {
+    public func getGatewayResponse(input: GetGatewayResponseInput) async throws -> GetGatewayResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2926,8 +2868,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getGatewayResponses(input: GetGatewayResponsesInput) async throws -> GetGatewayResponsesOutput
-    {
+    public func getGatewayResponses(input: GetGatewayResponsesInput) async throws -> GetGatewayResponsesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2974,8 +2915,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
-    {
+    public func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3021,8 +2961,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput
-    {
+    public func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3067,8 +3006,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getMethod(input: GetMethodInput) async throws -> GetMethodOutput
-    {
+    public func getMethod(input: GetMethodInput) async throws -> GetMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3113,8 +3051,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getMethodResponse(input: GetMethodResponseInput) async throws -> GetMethodResponseOutput
-    {
+    public func getMethodResponse(input: GetMethodResponseInput) async throws -> GetMethodResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3160,8 +3097,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getModel(input: GetModelInput) async throws -> GetModelOutput
-    {
+    public func getModel(input: GetModelInput) async throws -> GetModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3208,8 +3144,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput
-    {
+    public func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3255,8 +3190,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getModels(input: GetModelsInput) async throws -> GetModelsOutput
-    {
+    public func getModels(input: GetModelsInput) async throws -> GetModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3303,8 +3237,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getRequestValidator(input: GetRequestValidatorInput) async throws -> GetRequestValidatorOutput
-    {
+    public func getRequestValidator(input: GetRequestValidatorInput) async throws -> GetRequestValidatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3350,8 +3283,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getRequestValidators(input: GetRequestValidatorsInput) async throws -> GetRequestValidatorsOutput
-    {
+    public func getRequestValidators(input: GetRequestValidatorsInput) async throws -> GetRequestValidatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3397,8 +3329,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getResource(input: GetResourceInput) async throws -> GetResourceOutput
-    {
+    public func getResource(input: GetResourceInput) async throws -> GetResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3445,8 +3376,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput
-    {
+    public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3493,8 +3423,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getRestApi(input: GetRestApiInput) async throws -> GetRestApiOutput
-    {
+    public func getRestApi(input: GetRestApiInput) async throws -> GetRestApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3540,8 +3469,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getRestApis(input: GetRestApisInput) async throws -> GetRestApisOutput
-    {
+    public func getRestApis(input: GetRestApisInput) async throws -> GetRestApisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3590,8 +3518,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getSdk(input: GetSdkInput) async throws -> GetSdkOutput
-    {
+    public func getSdk(input: GetSdkInput) async throws -> GetSdkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3638,8 +3565,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getSdkType(input: GetSdkTypeInput) async throws -> GetSdkTypeOutput
-    {
+    public func getSdkType(input: GetSdkTypeInput) async throws -> GetSdkTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3685,8 +3611,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getSdkTypes(input: GetSdkTypesInput) async throws -> GetSdkTypesOutput
-    {
+    public func getSdkTypes(input: GetSdkTypesInput) async throws -> GetSdkTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3735,8 +3660,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getStage(input: GetStageInput) async throws -> GetStageOutput
-    {
+    public func getStage(input: GetStageInput) async throws -> GetStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3784,8 +3708,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getStages(input: GetStagesInput) async throws -> GetStagesOutput
-    {
+    public func getStages(input: GetStagesInput) async throws -> GetStagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3832,8 +3755,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-    {
+    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3880,8 +3802,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getUsage(input: GetUsageInput) async throws -> GetUsageOutput
-    {
+    public func getUsage(input: GetUsageInput) async throws -> GetUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3928,8 +3849,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getUsagePlan(input: GetUsagePlanInput) async throws -> GetUsagePlanOutput
-    {
+    public func getUsagePlan(input: GetUsagePlanInput) async throws -> GetUsagePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3975,8 +3895,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getUsagePlanKey(input: GetUsagePlanKeyInput) async throws -> GetUsagePlanKeyOutput
-    {
+    public func getUsagePlanKey(input: GetUsagePlanKeyInput) async throws -> GetUsagePlanKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4022,8 +3941,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getUsagePlanKeys(input: GetUsagePlanKeysInput) async throws -> GetUsagePlanKeysOutput
-    {
+    public func getUsagePlanKeys(input: GetUsagePlanKeysInput) async throws -> GetUsagePlanKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4070,8 +3988,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getUsagePlans(input: GetUsagePlansInput) async throws -> GetUsagePlansOutput
-    {
+    public func getUsagePlans(input: GetUsagePlansInput) async throws -> GetUsagePlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4118,8 +4035,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput
-    {
+    public func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4165,8 +4081,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput
-    {
+    public func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4215,8 +4130,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func importApiKeys(input: ImportApiKeysInput) async throws -> ImportApiKeysOutput
-    {
+    public func importApiKeys(input: ImportApiKeysInput) async throws -> ImportApiKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4268,8 +4182,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func importDocumentationParts(input: ImportDocumentationPartsInput) async throws -> ImportDocumentationPartsOutput
-    {
+    public func importDocumentationParts(input: ImportDocumentationPartsInput) async throws -> ImportDocumentationPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4321,8 +4234,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func importRestApi(input: ImportRestApiInput) async throws -> ImportRestApiOutput
-    {
+    public func importRestApi(input: ImportRestApiInput) async throws -> ImportRestApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4374,8 +4286,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func putGatewayResponse(input: PutGatewayResponseInput) async throws -> PutGatewayResponseOutput
-    {
+    public func putGatewayResponse(input: PutGatewayResponseInput) async throws -> PutGatewayResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4426,8 +4337,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutput
-    {
+    public func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4478,8 +4388,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func putIntegrationResponse(input: PutIntegrationResponseInput) async throws -> PutIntegrationResponseOutput
-    {
+    public func putIntegrationResponse(input: PutIntegrationResponseInput) async throws -> PutIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4530,8 +4439,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func putMethod(input: PutMethodInput) async throws -> PutMethodOutput
-    {
+    public func putMethod(input: PutMethodInput) async throws -> PutMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4582,8 +4490,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func putMethodResponse(input: PutMethodResponseInput) async throws -> PutMethodResponseOutput
-    {
+    public func putMethodResponse(input: PutMethodResponseInput) async throws -> PutMethodResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4634,8 +4541,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func putRestApi(input: PutRestApiInput) async throws -> PutRestApiOutput
-    {
+    public func putRestApi(input: PutRestApiInput) async throws -> PutRestApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4687,8 +4593,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4737,8 +4642,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutput
-    {
+    public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4787,8 +4691,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func testInvokeMethod(input: TestInvokeMethodInput) async throws -> TestInvokeMethodOutput
-    {
+    public func testInvokeMethod(input: TestInvokeMethodInput) async throws -> TestInvokeMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4839,8 +4742,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4889,8 +4791,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateAccount(input: UpdateAccountInput) async throws -> UpdateAccountOutput
-    {
+    public func updateAccount(input: UpdateAccountInput) async throws -> UpdateAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4941,8 +4842,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutput
-    {
+    public func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4993,8 +4893,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
-    {
+    public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5045,8 +4944,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateBasePathMapping(input: UpdateBasePathMappingInput) async throws -> UpdateBasePathMappingOutput
-    {
+    public func updateBasePathMapping(input: UpdateBasePathMappingInput) async throws -> UpdateBasePathMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5097,8 +4995,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateClientCertificate(input: UpdateClientCertificateInput) async throws -> UpdateClientCertificateOutput
-    {
+    public func updateClientCertificate(input: UpdateClientCertificateInput) async throws -> UpdateClientCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5150,8 +5047,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput
-    {
+    public func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5202,8 +5098,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateDocumentationPart(input: UpdateDocumentationPartInput) async throws -> UpdateDocumentationPartOutput
-    {
+    public func updateDocumentationPart(input: UpdateDocumentationPartInput) async throws -> UpdateDocumentationPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5254,8 +5149,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateDocumentationVersion(input: UpdateDocumentationVersionInput) async throws -> UpdateDocumentationVersionOutput
-    {
+    public func updateDocumentationVersion(input: UpdateDocumentationVersionInput) async throws -> UpdateDocumentationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5306,8 +5200,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
-    {
+    public func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5358,8 +5251,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateGatewayResponse(input: UpdateGatewayResponseInput) async throws -> UpdateGatewayResponseOutput
-    {
+    public func updateGatewayResponse(input: UpdateGatewayResponseInput) async throws -> UpdateGatewayResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5410,8 +5302,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput
-    {
+    public func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5462,8 +5353,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput
-    {
+    public func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5513,8 +5403,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateMethod(input: UpdateMethodInput) async throws -> UpdateMethodOutput
-    {
+    public func updateMethod(input: UpdateMethodInput) async throws -> UpdateMethodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5565,8 +5454,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateMethodResponse(input: UpdateMethodResponseInput) async throws -> UpdateMethodResponseOutput
-    {
+    public func updateMethodResponse(input: UpdateMethodResponseInput) async throws -> UpdateMethodResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5617,8 +5505,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
-    {
+    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5669,8 +5556,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateRequestValidator(input: UpdateRequestValidatorInput) async throws -> UpdateRequestValidatorOutput
-    {
+    public func updateRequestValidator(input: UpdateRequestValidatorInput) async throws -> UpdateRequestValidatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5720,8 +5606,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
-    {
+    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5772,8 +5657,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateRestApi(input: UpdateRestApiInput) async throws -> UpdateRestApiOutput
-    {
+    public func updateRestApi(input: UpdateRestApiInput) async throws -> UpdateRestApiOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5824,8 +5708,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
-    {
+    public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5876,8 +5759,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateUsage(input: UpdateUsageInput) async throws -> UpdateUsageOutput
-    {
+    public func updateUsage(input: UpdateUsageInput) async throws -> UpdateUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5928,8 +5810,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateUsagePlan(input: UpdateUsagePlanInput) async throws -> UpdateUsagePlanOutput
-    {
+    public func updateUsagePlan(input: UpdateUsagePlanInput) async throws -> UpdateUsagePlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5980,8 +5861,7 @@ extension APIGatewayClient: APIGatewayClientProtocol {
     /// - `NotFoundException` : The requested resource is not found. Make sure that the request URI is correct.
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
-    public func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutput
-    {
+    public func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -2,5 +2,5 @@
 
 import ClientRuntime
 
-extension AmpClientProtocol {
+extension AmpClient {
 }

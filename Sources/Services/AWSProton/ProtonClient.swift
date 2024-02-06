@@ -66,7 +66,7 @@ public struct ProtonClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension ProtonClient: ProtonClientProtocol {
+extension ProtonClient {
     /// Performs the `AcceptEnvironmentAccountConnection` operation on the `AwsProton20200720` service.
     ///
     /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
@@ -84,8 +84,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutput
-    {
+    public func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutput
-    {
+    public func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -194,8 +192,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutput
-    {
+    public func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -252,8 +249,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutput
-    {
+    public func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -310,8 +306,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutput
-    {
+    public func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -363,8 +358,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
-    {
+    public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +418,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -476,8 +469,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutput
-    {
+    public func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -533,8 +525,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutput
-    {
+    public func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +577,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutput
-    {
+    public func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -639,8 +629,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
-    {
+    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -692,8 +681,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
-    {
+    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -744,8 +732,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutput
-    {
+    public func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +784,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutput
-    {
+    public func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -849,8 +835,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutput
-    {
+    public func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -902,8 +887,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutput
-    {
+    public func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -955,8 +939,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutput
-    {
+    public func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1007,8 +990,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
-    {
+    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1058,8 +1040,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-    {
+    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1110,8 +1091,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1162,8 +1142,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutput
-    {
+    public func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,8 +1193,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutput
-    {
+    public func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1266,8 +1244,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutput
-    {
+    public func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1318,8 +1295,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
-    {
+    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1370,8 +1346,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
-    {
+    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1422,8 +1397,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutput
-    {
+    public func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1474,8 +1448,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutput
-    {
+    public func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1526,8 +1499,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutput
-    {
+    public func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1578,8 +1550,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutput
-    {
+    public func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1629,8 +1600,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
-    {
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1680,8 +1650,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
-    {
+    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1731,8 +1700,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1782,8 +1750,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-    {
+    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1833,8 +1800,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutput
-    {
+    public func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1884,8 +1850,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutput
-    {
+    public func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1935,8 +1900,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutput
-    {
+    public func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1986,8 +1950,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutput
-    {
+    public func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2037,8 +2000,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput
-    {
+    public func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2087,8 +2049,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutput
-    {
+    public func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2138,8 +2099,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getService(input: GetServiceInput) async throws -> GetServiceOutput
-    {
+    public func getService(input: GetServiceInput) async throws -> GetServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2189,8 +2149,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutput
-    {
+    public func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2240,8 +2199,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutput
-    {
+    public func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2291,8 +2249,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutput
-    {
+    public func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2342,8 +2299,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutput
-    {
+    public func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2393,8 +2349,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutput
-    {
+    public func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2444,8 +2399,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutput
-    {
+    public func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2495,8 +2449,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutput
-    {
+    public func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2546,8 +2499,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutput
-    {
+    public func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2597,8 +2549,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutput
-    {
+    public func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2648,8 +2599,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutput
-    {
+    public func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2698,8 +2648,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    {
+    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2749,8 +2698,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-    {
+    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2799,8 +2747,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutput
-    {
+    public func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2850,8 +2797,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutput
-    {
+    public func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2901,8 +2847,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutput
-    {
+    public func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2952,8 +2897,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutput
-    {
+    public func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3002,8 +2946,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutput
-    {
+    public func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3053,8 +2996,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3104,8 +3046,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput
-    {
+    public func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3154,8 +3095,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput
-    {
+    public func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3205,8 +3145,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutput
-    {
+    public func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3256,8 +3195,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutput
-    {
+    public func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3307,8 +3245,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutput
-    {
+    public func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3358,8 +3295,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutput
-    {
+    public func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3409,8 +3345,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutput
-    {
+    public func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3460,8 +3395,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutput
-    {
+    public func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3510,8 +3444,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutput
-    {
+    public func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3560,8 +3493,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput
-    {
+    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3611,8 +3543,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3664,8 +3595,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutput
-    {
+    public func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3716,8 +3646,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutput
-    {
+    public func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3768,8 +3697,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3820,8 +3748,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3871,8 +3798,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
-    {
+    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3924,8 +3850,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
-    {
+    public func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3977,8 +3902,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4029,8 +3953,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutput
-    {
+    public func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4081,8 +4004,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutput
-    {
+    public func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4133,8 +4055,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutput
-    {
+    public func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4186,8 +4107,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
-    {
+    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4238,8 +4158,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutput
-    {
+    public func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4291,8 +4210,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutput
-    {
+    public func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4343,8 +4261,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutput
-    {
+    public func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4395,8 +4312,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutput
-    {
+    public func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4447,8 +4363,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutput
-    {
+    public func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4499,8 +4414,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutput
-    {
+    public func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4551,8 +4465,7 @@ extension ProtonClient: ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    public func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutput
-    {
+    public func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

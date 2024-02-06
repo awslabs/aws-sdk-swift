@@ -66,7 +66,7 @@ public struct LookoutMetricsClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension LookoutMetricsClient: LookoutMetricsClientProtocol {
+extension LookoutMetricsClient {
     /// Performs the `ActivateAnomalyDetector` operation on the `LookoutMetrics` service.
     ///
     /// Activates an anomaly detector.
@@ -84,8 +84,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func activateAnomalyDetector(input: ActivateAnomalyDetectorInput) async throws -> ActivateAnomalyDetectorOutput
-    {
+    public func activateAnomalyDetector(input: ActivateAnomalyDetectorInput) async throws -> ActivateAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func backTestAnomalyDetector(input: BackTestAnomalyDetectorInput) async throws -> BackTestAnomalyDetectorOutput
-    {
+    public func backTestAnomalyDetector(input: BackTestAnomalyDetectorInput) async throws -> BackTestAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func createAlert(input: CreateAlertInput) async throws -> CreateAlertOutput
-    {
+    public func createAlert(input: CreateAlertInput) async throws -> CreateAlertOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func createAnomalyDetector(input: CreateAnomalyDetectorInput) async throws -> CreateAnomalyDetectorOutput
-    {
+    public func createAnomalyDetector(input: CreateAnomalyDetectorInput) async throws -> CreateAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func createMetricSet(input: CreateMetricSetInput) async throws -> CreateMetricSetOutput
-    {
+    public func createMetricSet(input: CreateMetricSetInput) async throws -> CreateMetricSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -340,8 +335,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func deactivateAnomalyDetector(input: DeactivateAnomalyDetectorInput) async throws -> DeactivateAnomalyDetectorOutput
-    {
+    public func deactivateAnomalyDetector(input: DeactivateAnomalyDetectorInput) async throws -> DeactivateAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -390,8 +384,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func deleteAlert(input: DeleteAlertInput) async throws -> DeleteAlertOutput
-    {
+    public func deleteAlert(input: DeleteAlertInput) async throws -> DeleteAlertOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput
-    {
+    public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func describeAlert(input: DescribeAlertInput) async throws -> DescribeAlertOutput
-    {
+    public func describeAlert(input: DescribeAlertInput) async throws -> DescribeAlertOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionExecutionsInput) async throws -> DescribeAnomalyDetectionExecutionsOutput
-    {
+    public func describeAnomalyDetectionExecutions(input: DescribeAnomalyDetectionExecutionsInput) async throws -> DescribeAnomalyDetectionExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +581,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func describeAnomalyDetector(input: DescribeAnomalyDetectorInput) async throws -> DescribeAnomalyDetectorOutput
-    {
+    public func describeAnomalyDetector(input: DescribeAnomalyDetectorInput) async throws -> DescribeAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func describeMetricSet(input: DescribeMetricSetInput) async throws -> DescribeMetricSetOutput
-    {
+    public func describeMetricSet(input: DescribeMetricSetInput) async throws -> DescribeMetricSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +679,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func detectMetricSetConfig(input: DetectMetricSetConfigInput) async throws -> DetectMetricSetConfigOutput
-    {
+    public func detectMetricSetConfig(input: DetectMetricSetConfigInput) async throws -> DetectMetricSetConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -741,8 +728,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func getAnomalyGroup(input: GetAnomalyGroupInput) async throws -> GetAnomalyGroupOutput
-    {
+    public func getAnomalyGroup(input: GetAnomalyGroupInput) async throws -> GetAnomalyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -791,8 +777,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func getDataQualityMetrics(input: GetDataQualityMetricsInput) async throws -> GetDataQualityMetricsOutput
-    {
+    public func getDataQualityMetrics(input: GetDataQualityMetricsInput) async throws -> GetDataQualityMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +826,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func getFeedback(input: GetFeedbackInput) async throws -> GetFeedbackOutput
-    {
+    public func getFeedback(input: GetFeedbackInput) async throws -> GetFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -891,8 +875,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func getSampleData(input: GetSampleDataInput) async throws -> GetSampleDataOutput
-    {
+    public func getSampleData(input: GetSampleDataInput) async throws -> GetSampleDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -941,8 +924,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput
-    {
+    public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -991,8 +973,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listAnomalyDetectors(input: ListAnomalyDetectorsInput) async throws -> ListAnomalyDetectorsOutput
-    {
+    public func listAnomalyDetectors(input: ListAnomalyDetectorsInput) async throws -> ListAnomalyDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1041,8 +1022,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listAnomalyGroupRelatedMetrics(input: ListAnomalyGroupRelatedMetricsInput) async throws -> ListAnomalyGroupRelatedMetricsOutput
-    {
+    public func listAnomalyGroupRelatedMetrics(input: ListAnomalyGroupRelatedMetricsInput) async throws -> ListAnomalyGroupRelatedMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1091,8 +1071,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listAnomalyGroupSummaries(input: ListAnomalyGroupSummariesInput) async throws -> ListAnomalyGroupSummariesOutput
-    {
+    public func listAnomalyGroupSummaries(input: ListAnomalyGroupSummariesInput) async throws -> ListAnomalyGroupSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1141,8 +1120,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput) async throws -> ListAnomalyGroupTimeSeriesOutput
-    {
+    public func listAnomalyGroupTimeSeries(input: ListAnomalyGroupTimeSeriesInput) async throws -> ListAnomalyGroupTimeSeriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1191,8 +1169,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listMetricSets(input: ListMetricSetsInput) async throws -> ListMetricSetsOutput
-    {
+    public func listMetricSets(input: ListMetricSetsInput) async throws -> ListMetricSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1239,8 +1216,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1286,8 +1262,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput
-    {
+    public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1334,8 +1309,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1382,8 +1356,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1430,8 +1403,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func updateAlert(input: UpdateAlertInput) async throws -> UpdateAlertOutput
-    {
+    public func updateAlert(input: UpdateAlertInput) async throws -> UpdateAlertOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1480,8 +1452,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ARN of the resource and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func updateAnomalyDetector(input: UpdateAnomalyDetectorInput) async throws -> UpdateAnomalyDetectorOutput
-    {
+    public func updateAnomalyDetector(input: UpdateAnomalyDetectorInput) async throws -> UpdateAnomalyDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1531,8 +1502,7 @@ extension LookoutMetricsClient: LookoutMetricsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeded the service's quotas. Check the service quotas and try again.
     /// - `TooManyRequestsException` : The request was denied due to too many requests being submitted at the same time.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-    public func updateMetricSet(input: UpdateMetricSetInput) async throws -> UpdateMetricSetOutput
-    {
+    public func updateMetricSet(input: UpdateMetricSetInput) async throws -> UpdateMetricSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

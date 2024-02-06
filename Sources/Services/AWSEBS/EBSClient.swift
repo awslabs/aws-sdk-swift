@@ -66,7 +66,7 @@ public struct EBSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension EBSClient: EBSClientProtocol {
+extension EBSClient {
     /// Performs the `CompleteSnapshot` operation on the `Ebs` service.
     ///
     /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
@@ -84,8 +84,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutput
-    {
+    public func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutput
-    {
+    public func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutput
-    {
+    public func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutput
-    {
+    public func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -280,8 +276,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutput
-    {
+    public func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension EBSClient: EBSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
-    public func startSnapshot(input: StartSnapshotInput) async throws -> StartSnapshotOutput
-    {
+    public func startSnapshot(input: StartSnapshotInput) async throws -> StartSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

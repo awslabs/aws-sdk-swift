@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension CloudWatchClientProtocol {
+extension CloudWatchClient {
 
     static func alarmExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput> {
         let acceptors: [WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>.Acceptor] = [

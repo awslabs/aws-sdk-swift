@@ -66,7 +66,7 @@ public struct MediaPackageClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension MediaPackageClient: MediaPackageClientProtocol {
+extension MediaPackageClient {
     /// Performs the `ConfigureLogs` operation on the `MediaPackage` service.
     ///
     /// Changes the Channel's properities to configure log subscription
@@ -84,8 +84,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutput
-    {
+    public func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func createHarvestJob(input: CreateHarvestJobInput) async throws -> CreateHarvestJobOutput
-    {
+    public func createHarvestJob(input: CreateHarvestJobInput) async throws -> CreateHarvestJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutput
-    {
+    public func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -288,8 +284,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -336,8 +331,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutput
-    {
+    public func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
-    {
+    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func describeHarvestJob(input: DescribeHarvestJobInput) async throws -> DescribeHarvestJobOutput
-    {
+    public func describeHarvestJob(input: DescribeHarvestJobInput) async throws -> DescribeHarvestJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func describeOriginEndpoint(input: DescribeOriginEndpointInput) async throws -> DescribeOriginEndpointOutput
-    {
+    public func describeOriginEndpoint(input: DescribeOriginEndpointInput) async throws -> DescribeOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -577,8 +567,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func listHarvestJobs(input: ListHarvestJobsInput) async throws -> ListHarvestJobsOutput
-    {
+    public func listHarvestJobs(input: ListHarvestJobsInput) async throws -> ListHarvestJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -626,8 +615,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutput
-    {
+    public func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +652,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +700,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func rotateChannelCredentials(input: RotateChannelCredentialsInput) async throws -> RotateChannelCredentialsOutput
-    {
+    public func rotateChannelCredentials(input: RotateChannelCredentialsInput) async throws -> RotateChannelCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -761,8 +747,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func rotateIngestEndpointCredentials(input: RotateIngestEndpointCredentialsInput) async throws -> RotateIngestEndpointCredentialsOutput
-    {
+    public func rotateIngestEndpointCredentials(input: RotateIngestEndpointCredentialsInput) async throws -> RotateIngestEndpointCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -798,8 +783,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +822,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -887,8 +870,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -938,8 +920,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    public func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutput
-    {
+    public func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

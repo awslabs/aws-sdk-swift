@@ -66,7 +66,7 @@ public struct MqClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension MqClient: MqClientProtocol {
+extension MqClient {
     /// Performs the `CreateBroker` operation on the `mq` service.
     ///
     /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy.
@@ -110,8 +110,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
-    public func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutput
-    {
+    public func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -160,8 +159,7 @@ extension MqClient: MqClientProtocol {
     /// - `ConflictException` : Returns information about an error.
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
-    public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput
-    {
+    public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -209,8 +207,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -259,8 +256,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -308,8 +304,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteBroker(input: DeleteBrokerInput) async throws -> DeleteBrokerOutput
-    {
+    public func deleteBroker(input: DeleteBrokerInput) async throws -> DeleteBrokerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -354,8 +349,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -401,8 +395,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -447,8 +440,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func describeBroker(input: DescribeBrokerInput) async throws -> DescribeBrokerOutput
-    {
+    public func describeBroker(input: DescribeBrokerInput) async throws -> DescribeBrokerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +484,7 @@ extension MqClient: MqClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
-    public func describeBrokerEngineTypes(input: DescribeBrokerEngineTypesInput) async throws -> DescribeBrokerEngineTypesOutput
-    {
+    public func describeBrokerEngineTypes(input: DescribeBrokerEngineTypesInput) async throws -> DescribeBrokerEngineTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +529,7 @@ extension MqClient: MqClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
-    public func describeBrokerInstanceOptions(input: DescribeBrokerInstanceOptionsInput) async throws -> DescribeBrokerInstanceOptionsOutput
-    {
+    public func describeBrokerInstanceOptions(input: DescribeBrokerInstanceOptionsInput) async throws -> DescribeBrokerInstanceOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -585,8 +575,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutput
-    {
+    public func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -631,8 +620,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput
-    {
+    public func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -677,8 +665,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    {
+    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -722,8 +709,7 @@ extension MqClient: MqClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
-    public func listBrokers(input: ListBrokersInput) async throws -> ListBrokersOutput
-    {
+    public func listBrokers(input: ListBrokersInput) async throws -> ListBrokersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,8 +755,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutput
-    {
+    public func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -815,8 +800,7 @@ extension MqClient: MqClientProtocol {
     /// - `BadRequestException` : Returns information about an error.
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
-    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput
-    {
+    public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -862,8 +846,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -908,8 +891,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -955,8 +937,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func promote(input: PromoteInput) async throws -> PromoteOutput
-    {
+    public func promote(input: PromoteInput) async throws -> PromoteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1004,8 +985,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutput
-    {
+    public func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1051,8 +1031,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func updateBroker(input: UpdateBrokerInput) async throws -> UpdateBrokerOutput
-    {
+    public func updateBroker(input: UpdateBrokerInput) async throws -> UpdateBrokerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1080,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
-    {
+    public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1151,8 +1129,7 @@ extension MqClient: MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

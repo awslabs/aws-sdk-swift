@@ -66,7 +66,7 @@ public struct AlexaForBusinessClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
+extension AlexaForBusinessClient {
     /// Performs the `ApproveSkill` operation on the `AlexaForBusiness` service.
     ///
     /// Associates a skill with the organization under the customer's AWS account. If a skill is private, the user implicitly accepts access to this skill during enablement.
@@ -82,8 +82,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    public func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutput
-    {
+    public func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutput
-    {
+    public func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `NotFoundException` : The resource is not found.
-    public func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutput
-    {
+    public func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutput
-    {
+    public func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutput
-    {
+    public func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
     /// - `SkillNotLinkedException` : The skill must be linked to a third-party account.
-    public func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutput
-    {
+    public func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutput
-    {
+    public func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutput
-    {
+    public func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
-    public func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutput
-    {
+    public func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -524,8 +515,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
-    public func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutput
-    {
+    public func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,8 +564,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput
-    {
+    public func createContact(input: CreateContactInput) async throws -> CreateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +613,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutput
-    {
+    public func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -677,8 +665,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `InvalidCertificateAuthorityException` : The Certificate Authority can't issue or revoke a certificate.
     /// - `InvalidServiceLinkedRoleStateException` : The service linked role is locked for deletion.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput
-    {
+    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -728,8 +715,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
-    {
+    public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput
-    {
+    public func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -829,8 +814,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutput
-    {
+    public func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -880,8 +864,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `ResourceInUseException` : The resource in the request is already in use.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +913,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutput
-    {
+    public func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +961,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutput
-    {
+    public func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1027,8 +1008,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutput
-    {
+    public func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1076,8 +1056,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
-    {
+    public func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1126,8 +1105,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `InvalidCertificateAuthorityException` : The Certificate Authority can't issue or revoke a certificate.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
-    {
+    public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1176,8 +1154,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutput
-    {
+    public func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1224,8 +1201,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceAssociatedException` : Another resource is associated with the resource in the request.
-    public func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutput
-    {
+    public func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1274,8 +1250,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
     /// - `ResourceInUseException` : The resource in the request is already in use.
-    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput
-    {
+    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1323,8 +1298,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
-    {
+    public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1372,8 +1346,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput
-    {
+    public func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1420,8 +1393,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutput
-    {
+    public func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1469,8 +1441,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutput
-    {
+    public func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1518,8 +1489,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutput
-    {
+    public func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1567,8 +1537,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1610,8 +1579,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter DisassociateContactFromAddressBookInput : [no documentation found]
     ///
     /// - Returns: `DisassociateContactFromAddressBookOutput` : [no documentation found]
-    public func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutput
-    {
+    public func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1659,8 +1627,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
-    public func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutput
-    {
+    public func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1708,8 +1675,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutput
-    {
+    public func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1757,8 +1723,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutput
-    {
+    public func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1805,8 +1770,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutput
-    {
+    public func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1853,8 +1817,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutput
-    {
+    public func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1901,8 +1864,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutput
-    {
+    public func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1949,8 +1911,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutput
-    {
+    public func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1997,8 +1958,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutput
-    {
+    public func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2045,8 +2005,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getContact(input: GetContactInput) async throws -> GetContactOutput
-    {
+    public func getContact(input: GetContactInput) async throws -> GetContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2093,8 +2052,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
-    {
+    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2141,8 +2099,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput
-    {
+    public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2189,8 +2146,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutput
-    {
+    public func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2237,8 +2193,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutput
-    {
+    public func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2286,8 +2241,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidSecretsManagerResourceException` : A password in SecretsManager is in an invalid state.
     /// - `NotFoundException` : The resource is not found.
-    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput
-    {
+    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2334,8 +2288,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
-    {
+    public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2382,8 +2335,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getRoom(input: GetRoomInput) async throws -> GetRoomOutput
-    {
+    public func getRoom(input: GetRoomInput) async throws -> GetRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2430,8 +2382,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutput
-    {
+    public func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2478,8 +2429,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutput
-    {
+    public func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2521,8 +2471,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListBusinessReportSchedulesInput : [no documentation found]
     ///
     /// - Returns: `ListBusinessReportSchedulesOutput` : [no documentation found]
-    public func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutput
-    {
+    public func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2564,8 +2513,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListConferenceProvidersInput : [no documentation found]
     ///
     /// - Returns: `ListConferenceProvidersOutput` : [no documentation found]
-    public func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutput
-    {
+    public func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2612,8 +2560,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput
-    {
+    public func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2655,8 +2602,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListGatewayGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListGatewayGroupsOutput` : [no documentation found]
-    public func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutput
-    {
+    public func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2698,8 +2644,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListGatewaysInput : [no documentation found]
     ///
     /// - Returns: `ListGatewaysOutput` : [no documentation found]
-    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
-    {
+    public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2741,8 +2686,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListSkillsInput : [no documentation found]
     ///
     /// - Returns: `ListSkillsOutput` : [no documentation found]
-    public func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutput
-    {
+    public func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2784,8 +2728,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListSkillsStoreCategoriesInput : [no documentation found]
     ///
     /// - Returns: `ListSkillsStoreCategoriesOutput` : [no documentation found]
-    public func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutput
-    {
+    public func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2827,8 +2770,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter ListSkillsStoreSkillsByCategoryInput : [no documentation found]
     ///
     /// - Returns: `ListSkillsStoreSkillsByCategoryOutput` : [no documentation found]
-    public func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutput
-    {
+    public func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2875,8 +2817,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutput
-    {
+    public func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2923,8 +2864,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2971,8 +2911,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutput
-    {
+    public func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3020,8 +2959,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutput
-    {
+    public func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3068,8 +3006,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    public func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutput
-    {
+    public func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3117,8 +3054,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `UnauthorizedException` : The caller has no permissions to operate on the resource involved in the API call.
-    public func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutput
-    {
+    public func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3168,8 +3104,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `InvalidDeviceException` : The device is in an invalid state.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    public func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutput
-    {
+    public func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3217,8 +3152,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutput
-    {
+    public func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3265,8 +3199,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutput
-    {
+    public func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3314,8 +3247,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutput
-    {
+    public func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3357,8 +3289,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchAddressBooksInput : [no documentation found]
     ///
     /// - Returns: `SearchAddressBooksOutput` : [no documentation found]
-    public func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutput
-    {
+    public func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3400,8 +3331,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchContactsInput : [no documentation found]
     ///
     /// - Returns: `SearchContactsOutput` : [no documentation found]
-    public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput
-    {
+    public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3443,8 +3373,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchDevicesInput : [no documentation found]
     ///
     /// - Returns: `SearchDevicesOutput` : [no documentation found]
-    public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput
-    {
+    public func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3486,8 +3415,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchNetworkProfilesInput : [no documentation found]
     ///
     /// - Returns: `SearchNetworkProfilesOutput` : [no documentation found]
-    public func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutput
-    {
+    public func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3529,8 +3457,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchProfilesInput : [no documentation found]
     ///
     /// - Returns: `SearchProfilesOutput` : [no documentation found]
-    public func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutput
-    {
+    public func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3572,8 +3499,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchRoomsInput : [no documentation found]
     ///
     /// - Returns: `SearchRoomsOutput` : [no documentation found]
-    public func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutput
-    {
+    public func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3615,8 +3541,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchSkillGroupsInput : [no documentation found]
     ///
     /// - Returns: `SearchSkillGroupsOutput` : [no documentation found]
-    public func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutput
-    {
+    public func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3658,8 +3583,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - Parameter SearchUsersInput : [no documentation found]
     ///
     /// - Returns: `SearchUsersOutput` : [no documentation found]
-    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput
-    {
+    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3706,8 +3630,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    public func sendAnnouncement(input: SendAnnouncementInput) async throws -> SendAnnouncementOutput
-    {
+    public func sendAnnouncement(input: SendAnnouncementInput) async throws -> SendAnnouncementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3757,8 +3680,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `InvalidUserStatusException` : The attempt to update a user is invalid due to the user's current status.
     /// - `NotFoundException` : The resource is not found.
-    public func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutput
-    {
+    public func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3815,8 +3737,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
-    public func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutput
-    {
+    public func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3863,8 +3784,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutput
-    {
+    public func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3911,8 +3831,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3959,8 +3878,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4009,8 +3927,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutput
-    {
+    public func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4058,8 +3975,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutput
-    {
+    public func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4106,8 +4022,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    public func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutput
-    {
+    public func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4155,8 +4070,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
-    {
+    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4205,8 +4119,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `NotFoundException` : The resource is not found.
-    public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput
-    {
+    public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4254,8 +4167,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutput
-    {
+    public func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4303,8 +4215,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutput
-    {
+    public func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4355,8 +4266,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `InvalidSecretsManagerResourceException` : A password in SecretsManager is in an invalid state.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput
-    {
+    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4405,8 +4315,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
-    {
+    public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4454,8 +4363,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput
-    {
+    public func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4504,8 +4412,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    public func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutput
-    {
+    public func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

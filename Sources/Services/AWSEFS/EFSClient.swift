@@ -66,7 +66,7 @@ public struct EFSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension EFSClient: EFSClientProtocol {
+extension EFSClient {
     /// Performs the `CreateAccessPoint` operation on the `MagnolioAPIService_v20150201` service.
     ///
     /// Creates an EFS access point. An access point is an application-specific view into an EFS file system that applies an operating system user and group, and a file system path, to any file system request made through the access point. The operating system user and group override any identity information provided by the NFS client. The file system path is exposed as the access point's root directory. Applications using the access point can only access data in the application's own directory and any subdirectories. To learn more, see [Mounting a file system using EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html). If multiple requests to create access points on the same file system are sent in quick succession, and the file system is near the limit of 1,000 access points, you may experience a throttling response for these requests. This is to ensure that the file system does not exceed the stated access point limit. This operation requires permissions for the elasticfilesystem:CreateAccessPoint action. Access points can be tagged on creation. If tags are specified in the creation action, IAM performs additional authorization on the elasticfilesystem:TagResource action to verify if users have permissions to create tags. Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource action. For more information, see [Granting permissions to tag resources during creation](https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html).
@@ -85,8 +85,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `ThrottlingException` : Returned when the CreateAccessPoint API action is called too quickly and the number of Access Points on the file system is nearing the [limit of 120](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region).
-    public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput
-    {
+    public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -145,8 +144,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
     /// - `UnsupportedAvailabilityZone` : Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
-    public func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutput
-    {
+    public func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -256,8 +254,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `SecurityGroupNotFound` : Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
     /// - `SubnetNotFound` : Returned if there is no subnet with ID SubnetId provided in the request.
     /// - `UnsupportedAvailabilityZone` : Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
-    public func createMountTarget(input: CreateMountTargetInput) async throws -> CreateMountTargetOutput
-    {
+    public func createMountTarget(input: CreateMountTargetInput) async throws -> CreateMountTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +341,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
     /// - `UnsupportedAvailabilityZone` : Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
     /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
-    public func createReplicationConfiguration(input: CreateReplicationConfigurationInput) async throws -> CreateReplicationConfigurationOutput
-    {
+    public func createReplicationConfiguration(input: CreateReplicationConfigurationInput) async throws -> CreateReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +389,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +436,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput
-    {
+    public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -487,8 +481,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `FileSystemInUse` : Returned if a file system has mount targets.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutput
-    {
+    public func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -533,8 +526,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func deleteFileSystemPolicy(input: DeleteFileSystemPolicyInput) async throws -> DeleteFileSystemPolicyOutput
-    {
+    public func deleteFileSystemPolicy(input: DeleteFileSystemPolicyInput) async throws -> DeleteFileSystemPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +578,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `DependencyTimeout` : The service timed out trying to fulfill the request, and the client should try the call again.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
-    public func deleteMountTarget(input: DeleteMountTargetInput) async throws -> DeleteMountTargetOutput
-    {
+    public func deleteMountTarget(input: DeleteMountTargetInput) async throws -> DeleteMountTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,8 +623,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `ReplicationNotFound` : Returned if the specified file system does not have a replication configuration.
-    public func deleteReplicationConfiguration(input: DeleteReplicationConfigurationInput) async throws -> DeleteReplicationConfigurationOutput
-    {
+    public func deleteReplicationConfiguration(input: DeleteReplicationConfigurationInput) async throws -> DeleteReplicationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -678,8 +668,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +716,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func describeAccessPoints(input: DescribeAccessPointsInput) async throws -> DescribeAccessPointsOutput
-    {
+    public func describeAccessPoints(input: DescribeAccessPointsInput) async throws -> DescribeAccessPointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -771,8 +759,7 @@ extension EFSClient: EFSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func describeAccountPreferences(input: DescribeAccountPreferencesInput) async throws -> DescribeAccountPreferencesOutput
-    {
+    public func describeAccountPreferences(input: DescribeAccountPreferencesInput) async throws -> DescribeAccountPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -821,8 +808,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `PolicyNotFound` : Returned if the default file system policy is in effect for the EFS file system specified.
     /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
-    public func describeBackupPolicy(input: DescribeBackupPolicyInput) async throws -> DescribeBackupPolicyOutput
-    {
+    public func describeBackupPolicy(input: DescribeBackupPolicyInput) async throws -> DescribeBackupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -867,8 +853,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `PolicyNotFound` : Returned if the default file system policy is in effect for the EFS file system specified.
-    public func describeFileSystemPolicy(input: DescribeFileSystemPolicyInput) async throws -> DescribeFileSystemPolicyOutput
-    {
+    public func describeFileSystemPolicy(input: DescribeFileSystemPolicyInput) async throws -> DescribeFileSystemPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -912,8 +897,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func describeFileSystems(input: DescribeFileSystemsInput) async throws -> DescribeFileSystemsOutput
-    {
+    public func describeFileSystems(input: DescribeFileSystemsInput) async throws -> DescribeFileSystemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -958,8 +942,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func describeLifecycleConfiguration(input: DescribeLifecycleConfigurationInput) async throws -> DescribeLifecycleConfigurationOutput
-    {
+    public func describeLifecycleConfiguration(input: DescribeLifecycleConfigurationInput) async throws -> DescribeLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1008,8 +991,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `IncorrectMountTargetState` : Returned if the mount target is not in the correct state for the operation.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
-    public func describeMountTargetSecurityGroups(input: DescribeMountTargetSecurityGroupsInput) async throws -> DescribeMountTargetSecurityGroupsOutput
-    {
+    public func describeMountTargetSecurityGroups(input: DescribeMountTargetSecurityGroupsInput) async throws -> DescribeMountTargetSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1055,8 +1037,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
-    public func describeMountTargets(input: DescribeMountTargetsInput) async throws -> DescribeMountTargetsOutput
-    {
+    public func describeMountTargets(input: DescribeMountTargetsInput) async throws -> DescribeMountTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1084,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `ReplicationNotFound` : Returned if the specified file system does not have a replication configuration.
     /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
-    public func describeReplicationConfigurations(input: DescribeReplicationConfigurationsInput) async throws -> DescribeReplicationConfigurationsOutput
-    {
+    public func describeReplicationConfigurations(input: DescribeReplicationConfigurationsInput) async throws -> DescribeReplicationConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1150,8 +1130,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1197,8 +1176,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1250,8 +1228,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     /// - `SecurityGroupLimitExceeded` : Returned if the size of SecurityGroups specified in the request is greater than five.
     /// - `SecurityGroupNotFound` : Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
-    public func modifyMountTargetSecurityGroups(input: ModifyMountTargetSecurityGroupsInput) async throws -> ModifyMountTargetSecurityGroupsOutput
-    {
+    public func modifyMountTargetSecurityGroups(input: ModifyMountTargetSecurityGroupsInput) async throws -> ModifyMountTargetSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1297,8 +1274,7 @@ extension EFSClient: EFSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func putAccountPreferences(input: PutAccountPreferencesInput) async throws -> PutAccountPreferencesOutput
-    {
+    public func putAccountPreferences(input: PutAccountPreferencesInput) async throws -> PutAccountPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1347,8 +1323,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
-    public func putBackupPolicy(input: PutBackupPolicyInput) async throws -> PutBackupPolicyOutput
-    {
+    public func putBackupPolicy(input: PutBackupPolicyInput) async throws -> PutBackupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1397,8 +1372,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `InvalidPolicyException` : Returned if the FileSystemPolicy is malformed or contains an error such as a parameter value that is not valid or a missing required parameter. Returned in the case of a policy lockout safety check error.
-    public func putFileSystemPolicy(input: PutFileSystemPolicyInput) async throws -> PutFileSystemPolicyOutput
-    {
+    public func putFileSystemPolicy(input: PutFileSystemPolicyInput) async throws -> PutFileSystemPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1465,8 +1439,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func putLifecycleConfiguration(input: PutLifecycleConfigurationInput) async throws -> PutLifecycleConfigurationOutput
-    {
+    public func putLifecycleConfiguration(input: PutLifecycleConfigurationInput) async throws -> PutLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1514,8 +1487,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1563,8 +1535,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1613,8 +1584,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
     /// - `TooManyRequests` : Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
-    public func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutput
-    {
+    public func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1666,8 +1636,7 @@ extension EFSClient: EFSClientProtocol {
     /// - `ReplicationAlreadyExists` : Returned if the file system is already included in a replication configuration.>
     /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
     /// - `TooManyRequests` : Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
-    public func updateFileSystemProtection(input: UpdateFileSystemProtectionInput) async throws -> UpdateFileSystemProtectionOutput
-    {
+    public func updateFileSystemProtection(input: UpdateFileSystemProtectionInput) async throws -> UpdateFileSystemProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
