@@ -223,7 +223,7 @@ extension AWSClientConfiguration {
         let resolvedAppID = AppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
-            authSchemes,
+            resolvedAuthSchemes,
             endpoint,
             serviceSpecific,
             resolvedRegion,
@@ -282,7 +282,7 @@ extension AWSClientConfiguration {
         let resolvedAppID = AppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
-            authSchemes,
+            resolvedAuthSchemes,
             endpoint,
             serviceSpecific,
             region,
