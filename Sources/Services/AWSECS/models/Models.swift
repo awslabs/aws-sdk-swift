@@ -1837,7 +1837,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 <<<<<<< HEAD
 =======
         /// Message that describes the cause of the exception.
->>>>>>> main
+>>>>>>> temp-main
         public internal(set) var message: Swift.String? = nil
         /// The existing task ARNs which are already associated with the clientToken.
         public internal(set) var resourceIds: [Swift.String]? = nil
@@ -15394,7 +15394,7 @@ struct RunTaskInputBody: Swift.Equatable {
 <<<<<<< HEAD
 =======
     let volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
->>>>>>> main
+>>>>>>> temp-main
 }
 
 extension RunTaskInputBody: Swift.Decodable {
@@ -15507,7 +15507,7 @@ extension RunTaskInputBody: Swift.Decodable {
             }
         }
         volumeConfigurations = volumeConfigurationsDecoded0
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -17596,7 +17596,7 @@ extension StartTaskInputBody: Swift.Decodable {
             }
         }
         volumeConfigurations = volumeConfigurationsDecoded0
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -17680,7 +17680,7 @@ enum StartTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
 <<<<<<< HEAD
 =======
             case "UnsupportedFeatureException": return try await UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

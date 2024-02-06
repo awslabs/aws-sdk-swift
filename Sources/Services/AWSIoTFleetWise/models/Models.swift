@@ -10454,7 +10454,7 @@ extension IoTFleetWiseClientTypes {
 <<<<<<< HEAD
         case customerDecodedSignal
 =======
->>>>>>> main
+>>>>>>> temp-main
         case messageSignal
         case obdSignal
         case sdkUnknown(Swift.String)
@@ -10465,7 +10465,7 @@ extension IoTFleetWiseClientTypes {
 <<<<<<< HEAD
                 .customerDecodedSignal,
 =======
->>>>>>> main
+>>>>>>> temp-main
                 .messageSignal,
                 .obdSignal,
                 .sdkUnknown("")
@@ -10481,7 +10481,7 @@ extension IoTFleetWiseClientTypes {
 <<<<<<< HEAD
             case .customerDecodedSignal: return "CUSTOMER_DECODED_SIGNAL"
 =======
->>>>>>> main
+>>>>>>> temp-main
             case .messageSignal: return "MESSAGE_SIGNAL"
             case .obdSignal: return "OBD_SIGNAL"
             case let .sdkUnknown(s): return s

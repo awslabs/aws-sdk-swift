@@ -321,7 +321,7 @@ extension PaginatorSequence where OperationStackInput == ListInsightsInput, Oper
     }
 }
 extension EKSClient {
->>>>>>> main
+>>>>>>> temp-main
     /// Paginate over `[ListNodegroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

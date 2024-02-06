@@ -28,7 +28,7 @@ public class RepostspaceClient {
         modeledAuthSchemes.append(SigV4AuthScheme())
         config.authSchemes = config.authSchemes ?? modeledAuthSchemes
 =======
->>>>>>> main
+>>>>>>> temp-main
         self.config = config
     }
 
@@ -67,7 +67,7 @@ extension RepostspaceClient {
 
         public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
->>>>>>> main
+>>>>>>> temp-main
         }
     }
 }
@@ -123,7 +123,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -137,7 +137,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 <<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateSpaceOutput, CreateSpaceOutputError>())
 =======
->>>>>>> main
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSpaceInput, CreateSpaceOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSpaceInput, CreateSpaceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -147,7 +147,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 =======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSpaceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSpaceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSpaceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -189,7 +189,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -208,7 +208,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSpaceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSpaceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSpaceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSpaceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -250,7 +250,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -269,7 +269,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterAdminOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterAdminOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterAdminOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeregisterAdminOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterAdminOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -311,7 +311,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -330,7 +330,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSpaceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSpaceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSpaceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpaceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -371,7 +371,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -392,7 +392,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpacesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpacesOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpacesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSpacesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSpacesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -434,7 +434,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -453,7 +453,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -495,7 +495,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -514,7 +514,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterAdminOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAdminOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAdminOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegisterAdminOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterAdminOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -556,7 +556,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -570,7 +570,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 <<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SendInvitesOutput, SendInvitesOutputError>())
 =======
->>>>>>> main
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendInvitesInput, SendInvitesOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendInvitesInput, SendInvitesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -580,7 +580,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 =======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendInvitesOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendInvitesOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendInvitesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendInvitesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -622,7 +622,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -636,7 +636,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 <<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput, TagResourceOutputError>())
 =======
->>>>>>> main
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -646,7 +646,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 =======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -688,7 +688,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -709,7 +709,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -752,7 +752,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
                       .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
 =======
                       .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> main
+>>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "repostspace")
                       .withSigningRegion(value: config.signingRegion)
@@ -766,7 +766,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 <<<<<<< HEAD
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSpaceOutput, UpdateSpaceOutputError>())
 =======
->>>>>>> main
+>>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSpaceInput, UpdateSpaceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -776,7 +776,7 @@ extension RepostspaceClient: RepostspaceClientProtocol {
 =======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSpaceOutput>(config: sigv4Config))
->>>>>>> main
+>>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSpaceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSpaceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

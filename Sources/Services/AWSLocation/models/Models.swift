@@ -4363,7 +4363,7 @@ extension DeleteKeyInput: ClientRuntime.QueryItemProvider {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension DeleteKeyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let keyName = keyName else {
@@ -10305,7 +10305,7 @@ extension LocationClientTypes {
         /// An area that's part of a larger municipality. For example, Blissville  is a submunicipality in the Queen County in New York. This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
 =======
         /// An area that's part of a larger municipality. For example, Blissville is a submunicipality in the Queen County in New York. This property is only returned for a place index that uses Esri as a data provider. The property is represented as a district. For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
->>>>>>> main
+>>>>>>> temp-main
         public var subMunicipality: Swift.String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public var subRegion: Swift.String?

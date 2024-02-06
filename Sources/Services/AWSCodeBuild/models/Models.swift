@@ -3097,7 +3097,7 @@ extension CodeBuildClientTypes {
 <<<<<<< HEAD
 =======
         case buildGeneral1Xlarge
->>>>>>> main
+>>>>>>> temp-main
         case buildLambda10gb
         case buildLambda1gb
         case buildLambda2gb
@@ -3114,7 +3114,7 @@ extension CodeBuildClientTypes {
 <<<<<<< HEAD
 =======
                 .buildGeneral1Xlarge,
->>>>>>> main
+>>>>>>> temp-main
                 .buildLambda10gb,
                 .buildLambda1gb,
                 .buildLambda2gb,
@@ -3136,7 +3136,7 @@ extension CodeBuildClientTypes {
 <<<<<<< HEAD
 =======
             case .buildGeneral1Xlarge: return "BUILD_GENERAL1_XLARGE"
->>>>>>> main
+>>>>>>> temp-main
             case .buildLambda10gb: return "BUILD_LAMBDA_10GB"
             case .buildLambda1gb: return "BUILD_LAMBDA_1GB"
             case .buildLambda2gb: return "BUILD_LAMBDA_2GB"

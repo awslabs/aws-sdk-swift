@@ -1495,7 +1495,7 @@ public protocol RDSClientProtocol {
     /// - `InvalidResourceStateFault` : The operation can't be performed because another operation is in progress.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     func disableHttpEndpoint(input: DisableHttpEndpointInput) async throws -> DisableHttpEndpointOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `DownloadDBLogFilePortion` operation on the `AmazonRDSv19` service.
     ///
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
@@ -1526,7 +1526,7 @@ public protocol RDSClientProtocol {
     /// - `InvalidResourceStateFault` : The operation can't be performed because another operation is in progress.
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     func enableHttpEndpoint(input: EnableHttpEndpointInput) async throws -> EnableHttpEndpointOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `FailoverDBCluster` operation on the `AmazonRDSv19` service.
     ///
     /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, failover for a DB cluster promotes one of the readable standby DB instances (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists, when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby DB instance when the primary DB instance fails. To simulate a failure of a primary instance for testing, you can force a failover. Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.

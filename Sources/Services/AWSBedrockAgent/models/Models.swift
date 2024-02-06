@@ -5937,7 +5937,7 @@ extension BedrockAgentClientTypes {
 <<<<<<< HEAD
 =======
         case rds
->>>>>>> main
+>>>>>>> temp-main
         case redisEnterpriseCloud
         case sdkUnknown(Swift.String)
 
@@ -5948,7 +5948,7 @@ extension BedrockAgentClientTypes {
 <<<<<<< HEAD
 =======
                 .rds,
->>>>>>> main
+>>>>>>> temp-main
                 .redisEnterpriseCloud,
                 .sdkUnknown("")
             ]
@@ -5964,7 +5964,7 @@ extension BedrockAgentClientTypes {
 <<<<<<< HEAD
 =======
             case .rds: return "RDS"
->>>>>>> main
+>>>>>>> temp-main
             case .redisEnterpriseCloud: return "REDIS_ENTERPRISE_CLOUD"
             case let .sdkUnknown(s): return s
             }
@@ -8096,7 +8096,7 @@ extension BedrockAgentClientTypes {
 
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentialsSecretArn
@@ -8647,7 +8647,7 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
 <<<<<<< HEAD
 =======
         case rdsConfiguration
->>>>>>> main
+>>>>>>> temp-main
         case redisEnterpriseCloudConfiguration
         case type
     }
@@ -8665,7 +8665,7 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
         if let rdsConfiguration = self.rdsConfiguration {
             try encodeContainer.encode(rdsConfiguration, forKey: .rdsConfiguration)
         }
->>>>>>> main
+>>>>>>> temp-main
         if let redisEnterpriseCloudConfiguration = self.redisEnterpriseCloudConfiguration {
             try encodeContainer.encode(redisEnterpriseCloudConfiguration, forKey: .redisEnterpriseCloudConfiguration)
         }
@@ -8688,7 +8688,7 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
 =======
         let rdsConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RdsConfiguration.self, forKey: .rdsConfiguration)
         rdsConfiguration = rdsConfigurationDecoded
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -8703,7 +8703,7 @@ extension BedrockAgentClientTypes {
 =======
         /// Contains the configurations to use RDS to store knowledge base data.
         public var rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration?
->>>>>>> main
+>>>>>>> temp-main
         /// Contains the configurations to use Redis Enterprise Cloud to store knowledge base data.
         public var redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration?
         /// The storage type of a knowledge base.
@@ -8716,7 +8716,7 @@ extension BedrockAgentClientTypes {
 <<<<<<< HEAD
 =======
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
->>>>>>> main
+>>>>>>> temp-main
             redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration? = nil,
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         )
@@ -8726,7 +8726,7 @@ extension BedrockAgentClientTypes {
 <<<<<<< HEAD
 =======
             self.rdsConfiguration = rdsConfiguration
->>>>>>> main
+>>>>>>> temp-main
             self.redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfiguration
             self.type = type
         }

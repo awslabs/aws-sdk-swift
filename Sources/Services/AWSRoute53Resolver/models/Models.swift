@@ -2622,7 +2622,7 @@ extension DeleteFirewallRuleOutputBody: Swift.Decodable {
 }
 
 =======
->>>>>>> main
+>>>>>>> temp-main
 enum DeleteFirewallRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)

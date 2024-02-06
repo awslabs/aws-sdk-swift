@@ -1651,7 +1651,7 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Equatab
     /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to to access data managed by Lake Formation.
 =======
     /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
->>>>>>> main
+>>>>>>> temp-main
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
     /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
@@ -5615,7 +5615,7 @@ extension GetTemporaryGlueTableCredentialsOutputBody: Swift.Decodable {
 }
 
 =======
->>>>>>> main
+>>>>>>> temp-main
 enum GetTemporaryGlueTableCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)

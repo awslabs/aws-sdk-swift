@@ -783,7 +783,7 @@ extension PaymentCryptographyClientTypes {
 
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension ExportKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportAttributes = "ExportAttributes"
@@ -905,7 +905,7 @@ extension PaymentCryptographyClientTypes {
     /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
 =======
     /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
->>>>>>> main
+>>>>>>> temp-main
     public enum ExportKeyMaterial: Swift.Equatable {
         /// Parameter information for key material export using symmetric TR-31 key exchange method.
         case tr31keyblock(PaymentCryptographyClientTypes.ExportTr31KeyBlock)
@@ -935,7 +935,7 @@ public struct ExportKeyOutput: Swift.Equatable {
     /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock.
 =======
     /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock. or a RSA WrappedKeyCryptogram.
->>>>>>> main
+>>>>>>> temp-main
     public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 
     public init(
@@ -1512,7 +1512,7 @@ public struct GetParametersForImportInput: Swift.Equatable {
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
     /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048, RSA_3072, RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import.
->>>>>>> main
+>>>>>>> temp-main
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
@@ -1582,7 +1582,7 @@ public struct GetParametersForImportOutput: Swift.Equatable {
     /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock.
 =======
     /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock or RSA WrappedKeyCryptogram.
->>>>>>> main
+>>>>>>> temp-main
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
     /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
@@ -1782,7 +1782,7 @@ enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding 
 }
 
 extension PaymentCryptographyClientTypes.ImportKeyCryptogram: Swift.Codable {
->>>>>>> main
+>>>>>>> temp-main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportable = "Exportable"
         case importToken = "ImportToken"
@@ -1875,7 +1875,7 @@ extension PaymentCryptographyClientTypes {
         }
     }
 
->>>>>>> main
+>>>>>>> temp-main
 }
 
 extension ImportKeyInput: Swift.Encodable {
@@ -2038,7 +2038,7 @@ extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
 =======
     /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
->>>>>>> main
+>>>>>>> temp-main
     public enum ImportKeyMaterial: Swift.Equatable {
         /// Parameter information for root public key certificate import.
         case rootcertificatepublickey(PaymentCryptographyClientTypes.RootCertificatePublicKey)

@@ -172,7 +172,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// * To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.
     ///
     /// * To delete a subscription filter policy, you must have the logs:DeleteSubscriptionFilter and logs:DeleteAccountPolicy permissions.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter DeleteAccountPolicyInput : [no documentation found]
     ///
@@ -885,7 +885,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     ///
     /// Each account can have one account-level subscription filter policy. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter PutAccountPolicyInput : [no documentation found]
     ///
@@ -1177,7 +1177,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// You can end a session before it times out by closing the session stream or by closing the client that is receiving the stream. The session also ends if the established connection between the client and the server breaks.
 =======
     /// You can end a session before it times out by closing the session stream or by closing the client that is receiving the stream. The session also ends if the established connection between the client and the server breaks. For examples of using an SDK to start a Live Tail session, see [ Start a Live Tail session using an Amazon Web Services SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html).
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter StartLiveTailInput : [no documentation found]
     ///

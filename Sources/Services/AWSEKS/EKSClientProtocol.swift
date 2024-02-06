@@ -461,7 +461,7 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `DescribeNodegroup` operation on the `AWSWesleyFrontend` service.
     ///
     /// Describes a managed node group.
@@ -688,7 +688,7 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `ListNodegroups` operation on the `AWSWesleyFrontend` service.
     ///
     /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.

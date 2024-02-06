@@ -255,7 +255,7 @@ public protocol WorkSpacesClientProtocol {
     ///
     /// * Ensure you review your running mode to ensure you are using a running mode that is optimal for your needs and budget. For more information on switching running modes, see [ Can I switch between hourly and monthly billing?](https://aws.amazon.com/workspaces/faqs/#:~:text=Q%3A%20Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%3F)
 =======
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateWorkspacesInput : [no documentation found]
     ///
@@ -993,7 +993,7 @@ public protocol WorkSpacesClientProtocol {
     /// Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE or UNHEALTHY. This operation is asynchronous and returns before the WorkSpaces have rebooted.
 =======
     /// Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE, UNHEALTHY, or REBOOTING. Reboot a WorkSpace in the REBOOTING state only if your WorkSpace has been stuck in the REBOOTING state for over 20 minutes. This operation is asynchronous and returns before the WorkSpaces have rebooted.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter RebootWorkspacesInput : [no documentation found]
     ///

@@ -391,7 +391,7 @@ public protocol GlueClientProtocol {
     /// Creates a connection definition in the Data Catalog.
 =======
     /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
     ///

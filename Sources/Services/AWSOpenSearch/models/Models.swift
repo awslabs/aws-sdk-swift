@@ -2930,7 +2930,7 @@ public struct CreateDomainInput: Swift.Equatable {
     /// The type of IP addresses supported by the endpoint for the domain.
 =======
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
->>>>>>> main
+>>>>>>> temp-main
     public var ipAddressType: OpenSearchClientTypes.IPAddressType?
     /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
@@ -6816,7 +6816,7 @@ extension OpenSearchClientTypes {
         /// The type of IP addresses supported by the endpoint for the domain.
 =======
         /// Choose either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
->>>>>>> main
+>>>>>>> temp-main
         public var ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
         public var logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus?
@@ -6938,7 +6938,7 @@ extension OpenSearchClientTypes {
 =======
         ///
         /// * Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
->>>>>>> main
+>>>>>>> temp-main
         public var tlsSecurityPolicy: OpenSearchClientTypes.TLSSecurityPolicy?
 
         public init(
@@ -7795,7 +7795,7 @@ extension OpenSearchClientTypes {
         /// If IPAddressType to set to dualstack, a version 2 domain endpoint is provisioned. This endpoint functions like a normal endpoint, except that it works with both IPv4 and IPv6 IP addresses. Normal endpoints work only with IPv4 IP addresses.
         public var endpointV2: Swift.String?
         /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
->>>>>>> main
+>>>>>>> temp-main
         public var endpoints: [Swift.String:Swift.String]?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
@@ -15939,7 +15939,7 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
     /// The type of IP addresses supported by the endpoint for the domain.
 =======
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
->>>>>>> main
+>>>>>>> temp-main
     public var ipAddressType: OpenSearchClientTypes.IPAddressType?
     /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?

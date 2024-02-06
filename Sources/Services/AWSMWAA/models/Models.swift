@@ -588,7 +588,7 @@ extension CreateWebLoginTokenOutput: Swift.CustomDebugStringConvertible {
         "CreateWebLoginTokenOutput(webServerHostname: \(Swift.String(describing: webServerHostname)), webToken: \"CONTENT_REDACTED\")"}
 =======
         "CreateWebLoginTokenOutput(airflowIdentity: \(Swift.String(describing: airflowIdentity)), iamIdentity: \(Swift.String(describing: iamIdentity)), webServerHostname: \(Swift.String(describing: webServerHostname)), webToken: \"CONTENT_REDACTED\")"}
->>>>>>> main
+>>>>>>> temp-main
 }
 
 extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
@@ -608,7 +608,7 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.airflowIdentity = nil
             self.iamIdentity = nil
->>>>>>> main
+>>>>>>> temp-main
             self.webServerHostname = nil
             self.webToken = nil
         }
@@ -622,7 +622,7 @@ public struct CreateWebLoginTokenOutput: Swift.Equatable {
     public var airflowIdentity: Swift.String?
     /// The name of the IAM identity creating the web login token. This might be an IAM user, or an assumed or federated identity. For example, assumed-role/Admin/your-name.
     public var iamIdentity: Swift.String?
->>>>>>> main
+>>>>>>> temp-main
     /// The Airflow web server hostname for the environment.
     public var webServerHostname: Swift.String?
     /// An Airflow web server login token.
@@ -633,7 +633,7 @@ public struct CreateWebLoginTokenOutput: Swift.Equatable {
 =======
         airflowIdentity: Swift.String? = nil,
         iamIdentity: Swift.String? = nil,
->>>>>>> main
+>>>>>>> temp-main
         webServerHostname: Swift.String? = nil,
         webToken: Swift.String? = nil
     )
@@ -642,7 +642,7 @@ public struct CreateWebLoginTokenOutput: Swift.Equatable {
 =======
         self.airflowIdentity = airflowIdentity
         self.iamIdentity = iamIdentity
->>>>>>> main
+>>>>>>> temp-main
         self.webServerHostname = webServerHostname
         self.webToken = webToken
     }
@@ -655,7 +655,7 @@ struct CreateWebLoginTokenOutputBody: Swift.Equatable {
 =======
     let iamIdentity: Swift.String?
     let airflowIdentity: Swift.String?
->>>>>>> main
+>>>>>>> temp-main
 }
 
 extension CreateWebLoginTokenOutputBody: Swift.Decodable {
@@ -664,7 +664,7 @@ extension CreateWebLoginTokenOutputBody: Swift.Decodable {
 =======
         case airflowIdentity = "AirflowIdentity"
         case iamIdentity = "IamIdentity"
->>>>>>> main
+>>>>>>> temp-main
         case webServerHostname = "WebServerHostname"
         case webToken = "WebToken"
     }
@@ -681,7 +681,7 @@ extension CreateWebLoginTokenOutputBody: Swift.Decodable {
         iamIdentity = iamIdentityDecoded
         let airflowIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .airflowIdentity)
         airflowIdentity = airflowIdentityDecoded
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 

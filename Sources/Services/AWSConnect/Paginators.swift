@@ -776,7 +776,7 @@ extension PaginatorSequence where OperationStackInput == ListPredefinedAttribute
     }
 }
 extension ConnectClient {
->>>>>>> main
+>>>>>>> temp-main
     /// Paginate over `[ListPromptsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1343,7 +1343,7 @@ extension PaginatorSequence where OperationStackInput == ListUserProficienciesIn
     }
 }
 extension ConnectClient {
->>>>>>> main
+>>>>>>> temp-main
     /// Paginate over `[ListUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1510,7 +1510,7 @@ extension PaginatorSequence where OperationStackInput == SearchContactsInput, Op
     }
 }
 extension ConnectClient {
->>>>>>> main
+>>>>>>> temp-main
     /// Paginate over `[SearchHoursOfOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1578,7 +1578,7 @@ extension PaginatorSequence where OperationStackInput == SearchPredefinedAttribu
     }
 }
 extension ConnectClient {
->>>>>>> main
+>>>>>>> temp-main
     /// Paginate over `[SearchPromptsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

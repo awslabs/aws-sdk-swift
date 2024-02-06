@@ -19,7 +19,7 @@ public protocol FisClientProtocol {
     /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Simulator User Guide.
 =======
     /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Service User Guide.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateExperimentTemplateInput : [no documentation found]
     ///
@@ -39,7 +39,7 @@ public protocol FisClientProtocol {
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Simulator User Guide.
 =======
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Service User Guide.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateTargetAccountConfigurationInput : [no documentation found]
     ///

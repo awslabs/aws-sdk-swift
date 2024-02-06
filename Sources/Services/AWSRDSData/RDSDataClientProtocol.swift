@@ -43,7 +43,7 @@ public protocol RDSDataClientProtocol {
 <<<<<<< HEAD
 =======
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
->>>>>>> main
+>>>>>>> temp-main
     func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
     /// Performs the `BeginTransaction` operation on the `RdsDataService` service.
     ///
@@ -77,7 +77,7 @@ public protocol RDSDataClientProtocol {
 <<<<<<< HEAD
 =======
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
->>>>>>> main
+>>>>>>> temp-main
     func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutput
     /// Performs the `CommitTransaction` operation on the `RdsDataService` service.
     ///
@@ -120,7 +120,7 @@ public protocol RDSDataClientProtocol {
     /// Performs the `ExecuteSql` operation on the `RdsDataService` service.
     ///
     /// Runs one or more SQL statements. This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
->>>>>>> main
+>>>>>>> temp-main
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API. API deprecated since 2019-03-21")
     ///
     /// - Parameter ExecuteSqlInput : The request parameters represent the input of a request to run one or more SQL statements.
@@ -138,7 +138,7 @@ public protocol RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
 =======
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
->>>>>>> main
+>>>>>>> temp-main
     func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput
     /// Performs the `ExecuteStatement` operation on the `RdsDataService` service.
     ///
@@ -179,7 +179,7 @@ public protocol RDSDataClientProtocol {
     /// * It contained a multidimensional array.
     ///
     /// * The size was too large.
->>>>>>> main
+>>>>>>> temp-main
     func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
     /// Performs the `RollbackTransaction` operation on the `RdsDataService` service.
     ///
@@ -214,7 +214,7 @@ public protocol RDSDataClientProtocol {
 <<<<<<< HEAD
 =======
     /// - `TransactionNotFoundException` : The transaction ID wasn't found.
->>>>>>> main
+>>>>>>> temp-main
     func rollbackTransaction(input: RollbackTransactionInput) async throws -> RollbackTransactionOutput
 }
 

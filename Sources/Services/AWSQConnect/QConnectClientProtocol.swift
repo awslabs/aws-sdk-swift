@@ -313,7 +313,7 @@ public protocol QConnectClientProtocol {
 <<<<<<< HEAD
 =======
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter GetRecommendationsInput : [no documentation found]
     ///
@@ -477,7 +477,7 @@ public protocol QConnectClientProtocol {
 <<<<<<< HEAD
 =======
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter QueryAssistantInput : [no documentation found]
     ///

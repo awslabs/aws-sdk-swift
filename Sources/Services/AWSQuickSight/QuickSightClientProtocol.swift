@@ -2783,7 +2783,7 @@ public protocol QuickSightClientProtocol {
 <<<<<<< HEAD
 =======
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
->>>>>>> main
+>>>>>>> temp-main
     func updateDashboardLinks(input: UpdateDashboardLinksInput) async throws -> UpdateDashboardLinksOutput
     /// Performs the `UpdateDashboardPermissions` operation on the `QuickSight_20180401` service.
     ///

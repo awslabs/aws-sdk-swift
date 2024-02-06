@@ -275,7 +275,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func associateUserProficiencies(input: AssociateUserProficienciesInput) async throws -> AssociateUserProficienciesOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `BatchAssociateAnalyticsDataSet` operation on the `AmazonConnectService` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
@@ -552,7 +552,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func createPredefinedAttribute(input: CreatePredefinedAttributeInput) async throws -> CreatePredefinedAttributeOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `CreatePrompt` operation on the `AmazonConnectService` service.
     ///
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see [Create prompts](https://docs.aws.amazon.com/connect/latest/adminguide/prompts.html) in the Amazon Connect Administrator's Guide.
@@ -984,7 +984,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func deletePredefinedAttribute(input: DeletePredefinedAttributeInput) async throws -> DeletePredefinedAttributeOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `DeletePrompt` operation on the `AmazonConnectService` service.
     ///
     /// Deletes a prompt.
@@ -1436,7 +1436,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func describePredefinedAttribute(input: DescribePredefinedAttributeInput) async throws -> DescribePredefinedAttributeOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `DescribePrompt` operation on the `AmazonConnectService` service.
     ///
     /// Describes the prompt.
@@ -1866,7 +1866,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func disassociateUserProficiencies(input: DisassociateUserProficienciesInput) async throws -> DisassociateUserProficienciesOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `DismissUserContact` operation on the `AmazonConnectService` service.
     ///
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the [Agent Event Stream](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
@@ -2450,7 +2450,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func listPredefinedAttributes(input: ListPredefinedAttributesInput) async throws -> ListPredefinedAttributesOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `ListPrompts` operation on the `AmazonConnectService` service.
     ///
     /// Provides information about the prompts for the specified Amazon Connect instance.
@@ -2775,7 +2775,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func listUserProficiencies(input: ListUserProficienciesInput) async throws -> ListUserProficienciesOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `ListUsers` operation on the `AmazonConnectService` service.
     ///
     /// Provides summary information about the users for the specified Amazon Connect instance.
@@ -2994,7 +2994,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `SearchHoursOfOperations` operation on the `AmazonConnectService` service.
     ///
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
@@ -3031,7 +3031,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func searchPredefinedAttributes(input: SearchPredefinedAttributesInput) async throws -> SearchPredefinedAttributesOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `SearchPrompts` operation on the `AmazonConnectService` service.
     ///
     /// Searches prompts in an Amazon Connect instance, with optional filtering.
@@ -3717,7 +3717,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func updateContactRoutingData(input: UpdateContactRoutingDataInput) async throws -> UpdateContactRoutingDataOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `UpdateContactSchedule` operation on the `AmazonConnectService` service.
     ///
     /// Updates the scheduled time of a task contact that is already scheduled.
@@ -3893,7 +3893,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func updatePredefinedAttribute(input: UpdatePredefinedAttributeInput) async throws -> UpdatePredefinedAttributeOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `UpdatePrompt` operation on the `AmazonConnectService` service.
     ///
     /// Updates a prompt.
@@ -4300,7 +4300,7 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func updateUserProficiencies(input: UpdateUserProficienciesInput) async throws -> UpdateUserProficienciesOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `UpdateUserRoutingProfile` operation on the `AmazonConnectService` service.
     ///
     /// Assigns the specified routing profile to the specified user.

@@ -33223,7 +33223,7 @@ enum DisableHttpEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension RDSClientTypes.DocLink: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case text = "Text"

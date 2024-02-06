@@ -1025,7 +1025,7 @@ enum CreateScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateWorkspaceInput: Swift.Encodable {
 =======
->>>>>>> main
+>>>>>>> temp-main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
         case clientToken

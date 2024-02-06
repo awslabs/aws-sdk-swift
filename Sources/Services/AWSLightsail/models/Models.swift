@@ -899,7 +899,7 @@ extension LightsailClientTypes {
         /// The Lightsail resource type (e.g., Alarm).
 =======
         /// The Lightsail resource type of the alarm.
->>>>>>> main
+>>>>>>> temp-main
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The current state of the alarm. An alarm has the following possible states:
         ///
@@ -18591,7 +18591,7 @@ public struct GetDistributionLatestCacheResetOutput: Swift.Equatable {
     /// The timestamp of the last cache reset (e.g., 1479734909.17) in Unix time format.
 =======
     /// The timestamp of the last cache reset (1479734909.17) in Unix time format.
->>>>>>> main
+>>>>>>> temp-main
     public var createTime: ClientRuntime.Date?
     /// The status of the last cache reset.
     public var status: Swift.String?
@@ -21547,7 +21547,7 @@ public struct GetOperationsForResourceOutput: Swift.Equatable {
     /// (Deprecated) Returns the number of pages of results that remain. In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the next page token parameter instead.
 =======
     /// (Discontinued) Returns the number of pages of results that remain. In releases prior to June 12, 2017, this parameter returned null by the API. It is now discontinued, and the API returns the next page token parameter instead.
->>>>>>> main
+>>>>>>> temp-main
     @available(*, deprecated)
     public var nextPageCount: Swift.String?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
@@ -23692,7 +23692,7 @@ enum GetSetupHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension GetStaticIpInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case staticIpName
@@ -32825,7 +32825,7 @@ public struct ResetDistributionCacheOutput: Swift.Equatable {
     /// The timestamp of the reset cache request (e.g., 1479734909.17) in Unix time format.
 =======
     /// The timestamp of the reset cache request (1479734909.17) in Unix time format.
->>>>>>> main
+>>>>>>> temp-main
     public var createTime: ClientRuntime.Date?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
@@ -34300,7 +34300,7 @@ extension LightsailClientTypes {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension StartGUISessionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceName

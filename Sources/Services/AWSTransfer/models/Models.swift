@@ -5597,7 +5597,7 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
             }
         }
         as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddressesDecoded0
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 

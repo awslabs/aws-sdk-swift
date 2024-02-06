@@ -2112,7 +2112,7 @@ extension GuardDutyClientTypes {
     /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Contains information about the Amazon EC2 instance runtime coverage details.
 =======
     /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. The use of this API is subject to Section 2 of the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) ("Betas and Previews"). Contains information about the Amazon EC2 instance runtime coverage details.
->>>>>>> main
+>>>>>>> temp-main
     public struct CoverageEc2InstanceDetails: Swift.Equatable {
         /// Information about the installed security agent.
         public var agentDetails: GuardDutyClientTypes.AgentDetails?
@@ -2133,7 +2133,7 @@ extension GuardDutyClientTypes {
         /// The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters that run on Amazon EC2 instances.
 =======
         /// The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters.
->>>>>>> main
+>>>>>>> temp-main
         public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
@@ -2643,7 +2643,7 @@ extension GuardDutyClientTypes {
         /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Information about the Amazon EC2 instance assessed for runtime coverage.
 =======
         /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. The use of this API is subject to Section 2 of the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) ("Betas and Previews"). Information about the Amazon EC2 instance assessed for runtime coverage.
->>>>>>> main
+>>>>>>> temp-main
         public var ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails?
         /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
         public var ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails?
@@ -7559,7 +7559,7 @@ extension GuardDutyClientTypes {
     /// Contains information about Amazon Web Services Fargate details associated with an Amazon ECS cluster.
     public struct FargateDetails: Swift.Equatable {
         /// Runtime coverage issues identified for the resource running on Amazon Web Services Fargate.
->>>>>>> main
+>>>>>>> temp-main
         public var issues: [Swift.String]?
         /// Indicates how the GuardDuty security agent is managed for this resource.
         ///
@@ -7574,7 +7574,7 @@ extension GuardDutyClientTypes {
         ///
         ///
         /// The MANUAL status doesn't apply to the Amazon Web Services Fargate (Amazon ECS only) woprkloads.
->>>>>>> main
+>>>>>>> temp-main
         public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
@@ -9979,7 +9979,7 @@ enum GetOrganizationStatisticsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension GetRemainingFreeTrialDaysInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "accountIds"

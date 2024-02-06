@@ -2333,7 +2333,7 @@ extension CodeCommitClientTypes {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension BatchGetRepositoriesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repositoryNames
@@ -2403,7 +2403,7 @@ extension BatchGetRepositoriesOutput: ClientRuntime.HttpResponseBinding {
 <<<<<<< HEAD
 =======
             self.errors = output.errors
->>>>>>> main
+>>>>>>> temp-main
             self.repositories = output.repositories
             self.repositoriesNotFound = output.repositoriesNotFound
         } else {
@@ -2420,7 +2420,7 @@ public struct BatchGetRepositoriesOutput: Swift.Equatable {
 =======
     /// Returns information about any errors returned when attempting to retrieve information about the repositories.
     public var errors: [CodeCommitClientTypes.BatchGetRepositoriesError]?
->>>>>>> main
+>>>>>>> temp-main
     /// A list of repositories returned by the batch get repositories operation.
     public var repositories: [CodeCommitClientTypes.RepositoryMetadata]?
     /// Returns a list of repository names for which information could not be found.
@@ -27689,7 +27689,7 @@ enum UpdateRepositoryEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension UpdateRepositoryNameInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case newName

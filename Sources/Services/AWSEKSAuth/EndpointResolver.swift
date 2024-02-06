@@ -136,7 +136,7 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
         }
         if let signingAlgorithm = signingAlgorithm {
             context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
->>>>>>> main
+>>>>>>> temp-main
         }
 
         if let headers = endpoint.headers {

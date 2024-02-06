@@ -24,7 +24,7 @@ public protocol AppIntegrationsClientProtocol {
 <<<<<<< HEAD
 =======
     /// - `UnsupportedOperationException` : The operation is not supported.
->>>>>>> main
+>>>>>>> temp-main
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Performs the `CreateDataIntegration` operation on the `AmazonAppIntegrationService` service.
     ///
@@ -81,7 +81,7 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `DeleteDataIntegration` operation on the `AmazonAppIntegrationService` service.
     ///
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
@@ -186,7 +186,7 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func listApplicationAssociations(input: ListApplicationAssociationsInput) async throws -> ListApplicationAssociationsOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `ListApplications` operation on the `AmazonAppIntegrationService` service.
     ///
     /// This API is in preview release and subject to change. Lists applications in the account.
@@ -336,7 +336,7 @@ public protocol AppIntegrationsClientProtocol {
 <<<<<<< HEAD
 =======
     /// - `UnsupportedOperationException` : The operation is not supported.
->>>>>>> main
+>>>>>>> temp-main
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Performs the `UpdateDataIntegration` operation on the `AmazonAppIntegrationService` service.
     ///

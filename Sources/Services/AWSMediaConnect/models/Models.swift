@@ -3949,7 +3949,7 @@ extension DescribeFlowSourceMetadataOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeFlowSourceMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
->>>>>>> main
+>>>>>>> temp-main
             self.messages = output.messages
             self.timestamp = output.timestamp
             self.transportMediaInfo = output.transportMediaInfo
@@ -3978,7 +3978,7 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Equatable {
     public var timestamp: ClientRuntime.Date?
     /// The metadata of the transport stream in the current flow's source.
     public var transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo?
->>>>>>> main
+>>>>>>> temp-main
 
     public init(
         flowArn: Swift.String? = nil,
@@ -4010,7 +4010,7 @@ struct DescribeFlowSourceMetadataOutputBody: Swift.Equatable {
 }
 
 extension DescribeFlowSourceMetadataOutputBody: Swift.Decodable {
->>>>>>> main
+>>>>>>> temp-main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flowArn = "flowArn"
         case messages = "messages"

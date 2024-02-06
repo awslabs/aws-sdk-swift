@@ -162,7 +162,7 @@ public protocol KinesisVideoArchivedMediaClientProtocol {
     /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
 =======
     /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter GetImagesInput : [no documentation found]
     ///

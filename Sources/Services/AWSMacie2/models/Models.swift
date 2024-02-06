@@ -9667,7 +9667,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
     /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
     /// * MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
     ///
@@ -9677,7 +9677,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
     /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
 =======
     /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
@@ -15228,7 +15228,7 @@ extension Macie2ClientTypes {
         /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). This value is null if the value for retrievalMode is CALLER_CREDENTIALS. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume an IAM role. For a Macie administrator to retrieve sensitive data from an affected S3 object for a member account, the trust policy for the role in the member account must include an sts:ExternalId condition that requires this ID.
         public var externalId: Swift.String?
         /// The access method that's used to retrieve sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
->>>>>>> main
+>>>>>>> temp-main
         /// This member is required.
         public var retrievalMode: Macie2ClientTypes.RetrievalMode?
         /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
@@ -18951,7 +18951,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
         /// * MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data.
->>>>>>> main
+>>>>>>> temp-main
         ///
         /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
         ///
@@ -18961,7 +18961,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
 =======
         /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
->>>>>>> main
+>>>>>>> temp-main
         ///
         /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
@@ -20176,7 +20176,7 @@ extension Macie2ClientTypes {
     /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume when retrieving the sensitive data, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Retrieving sensitive data samples with findings](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd.html) in the Amazon Macie User Guide.
 =======
     /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options and requirements for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
->>>>>>> main
+>>>>>>> temp-main
     public struct UpdateRetrievalConfiguration: Swift.Equatable {
         /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.
@@ -20227,7 +20227,7 @@ public struct UpdateRevealConfigurationInput: Swift.Equatable {
     /// The access method and settings to use to retrieve the sensitive data.
 =======
     /// The access method and settings to use when retrieving the sensitive data.
->>>>>>> main
+>>>>>>> temp-main
     public var retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration?
 
     public init(
@@ -20281,7 +20281,7 @@ public struct UpdateRevealConfigurationOutput: Swift.Equatable {
     /// The access method and settings to use to retrieve the sensitive data.
 =======
     /// The access method and settings to use when retrieving the sensitive data.
->>>>>>> main
+>>>>>>> temp-main
     public var retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
 
     public init(

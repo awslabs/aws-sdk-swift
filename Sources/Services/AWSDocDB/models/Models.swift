@@ -4705,7 +4705,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         performanceInsightsEnabled = performanceInsightsEnabledDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 

@@ -1407,7 +1407,7 @@ public struct CreateLogGroupInput: Swift.Equatable {
     /// If you omit this parameter, the default of STANDARD is used. After a log group is created, its class can't be changed. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
 =======
     /// If you omit this parameter, the default of STANDARD is used. The value of logGroupClass can't be changed after a log group is created. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
->>>>>>> main
+>>>>>>> temp-main
     public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
     /// A name for the log group.
     /// This member is required.
@@ -9735,7 +9735,7 @@ extension PutAccountPolicyOutputBody: Swift.Decodable {
 }
 
 =======
->>>>>>> main
+>>>>>>> temp-main
 enum PutAccountPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12404,7 +12404,7 @@ public struct StartLiveTailInput: Swift.Equatable {
     /// If you specify this parameter, then only log events in the log streams that have names that start with the prefixes that you specify here are included in the Live Tail session. If you specify this field, you can't also specify the logStreamNames field. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
     public var logStreamNamePrefixes: [Swift.String]?
     /// If you specify this parameter, then only log events in the log streams that you specify here are included in the Live Tail session. If you specify this field, you can't also specify the logStreamNamePrefixes field. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
->>>>>>> main
+>>>>>>> temp-main
     public var logStreamNames: [Swift.String]?
 
     public init(

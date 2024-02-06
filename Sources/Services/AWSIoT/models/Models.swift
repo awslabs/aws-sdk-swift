@@ -8312,7 +8312,7 @@ public struct CreateJobInput: Swift.Equatable {
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
 =======
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
->>>>>>> main
+>>>>>>> temp-main
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -8658,7 +8658,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
 =======
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
->>>>>>> main
+>>>>>>> temp-main
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -17510,7 +17510,7 @@ public struct DescribeJobTemplateOutput: Swift.Equatable {
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
 =======
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
->>>>>>> main
+>>>>>>> temp-main
     public var destinationPackageVersions: [Swift.String]?
     /// The job document.
     public var document: Swift.String?
@@ -25580,7 +25580,7 @@ extension IoTClientTypes {
         /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
 =======
         /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
->>>>>>> main
+>>>>>>> temp-main
         public var destinationPackageVersions: [Swift.String]?
         /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public var documentParameters: [Swift.String:Swift.String]?

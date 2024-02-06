@@ -92,7 +92,7 @@ public struct EndpointParams {
         self.useObjectLambdaEndpoint = authSchemeParams.useObjectLambdaEndpoint
         self.useS3ExpressControlEndpoint = authSchemeParams.useS3ExpressControlEndpoint
 =======
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 

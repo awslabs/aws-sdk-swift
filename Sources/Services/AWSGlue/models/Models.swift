@@ -33633,7 +33633,7 @@ extension GetUnfilteredTableMetadataInputBody: Swift.Decodable {
         permissions = permissionsDecoded0
         let querySessionContextDecoded = try containerValues.decodeIfPresent(GlueClientTypes.QuerySessionContext.self, forKey: .querySessionContext)
         querySessionContext = querySessionContextDecoded
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -46665,7 +46665,7 @@ extension GlueClientTypes {
 
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension GlueClientTypes {
     public enum QuoteChar: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled

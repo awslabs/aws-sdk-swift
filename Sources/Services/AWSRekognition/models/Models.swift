@@ -287,7 +287,7 @@ public struct AssociateFacesOutput: Swift.Equatable {
     /// An array of AssociatedFace objects containing FaceIDs that are successfully associated with the UserID is returned. Returned if the AssociateFaces action is successful.
 =======
     /// An array of AssociatedFace objects containing FaceIDs that have been successfully associated with the UserID. Returned if the AssociateFaces action is successful.
->>>>>>> main
+>>>>>>> temp-main
     public var associatedFaces: [RekognitionClientTypes.AssociatedFace]?
     /// An array of UnsuccessfulAssociation objects containing FaceIDs that are not successfully associated along with the reasons. Returned if the AssociateFaces action is successful.
     public var unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]?
@@ -6593,7 +6593,7 @@ extension DetectModerationLabelsOutput: ClientRuntime.HttpResponseBinding {
 <<<<<<< HEAD
 =======
             self.contentTypes = output.contentTypes
->>>>>>> main
+>>>>>>> temp-main
             self.humanLoopActivationOutput = output.humanLoopActivationOutput
             self.moderationLabels = output.moderationLabels
             self.moderationModelVersion = output.moderationModelVersion
@@ -6613,7 +6613,7 @@ public struct DetectModerationLabelsOutput: Swift.Equatable {
 =======
     /// A list of predicted results for the type of content an image contains. For example, the image content might be from animation, sports, or a video game.
     public var contentTypes: [RekognitionClientTypes.ContentType]?
->>>>>>> main
+>>>>>>> temp-main
     /// Shows the results of the human in the loop evaluation.
     public var humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
     /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
@@ -6647,7 +6647,7 @@ struct DetectModerationLabelsOutputBody: Swift.Equatable {
 <<<<<<< HEAD
 =======
     let contentTypes: [RekognitionClientTypes.ContentType]?
->>>>>>> main
+>>>>>>> temp-main
 }
 
 extension DetectModerationLabelsOutputBody: Swift.Decodable {
@@ -6691,7 +6691,7 @@ extension DetectModerationLabelsOutputBody: Swift.Decodable {
             }
         }
         contentTypes = contentTypesDecoded0
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -15458,7 +15458,7 @@ extension RekognitionClientTypes {
 
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension RekognitionClientTypes.MediaAnalysisOperationsConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case detectModerationLabels = "DetectModerationLabels"
@@ -15545,7 +15545,7 @@ extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
 <<<<<<< HEAD
 =======
         case modelVersions = "ModelVersions"
->>>>>>> main
+>>>>>>> temp-main
         case s3Object = "S3Object"
     }
 
@@ -15556,7 +15556,7 @@ extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
         if let modelVersions = self.modelVersions {
             try encodeContainer.encode(modelVersions, forKey: .modelVersions)
         }
->>>>>>> main
+>>>>>>> temp-main
         if let s3Object = self.s3Object {
             try encodeContainer.encode(s3Object, forKey: .s3Object)
         }
@@ -15570,7 +15570,7 @@ extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
 =======
         let modelVersionsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.MediaAnalysisModelVersions.self, forKey: .modelVersions)
         modelVersions = modelVersionsDecoded
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -15581,7 +15581,7 @@ extension RekognitionClientTypes {
 =======
         /// Information about the model versions for the features selected in a given job.
         public var modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions?
->>>>>>> main
+>>>>>>> temp-main
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         public var s3Object: RekognitionClientTypes.S3Object?
 
@@ -15596,7 +15596,7 @@ extension RekognitionClientTypes {
         )
         {
             self.modelVersions = modelVersions
->>>>>>> main
+>>>>>>> temp-main
             self.s3Object = s3Object
         }
     }

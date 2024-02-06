@@ -632,7 +632,7 @@ public protocol EMRClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
     func setKeepJobFlowAliveWhenNoSteps(input: SetKeepJobFlowAliveWhenNoStepsInput) async throws -> SetKeepJobFlowAliveWhenNoStepsOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `SetTerminationProtection` operation on the `ElasticMapReduce` service.
     ///
     /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all Amazon EC2 instances in a cluster. SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false. For more information, see[Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.

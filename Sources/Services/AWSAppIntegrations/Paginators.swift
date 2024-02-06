@@ -36,7 +36,7 @@ extension PaginatorSequence where OperationStackInput == ListApplicationAssociat
     }
 }
 extension AppIntegrationsClient {
->>>>>>> main
+>>>>>>> temp-main
     /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

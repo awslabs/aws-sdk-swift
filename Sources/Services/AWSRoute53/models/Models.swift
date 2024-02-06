@@ -2262,7 +2262,7 @@ extension Route53ClientTypes {
 
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension CreateCidrCollectionInput {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callerReference = "CallerReference"
@@ -5289,7 +5289,7 @@ extension Route53ClientTypes {
         /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the contry code UA forr Ukraine.
 =======
         /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the country code UA for Ukraine.
->>>>>>> main
+>>>>>>> temp-main
         public var countryCode: Swift.String?
         /// For geolocation resource record sets, the two-letter code for a state of the United States. Route 53 doesn't support any other values for SubdivisionCode. For a list of state abbreviations, see [Appendix B: Two–Letter State and Possession Abbreviations](https://pe.usps.com/text/pub28/28apb.htm) on the United States Postal Service website. If you specify subdivisioncode, you must also specify US for CountryCode.
         public var subdivisionCode: Swift.String?
@@ -5871,7 +5871,7 @@ public struct GetGeoLocationInput: Swift.Equatable {
     /// Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the contry code UA forr Ukraine.
 =======
     /// Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the country code UA for Ukraine.
->>>>>>> main
+>>>>>>> temp-main
     public var countryCode: Swift.String?
     /// The code for the subdivision, such as a particular state within the United States. For a list of US state abbreviations, see [Appendix B: Two–Letter State and Possession Abbreviations](https://pe.usps.com/text/pub28/28apb.htm) on the United States Postal Service website. For a list of all supported subdivision codes, use the [ListGeoLocations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html) API.
     public var subdivisionCode: Swift.String?
@@ -13689,7 +13689,7 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
 <<<<<<< HEAD
 =======
         try writer[.init("GeoProximityLocation")].write(value.geoProximityLocation, writingClosure: Route53ClientTypes.GeoProximityLocation.writingClosure(_:to:))
->>>>>>> main
+>>>>>>> temp-main
         try writer[.init("HealthCheckId")].write(value.healthCheckId)
         try writer[.init("MultiValueAnswer")].write(value.multiValueAnswer)
         try writer[.init("Name")].write(value.name)
@@ -13753,7 +13753,7 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
 =======
         let geoProximityLocationDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.GeoProximityLocation.self, forKey: .geoProximityLocation)
         geoProximityLocation = geoProximityLocationDecoded
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 

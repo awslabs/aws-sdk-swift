@@ -13037,7 +13037,7 @@ extension MediaLiveClientTypes {
         /// Color correction settings
 =======
         /// Color Correction Settings
->>>>>>> main
+>>>>>>> temp-main
         public var colorCorrectionSettings: MediaLiveClientTypes.ColorCorrectionSettings?
         /// Feature Activations
         public var featureActivations: MediaLiveClientTypes.FeatureActivations?

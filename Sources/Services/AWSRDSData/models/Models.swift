@@ -478,7 +478,7 @@ enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -635,7 +635,7 @@ enum BeginTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -948,7 +948,7 @@ enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1087,7 +1087,7 @@ public struct DatabaseUnavailableException: ClientRuntime.ModeledError, AWSClien
     public init() { }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension RDSDataClientTypes {
     public enum DecimalReturnType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case doubleOrLong
@@ -1609,7 +1609,7 @@ enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedResultException": return try await UnsupportedResultException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2367,7 +2367,7 @@ enum RollbackTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2436,7 +2436,7 @@ extension SecretsErrorExceptionBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension ServiceUnavailableError {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         self.httpResponse = httpResponse

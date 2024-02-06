@@ -1717,7 +1717,7 @@ enum GetTableAutoScalingSettingsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension GetTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
@@ -3911,7 +3911,7 @@ extension KeyspacesClientTypes {
 
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension KeyspacesClientTypes {
     public enum ThroughputMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case payPerRequest

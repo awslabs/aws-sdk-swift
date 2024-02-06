@@ -299,7 +299,7 @@ public protocol LightsailClientProtocol {
     /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 =======
     /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateDiskInput : [no documentation found]
     ///
@@ -322,7 +322,7 @@ public protocol LightsailClientProtocol {
     /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 =======
     /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateDiskFromSnapshotInput : [no documentation found]
     ///
@@ -382,7 +382,7 @@ public protocol LightsailClientProtocol {
     /// Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 =======
     /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
     ///
@@ -2020,7 +2020,7 @@ public protocol LightsailClientProtocol {
     /// Gets operations for a specific resource (e.g., an instance or a static IP).
 =======
     /// Gets operations for a specific resource (an instance or a static IP).
->>>>>>> main
+>>>>>>> temp-main
     ///
     /// - Parameter GetOperationsForResourceInput : [no documentation found]
     ///
@@ -2303,7 +2303,7 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `GetStaticIp` operation on the `Lightsail_20161128` service.
     ///
     /// Returns information about an Amazon Lightsail static IP.
@@ -2620,7 +2620,7 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput
->>>>>>> main
+>>>>>>> temp-main
     /// Performs the `StartGUISession` operation on the `Lightsail_20161128` service.
     ///
     /// Initiates a graphical user interface (GUI) session that’s used to access a virtual computer’s operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires.

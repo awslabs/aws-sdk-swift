@@ -427,7 +427,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
             }
         }
         permissions = permissionsDecoded0
->>>>>>> main
+>>>>>>> temp-main
     }
 }
 
@@ -495,7 +495,7 @@ enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
 <<<<<<< HEAD
 =======
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
+>>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

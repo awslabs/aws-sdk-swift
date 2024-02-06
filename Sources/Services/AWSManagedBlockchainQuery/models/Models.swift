@@ -936,7 +936,7 @@ extension ManagedBlockchainQueryClientTypes {
     }
 }
 
->>>>>>> main
+>>>>>>> temp-main
 extension GetAssetContractInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contractIdentifier

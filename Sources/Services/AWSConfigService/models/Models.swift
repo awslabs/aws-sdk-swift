@@ -3021,7 +3021,7 @@ extension ConfigClientTypes {
         /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
 =======
         /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
->>>>>>> main
+>>>>>>> temp-main
         ///
         ///
         /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
@@ -20742,7 +20742,7 @@ extension ConfigClientTypes {
     /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
 =======
     /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
->>>>>>> main
+>>>>>>> temp-main
     ///
     ///
     /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
@@ -20830,7 +20830,7 @@ extension ConfigClientTypes {
         /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
 =======
         /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
->>>>>>> main
+>>>>>>> temp-main
         ///
         ///
         /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous.
@@ -22488,7 +22488,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
         case appstreamfleet
->>>>>>> main
+>>>>>>> temp-main
         case appstreamstack
         case appsyncgraphqlapi
         case application
@@ -22694,7 +22694,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
         case kmsalias
->>>>>>> main
+>>>>>>> temp-main
         case kafkaconnectconnector
         case kendraindex
         case key
@@ -22722,7 +22722,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
         case m2environment
->>>>>>> main
+>>>>>>> temp-main
         case mskbatchscramsecret
         case mskcluster
         case mskconfiguration
@@ -22908,7 +22908,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
                 .appstreamfleet,
->>>>>>> main
+>>>>>>> temp-main
                 .appstreamstack,
                 .appsyncgraphqlapi,
                 .application,
@@ -23114,7 +23114,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
                 .kmsalias,
->>>>>>> main
+>>>>>>> temp-main
                 .kafkaconnectconnector,
                 .kendraindex,
                 .key,
@@ -23142,7 +23142,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
                 .m2environment,
->>>>>>> main
+>>>>>>> temp-main
                 .mskbatchscramsecret,
                 .mskcluster,
                 .mskconfiguration,
@@ -23333,7 +23333,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
             case .appstreamfleet: return "AWS::AppStream::Fleet"
->>>>>>> main
+>>>>>>> temp-main
             case .appstreamstack: return "AWS::AppStream::Stack"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
@@ -23539,7 +23539,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
             case .kmsalias: return "AWS::KMS::Alias"
->>>>>>> main
+>>>>>>> temp-main
             case .kafkaconnectconnector: return "AWS::KafkaConnect::Connector"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
@@ -23567,7 +23567,7 @@ extension ConfigClientTypes {
 <<<<<<< HEAD
 =======
             case .m2environment: return "AWS::M2::Environment"
->>>>>>> main
+>>>>>>> temp-main
             case .mskbatchscramsecret: return "AWS::MSK::BatchScramSecret"
             case .mskcluster: return "AWS::MSK::Cluster"
             case .mskconfiguration: return "AWS::MSK::Configuration"
