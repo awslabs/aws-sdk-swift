@@ -216,7 +216,7 @@ extension AWSClientConfiguration {
         } else {
             resolvedAuthSchemes.append(SigV4AuthScheme())
             // These AWS services use SigV4A auth scheme.
-            if (["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceSpecific?.serviceName)) {
+            if ["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceSpecific?.serviceName) {
                 resolvedAuthSchemes.append(SigV4AAuthScheme())
             }
         }
@@ -275,7 +275,7 @@ extension AWSClientConfiguration {
         } else {
             resolvedAuthSchemes.append(SigV4AuthScheme())
             // These AWS services use SigV4A auth scheme.
-            if (["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceSpecific?.serviceName)) {
+            if ["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceSpecific?.serviceName) {
                 resolvedAuthSchemes.append(SigV4AAuthScheme())
             }
         }

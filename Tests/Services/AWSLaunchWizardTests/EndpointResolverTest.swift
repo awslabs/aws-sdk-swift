@@ -6,10 +6,17 @@ import AWSClientRuntime
 @testable import AWSLaunchWizard
 ========
 @testable import AWSRepostspace
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
 @testable import AWSLaunchWizard
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+@testable import AWSLaunchWizard
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTestUtil
@@ -41,10 +48,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-east-1.api.aws", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.us-east-1.api.aws", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-east-1.api.aws", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-east-1.api.aws", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -69,10 +83,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -97,10 +118,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-east-1.api.aws", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.us-east-1.api.aws", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-east-1.api.aws", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-east-1.api.aws", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -125,10 +153,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-east-1.amazonaws.com", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.us-east-1.amazonaws.com", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-east-1.amazonaws.com", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-east-1.amazonaws.com", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -153,10 +188,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -181,10 +223,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -209,10 +258,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -237,10 +293,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -265,10 +328,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -293,10 +363,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -321,10 +398,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-gov-east-1.api.aws", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.us-gov-east-1.api.aws", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-gov-east-1.api.aws", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-gov-east-1.api.aws", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -349,10 +433,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -396,10 +487,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -443,10 +541,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -490,10 +595,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -537,10 +649,17 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
 ========
         let expected = try ClientRuntime.Endpoint(urlString: "https://repostspace.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+<<<<<<< HEAD
 >>>>>>>> main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
 =======
         let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
 >>>>>>> main
+=======
+>>>>>>>> temp-main:Tests/Services/AWSRepostspaceTests/EndpointResolverTest.swift
+=======
+        let expected = try ClientRuntime.Endpoint(urlString: "https://launchwizard.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 
         XCTAssertEqual(expected, actual)
     }
@@ -663,5 +782,9 @@ class EndpointResolverTest: XCTestCase {
     }
 
 =======
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> temp-main
+>>>>>>> feat/sra-identity-and-auth
 }
