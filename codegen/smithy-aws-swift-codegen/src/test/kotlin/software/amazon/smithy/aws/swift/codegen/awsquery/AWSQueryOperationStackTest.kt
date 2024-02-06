@@ -20,8 +20,7 @@ class AWSQueryOperationStackTest {
         val contents = getFileContents(context.manifest, "/Example/QueryProtocolClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-    public func noInputAndOutput(input: NoInputAndOutputInput) async throws -> NoInputAndOutputOutput
-    {
+    public func noInputAndOutput(input: NoInputAndOutputInput) async throws -> NoInputAndOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withMethod(value: .post)
