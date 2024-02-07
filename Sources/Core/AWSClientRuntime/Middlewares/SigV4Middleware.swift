@@ -28,7 +28,7 @@ public struct SigV4Middleware<OperationStackOutput>: Middleware {
     Self.Context == H.Context,
     Self.MInput == H.Input,
     Self.MOutput == H.Output {
-        
+
         let signedBodyValue: AWSSignedBodyValue
         let checksum: HashFunction? = context.attributes.get(key: AttributeKey(name: "checksum"))
 
@@ -89,12 +89,12 @@ public struct SigV4Middleware<OperationStackOutput>: Middleware {
 
         let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
         let crtSigningConfig = try signingConfig.toCRTType()
-        
-        if (crtSigningConfig.useAwsChunkedEncoding) {
+
+        if crtSigningConfig.useAwsChunkedEncoding {
             guard let requestSignature = crtSignedRequest.signature else {
                 throw ClientError.dataNotFound("Could not get request signature!")
             }
-            
+
             // Set streaming body to an AwsChunked wrapped type
             try sdkSignedRequest.setAwsChunkedBody(
                 signingConfig: crtSigningConfig,
@@ -112,10 +112,10 @@ private func determineSignedBodyValue(for input: SdkHttpRequestBuilder, with che
     guard case .stream(let stream) = input.getBody(), stream.isEligibleForAwsChunkedStreaming() else {
         return .empty
     }
-    
+
     // Add headers if the stream is eligible for AWS chunked streaming.
     try input.setAwsChunkedHeaders(checksumAlgorithm: checksum)
-    
+
     // Determine the signed body value based on the presence of a checksum.
     if checksum != nil {
         return config.unsignedBody ? .streamingUnsignedPayloadTrailer : .streamingSha256PayloadTrailer
